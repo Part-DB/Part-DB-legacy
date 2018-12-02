@@ -28,6 +28,7 @@ namespace PartDB;
 /** @noinspection PhpIncludeInspection */
 use DebugBar\DataCollector\PDO\TraceablePDO;
 use Exception;
+use PartDB\Exceptions\DatabaseException;
 use PartDB\LogSystem\DatabaseUpdatedEntry;
 use PartDB\Tools\PDBDebugBar;
 use PDO;
@@ -162,7 +163,7 @@ class Database
                     break;
 
                 default:
-                    throw new Exception(_('Unbekannter Datenbanktyp: "').$config['db']['type'].'"');
+                    throw new DatabaseException(_('Unbekannter Datenbanktyp: "').$config['db']['type'].'"');
                     break;
             }
 
@@ -177,7 +178,7 @@ class Database
                 __METHOD__
             );
 
-            throw new Exception(_("Es konnte nicht mit der Datenbank verbunden werden! \n".
+            throw new DatabaseException(_("Es konnte nicht mit der Datenbank verbunden werden! \n".
                     'Überprüfen Sie, ob die Zugangsdaten korrekt sind.') . "\n\n".
                 _("Details: ") . $e->getMessage());
         }
@@ -217,7 +218,7 @@ class Database
         $query_data = $this->query('SELECT keyValue FROM internal WHERE keyName LIKE ?', array('dbVersion'));
 
         if (count($query_data) !== 1) {
-            throw new Exception(_('Eintrag "dbVersion" existiert nicht in der Tabelle "internal"!'));
+            throw new DatabaseException(_('Eintrag "dbVersion" existiert nicht in der Tabelle "internal"!'));
         }
 
         $tmp = intval($query_data[0]['keyValue']);
@@ -237,7 +238,7 @@ class Database
     public function getLatestVersion() : int
     {
         if (! defined('LATEST_DB_VERSION')) {
-            throw new Exception(_('Konstante "LATEST_DB_VERSION" ist nicht definiert!'));
+            throw new DatabaseException(_('Konstante "LATEST_DB_VERSION" ist nicht definiert!'));
         }
 
         return LATEST_DB_VERSION; // this constant is defined in "db_update_steps.php"
@@ -341,7 +342,7 @@ class Database
         $latest = $this->getLatestVersion();
 
         if ($this->transaction_active) {
-            throw new Exception(_('Ein Datenbankupdate kann nicht mitten in einer offenen Transaktion durchgeführt werden!'));
+            throw new DatabaseException(_('Ein Datenbankupdate kann nicht mitten in einer offenen Transaktion durchgeführt werden!'));
         }
 
         // Later in the updateprocess, we will store the position of the update step in the config.php if an error occurs,
@@ -574,7 +575,7 @@ class Database
                 $this->transaction_active = true;
                 return $this->active_transaction_id;
             } catch (PDOException $e) {
-                throw new Exception(_('PDO::begin_transaction() lieferte einen Fehler: ').$e->getMessage());
+                throw new DatabaseException(_('PDO::begin_transaction() lieferte einen Fehler: ').$e->getMessage());
             }
         }
 
@@ -594,7 +595,7 @@ class Database
     public function commit($transaction_id)
     {
         if (! $this->transaction_active) {
-            throw new Exception(_('Es wurde noch keine Transaktion gestartet!'));
+            throw new DatabaseException(_('Es wurde noch keine Transaktion gestartet!'));
         }
 
         if ($transaction_id == 0) {
@@ -602,7 +603,7 @@ class Database
         }
 
         if ($transaction_id != $this->active_transaction_id) {
-            throw new Exception(_('Die übermittelte Transaktions-ID ist nicht korrekt!'));
+            throw new DatabaseException(_('Die übermittelte Transaktions-ID ist nicht korrekt!'));
         }
 
         // all OK, we commit the transaction
@@ -616,7 +617,7 @@ class Database
             } catch (PDOException $e) {
             }
 
-            throw new Exception(_('PDO::commit() lieferte einen Fehler: ').$e->getMessage());
+            throw new DatabaseException(_('PDO::commit() lieferte einen Fehler: ').$e->getMessage());
         }
     }
 
@@ -673,7 +674,7 @@ class Database
     public function execute(string $query, array $values = array()) : int
     {
         if (! is_array($values)) {
-            throw new Exception(_('$values ist kein Array!'));
+            throw new \InvalidArgumentException(_('$values ist kein Array!'));
         }
 
         if (stripos($query, 'INSERT') === 0) {
@@ -687,7 +688,7 @@ class Database
 
             if (! $pdo_statement) {
                 debug('error', 'PDO Prepare Fehler!', __FILE__, __LINE__, __METHOD__);
-                throw new Exception(_('PDO prepare Fehler!'));
+                throw new DatabaseException(_('PDO prepare Fehler!'));
             }
 
             // bind all values
@@ -701,14 +702,14 @@ class Database
                         __LINE__,
                         __METHOD__
                     );
-                    throw new Exception(_('PDO: Wert konnte nicht gebunden werden!'));
+                    throw new DatabaseException(_('PDO: Wert konnte nicht gebunden werden!'));
                 }
                 $index++;
             }
 
             if (! $pdo_statement->execute()) {
                 debug('error', 'PDO Execute Fehler!', __FILE__, __LINE__, __METHOD__);
-                throw new Exception(_('PDO execute lieferte einen Fehler!'));
+                throw new DatabaseException(_('PDO execute lieferte einen Fehler!'));
             }
 
             if ($is_insert_statement == true) {
@@ -720,7 +721,7 @@ class Database
             debug('error', '$query="'.$query.'"', __FILE__, __LINE__, __METHOD__);
             debug('error', '$values="'.print_r($values, true).'"', __FILE__, __LINE__, __METHOD__);
             debug('error', 'Fehlermeldung: "'.$e->getMessage().'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception(_("Datenbankfehler: \n").$e->getMessage()._("\n\n SQL-Query:\n ").$query);
+            throw new DatabaseException(_("Datenbankfehler: \n").$e->getMessage()._("\n\n SQL-Query:\n ").$query);
         }
 
         return $result;
@@ -756,7 +757,7 @@ class Database
 
             if (! $pdo_statement) {
                 debug('error', _('PDO Prepare Fehler!'), __FILE__, __LINE__, __METHOD__);
-                throw new Exception(_('PDO prepare Fehler!'));
+                throw new DatabaseException(_('PDO prepare Fehler!'));
             }
 
             // bind values
@@ -770,14 +771,14 @@ class Database
                         __LINE__,
                         __METHOD__
                     );
-                    throw new Exception(_('PDO: Wert konnte nicht gebunden werden!'));
+                    throw new DatabaseException(_('PDO: Wert konnte nicht gebunden werden!'));
                 }
                 $index++;
             }
 
             if (! $pdo_statement->execute()) {
                 debug('error', 'PDO Execute Fehler!', __FILE__, __LINE__, __METHOD__);
-                throw new Exception(_('PDO execute lieferte einen Fehler!'));
+                throw new DatabaseException(_('PDO execute lieferte einen Fehler!'));
             }
 
             $data = $pdo_statement->fetchAll($fetch_style);
@@ -785,7 +786,7 @@ class Database
             debug('error', '$query="'.$query.'"', __FILE__, __LINE__, __METHOD__);
             debug('error', '$values="'.print_r($values, true).'"', __FILE__, __LINE__, __METHOD__);
             debug('error', 'Fehlermeldung: "'.$e->getMessage().'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception("Datenbankfehler:\n".$e->getMessage()."\n\nSQL-Query:\n".$query."\n\nParameter:\n".print_r($values, true));
+            throw new DatabaseException("Datenbankfehler:\n".$e->getMessage()."\n\nSQL-Query:\n".$query."\n\nParameter:\n".print_r($values, true));
         }
 
         if ($data == null) {
@@ -793,7 +794,7 @@ class Database
         } // an empty array is better than NULL...
 
         if (! is_array($data)) {
-            throw new Exception(_('PDO Ergebnis ist kein Array!'));
+            throw new DatabaseException(_('PDO Ergebnis ist kein Array!'));
         }
 
         return $data;
@@ -889,7 +890,7 @@ class Database
             ' WHERE id=?', array($id), $fetch_style);
 
         if (count($query_data) == 0) {
-            throw new Exception(sprintf(_('Es existiert kein Datensatz mit der ID "%d" in der Tabelle "%s"!'), $id, $tablename));
+            throw new DatabaseException(sprintf(_('Es existiert kein Datensatz mit der ID "%d" in der Tabelle "%s"!'), $id, $tablename));
         }
 
         return $query_data[0];
@@ -923,7 +924,7 @@ class Database
     {
         if ((! is_array($values)) || (count($values) < 1)) {
             debug('error', '$values="'.print_r($values, true).'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception(_('$values ist kein gültiges Array!'));
+            throw new \InvalidArgumentException(_('$values ist kein gültiges Array!'));
         }
 
         $query =    'UPDATE '.$tablename.' SET '.
