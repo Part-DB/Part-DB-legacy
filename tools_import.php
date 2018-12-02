@@ -179,7 +179,7 @@ if (! $fatal_error) {
         $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
         $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
         $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
-        
+
         // import stuff
         $html->setVariable('file_format', $file_format, 'string');
         $html->setVariable('separator', $separator, 'string');
