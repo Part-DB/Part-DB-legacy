@@ -53,9 +53,7 @@ use PartDB\Tools\StatisticsHelpers;
  * This class manages all log types.
  * With one instance of this class, you have access to all supported log types.
  *
- * @author kami89
  *
- * @todo There are no log types implemented yet.
  */
 class Log
 {
