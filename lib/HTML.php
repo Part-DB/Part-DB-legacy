@@ -70,6 +70,11 @@ class HTML
     /** @var string  */
     private $redirect_url       = "";
 
+    /**
+     * @var Smarty The shared Smarty object.
+     */
+    private $tmpl;
+
     /********************************************************************************
      *
      *   Constructor / Destructor
@@ -127,6 +132,20 @@ class HTML
         $this->meta['custom_css']   = $custom_css_file;
         $this->meta['title']        = $page_title;
         $this->meta['autorefresh'] = $autorefresh;
+
+        global $config;
+
+        //Init Smarty Objects
+        $this->tmpl = new Smarty();
+
+        if ($config['debug']['template_debugging_enable']) {
+            $this->tmpl->debugging = true;
+        }
+
+        //Remove white space from Output
+        $this->tmpl->loadFilter('output', 'trimwhitespace');
+        //Prevent XSS attacks
+        $this->tmpl->escape_html = true;
     }
 
     /********************************************************************************
@@ -273,7 +292,7 @@ class HTML
 
         unset($this->variables[$key]);
     }
-    
+
     /********************************************************************************
      *
      *   Print Routines
@@ -303,7 +322,7 @@ class HTML
 
         global $config;
 
-        if ((! is_array($this->meta)) || (count($this->meta) == 0) || (strlen($this->meta['theme']) == 0)) {
+        if ((! is_array($this->meta)) || (count($this->meta) == 0) || (empty($this->meta['theme']))) {
             debug('warning', 'Meta not set!', __FILE__, __LINE__, __METHOD__);
         }
         $smarty_head = BASE.'/templates/'.$this->meta['theme'].'/smarty_head.tpl';
@@ -312,16 +331,9 @@ class HTML
             throw new TemplateNotFoundException(sprintf(_('Template Header-Datei "%s" wurde nicht gefunden!'), $smarty_head));
         }
 
-        $tmpl = new Smarty;
-
-        if ($config['debug']['template_debugging_enable']) {
-            $tmpl->debugging = true;
-        }
-
-        //Remove white space from Output
-        $tmpl->loadFilter('output', 'trimwhitespace');
-
-        $tmpl->escape_html = true;
+        $tmpl = $this->tmpl;
+        //Clear all assigned variables
+        $tmpl->clearAllAssign();
 
 
         //Unix locales (de_DE) are other than the HTML lang (de), so edit them
@@ -447,12 +459,10 @@ class HTML
             throw new TemplateNotFoundException(sprintf(_('Template-Datei "%s" konnte nicht gefunden werden!'), $smarty_template));
         }
 
-        $tmpl = new Smarty();
+        $tmpl = $this->tmpl;
+        $tmpl->clearAllAssign();
 
-        if ($config['debug']['template_debugging_enable']) {
-            $tmpl->debugging = true;
-        }
-
+        
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
         $tmpl->assign("debugging_activated", $config['debug']['enable']);
@@ -461,12 +471,6 @@ class HTML
             //debug('temp', $key.' => '.$value);
             $tmpl->assign($key, $value);
         }
-
-        //Remove white space from Output
-        $tmpl->loadFilter('output', 'trimwhitespace');
-
-        //Prevents XSS
-        $tmpl->escape_html = true;
 
         if ($this->redirect_url == "") { //Dont print template, if the page should be redirected.
             $tmpl->display($smarty_template);
@@ -494,11 +498,8 @@ class HTML
             throw new TemplateNotFoundException(sprintf(_('Template Footer-Datei "%s" wurde nicht gefunden!'), $smarty_foot));
         }
 
-        $tmpl = new Smarty();
-
-        if ($config['debug']['template_debugging_enable']) {
-            $tmpl->debugging = true;
-        }
+        $tmpl = $this->tmpl;
+        $tmpl->clearAllAssign();
 
         if (isset($this->variables['ajax_request'])) {
             $tmpl->assign("ajax_request", $this->variables['ajax_request']);
@@ -530,11 +531,6 @@ class HTML
 
         $tmpl->assign("debugging_activated", $config['debug']['enable']);
 
-        //Remove white space from Output
-        $tmpl->loadFilter('output', 'trimwhitespace');
-
-        //Prevents XSS
-        $tmpl->escape_html = true;
         $tmpl->display($smarty_foot);
     }
 }
