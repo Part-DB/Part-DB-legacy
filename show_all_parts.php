@@ -171,8 +171,8 @@ if (! $fatal_error) {
         $parts = Part::getAllParts($database, $current_user, $log, "", $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'all_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
-        $html->setLoop('table', $table_loop);
-        $html->setLoop("pagination", generatePagination("show_all_parts.php?", $page, $limit, Part::getCount($database)));
+        $html->setVariable('table', $table_loop);
+        $html->setVariable("pagination", generatePagination("show_all_parts.php?", $page, $limit, Part::getCount($database)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {

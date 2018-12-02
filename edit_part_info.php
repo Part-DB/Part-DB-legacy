@@ -771,7 +771,7 @@ if (! $fatal_error) {
                 'supplierpartnr'            => '',
                 'obsolete'                  => false);
 
-            $html->setLoop('orderdetails', $orderdetails_loop);
+            $html->setVariable('orderdetails', $orderdetails_loop);
 
             // build attachements loop
             $master_picture_id = (is_object($part->getMasterPictureAttachement()) ? $part->getMasterPictureAttachement()->getID() : null);
@@ -809,7 +809,7 @@ if (! $fatal_error) {
                 'picture_filename'          => '',
                 'download_file'             => $config['attachements']['download_default']);
 
-            $html->setLoop('attachements_loop', $attachements_loop);
+            $html->setVariable('attachements_loop', $attachements_loop);
         }
 
         if (($print_unsaved_values) || (! isset($part)) || (! is_object($part))) {

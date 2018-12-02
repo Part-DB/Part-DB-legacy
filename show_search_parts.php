@@ -306,8 +306,8 @@ if (! $fatal_error) {
         $html->setVariable('search_manufacturer', $search_manufacturer, 'boolean');
 
         // export formats
-        $html->setLoop('export_formats', buildExportFormatsLoop('searchparts'));
-        $html->setLoop('group_formats', Part::buildSearchGroupByLoop($groupby));
+        $html->setVariable('export_formats', buildExportFormatsLoop('searchparts'));
+        $html->setVariable('group_formats', Part::buildSearchGroupByLoop($groupby));
 
         // global stuff
         $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
@@ -341,7 +341,7 @@ if (! $fatal_error) {
     foreach ($parts_table_loops as $category_full_path => $loop) {
         $html->setVariable('category_full_path', $category_full_path, 'string');
         $html->setVariable('table_rowcount', count($loop), 'integer');
-        $html->setLoop('table', $loop);
+        $html->setVariable('table', $loop);
         $html->printTemplate('searched_parts_table');
     }
 }

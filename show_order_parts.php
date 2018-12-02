@@ -212,7 +212,7 @@ if (! $fatal_error) {
     try {
         $suppliers = Supplier::getOrderSuppliers($database, $current_user, $log);
         $supplier_loop = get_suppliers_template_loop($suppliers, $selected_supplier_id);
-        $html->setLoop('suppliers', $supplier_loop);
+        $html->setVariable('suppliers', $supplier_loop);
         $html->setVariable('selected_supplier_id', $selected_supplier_id, 'integer');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -245,7 +245,7 @@ if (! $fatal_error) {
         }
 
         $table_loop = Part::buildTemplateTableArray($parts, 'order_parts');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setVariable('sum_price', floatToMoneyString($sum_price), 'string');
     } catch (Exception $e) {
@@ -292,7 +292,7 @@ if (! $fatal_error) {
 
             $row_odd = ! $row_odd;
         }
-        $html->setLoop('order_devices_loop', $order_devices_loop);
+        $html->setVariable('order_devices_loop', $order_devices_loop);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -309,7 +309,7 @@ if (! $fatal_error) {
 if (! $fatal_error) {
     try {
         // export formats
-        $html->setLoop('export_formats', buildExportFormatsLoop('orderparts', $export_format_id));
+        $html->setVariable('export_formats', buildExportFormatsLoop('orderparts', $export_format_id));
 
         /*
         if (isset($export_string)) {

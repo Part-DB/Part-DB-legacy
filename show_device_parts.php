@@ -474,7 +474,7 @@ if (! $fatal_error) {
 
             $row_odd = ! $row_odd;
         }
-        $html->setLoop('subdevices', $subdevices_loop);
+        $html->setVariable('subdevices', $subdevices_loop);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -528,7 +528,7 @@ if (! $fatal_error) {
         $html->setVariable('order_quantity', $device->getOrderQuantity(), 'integer');
         $html->setVariable('order_only_missing_parts', $device->getOrderOnlyMissingParts(), 'boolean');
         $html->setVariable('export_only_missing', $export_only_missing, 'boolean');
-        $html->setLoop('export_formats', buildExportFormatsLoop('deviceparts', $export_format_id));
+        $html->setVariable('export_formats', buildExportFormatsLoop('deviceparts', $export_format_id));
         if (isset($export_string)) {
             $html->setVariable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
                 str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)
@@ -575,7 +575,7 @@ if (! $fatal_error) {
             'picture_filename' => '',
             'download_file' => $config['attachements']['download_default']);
 
-        $html->setLoop('attachements_loop', $attachements_loop);
+        $html->setVariable('attachements_loop', $attachements_loop);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
@@ -620,10 +620,10 @@ if (! $fatal_error) {
     }
 
     if ($device_id > 0) {
-        $html->setLoop('table', (isset($searched_parts_loop) ? $searched_parts_loop : array()));
+        $html->setVariable('table', (isset($searched_parts_loop) ? $searched_parts_loop : array()));
         $html->printTemplate('add_parts');
 
-        $html->setLoop('table', $device_parts_loop);
+        $html->setVariable('table', $device_parts_loop);
         $html->printTemplate('device_parts');
 
         if (isset($comment)) {
@@ -636,7 +636,7 @@ if (! $fatal_error) {
         $html->printTemplate('export');
 
         //Import deviceparts does not work at all! To fix this we need a reworked import/export system... [TODO]
-        //$html->setLoop('table', (isset($import_loop) ? $import_loop : array()));
+        //$html->setVariable('table', (isset($import_loop) ? $import_loop : array()));
         //$html->printTemplate('import');
 
         $html->printTemplate('copy_device');

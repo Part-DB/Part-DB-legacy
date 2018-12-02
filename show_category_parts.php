@@ -198,12 +198,12 @@ if (! $fatal_error) {
         $parts = $category->getParts($with_subcategories, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'category_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
-        $html->setLoop('table', $table_loop);
-        $html->setLoop("pagination", generatePagination("show_category_parts.php?cid=$category_id", $page, $limit, $category->getPartsCount($with_subcategories)));
+        $html->setVariable('table', $table_loop);
+        $html->setVariable("pagination", generatePagination("show_category_parts.php?cid=$category_id", $page, $limit, $category->getPartsCount($with_subcategories)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
 
-        $html->setLoop('breadcrumb', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", true, _("Kategorien")));
+        $html->setVariable('breadcrumb', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", true, _("Kategorien")));
 
         //Export Parts
         if ($action == "export") {
@@ -236,7 +236,7 @@ if (! $fatal_error) {
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
         $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable'] || $category->getDisableAutodatasheets(true)), 'boolean');
 
-        $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
+        $html->setVariable('export_formats', buildExportFormatsLoop('showparts'));
 
         if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
             $root_category = new Category($database, $current_user, $log, 0);

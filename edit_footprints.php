@@ -370,7 +370,7 @@ if (! $fatal_error) {
                     'proposed_filenames'        => $proposed_filenames_loop);
             }
 
-            $html->setLoop('broken_filename_footprints', $broken_filename_loop);
+            $html->setVariable('broken_filename_footprints', $broken_filename_loop);
         }
 
         $html->setVariable('broken_footprints_count', count($broken_filename_loop), 'integer');
@@ -436,7 +436,7 @@ if (! $fatal_error) {
                     'proposed_filenames'        => $proposed_filenames_loop);
             }
 
-            $html->setLoop('broken_3d_filename_footprints', $broken_filename_loop);
+            $html->setVariable('broken_3d_filename_footprints', $broken_filename_loop);
         }
 
         $html->setVariable('broken_3d_footprints_count', count($broken_filename_loop), 'integer');

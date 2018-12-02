@@ -73,10 +73,10 @@ if (! $fatal_error) {
     try {
         $parts = Part::getNoPriceParts($database, $current_user, $log, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'noprice_parts');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
 
-        $html->setLoop("pagination", generatePagination("show_noprice_parts.php?", $page, $limit, Part::getNoPricePartsCount($database, $current_user, $log)));
+        $html->setVariable("pagination", generatePagination("show_noprice_parts.php?", $page, $limit, Part::getNoPricePartsCount($database, $current_user, $log)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {

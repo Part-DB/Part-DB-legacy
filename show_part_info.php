@@ -209,7 +209,7 @@ if (! $fatal_error) {
 if (! $fatal_error) {
     try {
         $properties = $part->getPropertiesLoop();
-        $html->setLoop("properties_loop", $properties);
+        $html->setVariable("properties_loop", $properties);
 
         //Set title
         $title = _('Detailinfo') . ': ' . $part->getName() . '';
@@ -220,21 +220,21 @@ if (! $fatal_error) {
         $html->setVariable('name', $part->getName(), 'string');
         $html->setVariable('manufacturer_product_url', $part->getManufacturerProductUrl(), 'string');
         $html->setVariable('description', $part->getDescription(), 'string');
-        $html->setLoop('category_path', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", false, null, true));
+        $html->setVariable('category_path', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", false, null, true));
         $html->setVariable('category_id', $part->getCategory()->getID(), 'string');
         $html->setVariable('instock', $part->getInstock(true), 'string');
         $html->setVariable('instock_unknown', $part->isInstockUnknown(), 'boolean');
         $html->setVariable('mininstock', $part->getMinInstock(), 'integer');
         $html->setVariable('visible', $part->getVisible(), 'boolean');
         $html->setVariable('comment', nl2br($part->getComment()), 'string');
-        $html->setLoop('footprint_path', (is_object($footprint) ? $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", false, null, true) : null));
+        $html->setVariable('footprint_path', (is_object($footprint) ? $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", false, null, true) : null));
         $html->setVariable('footprint_id', (is_object($footprint) ? $footprint->getID() : 0), 'integer');
         $html->setVariable('footprint_filename', (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->getFilename()) : ''), 'string');
         $html->setVariable('footprint_valid', (is_object($footprint) ? $footprint->isFilenameValid() : false), 'boolean');
-        $html->setLoop('storelocation_path', (is_object($storelocation) ? $storelocation->buildBreadcrumbLoop("show_location_parts.php", "lid", false, null, true) : null));
+        $html->setVariable('storelocation_path', (is_object($storelocation) ? $storelocation->buildBreadcrumbLoop("show_location_parts.php", "lid", false, null, true) : null));
         $html->setVariable('storelocation_id', (is_object($storelocation) ? $storelocation->getID() : '0'), 'integer');
         $html->setVariable('storelocation_is_full', (is_object($storelocation) ? $storelocation->getIsFull() : false), 'boolean');
-        $html->setLoop('manufacturer_path', (is_object($manufacturer) ? $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", false, null, true) : null));
+        $html->setVariable('manufacturer_path', (is_object($manufacturer) ? $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", false, null, true) : null));
         $html->setVariable('manufacturer_id', (is_object($manufacturer) ? $manufacturer->getID() : 0), 'integer');
         $html->setVariable('auto_order_exists', ($part->getAutoOrder()), 'boolean');
         $html->setVariable('manual_order_exists', ($part->getManualOrder() && ($part->getInstock() >= $part->getMinInstock())), 'boolean');
@@ -286,7 +286,7 @@ if (! $fatal_error) {
             $row_odd = ! $row_odd;
         }
 
-        $html->setLoop('orderdetails', $orderdetails_loop);
+        $html->setVariable('orderdetails', $orderdetails_loop);
 
         if ($part->getAveragePrice(false, 1) > 0) {
             $html->setVariable('average_price', $part->getAveragePrice(true, 1), 'string');
@@ -319,7 +319,7 @@ if (! $fatal_error) {
         }
 
         if (count($attachement_types_loop) > 0) {
-            $html->setLoop('attachement_types_loop', $attachement_types_loop);
+            $html->setVariable('attachement_types_loop', $attachement_types_loop);
         }
 
         //Auto datasheets
@@ -336,7 +336,7 @@ if (! $fatal_error) {
                 }
             }
         }
-        $html->setLoop("datasheet_loop", $datasheet_loop);
+        $html->setVariable("datasheet_loop", $datasheet_loop);
 
         //Devices
         $devices = $part->getDevices();
@@ -354,7 +354,7 @@ if (! $fatal_error) {
         $html->setVariable("devices_list", $root_device->buildHtmlTree(Device::getPrimaryDevice(), true, false), "string");
 
         if (count($devices_loop) > 0) {
-            $html->setLoop('devices_loop', $devices_loop);
+            $html->setVariable('devices_loop', $devices_loop);
         }
 
         // global/category stuff
@@ -362,16 +362,16 @@ if (! $fatal_error) {
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
 
         //Barcode stuff
-        $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
+        $html->setVariable("barcode_profiles", buildLabelProfilesDropdown("part"));
 
         $count = 0;
         if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
             $history = Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page);
             $html->setVariable("graph_history", Log::historyToGraph($history));
-            $html->setLoop("history", $history);
+            $html->setVariable("history", $history);
             $count = Log::getHistoryForPartCount($database, $current_user, $log, $part);
         }
-        $html->setLoop("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
+        $html->setVariable("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {

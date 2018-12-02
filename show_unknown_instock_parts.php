@@ -69,10 +69,10 @@ if (! $fatal_error) {
     try {
         $parts = Part::getInstockUnknownParts($database, $current_user, $log, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'unknown_instock_parts');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
 
-        $html->setLoop("pagination", generatePagination(
+        $html->setVariable("pagination", generatePagination(
             "show_unknown_instock_parts.php?",
             $page,
             $limit,

@@ -155,7 +155,7 @@ if (! $fatal_error) {
         );
 
         $table_loop = $log->generateTemplateLoop($entries);
-        $html->setLoop('log', $table_loop);
+        $html->setVariable('log', $table_loop);
         $html->setVariable('log_rowcount', count($entries));
 
         $extra = array("mode" => $mode,
@@ -168,7 +168,7 @@ if (! $fatal_error) {
             "datetime_min" => $datetime_min,
             "datetime_max" => $datetime_max);
 
-        $html->setLoop("pagination", generatePagination(
+        $html->setVariable("pagination", generatePagination(
             "system_log.php?",
             $page,
             $limit,
@@ -196,7 +196,7 @@ if (! $fatal_error) {
     $html->setVariable('user_list', $user_list, "string");
     $html->setVariable('search', $search, "string");
 
-    $html->setLoop('types_loop', Log::getLogTypesList());
+    $html->setVariable('types_loop', Log::getLogTypesList());
     $html->setVariable('filter_type', $filter_type);
 
     $html->setVariable("target_type", $target_type);

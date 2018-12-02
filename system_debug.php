@@ -85,8 +85,8 @@ $html = new HTML($config['html']['theme'], $user_config['theme'], "Debugging");
 $html->setVariable("debug_enable", $config['debug']['enable'], "boolean");
 $html->setVariable("autorefresh", $autorefresh, "boolean");
 //$html->set_variable("errors_count", count($errors), "integer");
-$html->setLoop("errors", $errors);
-$html->setLoop("logs", getDebugLogElements());
+$html->setVariable("errors", $errors);
+$html->setVariable("logs", getDebugLogElements());
 
 // Print template
 $html->printHeader();

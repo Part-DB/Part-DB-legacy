@@ -262,8 +262,8 @@ if (! $fatal_error) {
 
 try {
     // theme
-    $html->setLoop('theme_loop', build_theme_loop());
-    $html->setLoop('custom_css_loop', build_custom_css_loop());
+    $html->setVariable('theme_loop', build_theme_loop());
+    $html->setVariable('custom_css_loop', build_custom_css_loop());
 
     // locale settings
 
@@ -273,8 +273,8 @@ try {
     foreach ($timezones_raw as $timezone) {
         $timezones[$timezone] = $timezone;
     }
-    $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
-    $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
+    $html->setVariable('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
+    $html->setVariable('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
 
     // checkboxes
     $html->setVariable('disable_updatelist', $config['startup']['disable_update_list'], 'boolean');

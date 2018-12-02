@@ -184,13 +184,13 @@ if (! $fatal_error) {
         $parts = $footprint->getParts($with_subfoot, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'footprint_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
 
-        $html->setLoop("pagination", generatePagination("show_footprint_parts.php?fid=$footprint_id", $page, $limit, $footprint->getPartsCount($with_subfoot)));
+        $html->setVariable("pagination", generatePagination("show_footprint_parts.php?fid=$footprint_id", $page, $limit, $footprint->getPartsCount($with_subfoot)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
 
-        $html->setLoop('breadcrumb', $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", true, _("Footprints")));
+        $html->setVariable('breadcrumb', $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", true, _("Footprints")));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

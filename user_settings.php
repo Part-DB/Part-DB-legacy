@@ -174,15 +174,15 @@ if (! $fatal_error) {
         $html->setVariable('default_comment_withdrawal', $current_user->getDefaultInstockChangeComment(true), "string");
 
         //Configuration settings
-        $html->setLoop('custom_css_loop', build_custom_css_loop($current_user->getTheme(true), true));
+        $html->setVariable('custom_css_loop', build_custom_css_loop($current_user->getTheme(true), true));
         //Convert timezonelist, to a format, we can use
         $timezones_raw = DateTimeZone::listIdentifiers();
         $timezones = array();
         foreach ($timezones_raw as $timezone) {
             $timezones[$timezone] = $timezone;
         }
-        $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $current_user->getTimezone(true)));
-        $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $current_user->getLanguage(true)));
+        $html->setVariable('timezone_loop', arrayToTemplateLoop($timezones, $current_user->getTimezone(true)));
+        $html->setVariable('language_loop', arrayToTemplateLoop($config['languages'], $current_user->getLanguage(true)));
 
         $html->setVariable('can_username', $current_user->canDo(PermissionManager::SELF, SelfPermission::EDIT_USERNAME));
         $html->setVariable('can_infos', $current_user->canDo(PermissionManager::SELF, SelfPermission::EDIT_INFOS));

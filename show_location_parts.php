@@ -184,13 +184,13 @@ if (! $fatal_error) {
         $parts = $location->getParts($with_sublocations, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'location_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
 
-        $html->setLoop("pagination", generatePagination("show_location_parts.php?lid=$location_id", $page, $limit, $location->getPartsCount($with_sublocations)));
+        $html->setVariable("pagination", generatePagination("show_location_parts.php?lid=$location_id", $page, $limit, $location->getPartsCount($with_sublocations)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
 
-        $html->setLoop('breadcrumb', $location->buildBreadcrumbLoop("show_location_parts.php", "lid", true, _("Lagerorte")));
+        $html->setVariable('breadcrumb', $location->buildBreadcrumbLoop("show_location_parts.php", "lid", true, _("Lagerorte")));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -218,7 +218,7 @@ if (! $fatal_error) {
     $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
     //Barcode stuff
-    $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("location"));
+    $html->setVariable("barcode_profiles", buildLabelProfilesDropdown("location"));
 
 
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {

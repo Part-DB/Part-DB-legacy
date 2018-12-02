@@ -205,15 +205,15 @@ if (! $fatal_error) {
             foreach ($timezones_raw as $timezone) {
                 $timezones[$timezone] = $timezone;
             }
-            $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
-            $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
+            $html->setVariable('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
+            $html->setVariable('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
         } elseif (!$config['installation_complete']['admin_password']) {
             $tmpl_site_to_show = 'set_admin_password';
         } elseif (!$config['installation_complete']['database']) {
             // step "set_db_settings"
             $tmpl_site_to_show = 'set_db_settings';
-            $html->setLoop('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
-            $html->setLoop('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
+            $html->setVariable('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
+            $html->setVariable('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
             $html->setVariable('db_host', $config['db']['host'], 'string');
             $html->setVariable('db_name', $config['db']['name'], 'string');
             $html->setVariable('db_user', $config['db']['user'], 'string');
@@ -243,7 +243,7 @@ $reload_link = $fatal_error ? 'install.php' : '';   // an empty string means tha
 //$html->print_header($messages, $reload_link);       // ...reload-button won't be visible
 
 if (!empty($messages)) {
-    $html->setLoop("messages", $messages);
+    $html->setVariable("messages", $messages);
 }
 
 $html->printTemplate('header');

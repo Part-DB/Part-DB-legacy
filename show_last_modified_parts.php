@@ -80,10 +80,10 @@ if (! $fatal_error) {
         }
 
         $table_loop = Part::buildTemplateTableArray($parts, 'last_modified_parts');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
 
-        $html->setLoop("pagination", generatePagination(
+        $html->setVariable("pagination", generatePagination(
             "show_last_modified_parts.php?",
             $page,
             $limit,

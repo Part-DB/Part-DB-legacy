@@ -250,27 +250,6 @@ class HTML
         $this->variables[$key] = $value;
     }
 
-    /**
-     * Set a loop for the HTML template (site content)
-     *
-     * @param string    $key        the name of the loop
-     * @param array     $loop       the loop array
-     *
-     * @deprecated We dont distinct between scalar values and array datatypes (loops) anymore. You can set the values via the Variable functions.
-     *
-     * @throws Exception if there was an error
-     */
-    public function setLoop(string $key, $loop = array())
-    {
-        settype($loop, 'array');
-
-        if (empty($key)) {
-            debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
-            throw new TemplateSystemException(_('$key ist leer!'));
-        }
-
-        $this->variables[$key] = $loop;
-    }
 
     /********************************************************************************
      *
@@ -294,25 +273,7 @@ class HTML
 
         unset($this->variables[$key]);
     }
-
-    /**
-     * Unset a loop
-     *
-     * @param string    $key        the name of the loop
-     * @deprecated We dont distinct between scalar values and array datatypes (loops) anymore. You can set the values via the Variable functions.
-     *
-     * @throws Exception if there was an error
-     */
-    public function unsetLoop(string $key)
-    {
-        if (empty($key)) {
-            debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
-            throw new TemplateSystemException(_('$key ist leer!'));
-        }
-
-        unset($this->variables[$key]);
-    }
-
+    
     /********************************************************************************
      *
      *   Print Routines

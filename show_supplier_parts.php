@@ -185,13 +185,13 @@ if (! $fatal_error) {
         $parts = $supplier->getParts($with_subsuppliers, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'supplier_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
 
-        $html->setLoop("pagination", generatePagination("show_supplier_parts.php?sid=$supplier_id", $page, $limit, $supplier->getPartsCount($with_subsuppliers)));
+        $html->setVariable("pagination", generatePagination("show_supplier_parts.php?sid=$supplier_id", $page, $limit, $supplier->getPartsCount($with_subsuppliers)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
 
-        $html->setLoop('breadcrumb', $supplier->buildBreadcrumbLoop("show_supplier_parts.php", "sid", true, _("Lieferanten")));
+        $html->setVariable('breadcrumb', $supplier->buildBreadcrumbLoop("show_supplier_parts.php", "sid", true, _("Lieferanten")));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

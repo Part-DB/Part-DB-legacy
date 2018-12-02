@@ -211,7 +211,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
         $rss_loop = array(array('title' => $e->getMessage()));
     }
 
-    $html->setLoop('rss_feed_loop', $rss_loop);
+    $html->setVariable('rss_feed_loop', $rss_loop);
 }
 
 /********************************************************************************
@@ -220,7 +220,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
  *
  *********************************************************************************/
 
-$html->setLoop('authors', $authors);
+$html->setVariable('authors', $authors);
 
 if (! $fatal_error) {
     $bbcode = new \Golonka\BBCode\BBCodeParser();

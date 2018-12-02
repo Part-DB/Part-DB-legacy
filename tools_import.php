@@ -223,7 +223,7 @@ if (! $fatal_error) {
     $html->printTemplate('upload');
 
     if (isset($import_data)) {
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
         $html->setVariable('table_rowcount', count($import_data), 'integer');
         $html->printTemplate('check_data');
     }
@@ -233,7 +233,7 @@ if (! $fatal_error) {
     }
 
     if (isset($new_parts_loop)) {
-        $html->setLoop('table', $new_parts_loop);
+        $html->setVariable('table', $new_parts_loop);
         $html->printTemplate('new_parts');
     }
 

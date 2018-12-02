@@ -289,15 +289,15 @@ if (! $fatal_error) {
 
 
             //Configuration settings
-            $html->setLoop('custom_css_loop', build_custom_css_loop($selected_user->getTheme(true), true));
+            $html->setVariable('custom_css_loop', build_custom_css_loop($selected_user->getTheme(true), true));
             //Convert timezonelist, to a format, we can use
             $timezones_raw = DateTimeZone::listIdentifiers();
             $timezones = array();
             foreach ($timezones_raw as $timezone) {
                 $timezones[$timezone] = $timezone;
             }
-            $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $selected_user->getTimezone(true)));
-            $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $selected_user->getLanguage(true)));
+            $html->setVariable('timezone_loop', arrayToTemplateLoop($timezones, $selected_user->getTimezone(true)));
+            $html->setVariable('language_loop', arrayToTemplateLoop($config['languages'], $selected_user->getLanguage(true)));
 
             $comment_addition = $selected_user->getDefaultInstockChangeComment(false);
             $comment_withdrawal = $selected_user->getDefaultInstockChangeComment(true);
@@ -334,15 +334,15 @@ if (! $fatal_error) {
             $comment_withdrawal = "";
 
             //Configuration settings
-            $html->setLoop('custom_css_loop', build_custom_css_loop("", true));
+            $html->setVariable('custom_css_loop', build_custom_css_loop("", true));
             //Convert timezonelist, to a format, we can use
             $timezones_raw = DateTimeZone::listIdentifiers();
             $timezones = array();
             foreach ($timezones_raw as $timezone) {
                 $timezones[$timezone] = $timezone;
             }
-            $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, ""));
-            $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], ""));
+            $html->setVariable('timezone_loop', arrayToTemplateLoop($timezones, ""));
+            $html->setVariable('language_loop', arrayToTemplateLoop($config['languages'], ""));
         }
 
         $html->setVariable('name', $name, 'string');
@@ -365,7 +365,7 @@ if (! $fatal_error) {
         $user_list = User::buildHTMLList($database, $current_user, $log, $selected_id);
         $html->setVariable('user_list', $user_list, 'string');
 
-        $html->setLoop("perm_loop", $perm_loop);
+        $html->setVariable("perm_loop", $perm_loop);
 
         //$parent_device_list = $root_device->buildHtmlTree($parent_id, true, true);
         //$html->setVariable('parent_device_list', $parent_device_list, 'string');

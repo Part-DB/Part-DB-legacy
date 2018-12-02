@@ -295,9 +295,9 @@ if (! $fatal_error) {
         $html->setVariable("generator", $generator_type, "string");
 
         //Show which label sizes are supported.
-        $html->setLoop("supported_sizes", $generator_class::getSupportedSizes());
-        $html->setLoop("supported_types", $generator_class::getSupportedTypes());
-        $html->setLoop("available_presets", $generator_class::getLinePresets());
+        $html->setVariable("supported_sizes", $generator_class::getSupportedSizes());
+        $html->setVariable("supported_types", $generator_class::getSupportedTypes());
+        $html->setVariable("available_presets", $generator_class::getLinePresets());
 
         //Advanced settings
         $html->setVariable("text_bold", $profile['text_bold'], "bool");
@@ -317,7 +317,7 @@ if (! $fatal_error) {
         //Profile tabs
         $html->setVariable("save_name", $profile_name != "default" ? $profile_name : "", "string");
         $html->setVariable("selected_profile", $profile_name, "string");
-        $html->setLoop("profiles", buildLabelProfilesDropdown($generator_type, true));
+        $html->setVariable("profiles", buildLabelProfilesDropdown($generator_type, true));
 
         //Permission variables
         $html->setVariable("can_save_profile", $current_user->canDo(PermissionManager::LABELS, LabelPermission::EDIT_PROFILES));

@@ -250,7 +250,7 @@ if (! $fatal_error) {
         $device_list = $root_group->buildHtmlTree($selected_id, true, false);
         $html->setVariable('group_list', $device_list, 'string');
 
-        $html->setLoop("perm_loop", $perm_loop);
+        $html->setVariable("perm_loop", $perm_loop);
 
         $parent_device_list = $root_group->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_group_list', $parent_device_list, 'string');

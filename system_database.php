@@ -162,8 +162,8 @@ if (true) { //Allow to save connection settings, even when a error happened.
 
 try {
     $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
-    $html->setLoop('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
-    $html->setLoop('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
+    $html->setVariable('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
+    $html->setVariable('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
     $html->setVariable('db_host', $config['db']['host'], 'string');
     $html->setVariable('db_name', $config['db']['name'], 'string');
     $html->setVariable('db_user', $config['db']['user'], 'string');

@@ -183,13 +183,13 @@ if (! $fatal_error) {
         $parts = $manufacturer->getParts($with_submanufacturers, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'manufacturer_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
 
-        $html->setLoop("pagination", generatePagination("show_manufacturer_parts.php?mid=$manufacturer_id", $page, $limit, $manufacturer->getPartsCount($with_submanufacturers)));
+        $html->setVariable("pagination", generatePagination("show_manufacturer_parts.php?mid=$manufacturer_id", $page, $limit, $manufacturer->getPartsCount($with_submanufacturers)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
 
-        $html->setLoop('breadcrumb', $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", true, _("Hersteller")));
+        $html->setVariable('breadcrumb', $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", true, _("Hersteller")));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

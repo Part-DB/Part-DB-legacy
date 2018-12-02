@@ -132,10 +132,10 @@ if (! $fatal_error) {
     try {
         $parts = Part::getObsoleteParts($database, $current_user, $log, $show_no_orderdetails_parts, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'obsolete_parts');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
         $html->setVariable("table_rowcount", count($parts), 'int');
 
-        $html->setLoop("pagination", generatePagination(
+        $html->setVariable("pagination", generatePagination(
             "show_obsolete_parts.php?show_no_orderdetails_parts=" .($show_no_orderdetails_parts ? '1' : '0'),
             $page,
             $limit,
