@@ -27,6 +27,7 @@ namespace PartDB\Base;
 
 use Exception;
 use PartDB\Database;
+use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Log;
 use PartDB\User;
 
@@ -89,6 +90,8 @@ abstract class DBElement
      * @param array     $db_data                    If you have already data from the database, then use give it with this param, the part, wont make a database request.
      * @throws Exception    if there is no such element in the database
      *                      (except: the ID=0 is valid, even if there is no such element in the database)
+     *
+     * @throws TableNotExistingException If the table is not existing in the DataBase
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, bool $allow_virtual_elements = false, $db_data = null)
     {
@@ -98,7 +101,7 @@ abstract class DBElement
 
         if ($db_data==null) { //Dont check for table exist, if we already have db_data
             if (! $this->database->doesTableExist($tablename)) {
-                throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht in der Datenbank!');
+                throw new TableNotExistingException(sprintf(_('Die Tabelle "%s" existiert nicht in der Datenbank!'), $tablename));
             }
         }
 
@@ -106,7 +109,7 @@ abstract class DBElement
         $this->tablename = $tablename;
 
         if (((! is_int($id)) && (! ctype_digit($id)) && (! is_null($id))) || (($id == 0) && (! $allow_virtual_elements))) {
-            throw new Exception(sprintf('$id ist keine gültige ID! $id="%d"', $id));
+            throw new Exception(sprintf(_('$id ist keine gültige ID! $id="%d"'), $id));
         }
 
         // get all data of the database record with the ID "$id"
@@ -342,7 +345,7 @@ abstract class DBElement
         }
 
         if (! $database->doesTableExist($tablename)) {
-            throw new Exception(sprintf(_('Die Tabelle "%s" existiert nicht!'), $tablename));
+            throw new TableNotExistingException(sprintf(_('Die Tabelle "%s" existiert nicht!'), $tablename));
         }
 
         // we check if the new data is valid
