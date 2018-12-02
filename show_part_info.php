@@ -211,12 +211,6 @@ if (! $fatal_error) {
         $properties = $part->getPropertiesLoop();
         $html->setLoop("properties_loop", $properties);
 
-        // global settings
-        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
-
         //Set title
         $title = _('Detailinfo') . ': ' . $part->getName() . '';
         $html->setTitle($title);

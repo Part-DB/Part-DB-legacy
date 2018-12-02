@@ -217,11 +217,6 @@ if (! $fatal_error) {
     $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
     $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-
-    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
     //Barcode stuff
     $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("location"));
 

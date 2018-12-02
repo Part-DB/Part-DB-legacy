@@ -694,11 +694,6 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     try {
-        // global settings
-        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
         // special
         $html->setVariable('is_new_part', ($is_new_part || $add_one_more_part), 'boolean');
 

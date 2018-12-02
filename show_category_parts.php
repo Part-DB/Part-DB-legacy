@@ -236,10 +236,6 @@ if (! $fatal_error) {
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
         $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable'] || $category->getDisableAutodatasheets(true)), 'boolean');
 
-        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
         $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
 
         if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {

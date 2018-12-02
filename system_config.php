@@ -64,7 +64,6 @@ function build_theme_loop()
  *********************************************************************************/
 
 // section "system settings"
-$http_charset               = isset($_POST['http_charset'])      ? (string)$_POST['http_charset']     : 'utf-8';
 $theme                      = isset($_POST['theme'])             ? (string)$_POST['theme']            : $config['html']['theme'];
 $custom_css                 = isset($_POST['custom_css'])        ? (string)$_POST['custom_css']       : $config['html']['custom_css'];
 $timezone                   = isset($_POST['timezone'])          ? (string)$_POST['timezone']         : $config['timezone'];
@@ -172,7 +171,6 @@ if (! $fatal_error) {
         case 'apply':
             $config_old = $config;
 
-            //$config['html']['http_charset']             = $http_charset;
             $config['html']['theme']                    = $theme;
             $config['html']['custom_css']               = $custom_css;
             $config['timezone']                         = $timezone;
@@ -192,9 +190,6 @@ if (! $fatal_error) {
             $config['menu']['disable_footprints']       = $disable_tools_footprints;
             $config['tools']['footprints']['autoload']  = $tools_footprints_autoload;
             $config['developer_mode']                   = ($enable_developer_mode && file_exists(BASE.'/development'));
-            $config['popup']['modal']                   = $use_modal_popup;
-            $config['popup']['width']                   = $popup_width;
-            $config['popup']['height']                  = $popup_height;
             $config['allow_server_downloads']           = $downloads_enable;
 
             $config['appearance']['use_old_datasheet_icons'] = $use_old_datasheet_icons;
@@ -266,8 +261,7 @@ if (! $fatal_error) {
  *********************************************************************************/
 
 try {
-    // http charset / theme
-    $html->setLoop('http_charset_loop', arrayToTemplateLoop($config['http_charsets'], $config['html']['http_charset']));
+    // theme
     $html->setLoop('theme_loop', build_theme_loop());
     $html->setLoop('custom_css_loop', build_custom_css_loop());
 
@@ -300,11 +294,6 @@ try {
     $html->setVariable('developer_mode_available', file_exists(BASE . '/development'), 'boolean');
     $html->setVariable('enable_developer_mode', $config['developer_mode'], 'boolean');
     $html->setVariable('use_old_datasheet_icons', $config['appearance']['use_old_datasheet_icons'], 'boolean');
-
-    // popup settings
-    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
     // site properties
     $html->setVariable('page_title', $config['partdb_title'], 'string');

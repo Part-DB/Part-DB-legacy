@@ -398,7 +398,7 @@ function get_db_update_steps($current_version)
             $updateSteps[] = "ALTER TABLE `groups`
                           ADD PRIMARY KEY (`id`),
                           ADD UNIQUE KEY `name` (`name`);";
-            
+
             $updateSteps[] = "ALTER TABLE `log`
                           ADD PRIMARY KEY (`id`),
                           ADD KEY `id_user` (`id_user`);";
