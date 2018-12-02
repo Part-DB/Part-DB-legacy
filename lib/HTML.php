@@ -26,6 +26,8 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Exceptions\TemplateNotFoundException;
+use PartDB\Exceptions\TemplateSystemException;
 use PartDB\Permissions\PartContainingPermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
@@ -63,11 +65,8 @@ class HTML
     private $javascript_files   = array();
     /** @var string OnLoad string for the HTML body */
     private $body_onload        = '';
-
-    /** @var array variables for the HTML template */
+    /** @var array variables (and which was called loops before => arrays) for the HTML template */
     private $variables          = array();
-    /** @var array loops for the HTML template */
-    private $loops              = array();
     /** @var string  */
     private $redirect_url       = "";
 
@@ -100,13 +99,11 @@ class HTML
         settype($this->javascript_files, 'array');
         settype($this->body_onload, 'string');
         settype($this->variables, 'array');
-        settype($this->loops, 'array');
 
         // specify the variable type of array $this->meta
         settype($this->meta['theme'], 'string');
         settype($this->meta['title'], 'string');
         settype($this->meta['custom_css'], 'string');
-        settype($this->meta['frameset'], 'boolean');
         settype($this->meta['autorefresh'], 'integer');
 
         // check passed parameters
@@ -129,7 +126,6 @@ class HTML
         $this->meta['theme']        = $theme;
         $this->meta['custom_css']   = $custom_css_file;
         $this->meta['title']        = $page_title;
-        $this->meta['frameset']     = false;
         $this->meta['autorefresh'] = $autorefresh;
     }
 
@@ -151,7 +147,7 @@ class HTML
     {
         if (! is_array($meta)) {
             debug('error', '$meta='.print_r($meta, true), __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$meta ist kein Array!');
+            throw new TemplateSystemException(_('$meta ist kein Array!'));
         }
 
         foreach ($meta as $key => $value) {
@@ -166,13 +162,6 @@ class HTML
      */
     public function setTitle(string $new_title)
     {
-        if (is_null($new_title)) {
-            throw new Exception("$new_title must not be null!");
-        }
-        if (!is_string($new_title)) {
-            throw new Exception("$new_title must be an string!");
-        }
-
         $this->meta['title'] = $new_title;
     }
 
@@ -217,16 +206,11 @@ class HTML
      */
     public function useJavascript(array $filenames = array(), string $body_onload = '')
     {
-        if (! is_array($filenames)) {
-            debug('error', '$filenames='.print_r($filenames, true), __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$filenames ist kein Array!');
-        }
-
         foreach ($filenames as $filename) {
             if (! in_array($filename, $this->javascript_files)) {
                 $full_filename = BASE.'/javascript/'.$filename.'.js';
                 if (! is_readable($full_filename)) {
-                    throw new Exception('Die JavaScript-Datei "'.$full_filename.'" existiert nicht!');
+                    throw new TemplateSystemException(sprintf(_('Die JavaScript-Datei "%s" existiert nicht!'), $full_filename));
                 }
 
                 $this->javascript_files[] = $filename;
@@ -249,18 +233,15 @@ class HTML
      */
     public function setVariable(string $key, $value, string $type = '')
     {
-        settype($key, 'string');
-        settype($type, 'string');
-
-        if (strlen($key) == 0) {
+        if (empty($key)) {
             debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$key ist leer!');
+            throw new TemplateSystemException(_('$key ist leer!'));
         }
 
-        if (strlen($type) > 0) {
-            if (! in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', 'string'))) {
+        if (!empty($type)) {
+            if (! in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', "double", 'string', "array", "object"))) {
                 debug('error', '$type='.print_r($type, true), __FILE__, __LINE__, __METHOD__);
-                throw new Exception('$type hat einen ungültigen Inhalt!');
+                throw new TemplateSystemException(_('$type hat einen ungültigen Inhalt!'));
             }
 
             settype($value, $type);
@@ -275,19 +256,20 @@ class HTML
      * @param string    $key        the name of the loop
      * @param array     $loop       the loop array
      *
+     * @deprecated We dont distinct between scalar values and array datatypes (loops) anymore. You can set the values via the Variable functions.
+     *
      * @throws Exception if there was an error
      */
     public function setLoop(string $key, $loop = array())
     {
-        settype($key, 'string');
         settype($loop, 'array');
 
-        if (strlen($key) == 0) {
+        if (empty($key)) {
             debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$key ist leer!');
+            throw new TemplateSystemException(_('$key ist leer!'));
         }
 
-        $this->loops[$key] = $loop;
+        $this->variables[$key] = $loop;
     }
 
     /********************************************************************************
@@ -305,11 +287,9 @@ class HTML
      */
     public function unsetVariable(string $key)
     {
-        settype($key, 'string');
-
-        if (strlen($key) == 0) {
+        if (empty($key)) {
             debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$key ist leer!');
+            throw new TemplateSystemException(_('$key ist leer!'));
         }
 
         unset($this->variables[$key]);
@@ -319,19 +299,18 @@ class HTML
      * Unset a loop
      *
      * @param string    $key        the name of the loop
+     * @deprecated We dont distinct between scalar values and array datatypes (loops) anymore. You can set the values via the Variable functions.
      *
      * @throws Exception if there was an error
      */
     public function unsetLoop(string $key)
     {
-        settype($key, 'string');
-
-        if (strlen($key) == 0) {
+        if (empty($key)) {
             debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$key ist leer!');
+            throw new TemplateSystemException(_('$key ist leer!'));
         }
 
-        unset($this->loops[$key]);
+        unset($this->variables[$key]);
     }
 
     /********************************************************************************
@@ -369,7 +348,7 @@ class HTML
         $smarty_head = BASE.'/templates/'.$this->meta['theme'].'/smarty_head.tpl';
         if (! is_readable($smarty_head)) {
             debug('error', 'File "'.$smarty_head.'" not found!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('Template Header-Datei "'.$smarty_head.'" wurde nicht gefunden!');
+            throw new TemplateNotFoundException(sprintf(_('Template Header-Datei "%s" wurde nicht gefunden!'), $smarty_head));
         }
 
         $tmpl = new Smarty;
@@ -394,7 +373,6 @@ class HTML
         $tmpl->assign('lang', $lang);
         $tmpl->assign('body_onload', $this->body_onload);
         $tmpl->assign('theme', $this->meta['theme']);
-        $tmpl->assign('frameset', $this->meta['frameset']);
         $tmpl->assign('redirect', $redirect);
         $tmpl->assign('partdb_title', $config['partdb_title']);
 
@@ -505,7 +483,7 @@ class HTML
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Template-Datei "'.$smarty_template.'" konnte nicht gefunden werden!');
+            throw new TemplateNotFoundException(sprintf(_('Template-Datei "%s" konnte nicht gefunden werden!'), $smarty_template));
         }
 
         $tmpl = new Smarty();
@@ -521,10 +499,6 @@ class HTML
         foreach ($this->variables as $key => $value) {
             //debug('temp', $key.' => '.$value);
             $tmpl->assign($key, $value);
-        }
-
-        foreach ($this->loops as $key => $loop) {
-            $tmpl->assign($key, $loop);
         }
 
         //Remove white space from Output
@@ -556,7 +530,7 @@ class HTML
 
         if (! is_readable($smarty_foot)) {
             debug('error', 'File "'.$smarty_foot.'" not found!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('Template Footer-Datei "'.$smarty_foot.'" wurde nicht gefunden!');
+            throw new TemplateNotFoundException(sprintf(_('Template Footer-Datei "%s" wurde nicht gefunden!'), $smarty_foot));
         }
 
         $tmpl = new Smarty();
@@ -570,7 +544,6 @@ class HTML
         }
 
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
-        $tmpl->assign('frameset', $this->meta['frameset']);
 
         // messages
         if ((is_array($messages) && (count($messages) > 0))) {
