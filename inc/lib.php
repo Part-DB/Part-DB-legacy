@@ -1038,6 +1038,9 @@ function buildToolsTree($params)
     if ($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
     }
+    if($current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE)) {
+        $edit_nodes[] = treeviewNode(_("Bauteil anlegen"), BASE_RELATIVE . "/edit_part_info.php");
+    }
 
     //Developer nodes
     $dev_nodes = array();
