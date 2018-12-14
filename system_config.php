@@ -157,6 +157,11 @@ try {
     $log                = new Log($database);
     //$system             = new System($database, $log);
     $current_user       = User::getLoggedInUser($database, $log);
+
+    if (!$current_user->canDo(PermissionManager::CONFIG, ConfigPermission::READ_CONFIG)
+    && !$current_user->canDo(PermissionManager::CONFIG, ConfigPermission::SERVER_INFO)) {
+        $current_user->tryDo(PermissionManager::CONFIG, ConfigPermission::READ_CONFIG);
+    }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
