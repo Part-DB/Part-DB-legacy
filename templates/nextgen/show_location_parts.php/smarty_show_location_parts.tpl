@@ -45,6 +45,7 @@
                         <input type="hidden" name="id" value="{$lid}">
 
                         <div class="col-md-12">
+                            {if !empty($barcode_profiles)}
                             <div class="btn-group">
                                 <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
                                     {t}Barcode erzeugen{/t}</button>
@@ -55,11 +56,15 @@
 
                                 <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
                                     {foreach $barcode_profiles as $profile}
-                                        <li><a href="#" class="link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
-                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="hidden">{$profile}</button></li>
+                                        <li><a href="#" class="dropdown-item link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
+                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="d-none">{$profile}</button></li>
                                     {/foreach}
                                 </ul>
                             </div>
+                            {else}
+                                <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                                    {t}Barcode erzeugen{/t}</button>
+                            {/if}
                         </div>
                     </div>
                 </form>
@@ -139,21 +144,26 @@
                         <input type="hidden" name="id" value="{$lid}">
 
                         <div class="col-md-12">
-                            <div class="btn-group">
+                            {if !empty($barcode_profiles)}
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                                        {t}Barcode erzeugen{/t}</button>
+                                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
+                                        {foreach $barcode_profiles as $profile}
+                                            <li><a href="#" class="dropdown-item link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
+                                                <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="d-none">{$profile}</button></li>
+                                        {/foreach}
+                                    </ul>
+                                </div>
+                            {else}
                                 <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
                                     {t}Barcode erzeugen{/t}</button>
-                                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-
-                                <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
-                                    {foreach $barcode_profiles as $profile}
-                                        <li><a href="#" class="link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
-                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="hidden">{$profile}</button></li>
-                                    {/foreach}
-                                </ul>
-                            </div>
+                            {/if}
                         </div>
                     </div>
                 </form>

@@ -120,9 +120,14 @@ function scrollUpForMsg()
  */
 function scrollToAnchor(anchor : string) : void
 {
+    if(anchor == "#") {
+        return;
+    }
+
     //Dont throw an error, simply do nothing, when it dont contain a #
-    if(anchor.indexOf("#") !== -1)
-        $(document).scrollTop( $(anchor).offset().top - 100);
+    if(anchor.indexOf("#") !== -1) {
+        $(document).scrollTop($(anchor).offset().top - 100);
+    }
 }
 
 /**
