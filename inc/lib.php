@@ -1407,13 +1407,18 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries, $g
     $links = array();
 
     $get_string = "";
+    $prefix = "";
+    //We only need the &, if the page_link does not end with ? (this is e.g. on show_all_parts.php the case)
+    if(substr($page_link, -1) != "?") {
+        $prefix = "&";
+    }
     if(!empty($get_params)) {
-        $get_string = '&' . http_build_query($get_params);
+        $get_string = $prefix . http_build_query($get_params);
     }
 
     //Back to first page
     $links[] = array("label" => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=1&limit=$limit" . $get_string,
+        "href" => $page_link . $prefix . "page=1&limit=$limit" . $get_string,
         "disabled" => $selected_page == 1,
         "hint" => _("Springe zur ersten Seite"));
 
@@ -1430,19 +1435,19 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries, $g
 
     for ($n=$min_number; $n <= $max_number; $n++) {
         $links[] = array("label" => $n,
-            "href" => $page_link . "&page=" . ($n). "&limit=$limit" . $get_string,
+            "href" => $page_link . $prefix. "page=" . ($n). "&limit=$limit" . $get_string,
             "active" => $n == $selected_page);
     }
 
     //Jump to last page.
     $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=$max_page&limit=$limit" . $get_string,
+        "href" => $page_link . $prefix . "page=$max_page&limit=$limit" . $get_string,
         "disabled" => $selected_page == $max_page,
         "hint" => _("Springe zur letzten Seite"));
 
     //Show all results
     $links[] = array("label" => '<i class="fa fa-bars" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=0" . $get_string,
+        "href" => $page_link . $prefix . "page=0" . $get_string,
         "active" => $selected_page == 0,
         "hint" => _("Alle anzeigen"));
 
