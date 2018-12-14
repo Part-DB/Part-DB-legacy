@@ -10,7 +10,7 @@ msgstr ""
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
-"PO-Revision-Date: 2018-12-14 17:55\n"
+"PO-Revision-Date: 2018-12-14 18:10\n"
 
 #: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:5
 msgid "Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen"
@@ -1946,7 +1946,7 @@ msgstr "Show subfootprints"
 #: templates/nextgen/show_footprint_parts.php/smarty_show_footprint_parts.tpl:30
 #: templates/nextgen/show_footprint_parts.php/smarty_show_footprint_parts.tpl:94
 msgid "Neues Teil mit diesem Footprint"
-msgstr ""
+msgstr "New part with this footprint"
 
 #: templates/nextgen/show_footprint_parts.php/smarty_show_footprint_parts.tpl:52
 msgid "Teile mit Footprint"
@@ -1972,7 +1972,7 @@ msgstr "Show sublocations"
 #: templates/nextgen/show_location_parts.php/smarty_show_location_parts.tpl:30
 #: templates/nextgen/show_location_parts.php/smarty_show_location_parts.tpl:129
 msgid "Neues Teil an diesem Lagerort"
-msgstr ""
+msgstr "New part in this category"
 
 #: templates/nextgen/show_location_parts.php/smarty_show_location_parts.tpl:51
 #: templates/nextgen/show_location_parts.php/smarty_show_location_parts.tpl:66
@@ -1999,7 +1999,7 @@ msgstr "Show sub manufacturers"
 #: templates/nextgen/show_manufacturer_parts.php/smarty_show_manufacturer_parts.tpl:29
 #: templates/nextgen/show_manufacturer_parts.php/smarty_show_manufacturer_parts.tpl:92
 msgid "Neues Teil mit diesem Hersteller"
-msgstr ""
+msgstr "New part with this manufacturer"
 
 #: templates/nextgen/show_manufacturer_parts.php/smarty_show_manufacturer_parts.tpl:51
 msgid "Teile mit Hersteller"
