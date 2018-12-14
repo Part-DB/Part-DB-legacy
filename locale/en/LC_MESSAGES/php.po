@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-14 18:50+0100\n"
-"PO-Revision-Date: 2018-12-14 17:56\n"
+"PO-Revision-Date: 2018-12-14 18:10\n"
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -1646,7 +1646,7 @@ msgstr "The new minimum stock level is invalid!"
 
 #: lib/Part.php:2019
 msgid "Ein Bauteil muss eine Kategorie haben!"
-msgstr ""
+msgstr "A part must have a category!"
 
 #: lib/Part.php:2034
 msgid "Die gewählte Kategorie existiert nicht!"
@@ -2125,11 +2125,11 @@ msgstr "No valid storelocation id was submitted!"
 
 #: show_obsolete_parts.php:68
 msgid "Nicht mehr erhältliche Teile"
-msgstr ""
+msgstr "Obsolete parts"
 
 #: show_order_parts.php:81
 msgid "Zu bestellende Bauteile"
-msgstr ""
+msgstr "Parts marked for ordering"
 
 #: show_part_info.php:76
 msgid "Label input is not valid!"
