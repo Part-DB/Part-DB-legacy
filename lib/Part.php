@@ -2013,13 +2013,14 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             throw new Exception(_('Der neue Mindestlagerbestand ist ungültig!'));
         }
 
+
+        // id_category == NULL means "no category", and this is not allowed!
+        if ($values['id_category'] == null || $values["id_category"] == 0) {
+            throw new Exception(_('Ein Bauteil muss eine Kategorie haben!'));
+        }
+
         // check "id_category"
         try {
-            // id_category == NULL means "no category", and this is not allowed!
-            if ($values['id_category'] == null) {
-                throw new Exception(_('"id_category" ist Null!'));
-            }
-
             $category = new Category($database, $current_user, $log, $values['id_category']);
         } catch (Exception $e) {
             debug(
