@@ -244,6 +244,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if(!is_int($old_instock) || !is_int($new_instock)) {
             throw new \RuntimeException(_('$old_instock und $new_instock müssen vom Typ int sein!'));
         }
+
+        if($old_instock == Part::INSTOCK_UNKNOWN || $new_instock == Part::INSTOCK_UNKNOWN)
+        {
+            return 0;
+        }
+
         if ($old_instock < 0 || $new_instock < 0) {
             throw new \RuntimeException(_('$old_instock und $new_instock müssen positiv sein!'));
         }
