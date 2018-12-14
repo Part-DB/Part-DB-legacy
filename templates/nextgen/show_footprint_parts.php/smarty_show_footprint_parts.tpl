@@ -21,6 +21,17 @@
                     <div class="col-md-10">
                         <button type="submit" class="btn btn-outline-secondary {if $with_subfoot}active{/if}" name="subfoot_button" >{t}Unterfootprints einblenden{/t}</button>
                     </div>
+
+                    {if $can_create}
+                        <div class="form-inline col-md-7 col-lg-8 mt-2">
+                            <div class="form-group">
+                                <div class="col-md-12"></div>
+                                <a class="btn btn-primary" href="edit_part_info.php?footprint_id={$fid}">
+                                    {t}Neues Teil mit diesem Footprint{/t}
+                                </a>
+                            </div>
+                        </div>
+                    {/if}
                 </div>
             </form>
         </div>
@@ -74,6 +85,17 @@
                     <div class="col-md-10">
                         <button type="submit" class="btn btn-outline-secondary {if $with_subfoot}active{/if}" name="subfoot_button" >{t}Unterfootprints einblenden{/t}</button>
                     </div>
+
+                    {if $can_create}
+                        <div class="form-inline col-md-7 col-lg-8 mt-2">
+                            <div class="form-group">
+                                <div class="col-md-12"></div>
+                                <a class="btn btn-primary" href="edit_part_info.php?footprint_id={$fid}">
+                                    {t}Neues Teil mit diesem Footprint{/t}
+                                </a>
+                            </div>
+                        </div>
+                    {/if}
                 </div>
             </form>
         </div>
