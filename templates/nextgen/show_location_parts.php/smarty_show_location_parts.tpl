@@ -21,11 +21,24 @@
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-outline-secondary {if $with_sublocations}active{/if}" name="subloc_button" >{t}Unterlagerorte einblenden{/t}</button>
                     </div>
+
+                    {if $can_create}
+                        <div class="form-inline col-md-7 col-lg-8 mt-2">
+                            <div class="form-group">
+                                <div class="col-md-12"></div>
+                                <a class="btn btn-primary" href="edit_part_info.php?storelocation_id={$lid}">
+                                    {t}Neues Teil an diesem Lagerort{/t}
+                                </a>
+                            </div>
+                        </div>
+                    {/if}
                 </div>
+
+
             </form>
 
             {if $can_generate_barcode}
-                <form action="show_part_label.php" method="get" class="form-horizontal">
+                <form action="show_part_label.php" method="get" class="form-horizontal mt-1">
                     <div class="form-group row">
                         <input type="hidden" name="label_generate">
                         <input type="hidden" name="generator" value="location">
@@ -89,11 +102,11 @@
 {if $other_panel_position == "bottom" || $other_panel_position == "both"}
     <div class="card border-primary">
         <div class="card-header bg-primary text-white">
-            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
+            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other2">
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
+        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other2">
             <form action="" method="post" class="form-horizontal no-progbar">
                 <input type="hidden" name="lid" value="{$lid}">
                 <input type="hidden" name="subloc" value="{if $with_sublocations}0{else}1{/if}">
@@ -102,11 +115,24 @@
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-outline-secondary {if $with_sublocations}active{/if}" name="subloc_button" >{t}Unterlagerorte einblenden{/t}</button>
                     </div>
+
+                    {if $can_create}
+                        <div class="form-inline col-md-7 col-lg-8 mt-2">
+                            <div class="form-group">
+                                <div class="col-md-12"></div>
+                                <a class="btn btn-primary" href="edit_part_info.php?storelocation_id={$lid}">
+                                    {t}Neues Teil an diesem Lagerort{/t}
+                                </a>
+                            </div>
+                        </div>
+                    {/if}
                 </div>
+
+
             </form>
 
             {if $can_generate_barcode}
-                <form action="show_part_label.php" method="get" class="form-horizontal">
+                <form action="show_part_label.php" method="get" class="form-horizontal mt-1">
                     <div class="form-group row">
                         <input type="hidden" name="label_generate">
                         <input type="hidden" name="generator" value="location">
