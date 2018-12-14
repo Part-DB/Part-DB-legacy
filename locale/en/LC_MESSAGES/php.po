@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-14 18:50+0100\n"
-"PO-Revision-Date: 2018-12-14 17:54\n"
+"PO-Revision-Date: 2018-12-14 17:56\n"
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -784,7 +784,7 @@ msgstr "Last added parts"
 
 #: inc/lib.php:1059
 msgid "Bauteil anlegen"
-msgstr ""
+msgstr "Add new part"
 
 #: inc/lib.php:1064
 msgid "Werkzeuge"
