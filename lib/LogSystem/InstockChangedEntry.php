@@ -68,12 +68,40 @@ class InstockChangedEntry extends BaseEntry
     }
 
     /**
+     * Returns the old instock value as string. If the instockvalue is -2, than "[Unknown]" will be returned.
+     * @return string The instock as string.
+     */
+    public function getOldInstockString()
+    {
+        if ($this->getOldInstock() == Part::INSTOCK_UNKNOWN)
+        {
+            return _("[Unbekannt]");
+        } else {
+            return (string) $this->getOldInstock();
+        }
+    }
+
+    /**
      * Returns the instock value, the part had after the change.
      * @return int The new instock value.
      */
     public function getNewInstock()
     {
         return $this->new_instock;
+    }
+
+    /**
+     * Returns the new instock value as string. If the instockvalue is -2, than "[Unknown]" will be returned.
+     * @return string The instock as string.
+     */
+    public function getNewInstockString()
+    {
+        if ($this->getNewInstock() == Part::INSTOCK_UNKNOWN)
+        {
+            return _("[Unbekannt]");
+        } else {
+            return (string) $this->getNewInstock();
+        }
     }
 
     /**
@@ -92,8 +120,14 @@ class InstockChangedEntry extends BaseEntry
             $difference = "+".$difference;
         }
 
-        return $this->getTypeString(). "; Alter Wert: " . $this->getOldInstock() .
-            "; Neuer Wert: ". $this->getNewInstock() . " (" . $difference . ")" .
+        //Dont show the difference string, if one of the stock is unknown.
+        $difference_str = "";
+        if ($difference != 0) {
+            $difference_str = " (" . $difference . ")";
+        }
+
+        return $this->getTypeString(). "; Alter Wert: " . $this->getOldInstockString() .
+            "; Neuer Wert: ". $this->getNewInstockString() . $difference_str .
             "; Preis: " . $this->getPriceMoneyString(true) .
             "; Kommentar: " . $this->getComment();
     }
@@ -129,8 +163,12 @@ class InstockChangedEntry extends BaseEntry
      */
     public function getDifference($absolute = false)
     {
+        if ($this->new_instock == Part::INSTOCK_UNKNOWN || $this->old_instock == Part::INSTOCK_UNKNOWN) {
+            return 0;
+        }
+
         $difference = $this->new_instock - $this->old_instock;
-        if($absolute) {
+        if ($absolute) {
             return abs($difference);
         } else {
             return $difference;
@@ -204,7 +242,8 @@ class InstockChangedEntry extends BaseEntry
             throw new \RuntimeException(_('$old_instock und $new_instock müssen vom Typ int sein'));
         }
 
-        if ($new_instock < 0 || $old_instock < 0) {
+        // Make an exception for unknown instock values.
+        if (($new_instock != Part::INSTOCK_UNKNOWN && $old_instock != Part::INSTOCK_UNKNOWN) && ($new_instock < 0 || $old_instock < 0)) {
             throw new \RuntimeException(_('Instock Werte müssen positiv sein!'));
         }
 
