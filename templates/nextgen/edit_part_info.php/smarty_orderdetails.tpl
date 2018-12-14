@@ -5,14 +5,13 @@
         {t}Einkaufsinformationen{/t}
     </div>
     <form action="{$relative_path}edit_part_info.php" method="post" class="table-responsive no-progbar" id="orderdetails">
-        <table class="table table-striped table-condensed table-hover">
+        <table class="table table-striped table-sm table-hover">
                 <thead>
                     <tr>
                         <th></th>
                         <th>{t}Lieferant{/t}<br>{t}Bestellnummer{/t}</th>
                         <th>{t}Eigenschaften{/t}</th>
                         <th>{t}Preise{/t}</th>
-                        <th></th>
                     </tr>
                 </thead>
             
@@ -49,15 +48,14 @@
                             {else}
                                 <button class="btn btn-success" type="submit" name="orderdetails_apply" value="{$detail.orderdetails_id}"
                                         {if !$can_orderdetails_edit}disabled{/if}>{t}Übernehmen{/t}</button>
-                                <p></p>
-                                <button class="btn btn-danger" type="submit" name="orderdetails_delete" value="{$detail.orderdetails_id}"
+                                <button class="btn btn-danger mt-2" type="submit" name="orderdetails_delete" value="{$detail.orderdetails_id}"
                                         {if !$can_orderdetails_delete}disabled{/if}>{t}Löschen{/t}</button>
                             {/if}
                         </td>
 
                         <td>
                             {if $detail.orderdetails_id != "new"}
-                                <table class="table table-striped table-bordered table-condensed">
+                                <table class="table table-striped table-bordered table-sm">
                                     <thead>
                                         <tr class="trcat">
                                             <th></th>
@@ -82,17 +80,19 @@
 
                                             <td >
                                                 <div class="input-group">
-                                                    <input type="number" min="0" step="any" class="form-control"
+                                                    <input type="number" min="0" step="0.00001" max="999999.99999" class="form-control"
                                                            name="price_{if $price.pricedetails_id == "new"}{$detail.orderdetails_id}_{/if}{$price.pricedetails_id}"
-                                                           value="{$price.price}"
+                                                           value="{$price.price}" placeholder="3.55"
                                                            {if !($can_prices_edit || ($can_prices_create && $price.pricedetails_id == "new"))}disabled{/if}>
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text">{t}pro{/t}</span>
+                                                        <span class="input-group-text">{$currency_symbol}</span>
                                                     </div>
+                                                </div>
+                                                <div class="input-group mt-2">
                                                     <input type="number" min="0" class="form-control"
                                                            name="price_related_quantity_{if $price.pricedetails_id == "new"}{$detail.orderdetails_id}_{/if}{$price.pricedetails_id}"
                                                            value="{$price.price_related_quantity}"
-                                                           {if !($can_prices_edit || ($can_prices_create && $price.pricedetails_id == "new"))}disabled{/if}>
+                                                           {if !($can_prices_edit || ($can_prices_create && $price.pricedetails_id == "new"))}disabled{/if} placeholder="1">
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">{t}Stk.{/t}</span>
                                                     </div>
@@ -112,8 +112,7 @@
                                                     <button class="btn btn-secondary" type="submit" name="pricedetails_apply"
                                                             {if !$can_prices_edit}disabled{/if}
                                                             value="{$price.pricedetails_id}">{t}Übernehmen{/t}</button>
-                                                    <p></p>
-                                                    <button class="btn btn-secondary" type="submit" name="pricedetails_delete"
+                                                    <button class="btn btn-secondary mt-2" type="submit" name="pricedetails_delete"
                                                             {if !$can_prices_delete}disabled{/if}
                                                             value="{$price.pricedetails_id}">{t}Löschen{/t}</button>
                                                 {/if}

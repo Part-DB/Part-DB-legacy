@@ -2,11 +2,8 @@
 
 **[Hier](README_DE.md) gibt es eine deutsche Version dieser README**
 
-**Attention: After upgrading to the current version, the command
-`php composer.phar install` must be run to make Part-DB work!
-If this is not possible, the folder `vendor/'
-Part-DB must be copied from a working Part-DB install with composer.**
-
+**If you are using Part-DB, then it would be helpful for further development, if you participate in the following anonymous survey:
+https://docs.google.com/forms/d/e/1FAIpQLSdmhcNutwuG35m5JLpxF8xJpJqTCDhTpSupV5dnJrMOYISm9w/viewform?usp=sf_link**
 
 
 ### Description

@@ -232,7 +232,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="btn btn-danger submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
+                        <button type="button" class="btn btn-danger submit mt-2 mt-lg-0" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
 
                         {if !empty($back_link)}
                             <br><hr>
