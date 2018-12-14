@@ -15,6 +15,7 @@
 
 ### Miscellaneous
 * Composer Dependencies updated
+* Size of supplied images reduced
 
 ## Part-DB 0.5.5
 ### New functions

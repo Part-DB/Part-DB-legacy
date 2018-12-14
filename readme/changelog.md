@@ -15,6 +15,7 @@
 
 ### Sonstiges
 * Composer Dependencies aktualisiert
+* Größe der mitgelieferten Bilder verkleinert
 
 ## Part-DB 0.5.5
 ### Neue Funktionen
