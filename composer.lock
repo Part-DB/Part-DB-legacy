@@ -840,16 +840,16 @@
         },
         {
             "name": "snapappointments/bootstrap-select",
-            "version": "v1.13.3",
+            "version": "v1.13.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/snapappointments/bootstrap-select.git",
-                "reference": "0a79b800e591e27522f83d63272adc2f5f1fed84"
+                "reference": "6950fba020673c94dcc60f3250bee1d0a36c9ba6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/snapappointments/bootstrap-select/zipball/0a79b800e591e27522f83d63272adc2f5f1fed84",
-                "reference": "0a79b800e591e27522f83d63272adc2f5f1fed84",
+                "url": "https://api.github.com/repos/snapappointments/bootstrap-select/zipball/6950fba020673c94dcc60f3250bee1d0a36c9ba6",
+                "reference": "6950fba020673c94dcc60f3250bee1d0a36c9ba6",
                 "shasum": ""
             },
             "suggest": {
@@ -886,7 +886,7 @@
                 "replacement",
                 "select"
             ],
-            "time": "2018-10-15T21:23:35+00:00"
+            "time": "2018-12-12T00:45:51+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -949,16 +949,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.18",
+            "version": "v3.4.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "ff8ac19e97e5c7c3979236b584719a1190f84181"
+                "reference": "6867713afe6c50ade2f34ed6435563b065a52145"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/ff8ac19e97e5c7c3979236b584719a1190f84181",
-                "reference": "ff8ac19e97e5c7c3979236b584719a1190f84181",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/6867713afe6c50ade2f34ed6435563b065a52145",
+                "reference": "6867713afe6c50ade2f34ed6435563b065a52145",
                 "shasum": ""
             },
             "require": {
@@ -1014,7 +1014,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-10-02T16:33:53+00:00"
+            "time": "2018-11-20T16:10:26+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",
