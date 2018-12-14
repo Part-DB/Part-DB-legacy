@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="page" value="1">
 
     {include "../smarty_pagination.tpl"}
@@ -17,7 +17,7 @@
     </form>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="page" value="1">
 
     {include "../smarty_pagination.tpl"}

@@ -38,12 +38,12 @@
     </div>
 {/if}
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="fid" value="{$fid}">
     <input type="hidden" name="subfoot" value="{$with_subfoot}">
     <input type="hidden" name="page" value="1">
 
-    {include "../smarty_pagination.tpl" }
+    {include "../smarty_pagination.tpl"}
 </form>
 
 <div class="card">
@@ -61,7 +61,7 @@
     </form>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="fid" value="{$fid}">
     <input type="hidden" name="subcat" value="{$with_subfoot}">
     <input type="hidden" name="page" value="1">

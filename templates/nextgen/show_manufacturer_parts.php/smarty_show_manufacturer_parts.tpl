@@ -37,7 +37,7 @@
     </div>
 {/if}
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="mid" value="{$mid}">
     <input type="hidden" name="subman" value="{$with_submanufacturers}">
     <input type="hidden" name="page" value="1">
@@ -60,7 +60,7 @@
     </form>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="mid" value="{$mid}">
     <input type="hidden" name="subman" value="{$with_submanufacturers}">
     <input type="hidden" name="page" value="1">

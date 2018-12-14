@@ -26,7 +26,7 @@
 </div>
 {/if}
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="sid" value="{$sid}">
     <input type="hidden" name="subsup" value="{$with_subsuppliers}">
     <input type="hidden" name="page" value="1">
@@ -49,7 +49,7 @@
     </form>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="sid" value="{$sid}">
     <input type="hidden" name="subsup" value="{$with_subsuppliers}">
     <input type="hidden" name="page" value="1">
