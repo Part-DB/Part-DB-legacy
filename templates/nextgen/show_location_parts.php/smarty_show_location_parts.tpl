@@ -68,7 +68,7 @@
     </div>
 {/if}
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="lid" value="{$lid}">
     <input type="hidden" name="subloc" value="{$with_sublocations}">
     <input type="hidden" name="page" value="1">
@@ -91,7 +91,7 @@
     </form>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="lid" value="{$lid}">
     <input type="hidden" name="subloc" value="{$with_sublocations}">
     <input type="hidden" name="page" value="1">
