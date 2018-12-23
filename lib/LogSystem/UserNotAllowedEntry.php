@@ -118,6 +118,6 @@ class UserNotAllowedEntry extends BaseEntry
      */
     public function getExtra(bool $html = false) : string
     {
-        return $this->deserializeExtra()["p"];
+        return $this->deserializeExtra()["p"] ?? "";
     }
 }

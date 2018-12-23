@@ -668,12 +668,12 @@ function getProposedFilenames(string $missing_filename, array $available_files) 
  *
  * @note    Have a look at system_config.php, there you can see how this function works.
  *
- * @param array $array              A simple array with keys and values
+ * @param array|null $array              A simple array with keys and values
  * @param mixed $selected_value     The value of the selected item
  *
  * @return array        The template loop array
  */
-function arrayToTemplateLoop(array $array, $selected_value = null) : array
+function arrayToTemplateLoop($array, $selected_value = null) : array
 {
     $loop = array();
     foreach ($array as $key => $value) {
