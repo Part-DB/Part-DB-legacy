@@ -123,7 +123,7 @@ if (isset($_REQUEST['insert_footprints']))
         $database->rollback();
         $footprint_error = $e->getMessage();
     }
-    $footprint_milliseconds = (integer)(1000*(microtime(true) - $start_time));
+    $footprint_milliseconds = (int)(1000*(microtime(true) - $start_time));
 }
 print 'Anzahl Footprints in der Tabelle: '.($database->get_count_of_records('footprints')).'<br>';
 print '<input type="text" size="6" name="count" value="'.((isset($_REQUEST['count'])) ? $_REQUEST['count'] : 100).'">';

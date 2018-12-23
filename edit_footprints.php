@@ -55,9 +55,9 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$selected_id                    = isset($_REQUEST['selected_id'])                   ? (integer)$_REQUEST['selected_id']                     : 0;
+$selected_id                    = isset($_REQUEST['selected_id'])                   ? (int)$_REQUEST['selected_id']                     : 0;
 $new_name                       = isset($_POST['name'])                          ? trim((string)$_POST['name'])                       : '';
-$new_parent_id                  = isset($_POST['parent_id'])                     ? (integer)$_POST['parent_id']                       : 0;
+$new_parent_id                  = isset($_POST['parent_id'])                     ? (int)$_POST['parent_id']                       : 0;
 $new_filename                   = isset($_POST['filename'])                      ? toUnixPath(trim((string)$_POST['filename']))     : '';
 $new_3d_filename                = isset($_POST['filename_3d'])                   ? toUnixPath(trim((string)$_POST['filename_3d']))  : '';
 $new_comment                    = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
@@ -78,10 +78,10 @@ if ((strlen($new_3d_filename) > 0) && (! isPathabsoluteAndUnix($new_3d_filename)
 
 $add_more                       = isset($_POST['add_more']);
 
-$broken_footprints_count        = isset($_POST['broken_footprints_count'])       ? (integer)$_POST['broken_footprints_count']     : 0;
+$broken_footprints_count        = isset($_POST['broken_footprints_count'])       ? (int)$_POST['broken_footprints_count']     : 0;
 $save_all_proposed_filenames    = isset($_POST["save_all_proposed_filenames"]);
 
-$broken_3d_footprints_count     = isset($_POST['broken_3d_footprints_count'])       ? (integer)$_POST['broken_3d_footprints_count']     : 0;
+$broken_3d_footprints_count     = isset($_POST['broken_3d_footprints_count'])       ? (int)$_POST['broken_3d_footprints_count']     : 0;
 $save_all_proposed_3d_filenames = isset($_POST["save_all_proposed_3d_filenames"]);
 
 $action = 'default';

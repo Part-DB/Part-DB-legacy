@@ -47,20 +47,20 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$part_id            = isset($_REQUEST['pid'])               ? (integer)$_REQUEST['pid']             : 0;
-$n_less             = isset($_POST['n_less'])            ? (integer)$_POST['n_less']          : 0;
-$n_more             = isset($_POST['n_more'])            ? (integer)$_POST['n_more']          : 0;
-$order_quantity     = isset($_POST['order_quantity'])    ? (integer)$_POST['order_quantity']  : 0;
+$part_id            = isset($_REQUEST['pid'])               ? (int)$_REQUEST['pid']             : 0;
+$n_less             = isset($_POST['n_less'])            ? (int)$_POST['n_less']          : 0;
+$n_more             = isset($_POST['n_more'])            ? (int)$_POST['n_more']          : 0;
+$order_quantity     = isset($_POST['order_quantity'])    ? (int)$_POST['order_quantity']  : 0;
 $instock_change_comment = isset($_POST['instock_change_comment']) ? (string)$_POST['instock_change_comment'] : "";
 
 //When adding to a device
-$device_id          = isset($_POST['device_id_new'])     ? (integer)$_POST['device_id_new']   : 0;
-$device_qty         = isset($_POST['device_quantity_new']) ? (integer)$_POST['device_quantity_new'] : 0;
+$device_id          = isset($_POST['device_id_new'])     ? (int)$_POST['device_id_new']   : 0;
+$device_qty         = isset($_POST['device_quantity_new']) ? (int)$_POST['device_quantity_new'] : 0;
 $device_name        = isset($_POST['device_name_new'])   ? (string)$_POST['device_name_new'] : "";
 
 //Pagination for history
-$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
-$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : 10;
+$page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : 10;
 
 
 //Parse Label scan
@@ -71,7 +71,7 @@ if (isset($_REQUEST['barcode'])) {
             //Remove parity
             $barcode = substr($barcode, 0, -1);
         }
-        $part_id = (integer) $barcode;
+        $part_id = (int) $barcode;
     } else {
         $messages[] = $messages[] = array('text' => nl2br(_("Label input is not valid!")), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

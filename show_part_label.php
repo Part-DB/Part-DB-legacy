@@ -43,7 +43,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 // We save every setting in this array, so we can serialize and deserialize it later easily.
 $profile = array();
 
-$element_id                       = isset($_REQUEST['id'])                 ? (integer)$_REQUEST['id']             : 0;
+$element_id                       = isset($_REQUEST['id'])                 ? (int)$_REQUEST['id']             : 0;
 $generator_type                   = isset($_REQUEST['generator'])          ? (string)$_REQUEST['generator']       : "part";
 $profile_name                     = !empty($_REQUEST['profile'])            ? (string)$_REQUEST['profile']         : "default";
 $selected_profile                 = isset($_REQUEST['selected_profile'])   ? (string)$_REQUEST['selected_profile'] : "";
@@ -96,7 +96,7 @@ if (!$json_storage->itemExists($generator_type . "@" . $profile_name)) {
 
 $profile['label_size']            = isset($_REQUEST['size'])               ? (string)$_REQUEST['size']            : $profile['label_size'];
 $profile['label_preset']          = isset($_REQUEST['preset'])             ? (string)$_REQUEST['preset']          : $profile['label_preset'];
-$profile['label_type']            = isset($_REQUEST['type'])               ? (integer)$_REQUEST['type']           : $profile['label_type'] ;
+$profile['label_type']            = isset($_REQUEST['type'])               ? (int)$_REQUEST['type']           : $profile['label_type'] ;
 
 
 //Advanced settings

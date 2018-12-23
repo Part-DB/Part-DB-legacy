@@ -64,17 +64,17 @@ $is_new_part                = !isset($_REQUEST['pid']);
 $add_one_more_part          = isset($_REQUEST['add_one_more_part']);
 
 // section: part attributes
-$part_id                    = isset($_REQUEST['pid'])                       ? (integer)$_REQUEST['pid']                      : -1;
+$part_id                    = isset($_REQUEST['pid'])                       ? (int)$_REQUEST['pid']                      : -1;
 $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
 $new_description            = isset($_POST['description'])               ? (string)$_POST['description']               : '';
-$new_instock                = isset($_POST['instock'])                   ? (integer)$_POST['instock']                  : 0;
-$new_instock                = isset($_POST['instock_unknown'])           ? (integer) Part::INSTOCK_UNKNOWN                : $new_instock;
-$new_mininstock             = isset($_POST['mininstock'])                ? (integer)$_POST['mininstock']               : 0;
+$new_instock                = isset($_POST['instock'])                   ? (int)$_POST['instock']                  : 0;
+$new_instock                = isset($_POST['instock_unknown'])           ? (int) Part::INSTOCK_UNKNOWN                : $new_instock;
+$new_mininstock             = isset($_POST['mininstock'])                ? (int)$_POST['mininstock']               : 0;
 //The category ID is given as a GET param, so we need REQUEST here.
-$new_category_id            = isset($_REQUEST['category_id'])               ? (integer)$_REQUEST['category_id']        : 0;
-$new_storelocation_id       = isset($_REQUEST['storelocation_id'])          ? (integer)$_REQUEST['storelocation_id']   : 0;
-$new_footprint_id           = isset($_REQUEST['footprint_id'])              ? (integer)$_REQUEST['footprint_id']          : 0;
-$new_manufacturer_id        = isset($_REQUEST['manufacturer_id'])           ? (integer)$_REQUEST['manufacturer_id']       : 0;
+$new_category_id            = isset($_REQUEST['category_id'])               ? (int)$_REQUEST['category_id']        : 0;
+$new_storelocation_id       = isset($_REQUEST['storelocation_id'])          ? (int)$_REQUEST['storelocation_id']   : 0;
+$new_footprint_id           = isset($_REQUEST['footprint_id'])              ? (int)$_REQUEST['footprint_id']          : 0;
+$new_manufacturer_id        = isset($_REQUEST['manufacturer_id'])           ? (int)$_REQUEST['manufacturer_id']       : 0;
 $new_visible                = isset($_POST['visible']);
 $new_comment                = isset($_POST['comment'])                   ? (string)$_POST['comment']                   : '';
 $new_manufacturer_url       = isset($_POST["manufacturer_url"])          ? (string)$_POST['manufacturer_url']          : '';
@@ -90,8 +90,8 @@ $search_manufacturer_name   = isset($_POST['search_manufacturer_name'])  ? (stri
 // section: attachements
 $new_show_in_table          = isset($_POST['show_in_table']);
 $new_is_master_picture      = isset($_POST['is_master_picture']);
-$attachement_id             = isset($_POST['attachement_id'])            ? (integer)$_POST['attachement_id']           : 0;
-$new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (integer)$_POST['attachement_type_id']      : 0;
+$attachement_id             = isset($_POST['attachement_id'])            ? (int)$_POST['attachement_id']           : 0;
+$new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (int)$_POST['attachement_type_id']      : 0;
 $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
 $new_filename               = isset($_POST['attachement_filename'])      ? toUnixPath(trim((string)$_POST['attachement_filename'])) : '';
 $download_file              = isset($_POST['download_file']);
@@ -183,7 +183,7 @@ if (isset($_POST["create_name_save"])) {
 
 // section: orderdetails
 if (isset($orderdetails_id)) {
-    $new_supplier_id = isset($_POST['supplier_id_'.$orderdetails_id]) ? (integer)$_POST['supplier_id_'.$orderdetails_id] : 0;
+    $new_supplier_id = isset($_POST['supplier_id_'.$orderdetails_id]) ? (int)$_POST['supplier_id_'.$orderdetails_id] : 0;
     $new_supplierpartnr = isset($_POST['supplierpartnr_'.$orderdetails_id]) ? (string)$_POST['supplierpartnr_'.$orderdetails_id] : '';
     $new_obsolete = isset($_POST['obsolete_'.$orderdetails_id]);
     $new_supplier_url = isset($_POST["supplierurl_".$orderdetails_id]) ? (string)$_POST['supplierurl_'.$orderdetails_id] : '';
@@ -192,12 +192,12 @@ if (isset($orderdetails_id)) {
 if (isset($pricedetails_id)) {
     if (isset($orderdetails_id)) {
         $new_price = isset($_POST['price_' . $orderdetails_id . "_" . $pricedetails_id]) ? (float)str_replace(',', '.', $_POST['price_' . $orderdetails_id . "_" . $pricedetails_id]) : 0;
-        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id]) ? (integer)$_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id] : 1;
-        $new_price_related_quantity = isset($_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id]) ? (integer)$_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id] : 1;
+        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id]) ? (int)$_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id] : 1;
+        $new_price_related_quantity = isset($_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id]) ? (int)$_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id] : 1;
     } else {
         $new_price = isset($_POST['price_' . $pricedetails_id]) ? (float)str_replace(',', '.', $_POST['price_'  . $pricedetails_id]) : 0;
-        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' .  $pricedetails_id]) ? (integer)$_POST['min_discount_quantity_'  .  $pricedetails_id] : 1;
-        $new_price_related_quantity = isset($_POST['price_related_quantity_'  . $pricedetails_id]) ? (integer)$_POST['price_related_quantity_' . $pricedetails_id] : 1;
+        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' .  $pricedetails_id]) ? (int)$_POST['min_discount_quantity_'  .  $pricedetails_id] : 1;
+        $new_price_related_quantity = isset($_POST['price_related_quantity_'  . $pricedetails_id]) ? (int)$_POST['price_related_quantity_' . $pricedetails_id] : 1;
     }
 }
 

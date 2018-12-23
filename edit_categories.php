@@ -56,9 +56,9 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : 0;
+$selected_id                = isset($_REQUEST['selected_id'])   ? (int)$_REQUEST['selected_id'] : 0;
 $new_name                   = isset($_POST['name'])          ? (string)$_POST['name']         : '';
-$new_parent_id              = isset($_POST['parent_id'])     ? (integer)$_POST['parent_id']   : 0;
+$new_parent_id              = isset($_POST['parent_id'])     ? (int)$_POST['parent_id']   : 0;
 $new_disable_footprints     = isset($_POST['disable_footprints']);
 $new_disable_manufacturers  = isset($_POST['disable_manufacturers']);
 $new_disable_autodatasheets = isset($_POST['disable_autodatasheets']);

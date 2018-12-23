@@ -45,12 +45,12 @@ $starttime = microtime(true); // this is to measure the time while debugging is 
  *********************************************************************************/
 
 
-//$manufacturer_id        = isset($_REQUEST['mid'])               ? (integer)$_REQUEST['mid']             : 0;
+//$manufacturer_id        = isset($_REQUEST['mid'])               ? (int)$_REQUEST['mid']             : 0;
 //$with_submanufacturers = isset($_REQUEST['subman'])            ? (boolean)$_REQUEST['subman']          : true;
-$table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
+$table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (int)$_REQUEST['table_rowcount']  : 0;
 
-$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
-$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+$page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : $config['table']['default_limit'];
 
 $action = 'default';
 
@@ -61,7 +61,7 @@ if (isset($_POST["multi_action"])) {
 //if (isset($_REQUEST['subman_button']))      {$action = 'change_subman_state';}
 $selected_part_id = 0;
 for ($i=0; $i<$table_rowcount; $i++) {
-    $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
+    $selected_part_id = isset($_REQUEST['id_'.$i]) ? (int)$_REQUEST['id_'.$i] : 0;
 
     if (isset($_REQUEST['decrement_'.$i])) {
         $action = 'decrement';
@@ -245,9 +245,9 @@ if (! $fatal_error) {
 $debug_messages = array();
 if ((! $fatal_error) && ($config['debug']['enable'])) {
     $endtime = microtime(true);
-    $lifetime = (integer)(1000*($endtime - $starttime));
-    $php_lifetime = (integer)(1000*($php_endtime - $starttime));
-    $html_lifetime = (integer)(1000*($endtime - $php_endtime));
+    $lifetime = (int)(1000*($endtime - $starttime));
+    $php_lifetime = (int)(1000*($php_endtime - $starttime));
+    $html_lifetime = (int)(1000*($endtime - $php_endtime));
     $debug_messages[] = array('text' => 'Debug-Meldungen: ', 'strong' => true, 'color' => 'darkblue');
     $debug_messages[] = array('text' => 'Anzahl Teile: '.(count($parts)), 'color' => 'darkblue');
     $debug_messages[] = array('text' => 'Gesamte Laufzeit: '.$lifetime.'ms', 'color' => 'darkblue');

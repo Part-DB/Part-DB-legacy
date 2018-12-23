@@ -366,7 +366,7 @@ class Log
 
 
     /**
-     * Converts an type id (integer) to a localized string version.
+     * Converts an type id (int) to a localized string version.
      * @param $id int The id of the log type you want to have a localized string.
      * @return string The localized string.
      */

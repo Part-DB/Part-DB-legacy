@@ -42,7 +42,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$part_id                = isset($_REQUEST['selected_id'])       ? (integer)$_REQUEST['selected_id']     : 0;
+$part_id                = isset($_REQUEST['selected_id'])       ? (int)$_REQUEST['selected_id']     : 0;
 $keyword                = isset($_REQUEST['keyword'])           ? trim((string)$_REQUEST['keyword'])    : '';
 $search_name            = isset($_REQUEST['search_name']);
 $search_category        = isset($_REQUEST['search_category']);
@@ -53,11 +53,11 @@ $search_supplierpartnr  = isset($_REQUEST['search_supplierpartnr']);
 $search_storelocation   = isset($_REQUEST['search_storelocation']);
 $search_footprint       = isset($_REQUEST['search_footprint']);
 $search_manufacturer    = isset($_REQUEST['search_manufacturer']);
-$table_rowcount         = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
+$table_rowcount         = isset($_REQUEST['table_rowcount'])    ? (int)$_REQUEST['table_rowcount']  : 0;
 
 $groupby                = isset($_REQUEST['groupby']) ? (string)$_REQUEST['groupby'] : "categories";
 
-$export_format_id       = isset($_REQUEST['export_format'])     ? (integer)$_REQUEST['export_format']   : 0;
+$export_format_id       = isset($_REQUEST['export_format'])     ? (int)$_REQUEST['export_format']   : 0;
 
 $disable_pid_input      = isset($_REQUEST['disable_pid_input']);
 
@@ -71,12 +71,12 @@ $selected_part_id = 0;
 for ($i=0; $i<$table_rowcount; $i++) {
     if (isset($_POST['decrement_'.$i])) {
         $action = 'decrement';
-        $selected_part_id = isset($_POST['id_'.$i]) ? (integer)$_POST['id_'.$i] : 0;
+        $selected_part_id = isset($_POST['id_'.$i]) ? (int)$_POST['id_'.$i] : 0;
     }
 
     if (isset($_POST['increment_'.$i])) {
         $action = 'increment';
-        $selected_part_id = isset($_POST['id_'.$i]) ? (integer)$_POST['id_'.$i] : 0;
+        $selected_part_id = isset($_POST['id_'.$i]) ? (int)$_POST['id_'.$i] : 0;
     }
 }
 
@@ -127,7 +127,7 @@ if (! $fatal_error) {
         $matches = array();
         if (preg_match('/^\$L(\d{5,})/', $keyword, $matches) == 1) {
             if (count($matches) > 1) {
-                $lid = (integer) $matches[1];
+                $lid = (int) $matches[1];
                 header("Location: show_location_parts.php?lid=" . $lid);
             }
         }
@@ -139,7 +139,7 @@ if (! $fatal_error) {
                 //Remove parity
                 $keyword = substr($keyword, 0, -1);
             }
-            $pid = (integer) $keyword;
+            $pid = (int) $keyword;
             header("Location: show_part_info.php?pid=" . $pid);
         }
     }

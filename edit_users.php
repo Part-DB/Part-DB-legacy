@@ -54,7 +54,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : -1;
+$selected_id                = isset($_REQUEST['selected_id'])   ? (int)$_REQUEST['selected_id'] : -1;
 $new_name                   = isset($_POST['name'])          ? (string)$_POST['name']         : '';
 $add_more                   = isset($_POST['add_more']);
 

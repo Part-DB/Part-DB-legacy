@@ -46,7 +46,7 @@ $file_format    = isset($_POST['file_format'])       ? (string)$_POST['file_form
 $separator      = isset($_POST['separator'])         ? (string)$_POST['separator']        : ';';
 
 // section "check data"
-$table_rowcount = isset($_POST['table_rowcount'])    ? (integer)$_POST['table_rowcount']  : 0;
+$table_rowcount = isset($_POST['table_rowcount'])    ? (int)$_POST['table_rowcount']  : 0;
 $file_content   = isset($_POST['file_content'])      ? (string)$_POST['file_content']     : '';
 
 $new_part_ids   = isset($_POST['new_part_ids'])      ? (string)$_POST['new_part_ids']     : '';

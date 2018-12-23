@@ -55,9 +55,9 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$selected_id        = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : 0;
+$selected_id        = isset($_REQUEST['selected_id'])   ? (int)$_REQUEST['selected_id'] : 0;
 $new_name           = isset($_POST['name'])          ? (string)$_POST['name']         : '';
-$new_parent_id      = isset($_POST['parent_id'])     ? (integer)$_POST['parent_id']   : 0;
+$new_parent_id      = isset($_POST['parent_id'])     ? (int)$_POST['parent_id']   : 0;
 $new_is_full        = isset($_POST['is_full']);
 $create_series      = isset($_POST['series']);
 $series_from        = isset($_POST['series_from'])   ? $_POST['series_from'] : 1;

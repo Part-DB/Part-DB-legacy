@@ -46,11 +46,11 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 // section "parts to order"
-$table_rowcount             = isset($_REQUEST['table_rowcount'])        ? (integer)$_REQUEST['table_rowcount']          : 0;
-$selected_supplier_id       = isset($_REQUEST['selected_supplier_id'])  ? (integer)$_REQUEST['selected_supplier_id']    : 0;
+$table_rowcount             = isset($_REQUEST['table_rowcount'])        ? (int)$_REQUEST['table_rowcount']          : 0;
+$selected_supplier_id       = isset($_REQUEST['selected_supplier_id'])  ? (int)$_REQUEST['selected_supplier_id']    : 0;
 
 // section "devices to order"
-$device_id                  = isset($_REQUEST['device_id'])             ? (integer)$_REQUEST['device_id']               : 0;
+$device_id                  = isset($_REQUEST['device_id'])             ? (int)$_REQUEST['device_id']               : 0;
 
 // section "export"
 $export_format_id           = isset($_REQUEST['export_format'])         ? $_REQUEST['export_format']                    : 0;
@@ -127,9 +127,9 @@ if (! $fatal_error) {
     switch ($action) {
         case 'apply_changes':   // save new "selected_supplier" + "order_quantity", and delete or change "instock"
             for ($i=0; $i<$table_rowcount; $i++) {
-                $part_id                = isset($_REQUEST['id_'.$i])                ? (integer)$_REQUEST['id_'.$i]                      : 0;
-                $order_orderdetails_id  = isset($_REQUEST['orderdetails_'.$i])      ? (integer)$_REQUEST['orderdetails_'.$i]            : 0;
-                $order_quantity         = isset($_REQUEST['order_quantity_'.$i])    ? max(0, (integer)$_REQUEST['order_quantity_'.$i])  : 0;
+                $part_id                = isset($_REQUEST['id_'.$i])                ? (int)$_REQUEST['id_'.$i]                      : 0;
+                $order_orderdetails_id  = isset($_REQUEST['orderdetails_'.$i])      ? (int)$_REQUEST['orderdetails_'.$i]            : 0;
+                $order_quantity         = isset($_REQUEST['order_quantity_'.$i])    ? max(0, (int)$_REQUEST['order_quantity_'.$i])  : 0;
 
                 try {
                     $part = new Part($database, $current_user, $log, $part_id);
@@ -154,7 +154,7 @@ if (! $fatal_error) {
 
         case 'autoset_quantities':
             for ($i=0; $i<$table_rowcount; $i++) {
-                $part_id                = isset($_REQUEST['id_'.$i])                ? (integer)$_REQUEST['id_'.$i]                      : 0;
+                $part_id                = isset($_REQUEST['id_'.$i])                ? (int)$_REQUEST['id_'.$i]                      : 0;
 
                 try {
                     $part = new Part($database, $current_user, $log, $part_id);

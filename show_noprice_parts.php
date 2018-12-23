@@ -36,8 +36,8 @@ use PartDB\User;
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
-$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
-$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+$page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : $config['table']['default_limit'];
 
 /********************************************************************************
  *

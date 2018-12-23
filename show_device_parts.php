@@ -52,34 +52,34 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 // for all sections
-$device_id                = isset($_REQUEST['device_id'])               ? (integer)$_REQUEST['device_id']               : 0;
+$device_id                = isset($_REQUEST['device_id'])               ? (int)$_REQUEST['device_id']               : 0;
 
 // sections "search parts" and "parts table"
 $new_part_name            = isset($_POST['new_part_name'])           ? (string)$_POST['new_part_name']            : '';
-$searched_parts_rowcount  = isset($_POST['searched_parts_rowcount']) ? (integer)$_POST['searched_parts_rowcount'] : 0;
-$device_parts_rowcount    = isset($_POST['device_parts_rowcount'])   ? (integer)$_POST['device_parts_rowcount']   : 0;
+$searched_parts_rowcount  = isset($_POST['searched_parts_rowcount']) ? (int)$_POST['searched_parts_rowcount'] : 0;
+$device_parts_rowcount    = isset($_POST['device_parts_rowcount'])   ? (int)$_POST['device_parts_rowcount']   : 0;
 
 // section "export"
-$export_multiplier        = isset($_POST['export_multiplier'])       ? abs((integer)$_POST['export_multiplier'])  : 0;
+$export_multiplier        = isset($_POST['export_multiplier'])       ? abs((int)$_POST['export_multiplier'])  : 0;
 $export_multiplier_original = $export_multiplier; // for HTML->set_variable(), because $export_multiplier will be edited in this script
-$export_format_id         = isset($_POST['export_format'])           ? (integer)$_POST['export_format']           : 0;
+$export_format_id         = isset($_POST['export_format'])           ? (int)$_POST['export_format']           : 0;
 $export_only_missing      = isset($_POST['only_missing_material']);
 
 // section "import"
 $import_file_content      = isset($_POST['import_file_content'])     ? (string)$_POST['import_file_content']      : '';
 $import_format            = isset($_POST['import_format'])           ? (string)$_POST['import_format']            : 'CSV';
 $import_separator         = isset($_POST['import_separator'])        ? trim((string)$_POST['import_separator'])   : ';';
-$import_rowcount          = isset($_POST['import_rowcount'])         ? (integer)$_POST['import_rowcount']         : 0;
+$import_rowcount          = isset($_POST['import_rowcount'])         ? (int)$_POST['import_rowcount']         : 0;
 
 // section "copy device"
 $copy_new_name            = isset($_POST['copy_new_name'])           ? (string)$_POST['copy_new_name']            : '';
-$copy_new_parent_id       = isset($_POST['copy_new_parent_id'])      ? (integer)$_POST['copy_new_parent_id']      : 0;
+$copy_new_parent_id       = isset($_POST['copy_new_parent_id'])      ? (int)$_POST['copy_new_parent_id']      : 0;
 $copy_recursive           = isset($_POST['copy_recursive']);
 
 // section: attachements
 $new_show_in_table          = isset($_POST['show_in_table']);
-$attachement_id             = isset($_POST['attachement_id'])            ? (integer)$_POST['attachement_id']           : 0;
-$new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (integer)$_POST['attachement_type_id']      : 0;
+$attachement_id             = isset($_POST['attachement_id'])            ? (int)$_POST['attachement_id']           : 0;
+$new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (int)$_POST['attachement_type_id']      : 0;
 $new_name                   = isset($_POST['name'])                      ? (string)$_POST['name']                      : '';
 $new_filename               = isset($_POST['attachement_filename'])      ? toUnixPath(trim((string)$_POST['attachement_filename'])) : '';
 $download_file              = isset($_POST['download_file']);
@@ -222,8 +222,8 @@ if (! $fatal_error) {
 
         case 'assign_by_selected': // add some parts (which were listed by part search) to this device
             for ($i=0; $i<$searched_parts_rowcount; $i++) {
-                $part_id    = isset($_POST['id_'.$i])           ? (integer)$_POST['id_'.$i]              : 0;
-                $quantity   = isset($_POST['quantity_'.$i])     ? abs((integer)$_POST['quantity_'.$i])   : 0;
+                $part_id    = isset($_POST['id_'.$i])           ? (int)$_POST['id_'.$i]              : 0;
+                $quantity   = isset($_POST['quantity_'.$i])     ? abs((int)$_POST['quantity_'.$i])   : 0;
                 $mountname  = isset($_POST['mountnames_'.$i])   ? trim((string)$_POST['mountnames_'.$i]) : '';
 
                 if ($quantity > 0) {
@@ -252,8 +252,8 @@ if (! $fatal_error) {
 
         case 'device_parts_apply': // apply new quantities and new mountnames, or remove parts from this device
             for ($i=0; $i<$device_parts_rowcount; $i++) {
-                $part_id    = isset($_POST['id_'.$i])           ? (integer)$_POST['id_'.$i]              : 0;
-                $quantity   = isset($_POST['quantity_'.$i])     ? abs((integer)$_POST['quantity_'.$i])   : 0;
+                $part_id    = isset($_POST['id_'.$i])           ? (int)$_POST['id_'.$i]              : 0;
+                $quantity   = isset($_POST['quantity_'.$i])     ? abs((int)$_POST['quantity_'.$i])   : 0;
                 $mountname  = isset($_POST['mountnames_'.$i])   ? trim((string)$_POST['mountnames_'.$i]) : '';
 
                 try {

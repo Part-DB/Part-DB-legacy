@@ -2211,7 +2211,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 continue;
             }
             $price_per_piece = $row['price'] / $row['price_related_quantity'];
-            $taken_parts = $row['min_discount_quantity'] * (integer)($instock / $row['min_discount_quantity']);
+            $taken_parts = $row['min_discount_quantity'] * (int)($instock / $row['min_discount_quantity']);
             $price_sum += $price_per_piece * $taken_parts;
             $instock = $instock - $taken_parts;
         }
