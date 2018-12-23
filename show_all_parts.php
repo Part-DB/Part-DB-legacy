@@ -46,7 +46,7 @@ $starttime = microtime(true); // this is to measure the time while debugging is 
 
 
 //$manufacturer_id        = isset($_REQUEST['mid'])               ? (int)$_REQUEST['mid']             : 0;
-//$with_submanufacturers = isset($_REQUEST['subman'])            ? (boolean)$_REQUEST['subman']          : true;
+//$with_submanufacturers = isset($_REQUEST['subman'])            ? (bool)$_REQUEST['subman']          : true;
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (int)$_REQUEST['table_rowcount']  : 0;
 
 $page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;

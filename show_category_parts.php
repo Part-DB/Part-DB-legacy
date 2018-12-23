@@ -51,7 +51,7 @@ $starttime = microtime(true); // this is to measure the time while debugging is 
  *********************************************************************************/
 
 $category_id        = isset($_REQUEST['cid'])               ? (int)$_REQUEST['cid']             : 0;
-$with_subcategories = isset($_REQUEST['subcat'])            ? (boolean)$_REQUEST['subcat']          : $config['table']['default_show_subcategories'];
+$with_subcategories = isset($_REQUEST['subcat'])            ? (bool)$_REQUEST['subcat']          : $config['table']['default_show_subcategories'];
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (int)$_REQUEST['table_rowcount']  : 0;
 
 $page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;

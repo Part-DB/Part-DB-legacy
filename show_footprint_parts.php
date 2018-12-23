@@ -45,7 +45,7 @@ $starttime = microtime(true); // this is to measure the time while debugging is 
  *********************************************************************************/
 
 $footprint_id        = isset($_REQUEST['fid'])               ? (int)$_REQUEST['fid']             : 0;
-$with_subfoot       = isset($_REQUEST['subfoot'])            ? (boolean)$_REQUEST['subfoot']          : true;
+$with_subfoot       = isset($_REQUEST['subfoot'])            ? (bool)$_REQUEST['subfoot']          : true;
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (int)$_REQUEST['table_rowcount']  : 0;
 
 $page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;

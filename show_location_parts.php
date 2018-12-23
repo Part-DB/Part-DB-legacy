@@ -45,7 +45,7 @@ $starttime = microtime(true); // this is to measure the time while debugging is 
  *********************************************************************************/
 
 $location_id        = isset($_REQUEST['lid'])               ? (int)$_REQUEST['lid']             : 0;
-$with_sublocations = isset($_REQUEST['subloc'])            ? (boolean)$_REQUEST['subloc']          : true;
+$with_sublocations = isset($_REQUEST['subloc'])            ? (bool)$_REQUEST['subloc']          : true;
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (int)$_REQUEST['table_rowcount']  : 0;
 
 $page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
