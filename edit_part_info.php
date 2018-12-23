@@ -60,21 +60,21 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 // special: do we want to create a new part?
-$is_new_part                = ((isset($_REQUEST['category_id'])) && (! isset($_REQUEST['pid'])));
+$is_new_part                = !isset($_REQUEST['pid']);
 $add_one_more_part          = isset($_REQUEST['add_one_more_part']);
 
 // section: part attributes
 $part_id                    = isset($_REQUEST['pid'])                       ? (integer)$_REQUEST['pid']                      : -1;
 $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
 $new_description            = isset($_POST['description'])               ? (string)$_POST['description']               : '';
-$new_manufacturer_id        = isset($_POST['manufacturer_id'])           ? (integer)$_POST['manufacturer_id']          : 0;
 $new_instock                = isset($_POST['instock'])                   ? (integer)$_POST['instock']                  : 0;
 $new_instock                = isset($_POST['instock_unknown'])           ? (integer) Part::INSTOCK_UNKNOWN                : $new_instock;
 $new_mininstock             = isset($_POST['mininstock'])                ? (integer)$_POST['mininstock']               : 0;
 //The category ID is given as a GET param, so we need REQUEST here.
 $new_category_id            = isset($_REQUEST['category_id'])               ? (integer)$_REQUEST['category_id']        : 0;
-$new_storelocation_id       = isset($_POST['storelocation_id'])          ? (integer)$_POST['storelocation_id']         : 0;
-$new_footprint_id           = isset($_POST['footprint_id'])              ? (integer)$_POST['footprint_id']             : 0;
+$new_storelocation_id       = isset($_REQUEST['storelocation_id'])          ? (integer)$_REQUEST['storelocation_id']   : 0;
+$new_footprint_id           = isset($_REQUEST['footprint_id'])              ? (integer)$_REQUEST['footprint_id']          : 0;
+$new_manufacturer_id        = isset($_REQUEST['manufacturer_id'])           ? (integer)$_REQUEST['manufacturer_id']       : 0;
 $new_visible                = isset($_POST['visible']);
 $new_comment                = isset($_POST['comment'])                   ? (string)$_POST['comment']                   : '';
 $new_manufacturer_url       = isset($_POST["manufacturer_url"])          ? (string)$_POST['manufacturer_url']          : '';

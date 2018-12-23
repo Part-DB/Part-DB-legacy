@@ -1,5 +1,22 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.6
+### Neue Funktion
+* Es können nun auch aus den Bauteilelisten für Footprints, Lagerorte und Hersteller, ein neues Bauteil angelegt werden
+* Unter Verwaltung->Bearbeiten, gibt es jetzt einen Link um ein Bauteil anlegen zu können
+
+### Bugfixes
+* Fehlerhafte und nicht übersetzte Seitentitel korregiert
+* Es wird jetzt eine Fehlermeldung angezeigt, wenn ein Benutzer keine Rechte hat die Konfigurationsseite anzuzeigen
+* Überschreiben von Einstellungen mit $manual_config funktioniert nun korrekt
+* Bauteile mit unbekanntem Lagerbestand werden nun korrekt vom Logsystem behandelt
+* Verschieben mehrerer Bauteile auf einmal funktioniert nun wieder überall korrrekt
+* Fehler mit "Label erzeugen" auf Lagerort Seite behoben.
+
+### Sonstiges
+* Composer Dependencies aktualisiert
+* Größe der mitgelieferten Bilder verkleinert
+
 ## Part-DB 0.5.5
 ### Neue Funktionen
 * Maximaler Preis liegt nun bei 999.999,99999€ (statt vorher 9.999,99999). Datenbankupdate erforderlich.

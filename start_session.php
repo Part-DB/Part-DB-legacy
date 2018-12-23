@@ -58,7 +58,7 @@ if (file_exists($BASE_tmp.'/data/config.php') && is_readable($BASE_tmp.'/data/co
 } // ...and then we overwrite them with the user settings, if they exist
 
 if (!empty($manual_config)) { // $manual_config is defined in "config_defaults.php" and can be filled in "config.php"
-    $config = array_merge($config, $manual_config);
+    $config = array_replace_recursive($config, $manual_config);
 } // if there are manual configs, add them to $config
 
 /********************************************************************************

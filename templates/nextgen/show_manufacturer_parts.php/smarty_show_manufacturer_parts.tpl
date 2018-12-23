@@ -20,13 +20,24 @@
                     <div class="col-md-10">
                         <button type="submit" class="btn btn-outline-secondary {if $with_submanufacturers}active{/if}" name="subman_button" >{t}Unterhersteller einblenden{/t}</button>
                     </div>
+
+                    {if $can_create}
+                        <div class="form-inline col-md-7 col-lg-8 mt-2">
+                            <div class="form-group">
+                                <div class="col-md-12"></div>
+                                <a class="btn btn-primary" href="edit_part_info.php?manufacturer_id={$mid}">
+                                    {t}Neues Teil mit diesem Hersteller{/t}
+                                </a>
+                            </div>
+                        </div>
+                    {/if}
                 </div>
             </form>
         </div>
     </div>
 {/if}
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="mid" value="{$mid}">
     <input type="hidden" name="subman" value="{$with_submanufacturers}">
     <input type="hidden" name="page" value="1">
@@ -49,7 +60,7 @@
     </form>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="mid" value="{$mid}">
     <input type="hidden" name="subman" value="{$with_submanufacturers}">
     <input type="hidden" name="page" value="1">
@@ -60,11 +71,11 @@
 {if $other_panel_position == "bottom" || $other_panel_position == "both"}
     <div class="card border-primary">
         <div class="card-header bg-primary text-white">
-            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
+            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other2">
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
+        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other2">
             <form action="" method="post" class="form-horizontal no-progbar">
                 <input type="hidden" name="mid" value="{$mid}">
                 <input type="hidden" name="subman" value="{if $with_submanufacturers}0{else}1{/if}">
@@ -72,6 +83,17 @@
                     <div class="col-md-10">
                         <button type="submit" class="btn btn-outline-secondary {if $with_submanufacturers}active{/if}" name="subman_button" >{t}Unterhersteller einblenden{/t}</button>
                     </div>
+
+                    {if $can_create}
+                        <div class="form-inline col-md-7 col-lg-8 mt-2">
+                            <div class="form-group">
+                                <div class="col-md-12"></div>
+                                <a class="btn btn-primary" href="edit_part_info.php?manufacturer_id={$mid}">
+                                    {t}Neues Teil mit diesem Hersteller{/t}
+                                </a>
+                            </div>
+                        </div>
+                    {/if}
                 </div>
             </form>
         </div>

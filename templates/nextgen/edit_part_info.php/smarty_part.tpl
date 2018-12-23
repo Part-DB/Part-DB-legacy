@@ -102,6 +102,7 @@
                     <select class="form-control selectpicker" data-live-search="true" name="category_id"
                             onChange="document.getElementById('search_category_name').value='__ID__='+this.value; document.getElementById('search_category').click();"
                             {if !$can_move}disabled{/if}>
+                        {if $category_id == 0}<option value="0">&nbsp;</option>{/if}
                         {$category_list nofilter}
                     </select>
                 </div>

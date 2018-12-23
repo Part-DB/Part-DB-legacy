@@ -1,5 +1,22 @@
 # Part-DB changelog
 
+## Part-DB 0.5.6
+### New function
+* A new component can now be created from the component lists for footprints, storage locations and manufacturers.
+* Under Administration->Edit, there is now a link to create a component
+
+### Bugfixes
+* Incorrect and untranslated page titles corrected
+* An error message is now displayed if a user has no rights to display the configuration page.
+* Overwriting settings with $manual_config now works correctly
+* Components with unknown stock are now handled correctly by the log system
+* Moving several parts at once now works correctly everywhere again
+* Error with "Create label" on storage location page fixed.
+
+### Miscellaneous
+* Composer Dependencies updated
+* Size of supplied images reduced
+
 ## Part-DB 0.5.5
 ### New functions
 * Maximum price is now 999.999,99999€ (instead of 9.999,99999 before). Database update required.

@@ -21,17 +21,31 @@
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-outline-secondary {if $with_sublocations}active{/if}" name="subloc_button" >{t}Unterlagerorte einblenden{/t}</button>
                     </div>
+
+                    {if $can_create}
+                        <div class="form-inline col-md-7 col-lg-8 mt-2">
+                            <div class="form-group">
+                                <div class="col-md-12"></div>
+                                <a class="btn btn-primary" href="edit_part_info.php?storelocation_id={$lid}">
+                                    {t}Neues Teil an diesem Lagerort{/t}
+                                </a>
+                            </div>
+                        </div>
+                    {/if}
                 </div>
+
+
             </form>
 
             {if $can_generate_barcode}
-                <form action="show_part_label.php" method="get" class="form-horizontal">
+                <form action="show_part_label.php" method="get" class="form-horizontal mt-1">
                     <div class="form-group row">
                         <input type="hidden" name="label_generate">
                         <input type="hidden" name="generator" value="location">
                         <input type="hidden" name="id" value="{$lid}">
 
                         <div class="col-md-12">
+                            {if !empty($barcode_profiles)}
                             <div class="btn-group">
                                 <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
                                     {t}Barcode erzeugen{/t}</button>
@@ -42,11 +56,15 @@
 
                                 <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
                                     {foreach $barcode_profiles as $profile}
-                                        <li><a href="#" class="link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
-                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="hidden">{$profile}</button></li>
+                                        <li><a href="#" class="dropdown-item link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
+                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="d-none">{$profile}</button></li>
                                     {/foreach}
                                 </ul>
                             </div>
+                            {else}
+                                <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                                    {t}Barcode erzeugen{/t}</button>
+                            {/if}
                         </div>
                     </div>
                 </form>
@@ -55,7 +73,7 @@
     </div>
 {/if}
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="lid" value="{$lid}">
     <input type="hidden" name="subloc" value="{$with_sublocations}">
     <input type="hidden" name="page" value="1">
@@ -78,7 +96,7 @@
     </form>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="lid" value="{$lid}">
     <input type="hidden" name="subloc" value="{$with_sublocations}">
     <input type="hidden" name="page" value="1">
@@ -89,11 +107,11 @@
 {if $other_panel_position == "bottom" || $other_panel_position == "both"}
     <div class="card border-primary">
         <div class="card-header bg-primary text-white">
-            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
+            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other2">
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
+        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other2">
             <form action="" method="post" class="form-horizontal no-progbar">
                 <input type="hidden" name="lid" value="{$lid}">
                 <input type="hidden" name="subloc" value="{if $with_sublocations}0{else}1{/if}">
@@ -102,32 +120,50 @@
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-outline-secondary {if $with_sublocations}active{/if}" name="subloc_button" >{t}Unterlagerorte einblenden{/t}</button>
                     </div>
+
+                    {if $can_create}
+                        <div class="form-inline col-md-7 col-lg-8 mt-2">
+                            <div class="form-group">
+                                <div class="col-md-12"></div>
+                                <a class="btn btn-primary" href="edit_part_info.php?storelocation_id={$lid}">
+                                    {t}Neues Teil an diesem Lagerort{/t}
+                                </a>
+                            </div>
+                        </div>
+                    {/if}
                 </div>
+
+
             </form>
 
             {if $can_generate_barcode}
-                <form action="show_part_label.php" method="get" class="form-horizontal">
+                <form action="show_part_label.php" method="get" class="form-horizontal mt-1">
                     <div class="form-group row">
                         <input type="hidden" name="label_generate">
                         <input type="hidden" name="generator" value="location">
                         <input type="hidden" name="id" value="{$lid}">
 
                         <div class="col-md-12">
-                            <div class="btn-group">
+                            {if !empty($barcode_profiles)}
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                                        {t}Barcode erzeugen{/t}</button>
+                                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
+                                        {foreach $barcode_profiles as $profile}
+                                            <li><a href="#" class="dropdown-item link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
+                                                <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="d-none">{$profile}</button></li>
+                                        {/foreach}
+                                    </ul>
+                                </div>
+                            {else}
                                 <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
                                     {t}Barcode erzeugen{/t}</button>
-                                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-
-                                <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
-                                    {foreach $barcode_profiles as $profile}
-                                        <li><a href="#" class="link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
-                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="hidden">{$profile}</button></li>
-                                    {/foreach}
-                                </ul>
-                            </div>
+                            {/if}
                         </div>
                     </div>
                 </form>

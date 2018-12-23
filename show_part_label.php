@@ -53,21 +53,39 @@ $json_storage = new JSONStorage(BASE_DATA . "/label_profiles.json");
 
 //If Json storage default profile is empty, then create one.
 if (!$json_storage->itemExists($generator_type . "@" . $profile_name)) {
-    $profile = array("label_size" => "",
-        "label_preset" => "",
-        "label_type" => 2,
-        "text_bold" => false,
-        "text_italic" => false,
-        "text_underline" => false,
-        "text_size" => 8,
-        "output_mode" => "html",
-        "barcode_alignment" => "center",
-        "custom_rows" => "",
-        "custom_height" => "",
-        "custom_width" => "",
-        "text_alignment" => "left",
-        "logo_path" => "",
-        "use_footprint_image" => false);
+    if ($generator_type == "part") {
+        $profile = array("label_size" => "",
+            "label_preset" => "",
+            "label_type" => BaseLabel::TYPE_BARCODE,
+            "text_bold" => false,
+            "text_italic" => false,
+            "text_underline" => false,
+            "text_size" => 8,
+            "output_mode" => "html",
+            "barcode_alignment" => "center",
+            "custom_rows" => "",
+            "custom_height" => "",
+            "custom_width" => "",
+            "text_alignment" => "left",
+            "logo_path" => "",
+            "use_footprint_image" => false);
+    } elseif ($generator_type == "location") {
+        $profile = array("label_size" => BaseLabel::SIZE_50X30,
+            "label_preset" => "Preset A",
+            "label_type" => BaseLabel::TYPE_C39,
+            "text_bold" => false,
+            "text_italic" => false,
+            "text_underline" => false,
+            "text_size" => 8,
+            "output_mode" => "html",
+            "barcode_alignment" => "center",
+            "custom_rows" => "",
+            "custom_height" => "",
+            "custom_width" => "",
+            "text_alignment" => "left",
+            "logo_path" => "",
+            "use_footprint_image" => false);
+    }
 
 /*if ($profile_name == "default") {
     $json_storage->addItem($generator_type . "@default", $profile);
