@@ -57,6 +57,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 {
     const INSTOCK_UNKNOWN   = -2;
 
+    const TABLE_NAME = "parts";
+
     /********************************************************************************
      *
      *   Calculated Attributes
@@ -92,21 +94,22 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      *********************************************************************************/
 
-    /**
-     * Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @param Database  &$database:     reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log:          reference to the Log-object
-     * @param integer   $id:            ID of the part we want to get
-     * @param array     $db_data        If you have already data from the database, then use give it with this param, the part, wont make a database request.
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @throws Exception    if there is no such part in the database
-     * @throws Exception    if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
-        parent::__construct($database, $current_user, $log, 'parts', $id, false, $db_data);
+        parent::__construct($database, $current_user, $log, $id, $db_data);
     }
 
     /**
@@ -228,7 +231,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 return "Part-DB; Part: " . $this->getID();
 
             default:
-                throw new Exception(_("Label type unknown: ").$barcode_type);
+                throw new Exception(_("Unbekannter Labeltyp: ").$barcode_type);
         }
     }
 
@@ -241,12 +244,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function calculateInstockChangePrice(int $old_instock, int $new_instock) : float
     {
-        if (!is_int($old_instock) || !is_int($new_instock)) {
-            throw new \RuntimeException(_('$old_instock und $new_instock müssen vom Typ int sein!'));
-        }
 
-        if($old_instock == Part::INSTOCK_UNKNOWN || $new_instock == Part::INSTOCK_UNKNOWN)
-        {
+        if ($old_instock == Part::INSTOCK_UNKNOWN || $new_instock == Part::INSTOCK_UNKNOWN) {
             return 0;
         }
 
@@ -356,10 +355,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ($bbcode_parse_level === BBCodeParsingLevel::PARSE) {
-            $bbcode = new BBCodeParser;
+            $bbcode = new BBCodeParser();
             $val = $bbcode->only("bold", "italic", "underline", "linethrough")->parse($val);
         } elseif ($bbcode_parse_level === BBCodeParsingLevel::STRIP) {
-            $bbcode = new BBCodeParser;
+            $bbcode = new BBCodeParser();
             $val = $bbcode->stripBBCodeTags($val);
         }
 
@@ -405,7 +404,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             return "-1";
         }
 
-        return $this->db_data['mininstock'];
+        return (int) $this->db_data['mininstock'];
     }
 
     /**
@@ -422,7 +421,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         $val = htmlspecialchars($this->db_data['comment']);
         if ($bbcode_parsing_level === BBCodeParsingLevel::PARSE) {
-            $bbcode = new BBCodeParser;
+            $bbcode = new BBCodeParser();
             $bbcode->setParser('brLinebreak', "/\[br\]/s", "<br/>", "");
             $bbcode->setParser('namedlink', '/\[url\=(.*?)\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$2</a>', '$2');
             $bbcode->setParser('link', '/\[url\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$1</a>', '$1');
@@ -471,7 +470,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function getVisible() : bool
     {
-        return $this->db_data['visible'];
+        return (bool) $this->db_data['visible'];
     }
 
     /**
@@ -486,7 +485,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             return false;
         }
 
-        return boolval($this->db_data['favorite']);
+        return (bool) $this->db_data['favorite'];
     }
 
     /**
@@ -530,7 +529,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             return -1;
         }
 
-        return $this->db_data['order_quantity'];
+        return (int) $this->db_data['order_quantity'];
     }
 
     /**
@@ -580,7 +579,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             return false;
         }
 
-        return $this->db_data['manual_order'];
+        return (bool) $this->db_data['manual_order'];
     }
 
     /**
@@ -2128,24 +2127,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     *  Get count of parts
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return integer              count of parts
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(Database &$database) : int
-    {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
-        return $database->getCountOfRecords('parts');
-    }
-
-    /**
      *  Get the sum of all "instock" attributes of all parts
      *
      * All values in the table row "instock" will be summed up.
@@ -3145,7 +3126,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $database,
             $current_user,
             $log,
-            'parts',
             array(  'name'                          => $name,
                 'id_category'                   => $category_id,
                 'description'                   => $description,
@@ -3175,6 +3155,16 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public static function isValidName(string $partname, Category $category) : bool
     {
         return $category->checkPartname($partname);
+    }
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "P" . sprintf("%06d", $this->getID());
     }
 
     /**

@@ -27,9 +27,13 @@ namespace PartDB\Base;
 
 use Exception;
 use PartDB\Database;
+use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\NotImplementedException;
 use PartDB\Exceptions\TableNotExistingException;
+use PartDB\Interfaces\IHasVirtualElements;
 use PartDB\Log;
 use PartDB\User;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 /**
  * @file class.DBElement.php
@@ -41,16 +45,26 @@ use PartDB\User;
  *          (except special tables like "internal"...)
  * Every database table which are managed with this class (or a subclass of it)
  *          must have the table row "id"!! The ID is the unique key to identify the elements.
- *
- * @author kami89
+
  */
 abstract class DBElement
 {
+
+    /*******************************************************************************
+     * The tablename to use. You have to overwrite this in every sub class, in which you
+     * to access a database table
+     *******************************************************************************/
+    const TABLE_NAME = ''; //Empty string means unset, this will result in a not implemented Exception
+
+
     /********************************************************************************
      *
      *   Attributes (non-calculated attributes!)
      *
      *********************************************************************************/
+
+
+
 
     /** @var User object of the user which is logged in */
     protected $current_user =   null;
@@ -60,7 +74,7 @@ abstract class DBElement
     /** @var Database the database object for all database transactions */
     protected $database =       null;
     /** @var string the tablename of the element, e.g. "categories" for the class "Category" and so on... */
-    protected $tablename =      null;
+    protected $tablename = null;
 
     /**
      * @var array (array [1..*]) the record data from the database
@@ -70,6 +84,11 @@ abstract class DBElement
      */
     protected $db_data =        null;
 
+    /**
+     * @var bool Determines if this element is virtual.
+     */
+    protected $is_virtual_element = false;
+
     /********************************************************************************
      *
      *   Constructor / Destructor / reset_attributes()
@@ -77,50 +96,72 @@ abstract class DBElement
      *********************************************************************************/
 
     /**
-     * Constructor
+     * This creates a new Element object, representing an entry from the Database.
      *
-     * @param Database  $database                   reference to the Database-object
-     * @param User      $current_user               reference to the current user which is logged in
-     * @param Log       $log                        reference to the Log-object
-     * @param string    $tablename                  the name of the database table
-     * @param integer   $id                         ID of the element we want to get
-     * @param boolean   $allow_virtual_elements     @li if true, it's allowed to set $id to zero
-     *                                                  (the StructuralDBElement needs this for the root element)
-     *                                              @li if false, $id == 0 is not allowed (throws an Exception)
-     * @param array     $db_data                    If you have already data from the database, then use give it with this param, the part, wont make a database request.
-     * @throws Exception    if there is no such element in the database
-     *                      (except: the ID=0 is valid, even if there is no such element in the database)
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
      * @throws TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, bool $allow_virtual_elements = false, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         $this->database = $database;
         $this->current_user = $current_user;
         $this->log = $log;
 
-        if ($db_data==null) { //Dont check for table exist, if we already have db_data
-            if (! $this->database->doesTableExist($tablename)) {
-                throw new TableNotExistingException(sprintf(_('Die Tabelle "%s" existiert nicht in der Datenbank!'), $tablename));
+        $this->tablename = static::getTablename();
+
+        if ($db_data == null) { //Dont check for table exist, if we already have db_data
+            if (! $this->database->doesTableExist($this->tablename)) {
+                throw new TableNotExistingException(
+                    sprintf(
+                        _('Die Tabelle "%s" existiert nicht in der Datenbank!'),
+                        $this->tablename
+                    )
+                );
             }
         }
 
+        //We have to distinguish between real elements (positive ID) and virtual IDs.
+        //Furthermore the caller can pass its own data via the $db_data array.
+        if (!empty($db_data)) { //Custom data by caller
+            $this->is_virtual_element = ($id <= 0); //Negative or zero ID means virtual element here, too!
+            $this->db_data  = $db_data;
+        } elseif ($id <= 0) { //Virtual Elements
+            //If this object can not have virtual elements (implements IHasVirtualElements),
+            // then negative IDs are invalid.
+            if (!$this->allowsVirtualElements()) {
+                throw new ElementNotExistingException(_('Dieser Elementtyp erlaubt keine virtuellen Elemente!'));
+            }
+            //Otherwise we eventually can get virtual data from the getVirtualData() function
+            $virtual_data = $this->getVirtualData($id);
+            $this->db_data = array("id" => $id);
+            $this->db_data = array_replace_recursive($this->db_data, $virtual_data);
+            //Mark this object as virtual
+            $this->is_virtual_element = true;
+        } else { //Real elements
+            try {
+                //Retriev the data from the database.
+                $this->db_data = $this->database->getRecordData($this->tablename, $id);
+            } catch (ElementNotExistingException $ex) {
+                //Give getVirtualData to provide data for a virtual element, even if the entry is not existing in
+                //the database!
+                if ($this->allowsVirtualElements()) {
+                    $virtual_data = $this->getVirtualData($id);
+                    $this->db_data = array("id" => $id);
+                    $this->db_data = array_replace_recursive($this->db_data, $virtual_data);
+                    $this->is_virtual_element = true;
+                } else {
+                    throw $ex;
+                }
+            }
 
-        $this->tablename = $tablename;
-
-        if (((! is_int($id)) && (! ctype_digit($id)) && (! is_null($id))) || (($id == 0) && (! $allow_virtual_elements))) {
-            throw new Exception(sprintf(_('$id ist keine gültige ID! $id="%d"'), $id));
-        }
-
-        // get all data of the database record with the ID "$id"
-        // But if the ID is zero, it could be a root element of StructuralDBElement,
-        // so there is no data to get from database.
-        if ($id != 0 && $db_data == null) {
-            $this->db_data = $this->database->getRecordData($this->tablename, $id);
-        }
-
-        if ($db_data !== null) {
-            $this->db_data = $db_data;
         }
     }
 
@@ -144,13 +185,8 @@ abstract class DBElement
     public function resetAttributes(bool $all = false)
     {
         if ($all) {
-            //$this->database =       NULL; // we still need them...
-            //$this->current_user =   NULL; // ...for commit/rollback...
-            //$this->log =            NULL; // ...after deleting an element!
-            //$this->tablename =      NULL;
-
             $id_tmp = $this->db_data['id']; // backup ID
-            $this->db_data =        null;
+            $this->db_data = array();
             $this->db_data['id'] = $id_tmp; // restore ID
         } else {
             // get all data of the database record with the ID "$id"
@@ -192,24 +228,34 @@ abstract class DBElement
      *********************************************************************************/
 
     /**
-     * Get the ID
+     * Get the ID. The ID can be zero, or even negative (for virtual elements). If an elemenent is virtual, can be
+     * checked with isVirtualElement()
      *
-     * @retval integer the ID of this element
+     * @return integer the ID of this element
      */
-    public function getID() : int
+    final public function getID() : int
     {
         return (int) $this->db_data['id'];
     }
 
     /**
-     * Get the tablename
-     *
-     * @retval string the tablename of the database table where this element is stored
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
      */
-    public function getTablename() : string
+    abstract public function getIDString() : string;
+
+
+    /**
+     * Checks if this element is virtual, meaning that it does not have an entry in the database!
+     * @return bool True, if the element is virtual, false if not.
+     */
+    final public function isVirtualElement() : bool
     {
-        return $this->tablename;
+        return $this->is_virtual_element;
     }
+
+
 
     /********************************************************************************
      *
@@ -239,11 +285,6 @@ abstract class DBElement
             throw new Exception(_('Das ausgewählte Element existiert nicht in der Datenbank!'));
         }
 
-        if (! is_array($new_values)) {
-            debug('error', sprintf(_('Ungültiger Inhalt von $new_values: "%s"', $new_values), __FILE__, __LINE__, __METHOD__));
-            throw new Exception(_('$new_values ist kein Array!'));
-        }
-
         // We create an array of all database data.
         // All values from $new_values will be used instead of the values in $this->db_data (override them).
         $values = array_merge($this->db_data, $new_values);
@@ -269,11 +310,103 @@ abstract class DBElement
         $this->resetAttributes();
     }
 
+    /**
+     * Returns the §db_data that should be used for the Virtual Element.
+     * This function can return different virtual elements, based on $virtual_id.
+     * @param int $virtual_id The ID of the virtual element which should be created. Virtual Elements has negative
+     * (or zero) value IDs. When this function is called with a positive number, then the given element was not found in
+     * the DB, and this function has the possibility to create a virtual object with this.
+     *
+     * You dont have to set $virtual_id into the returned array, this already happenes in the constructor of the
+     * DBElement.
+     *
+     * @return array This array will be merged (replacing mode) with the db_data of the DBElement.
+     * @throws ElementNotExistingException If the element with the given virtual ID is not creatable with this function,
+     * then this exception should be thrown!
+     */
+    protected function getVirtualData(int $virtual_id) : array
+    {
+        throw new ElementNotExistingException(sprintf(_("Es existiert kein Element mit der ID %d"), $virtual_id));
+    }
+
+    /**
+     * This function determines if the element class allows virtual elements. By default they are disabled.
+     * @return bool Retun true, if virtual elements are allowed, false if not.
+     */
+    protected function allowsVirtualElements()
+    {
+        return false;
+    }
+
+    /********************************************************************************
+     *
+     *  Magic functions
+     *
+     *******************************************************************************/
+
+    /**
+     * Get a string representation of the DB Element. Mostly this is the same as getIDString(), but it can be
+     * overwritten in subclasses.
+     * @return string The string representation of this element.
+     */
+    public function __toString()
+    {
+        return $this->getIDString();
+    }
+
+
+    /**
+     * This function is called, when this object is not referenced any more, or the script ends.
+     * We should use it, to ensure, that all data is written to DB.
+     *
+     * This function must be explicity created in subclasses, and these must call parent::_destruct !!
+     */
+    public function __destruct()
+    {
+        // TODO: Implement __destruct() method.
+    }
+
     /********************************************************************************
      *
      *   Static Methods
      *
      *********************************************************************************/
+
+    /**
+     *  Get count of possible Elements (meaning how many rows are in the table for this element)
+     *
+     * @param Database &$database reference to the Database-object
+     *
+     * @return int            count of Elements for this Element
+     *
+     *
+     * @throws \PartDB\Exceptions\DatabaseException If there was an error getting the data from DB.
+     */
+    final public static function getCount(Database &$database) : int
+    {
+
+        return $database->getCountOfRecords(static::getTablename());
+    }
+
+    /**
+     * Get the tablename
+     *
+     * @return string the tablename of the database table where this element is stored
+     * @throws NotImplementedException If the TABLE_NAME const has not been overwritten in the subclass.
+     */
+    final public static function getTablename() : string
+    {
+        $c = get_called_class();
+        $tablename = $c::TABLE_NAME;
+        //Check if the tablename was really set!
+        if ($tablename == '') {
+            throw new NotImplementedException(
+                _('$this->tablename hat keinen Wert! Es muss in jeder Klasse das Feld $tablename überschrieben werden!')
+            );
+        }
+        return $tablename;
+    }
+
 
     /**
      * Check if all values are valid for creating a new element / editing an existing element
@@ -328,7 +461,6 @@ abstract class DBElement
      * @param Database      $database           reference to the database onject
      * @param User          $current_user       reference to the current user which is logged in
      * @param Log           $log                reference to the Log-object
-     * @param string        $tablename          the name of the table where the new element should be inserted
      * @param array         $new_values         @li one-dimensional array with all keys (table columns)
      *                                              and the new values
      *                                          @li example: @code
@@ -338,35 +470,21 @@ abstract class DBElement
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      */
-    protected static function addByArray(Database &$database, User &$current_user, Log &$log, string $tablename, array $new_values)
+    protected static function addByArray(Database &$database, User &$current_user, Log &$log, array $new_values)
     {
-        if (empty($new_values)) {
-            throw new Exception(_('Das Array $new_values ist leer!'));
-        }
-
-        if (! $database->doesTableExist($tablename)) {
-            throw new TableNotExistingException(sprintf(_('Die Tabelle "%s" existiert nicht!'), $tablename));
-        }
+        $tablename = static::getTablename();
 
         // we check if the new data is valid
         // (with "static::" we let check every subclass of DBElement to check the data!)
         static::checkValuesValidity($database, $current_user, $log, $new_values, true);
 
-        // if there was no exception, all values are valid
-
-        // create the query string
-        $query = 'INSERT INTO '.$tablename.' ('.implode(', ', array_keys($new_values)).') '.
-            'VALUES (?'.str_repeat(', ?', count($new_values) -1).')';
-
         // now we can insert the new data into the database
-        $id = $database->execute($query, $new_values);
+        $id = $database->insertRecord(static::getTablename(), $new_values);
 
         if ($id == null) {
             throw new Exception(_('Der Datenbankeintrag konnte nicht angelegt werden.'));
         }
 
-        $class = get_called_class();
-
-        return new $class($database, $current_user, $log, $id);
+        return new static($database, $current_user, $log, $id);
     }
 }

@@ -28,13 +28,17 @@ namespace PartDB\Base;
 use Exception;
 use Golonka\BBCode\BBCodeParser;
 use PartDB\Database;
+use PartDB\Exceptions\ElementNotExistingException;
 use PartDB\Exceptions\NotImplementedException;
+use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Group;
+use PartDB\Interfaces\IHasVirtualElements;
 use PartDB\Log;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
 use PartDB\User;
+use Pimple\Exception\ExpectedInvokableException;
 
 /**
  * @file class.StructuralDBElement.php
@@ -49,10 +53,15 @@ use PartDB\User;
  * an attribute of a root element, you will get an exception!
  *
  * @class StructuralDBElement
- * @author kami89
  */
 abstract class StructuralDBElement extends AttachementsContainingDBElement
 {
+
+    const ID_ROOT_ELEMENT = 0;
+
+    //This is a not standard character, so build a const, so a dev can easily use it
+    const PATH_DELIMITER_ARROW = ' → ';
+
     /********************************************************************************
      *
      *   Calculated Attributes
@@ -84,32 +93,20 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * It's allowed to create an object with the ID 0 (for the root element).
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param string    $tablename      name of the table where the elements are located
-     * @param integer   $id             ID of the element we want to get
+     * @param Database  &$database reference to the Database-object
+     * @param User      &$current_user reference to the current user which is logged in
+     * @param Log       &$log reference to the Log-object
+     * @param integer $id ID of the element we want to get
      *
-     * @throws Exception        if there is no such element in the database
-     * @throws Exception        if there was an error
+     * @throws TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
-        parent::__construct($database, $current_user, $log, $tablename, $id, true, $db_data);
-
-        if ($id == 0) {
-            // this is the root node
-            $this->db_data['id'] = null;
-            $this->db_data['name'] = _('Oberste Ebene');
-            $this->db_data['parent_id'] = -1;
-            $this->full_path_strings = array(_('Oberste Ebene'));
-            $this->level = -1;
-        }
+        parent::__construct($database, $current_user, $log, $id, $db_data);
     }
 
-    /**
-     * @copydoc DBElement::reset_attributes()
-     */
     public function resetAttributes(bool $all = false)
     {
         $this->full_path_strings    = null;
@@ -124,6 +121,30 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *   Basic Methods
      *
      *********************************************************************************/
+
+
+    protected function allowsVirtualElements()
+    {
+        return true; //We allow virtual elements. See getVirtualData()
+    }
+
+    protected function getVirtualData(int $virtual_id) : array
+    {
+
+        // ID = 0 means that this Element is the virtual root element.
+        if ($virtual_id == self::ID_ROOT_ELEMENT) {
+            // this is the root node
+            $tmp = array();
+            $tmp['name'] = _('Oberste Ebene');
+            $tmp['parent_id'] = -1;
+            $this->full_path_strings = array(_('Oberste Ebene'));
+            $this->level = -1;
+
+            return $tmp;
+        }
+
+        return parent::getVirtualData($virtual_id);
+    }
 
     /**
      * Delete this element
@@ -218,22 +239,31 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * Check if this element is a child of another element (recursive)
      *
      * @param StructuralDBElement $another_element       the object to compare
-     *                                      IMPORTANT: both objects to compare must be from the same class (for example two "Device" objects)!
+     *        IMPORTANT: both objects to compare must be from the same class (for example two "Device" objects)!
      *
-     * @return bool
+     * @return bool True, if this element is child of $another_element.
      *
      * @throws Exception if there was an error
      */
     public function isChildOf(StructuralDBElement $another_element)
     {
+        $class_name = get_class($this);
+
+        //Check if both elements compared, are from the same type:
+        if ($class_name != get_class($another_element)) {
+            throw new \InvalidArgumentException(_('isChildOf() funktioniert nur mit Elementen des gleichen Typs!'));
+        }
+
         if ($this->getID() == null) { // this is the root node
             return false;
         } else {
-            $class_name = get_class($this);
-            /** @var StructuralDBElement $parent_element */
-            $parent_element = new $class_name($this->database, $this->current_user, $this->log, $this->getParentID());
 
-            return (($parent_element->getID() == $another_element->getID()) || ($parent_element->isChildOf($another_element)));
+            /** @var StructuralDBElement $parent_element */
+            $parent_element = new static($this->database, $this->current_user, $this->log, $this->getParentID());
+
+            //If this' parents element, is $another_element, then we are finished
+            return (($parent_element->getID() == $another_element->getID())
+                || ($parent_element->isChildOf($another_element))); //Otherwise, check recursivley
         }
     }
 
@@ -254,16 +284,16 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     /**
      * @brief Get the parent-ID
      *
-     * @retval integer|null     @li the ID of the parent element
+     * @retval integer          @li the ID of the parent element
      *                          @li NULL means, the parent is the root node
      *                          @li the parent ID of the root node is -1
      */
     public function getParentID()
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
-            return null;
+            return self::ID_ROOT_ELEMENT;
         }
-        return $this->db_data['parent_id'];
+        return $this->db_data['parent_id'] ?? self::ID_ROOT_ELEMENT; //Null means root element
     }
 
     /**
@@ -308,7 +338,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
 
         $val = htmlspecialchars($this->db_data['comment']);
         if ($parse_bbcode) {
-            $bbcode = new BBCodeParser;
+            $bbcode = new BBCodeParser();
             $val = $bbcode->parse($val);
         }
 
@@ -367,13 +397,13 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return -1;
         }
+
         if ($this->level === null) {
             $this->level = 0;
             $parent_id = $this->getParentID();
-            $class = get_class($this);
             while ($parent_id > 0) {
                 /** @var StructuralDBElement $element */
-                $element = new $class($this->database, $this->current_user, $this->log, $parent_id);
+                $element = new static($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $element->getParentID();
                 $this->level++;
             }
@@ -391,7 +421,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception    if there was an error
      */
-    public function getFullPath(string $delimeter = ' → ')
+    public function getFullPath(string $delimeter = self::PATH_DELIMITER_ARROW)
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return "???";
@@ -401,10 +431,9 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $this->full_path_strings = array();
             $this->full_path_strings[] = static::getName();
             $parent_id = static::getParentID();
-            $class = get_class($this);
             while ($parent_id > 0) {
                 /** @var StructuralDBElement $element */
-                $element = new $class($this->database, $this->current_user, $this->log, $parent_id);
+                $element = new static($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $element->getParentID();
                 $this->full_path_strings[] = $element->getName();
             }
@@ -421,7 +450,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @return static[]    all subelements as an array of objects (sorted by their full path)
      *
-     * @throws Exception    if there was an error
+     *
      */
     public function getSubelements(bool $recursive) : array
     {
@@ -432,14 +461,17 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         if (! is_array($this->subelements)) {
             $this->subelements = array();
 
-
+            if ($this->db_data["id"] == 0) {
+                $id = null;
+            } else {
+                $id = $this->db_data["id"];
+            }
 
             $query_data = $this->database->query('SELECT * FROM ' . $this->tablename .
-                ' WHERE parent_id <=> ? ORDER BY name ASC', array($this->db_data["id"]));
+                ' WHERE parent_id <=> ? ORDER BY name ASC', array($id));
 
-            $class = get_class($this);
             foreach ($query_data as $row) {
-                $this->subelements[] = new $class($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->subelements[] = new static($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 
@@ -518,8 +550,9 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         string $root_name = '$$',
         string $value_prefix = ''
     ) : string {
-        if ($root_name=='$$') {
-            $root_name=_('Oberste Ebene');
+
+        if ($root_name == '$$') {
+            $root_name = _('Oberste Ebene');
         }
 
         $html = array();
@@ -530,7 +563,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
                 $root_name = htmlspecialchars($this->getName());
             }
 
-            $html[] = '<option value="'. $value_prefix . $this->getID() . '">'. $root_name .'</option>';
+            $html[] = '<option value="'. $value_prefix . $this->getID() . '">' . $root_name . '</option>';
         } else {
             $root_level =  $this->getLevel() + 1;
         }
@@ -542,11 +575,11 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $level = $element->getLevel() - $root_level;
             $selected = ($element->getID() == $selected_id) ? 'selected' : '';
 
-            $html[] = '<option '. $selected .' value="'. $value_prefix . $element->getID() . '">';
+            $html[] = '<option ' . $selected . ' value="' . $value_prefix . $element->getID() . '">';
             for ($i = 0; $i < $level; $i++) {
                 $html[] = "&nbsp;&nbsp;&nbsp;";
             }
-            $html[] = htmlspecialchars($element->getName()) .'</option>';
+            $html[] = htmlspecialchars($element->getName()) . '</option>';
         }
 
         return implode("\n", $html);
@@ -561,8 +594,8 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         $use_db_root_name = true,
         $root_name = '$$'
     ) {
-        if ($root_name=='$$') {
-            $root_name=_('Oberste Ebene');
+        if ($root_name == '$$') {
+            $root_name = _('Oberste Ebene');
         }
 
         $subelements = $this->getSubelements(false);
@@ -573,11 +606,11 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         }
 
         // if we are on root level?
-        if ($this->getParentID()==-1) {
+        if ($this->getParentID() == -1) {
             if ($show_root) {
                 $tree = array(
                     array('text' => ($use_db_root_name) ? htmlspecialchars($this->getName()) : $root_name ,
-                        'href' => $page ."?". $parameter ."=".$this->getID(),
+                        'href' => $page . "?". $parameter . "=" . $this->getID(),
                         'nodes' => $nodes)
                 );
             } else { //Dont show root node
@@ -586,12 +619,12 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         } else {
             if (!empty($nodes)) {
                 $tree = array('text' => htmlspecialchars($this->getName()),
-                    'href' => $page ."?". $parameter ."=".$this->getID(),
+                    'href' => $page . "?" . $parameter . "=" . $this->getID(),
                     'nodes' => $nodes
                 );
             } else {
                 $tree = array('text' => htmlspecialchars($this->getName()),
-                    'href' => $page ."?". $parameter ."=".$this->getID()
+                    'href' => $page . "?" . $parameter . "=".  $this->getID()
                 );
             }
         }
@@ -612,8 +645,8 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     {
         $breadcrumb = array();
 
-        if ($root_name=='$$') {
-            $root_name=_('Oberste Ebene');
+        if ($root_name == '$$') {
+            $root_name = _('Oberste Ebene');
         }
 
         if ($show_root) {
@@ -629,18 +662,17 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         $tmp = array();
 
         if ($element_is_link) {
-            $tmp[] = array("label" => static::getName(), 'href' => $page ."?". $parameter ."=".$this->getID(), "selected" => true);
+            $tmp[] = array("label" => static::getName(), 'href' => $page . "?". $parameter . "=".$this->getID(), "selected" => true);
         } else {
             $tmp[] = array("label" => static::getName(), "selected" => true);
         }
 
         $parent_id = static::getParentID();
-        $class = get_class($this);
         while ($parent_id > 0) {
             /** @var StructuralDBElement $element */
-            $element = new $class($this->database, $this->current_user, $this->log, $parent_id);
+            $element = new static($this->database, $this->current_user, $this->log, $parent_id);
             $parent_id = $element->getParentID();
-            $tmp[] = array("label" => $element->getName(), 'href' => $page ."?". $parameter ."=".$element->getID());
+            $tmp[] = array("label" => $element->getName(), 'href' => $page . "?" . $parameter . "=".$element->getID());
         }
         $tmp = array_reverse($tmp);
 
@@ -687,13 +719,6 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      * @throws Exception if there was an error
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
      */
     public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
@@ -752,10 +777,10 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         }
     }
 
-    public static function addByArray(Database &$database, User &$current_user, Log &$log, string $tablename, array $new_values)
+    public static function addByArray(Database &$database, User &$current_user, Log &$log, array $new_values)
     {
         $current_user->tryDo(static::getPermissionName(), StructuralPermission::CREATE);
-        return parent::addByArray($database, $current_user, $log, $tablename, $new_values);
+        return parent::addByArray($database, $current_user, $log, $new_values);
     }
 
     /**

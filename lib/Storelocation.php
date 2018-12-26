@@ -39,34 +39,41 @@ use PartDB\Permissions\PermissionManager;
  */
 class Storelocation extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, ISearchable, Interfaces\ILabel
 {
+    const TABLE_NAME = "storelocations";
+
     /********************************************************************************
      *
      *   Constructor / Destructor / reset_attributes()
      *
      *********************************************************************************/
 
-    /**
-     * Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @note  It's allowed to create an object with the ID 0 (for the root element).
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param integer   $id             ID of the storelocation we want to get
-     *
-     * @throws Exception if there is no such storelocation in the database
-     * @throws Exception if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'storelocations', $id, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
+    }
 
-        if ($id == 0) {
-            // this is the root node
-            $this->db_data['is_full'] = false;
-            return;
+    protected function getVirtualData(int $virtual_id): array
+    {
+        $tmp = parent::getVirtualData($virtual_id);
+        if ($virtual_id == 0)
+        {
+            $tmp['is_full'] = false;
         }
+
+        return $tmp;
     }
 
     /********************************************************************************
@@ -86,7 +93,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function getIsFull() : bool
     {
-        return $this->db_data['is_full'];
+        return (bool) $this->db_data['is_full'];
     }
 
     /**
@@ -105,9 +112,8 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        return parent::getTableParts('id_storelocation', $recursive, $hide_obsolete_and_zero, $limit, $page);
+        return parent::getPartsForRowName('id_storelocation', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
-
     /**
      * Return the number of all parts in this PartsContainingDBElement
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
@@ -115,7 +121,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountInternal($recursive, 'id_storelocation');
+        return parent::getPartsCountForRowName($recursive, 'id_storelocation');
     }
 
     /********************************************************************************
@@ -160,24 +166,6 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     }
 
     /**
-     *  Get count of storelocations
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return integer              count of storelocations
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(Database &$database)
-    {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
-        return $database->getCountOfRecords('storelocations');
-    }
-
-    /**
      *  Create a new storelocation
      *
      * @param Database  &$database      reference to the database onject
@@ -200,7 +188,6 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
             $database,
             $current_user,
             $log,
-            'storelocations',
             array(  'name'          => $name,
                 'parent_id'     => $parent_id,
                 'is_full'       => $is_full,
@@ -315,5 +302,15 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
         }
 
         return $string;
+    }
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "L" . sprintf("%06d", $this->getID());
     }
 }

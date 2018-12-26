@@ -37,6 +37,8 @@ abstract class BaseEntry extends DBElement
 {
     protected $user;
 
+    const TABLE_NAME = 'log';
+
     /**
      * Constructor
      *
@@ -52,7 +54,7 @@ abstract class BaseEntry extends DBElement
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
-        parent::__construct($database, $current_user, $log, 'log', $id, false, $db_data);
+        parent::__construct($database, $current_user, $log, $id, false, $db_data);
     }
 
     /**
@@ -231,6 +233,11 @@ abstract class BaseEntry extends DBElement
             "extra" => static::serializeExtra($extra_obj),
             "level" => $level
         );
-        return static::addByArray($database, $current_user, $log, "log", $data);
+        return static::addByArray($database, $current_user, $log, $data);
+    }
+
+    public function getIDString(): string
+    {
+        return "LE" . sprintf("%06d", $this->getID());
     }
 }

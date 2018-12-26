@@ -40,29 +40,31 @@ use PartDB\Permissions\PermissionManager;
  */
 class Supplier extends Base\Company implements ISearchable
 {
+
+    const TABLE_NAME = 'suppliers';
+
     /********************************************************************************
      *
      *   Constructor / Destructor / reset_attributes()
      *
      *********************************************************************************/
 
-    /**
-     *  Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @note  It's allowed to create an object with the ID 0 (for the root element).
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param integer   $id             ID of the supplier we want to get
-     * @param array     $data           An array of data that overrides the DB data temporary
-     *
-     * @throws Exception    if there is no such supplier in the database
-     * @throws Exception    if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'suppliers', $id, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
     }
 
     /********************************************************************************
@@ -89,21 +91,16 @@ class Supplier extends Base\Company implements ISearchable
     {
         if (! is_array($this->parts)) {
             $this->parts = array();
-
             $query =    'SELECT part_id FROM orderdetails '.
                 'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
                 'WHERE id_supplier=? '.
                 'GROUP BY part_id ORDER BY parts.name';
-
             $query_data = $this->database->query($query, array($this->getID()));
-
             foreach ($query_data as $row) {
                 $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['part_id']);
             }
         }
-
         $parts = $this->parts;
-
         if ($hide_obsolete_and_zero) {
             // remove obsolete parts from array
             $parts = array_values(array_filter($parts, function ($part) {
@@ -111,18 +108,14 @@ class Supplier extends Base\Company implements ISearchable
                 return ((! $part->getObsolete()) || ($part->getInstock() > 0));
             }));
         }
-
         if ($recursive) {
             $sub_suppliers = $this->getSubelements(true);
-
             foreach ($sub_suppliers as $sub_supplier) {
                 $parts = array_merge($parts, $sub_supplier->getParts(false, $hide_obsolete_and_zero));
             }
         }
-
         return $parts;
     }
-
     /**
      * Return the number of all parts in this PartsContainingDBElement
      * @param boolean $recursive if true, the parts of all subcategories will be listed too
@@ -134,19 +127,14 @@ class Supplier extends Base\Company implements ISearchable
         $query =    'SELECT count(part_id) AS count FROM orderdetails '.
             'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
             'WHERE id_supplier=? ';
-
         $query_data = $this->database->query($query, array($this->getID()));
-
         $count = $query_data[0]['count'];
-
         if ($recursive) {
             $sub_suppliers = $this->getSubelements(true);
-
             foreach ($sub_suppliers as $sub_supplier) {
                 $count+= $sub_supplier->getPartsCount(true);
             }
         }
-
         return $count;
     }
 
@@ -180,24 +168,6 @@ class Supplier extends Base\Company implements ISearchable
      *   Static Methods
      *
      *********************************************************************************/
-
-    /**
-     *  Get count of suppliers
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return integer              count of suppliers
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(Database &$database) : int
-    {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
-        return $database->getCountOfRecords('suppliers');
-    }
 
     /**
      *  Get all suppliers which have parts to order
@@ -286,7 +256,6 @@ class Supplier extends Base\Company implements ISearchable
             $database,
             $current_user,
             $log,
-            'suppliers',
             array(  'name'              => $name,
                 'parent_id'         => $parent_id,
                 'address'           => $address,
@@ -326,5 +295,15 @@ class Supplier extends Base\Company implements ISearchable
     protected static function getPermissionName() : string
     {
         return PermissionManager::SUPPLIERS;
+    }
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "L" . sprintf("%06d", $this->getID());
     }
 }

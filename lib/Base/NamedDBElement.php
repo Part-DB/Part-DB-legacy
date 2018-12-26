@@ -27,6 +27,9 @@ namespace PartDB\Base;
 
 use Exception;
 use PartDB\Database;
+use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\TableNotExistingException;
+use PartDB\Interfaces\IHasModifiedCreatedInfos;
 use PartDB\Log;
 use PartDB\LogSystem\ElementEditedEntry;
 use PartDB\User;
@@ -37,9 +40,8 @@ use PartDB\User;
  *
  * @class NamedDBElement
  * All subclasses of this class have an attribute "name".
- * @author kami89
  */
-abstract class NamedDBElement extends DBElement
+abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedInfos
 {
     /********************************************************************************
      *
@@ -48,24 +50,22 @@ abstract class NamedDBElement extends DBElement
      *********************************************************************************/
 
     /**
-     * Constructor
+     * This creates a new Element object, representing an entry from the Database.
      *
-     * @param Database  &$database                  reference to the Database-object
-     * @param User      &$current_user              reference to the current user which is logged in
-     * @param Log       &$log                       reference to the Log-object
-     * @param string    $tablename                  the name of the database table where the element is located
-     * @param integer   $id                         ID of the element we want to get
-     * @param boolean   $allow_virtual_elements     @li if true, it's allowed to set $id to zero
-     *                                                  (the StructuralDBElement needs this for the root element)
-     *                                              @li if false, $id == 0 is not allowed (throws an Exception)
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param array     $db_data                    If you have already data from the database, then use give it with this param, the part, wont make a database request.
-     * @throws Exception    if there is no such element in the database
-     * @throws Exception    if there was an error
+     * @throws TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, bool $allow_virtual_elements = false, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
-        parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements, $db_data);
+        parent::__construct($database, $current_user, $log, $id, $db_data);
     }
 
     /**
@@ -255,7 +255,7 @@ abstract class NamedDBElement extends DBElement
      * @param boolean   $exact_match            @li If true, only records which matches exactly will be returned
      *                                          @li If false, all similar records will be returned
      *
-     * @return array    all found elements as a one-dimensional array of objects,
+     * @return static[]    all found elements as a one-dimensional array of objects,
      *                  sorted by their names
      *
      * @throws Exception if there was an error
@@ -297,13 +297,13 @@ abstract class NamedDBElement extends DBElement
      *                                          @li example: @code
      *                                              array(['name'] => 'abcd', ['parent_id'] => 123, ...) @endcode
      *
-     * @return DBElement|NamedDBElement
+     * @return static
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      */
-    public static function addByArray(Database &$database, User &$current_user, Log &$log, string $tablename, array $new_values)
+    public static function addByArray(Database &$database, User &$current_user, Log &$log, array $new_values)
     {
-        $element = parent::addByArray($database, $current_user, $log, $tablename, $new_values);
+        $element = parent::addByArray($database, $current_user, $log, $new_values);
         //Log this the creation of the element to database.
 
         $log->elementCreated($element);

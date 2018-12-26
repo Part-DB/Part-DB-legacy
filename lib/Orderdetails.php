@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Exceptions\DatabaseException;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PermissionManager;
 
@@ -47,6 +48,9 @@ use PartDB\Permissions\PermissionManager;
  */
 class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
 {
+
+    const TABLE_NAME = "orderdetails";
+
     /********************************************************************************
      *
      *   Calculated Attributes
@@ -70,20 +74,22 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      *********************************************************************************/
 
-    /**
-     * @brief Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param integer   $id             ID of the orderdetails we want to get
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @throws Exception    if there is no such orderdetails record in the database
-     * @throws Exception    if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'orderdetails', $id, false, $data);
+        parent::__construct($database, $current_user, $log, $id, false, $data);
     }
 
     /**
@@ -164,7 +170,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @return Part     the part of this orderdetails
      *
-     * @throws Exception if there was an error
+     * @throws DatabaseException if there was an error
      */
     public function getPart() : Part
     {
@@ -185,7 +191,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @return Supplier     the supplier of this orderdetails
      *
-     * @throws Exception if there was an error
+     * @throws DatabaseException if there was an error
      */
     public function getSupplier() : Supplier
     {
@@ -222,7 +228,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getObsolete() : bool
     {
-        return $this->db_data['obsolete'];
+        return (bool) $this->db_data['obsolete'];
     }
 
     /**
@@ -388,11 +394,22 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         $this->setAttributes(array("supplier_product_url" => $new_url));
     }
 
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "O" . sprintf("%06d", $this->getID());
+    }
+
     /********************************************************************************
      *
      *   Static Methods
      *
      *********************************************************************************/
+
 
     /**
      * @copydoc DBElement::check_values_validity()
@@ -478,7 +495,6 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             $database,
             $current_user,
             $log,
-            'orderdetails',
             array(  'part_id'                   => $part_id,
                 'id_supplier'               => $supplier_id,
                 'supplierpartnr'            => $supplierpartnr,

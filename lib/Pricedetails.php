@@ -47,6 +47,9 @@ use PartDB\Permissions\PermissionManager;
  */
 class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
 {
+
+    const TABLE_NAME = "pricedetails";
+
     /********************************************************************************
      *
      *   Calculated Attributes
@@ -66,20 +69,22 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      *********************************************************************************/
 
-    /**
-     * Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param integer   $id             ID of the pricedetails we want to get
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @throws Exception    if there is no such pricedetails record in the database
-     * @throws Exception    if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'pricedetails', $id, false, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
     }
 
     /**
@@ -430,7 +435,6 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
             $database,
             $current_user,
             $log,
-            'pricedetails',
             array(  'orderdetails_id'           => $orderdetails_id,
                 'manual_input'              => true,
                 'price'                     => $price,
@@ -452,5 +456,15 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
             "minDiscountQuantity" => $this->getMinDiscountQuantity()
         );
         return $json;
+    }
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "PD" . sprintf("%06d", $this->getID());
     }
 }

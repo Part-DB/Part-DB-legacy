@@ -39,6 +39,9 @@ use PartDB\Permissions\PermissionManager;
  */
 class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissions
 {
+
+    const TABLE_NAME = "groups";
+
     /********************************************************************************
      *
      *   Calculated Attributes
@@ -60,23 +63,22 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      *
      *********************************************************************************/
 
-    /**
-     * Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @note  It's allowed to create an object with the ID 0 (for the root element).
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param integer   $id             ID of the group we want to get
-     * @param array     $data           Existing data, that should be used for db_data
-     *
-     * @throws Exception    if there is no such group in the database
-     * @throws Exception    if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null, bool $current_user_group = false)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'groups', $id, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
         $this->perm_manager = new PermissionManager($this);
     }
 
@@ -175,7 +177,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
         if (! is_array($this->users)) {
             $this->users = array();
 
-            $query =    'SELECT * FROM users '.
+            $query =    'SELECT * FROM users ' .
                 'WHERE group_id=? ORDER BY name ASC';
 
             $query_data = $this->database->query($query, array($this->getID()));
@@ -237,7 +239,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function getPermissionRaw(string $permsission_name) : int
     {
-        return intval($this->db_data["perms_" . $permsission_name]);
+        return (int) ($this->db_data["perms_" . $permsission_name]);
     }
 
     /**
@@ -296,24 +298,6 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
         // TODO
     }
 
-    /**
-     * Get count of groups
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return integer              count of groups
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(int &$database)
-    {
-        if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
-        }
-
-        return $database->getCountOfRecords('groups');
-    }
-
     public static function getPermissionName() : string
     {
         return PermissionManager::GROUPS;
@@ -326,7 +310,8 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @param $log Log The database which should be used for requests.
      * @param $name string The username of the new user.
      * @param $parent_id int The id of the parental group of the new group.
-     * @return Base\StructuralDBElement|Group
+     * @return static
+     * @throws Exception
      */
     public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id) : Group
     {
@@ -334,9 +319,18 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
             $database,
             $current_user,
             $log,
-            'groups',
             array(  'name'                      => $name,
                 'parent_id'                      => $parent_id)
         );
+    }
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "G" . sprintf("%06d", $this->getID());
     }
 }

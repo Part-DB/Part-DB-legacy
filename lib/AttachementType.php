@@ -26,6 +26,8 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Permissions\PermissionManager;
 
 /**
@@ -39,28 +41,30 @@ use PartDB\Permissions\PermissionManager;
 class AttachementType extends Base\StructuralDBElement implements Interfaces\IAPIModel
 {
 
+    const TABLE_NAME = "attachement_types";
+
     /********************************************************************************
      *
      *   Constructor / Destructor / reset_attributes()
      *
      *********************************************************************************/
 
-    /**
-     * Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @note  It's allowed to create an object with the ID 0 (for the root element).
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param integer   $id             ID of the filetype we want to get
-     *
-     * @throws Exception    if there is no such attachement type in the database
-     * @throws Exception    if there was an error
+     * @throws TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
     {
-        parent::__construct($database, $current_user, $log, 'attachement_types', $id, $db_data);
+        parent::__construct($database, $current_user, $log, $id, $db_data);
     }
 
     /********************************************************************************
@@ -75,7 +79,9 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      * @return Attachement[]        all attachements with this type, as a one-dimensional array of Attachement-objects
      *                      (sorted by their names)
      *
-     * @throws Exception if there was an error
+     *
+     * @throws Exceptions\DatabaseException
+     * @throws Exceptions\TableNotExistingException
      */
     public function getAttachementsForType() : array
     {
@@ -83,8 +89,8 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
         if (! is_array($this->attachements)) {
             $this->attachements = array();
 
-            $query = 'SELECT * FROM attachements '.
-                'WHERE type_id=? '.
+            $query = 'SELECT * FROM attachements ' .
+                'WHERE type_id=? ' .
                 'ORDER BY name ASC';
             $query_data = $this->database->query($query, array($this->getID()));
 
@@ -102,25 +108,6 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *   Static Methods
      *
      *********************************************************************************/
-
-    /**
-     * Get count of attachement types
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return  integer              count of attachement types
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(Database &$database) : int
-    {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
-        return $database->getCountOfRecords('attachement_types');
-    }
-
     /**
      * Create a new attachement type
      *
@@ -149,6 +136,17 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
                     "comment"   => $comment)
         );
     }
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "AT" . sprintf("%09d", $this->getID());
+    }
+
 
     /**
      * Returns a Array representing the current object.

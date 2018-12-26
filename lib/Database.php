@@ -29,6 +29,8 @@ namespace PartDB;
 use DebugBar\DataCollector\PDO\TraceablePDO;
 use Exception;
 use PartDB\Exceptions\DatabaseException;
+use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\TableNotExistingException;
 use PartDB\LogSystem\DatabaseUpdatedEntry;
 use PartDB\Tools\PDBDebugBar;
 use PDO;
@@ -127,7 +129,7 @@ class Database
                     //If a unix socket is given in $dbo
                     if (isPathabsoluteAndUnix($config['db']['host'], false)) {
                         $this->pdo = new PDO(
-                            'mysql:unix_socket='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
+                            'mysql:unix_socket=' . $config['db']['host'] . ';dbname=' . $config['db']['name'] . ';charset=utf8',
                             $config['db']['user'],
                             $config['db']['password'],
                             array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
@@ -168,7 +170,7 @@ class Database
             }
 
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->pdo->exec("SET SQL_MODE='".$this->sql_mode."'");
+            $this->pdo->exec("SET SQL_MODE='" . $this->sql_mode . "'");
         } catch (PDOException $e) {
             debug(
                 'error',
@@ -198,7 +200,8 @@ class Database
     /**
      *  Get current database version (from database table "internal")
      *
-     * @param $force_check bool Set this to true, if no cached value should be used. The value will be freshly retrieved from the DB.
+     * @param $force_check bool Set this to true, if no cached value should be used.
+     * The value will be freshly retrieved from the DB.
      *
      * @return integer      current database version
      *
@@ -315,7 +318,7 @@ class Database
      *              So we use the config "$config['update']['next_step']" to memorize an error.
      *
      * @param boolean $continue_last_attempt        @li if true and the last update attempt was not successfully,
-     *                                                  the update will continue at the last step which has produced an error
+     *                                                 the update will continue at the last step which has produced an error
      *                                              @li if false, the update will start with the first update step,
      *                                                  even if there was an error. this is used if the user has loaded a
      *                                                  new database (backup last imported) after an update error.
@@ -659,17 +662,18 @@ class Database
      *              If you expect data, use Database::query() instead.
      * @note        If you execute an INSERT statement, you will get the ID of the new record!
      *
-     * @param string        $query      the query string, but with the symbol "?" (without ")
+     * @param string $query the query string, but with the symbol "?" (without ")
      *                                  as place holder for the values
-     * @param array         $values     @li one-dimensional array of values (mixed types) [0..*]
-     *                                  @li for each placeholder in $query, there must be an array element!
-     *                                  @li The order must be the same as the placeholders in $query!
+     * @param array $values @li one-dimensional array of values (mixed types) [0..*]
+     * @li for each placeholder in $query, there must be an array element!
+     * @li The order must be the same as the placeholders in $query!
      *
      * @return  integer     @li count of elements which were modified
-     *                      @li or if the query was an INSERT command,
+     * @li or if the query was an INSERT command,
      *                          the ID of the new record will be returned
      *
-     * @throws Exception if there was an error
+     * @throws DatabaseException If there was an error executing the query.
+     * @throws Exception If there was an exception with the underlying PDO Statment.
      */
     public function execute(string $query, array $values = array()) : int
     {
@@ -734,21 +738,22 @@ class Database
      *          If you don't expect returned data (but count of changes), use Databas::exec() instead.
      * @note    So use this method only for SELECT or SHOW statements!!
      *
-     * @param string        $query          the query string, but with the symbol "?" (without ")
+     * @param string $query the query string, but with the symbol "?" (without ")
      *                                      as place holder for the values
-     * @param array         $values         @li one-dimensional array of values (mixed types) [0..*]
-     *                                      @li for each placeholder in $query, there must be an array element!
-     *                                      @li The order must be the same as the placeholders in $query!
-     * @param integer       $fetch_style    @li The style of the returned array.
-     *                                      @li Examples: PDO::FETCH_ASSOC, PDO::FETCH_BOTH
-     *                                      @li see @link http://php.net/manual/de/pdostatement.fetch.php
+     * @param array $values @li one-dimensional array of values (mixed types) [0..*]
+     * @li for each placeholder in $query, there must be an array element!
+     * @li The order must be the same as the placeholders in $query!
+     * @param integer $fetch_style @li The style of the returned array.
+     * @li Examples: PDO::FETCH_ASSOC, PDO::FETCH_BOTH
+     * @li see @link http://php.net/manual/de/pdostatement.fetch.php
      *                                          http://php.net/manual/de/pdostatement.fetch.php @endlink
      *
      * @return array            @li 2D data array [0..*]
-     *                          @li Example:
+     * @li Example:
      *                              array([0] => array(['id'] => 1, ['name'] => 'foo'), [1] => array(...))
      *
-     * @throws Exception if there was an error
+     * @throws DatabaseException If there was an error executing the query
+     * @throws Exception If there was an error with the underlying PDO statement
      */
     public function query(string $query, array $values = array(), int $fetch_style = PDO::FETCH_ASSOC) : array
     {
@@ -800,6 +805,8 @@ class Database
         return $data;
     }
 
+
+
     /********************************************************************************
      *
      *   Basic Database Methods
@@ -815,7 +822,7 @@ class Database
      * @return boolean      @li true if there is at least one table with this name
      *                      @li false if there is no table with this name
      *
-     * @throws Exception if there was an error
+     * @throws DatabaseException If there was an error.
      */
     public function doesTableExist(string $tablename, bool $forcecheck = false) : bool
     {
@@ -841,33 +848,23 @@ class Database
         } else {
             return false;
         }
-
-        /*try
-        {
-            $query_data = $this->query('SELECT count(*) as count FROM '.$tablename);
-        }
-        catch (Exception $e)
-        {
-            return false;
-        }
-
-        return true;*/
     }
 
     /**
      *  Get the count of records in a table
      *
-     * @param string $tablename         the name of the table
+     * @param string $tablename the name of the table
      *
-     * @return integer      count of records
+     * @return int      count of records
      *
-     * @throws Exception if there was an error
+     *
+     * @throws DatabaseException If there was an error getting the data from DB.
      */
     public function getCountOfRecords(string $tablename) : int
     {
-        $query_data = $this->query('SELECT count(*) as count FROM '.$tablename);
+        $query_data = $this->query('SELECT count(*) as count FROM ' . $tablename);
 
-        return intval($query_data[0]['count']);
+        return (int) $query_data[0]['count'];
     }
 
     /**
@@ -890,7 +887,7 @@ class Database
             ' WHERE id=?', array($id), $fetch_style);
 
         if (count($query_data) == 0) {
-            throw new DatabaseException(sprintf(_('Es existiert kein Datensatz mit der ID "%d" in der Tabelle "%s"!'), $id, $tablename));
+            throw new ElementNotExistingException(sprintf(_('Es existiert kein Datensatz mit der ID "%d" in der Tabelle "%s"!'), $id, $tablename));
         }
 
         return $query_data[0];
@@ -907,6 +904,38 @@ class Database
     public function deleteRecord(string $tablename, int $id)
     {
         $this->execute('DELETE FROM '.$tablename.' WHERE id=? LIMIT 1', array($id));
+    }
+
+    /**
+     * Inserts the given data as a new record into the given table.
+     * @param string $tablename The table to which the dataset should be added.
+     * @param array $new_values An associative array, containing the dataset. The keys are the coloum names.
+     * @return int The ID of the newly created row.
+     * @throws DatabaseException If the entry could not be created
+     * @throws TableNotExistingException If the table, in which should be inserted, does not exists.
+     */
+    public function insertRecord(string $tablename, array $new_values) : int
+    {
+        if (empty($new_values)) {
+            throw new \InvalidArgumentException(_('$new_values darf nicht leer sein!'));
+        }
+
+        if (! $this->doesTableExist($tablename)) {
+            throw new TableNotExistingException(sprintf(_('Die Tabelle "%s" existiert nicht!'), $tablename));
+        }
+
+        // create the query string
+        $query = 'INSERT INTO ' . $tablename . ' (' . implode(', ', array_keys($new_values)) . ') '.
+            'VALUES (?' . str_repeat(', ?', count($new_values) -1) . ')';
+
+        // now we can insert the new data into the database
+        $id = $this->execute($query, $new_values);
+
+        if ($id == null) {
+            throw new DatabaseException(_('Der Datenbankeintrag konnte nicht angelegt werden.'));
+        }
+
+        return $id;
     }
 
     /**

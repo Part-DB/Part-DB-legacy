@@ -29,6 +29,8 @@ use Exception;
 use PartDB\Attachement;
 use PartDB\AttachementType;
 use PartDB\Database;
+use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Log;
 use PartDB\User;
 
@@ -68,21 +70,20 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
     /**
      * Constructor
      *
-     * @param Database  &$database                  reference to the Database-object
-     * @param User      &$current_user              reference to the current user which is logged in
-     * @param Log       &$log                       reference to the Log-object
-     * @param integer   $id                         ID of the element we want to get
-     * @param string    $tablename                  The name of the DB table, where the data for this object is stored.
-     * @param boolean   $allow_virtual_elements     @li if true, it's allowed to set $id to zero
-     *                                                  (the StructuralDBElement needs this for the root element)
-     *                                              @li if false, $id == 0 is not allowed (throws an Exception)
-     * @param array     $db_data                    If you have already data from the database, then use give it with this param, the part, wont make a database request.
-     * @throws Exception    if there is no such element in the database
-     * @throws Exception    if there was an error
+     * @param Database  &$database reference to the Database-object
+     * @param User      &$current_user reference to the current user which is logged in
+     * @param Log       &$log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @li if false, $id == 0 is not allowed (throws an Exception)
+     * @param array $db_data If you have already data from the database, then use give it with this param, the part, wont make a database request.
+     *
+     *  @throws TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, bool $allow_virtual_elements = false, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
-        parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements, $db_data);
+        parent::__construct($database, $current_user, $log, $id, $db_data);
     }
 
     /**

@@ -45,6 +45,8 @@ use PartDB\Permissions\UserPermission;
 class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 {
 
+    const TABLE_NAME = 'users';
+
     /** The User id of the anonymous user */
     const ID_ANONYMOUS      = 1;
     /** The user id of the main admin user */
@@ -76,17 +78,18 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      *
      *********************************************************************************/
 
-    /**
-     * Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @param Database      &$database      reference to the Database-object
-     * @param User|NULL     &$current_user  @li reference to the current user which is logged in
-     *                                      @li NULL if $id is the ID of the current user
-     * @param Log           &$log           reference to the Log-object
-     * @param integer       $id             ID of the user we want to get
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @throws Exception    if there is no such user in the database
-     * @throws Exception    if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(Database &$database, &$current_user, Log &$log, int $id, $data = null)
     {
@@ -95,7 +98,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }           // --> which one was first: the egg or the chicken? :-)
 
 
-        parent::__construct($database, $current_user, $log, 'users', $id, true, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
 
 
 
@@ -545,7 +548,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             return false; //Anonymous never has to change PW, because he has none.
         }
 
-        return $this->db_data['need_pw_change'];
+        return (bool) $this->db_data['need_pw_change'];
     }
 
     /**
@@ -812,24 +815,6 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
 
     /**
-     * Get count of users
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return integer              count of users
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(Database &$database) : int
-    {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
-        return $database->getCountOfRecords('users');
-    }
-
-    /**
      * Search elements by name.
      *
      * @param Database &$database reference to the database object
@@ -866,7 +851,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
 
         if (count($query_data) == 0) {
-            throw new Exception(_("Kein Benutzer mit folgendem Benutzernamen vorhanden:") . " " .$username);
+            throw new Exception(_("Kein Benutzer mit folgendem Benutzernamen vorhanden:") . " " . $username);
         }
 
         $user_data = $query_data[0];
@@ -889,7 +874,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function getLoggedInID(): int
     {
-        if (!isset($_SESSION['user']) || $_SESSION['user']<=static::ID_ANONYMOUS) {
+        if (!isset($_SESSION['user']) || $_SESSION['user'] <= static::ID_ANONYMOUS) {
             return static::ID_ANONYMOUS;   //User anonymous.
         } else {
             /*
@@ -1056,7 +1041,6 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             $database,
             $current_user,
             $log,
-            'users',
             array(  'name'                      => static::normalizeUsername($name),
                 'group_id'                      => $group_id)
             + $data
@@ -1083,5 +1067,15 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         $username = filter_var($username, FILTER_SANITIZE_EMAIL);
 
         return $username;
+    }
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "U" . sprintf("%06d", $this->getID());
     }
 }

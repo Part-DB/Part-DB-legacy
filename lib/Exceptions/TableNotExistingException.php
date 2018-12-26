@@ -25,7 +25,7 @@
 namespace PartDB\Exceptions;
 
 
-class TableNotExistingException extends \Exception
+class TableNotExistingException extends DatabaseException
 {
 
 }

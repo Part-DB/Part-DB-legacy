@@ -26,6 +26,8 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Exceptions\DatabaseException;
+use PartDB\Exceptions\TableNotExistingException;
 use PartDB\PartProperty\PartNameRegEx;
 use PartDB\Permissions\PermissionManager;
 
@@ -35,32 +37,34 @@ use PartDB\Permissions\PermissionManager;
  *
  * @class Category
  * All elements of this class are stored in the database table "categories".
- * @author kami89
  */
 class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ISearchable
 {
+
+    const TABLE_NAME = 'categories';
+
     /********************************************************************************
      *
      *   Constructor / Destructor / reset_attributes()
      *
      *********************************************************************************/
 
-    /**
-     * Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @note  It's allowed to create an object with the ID 0 (for the root element).
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param Database  &$database          reference to the Database-object
-     * @param User      &$current_user      reference to the current user which is logged in
-     * @param Log       &$log               reference to the Log-object
-     * @param integer   $id                 ID of the category we want to get
-     *
-     * @throws Exception        if there is no such category in the database
-     * @throws Exception        if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'categories', $id, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
     }
 
     /********************************************************************************
@@ -78,7 +82,8 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *                                              which is stored in the database
      *
      * @return boolean          "disable footprints" attribute
-     * @throws Exception
+     * @throws TableNotExistingException
+     * @throws DatabaseException
      */
     public function getDisableFootprints(bool $including_parents = false) : bool
     {
@@ -96,7 +101,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
 
             return false;
         } else {
-            return $this->db_data['disable_footprints'];
+            return (bool) $this->db_data['disable_footprints'];
         }
     }
 
@@ -109,7 +114,8 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *                                              which is stored in the database
      *
      * @return boolean          the "disable manufacturers" attribute
-     * @throws Exception
+     * @throws DatabaseException
+     * @throws TableNotExistingException
      */
     public function getDisableManufacturers(bool $including_parents = false) : bool
     {
@@ -140,7 +146,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *                                              which is stored in the database
      *
      * @return boolean          the "disable automatic datasheets" attribute
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function getDisableAutodatasheets(bool $including_parents = false) : bool
     {
@@ -158,7 +164,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
 
             return false;
         } else {
-            return $this->db_data['disable_autodatasheets'];
+            return (bool) $this->db_data['disable_autodatasheets'];
         }
     }
 
@@ -171,7 +177,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *                                              which is stored in the database
      *
      * @return boolean          the "disable automatic properties" attribute
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function getDisableProperties(bool $including_parents = false) : bool
     {
@@ -189,7 +195,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
 
             return false;
         } else {
-            return $this->db_data['disable_properties'];
+            return (bool) $this->db_data['disable_properties'];
         }
     }
 
@@ -202,7 +208,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *                                              which is stored in the database
      *
      * @return string          the "default description" attribute
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function getDefaultDescription(bool $including_parents = false, bool $show_escape = true) : string
     {
@@ -242,7 +248,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *                                              which is stored in the database
      *
      * @return string          the "default comment" attribute
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function getDefaultComment(bool $including_parents = false, bool $show_escape = true) : string
     {
@@ -277,7 +283,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *                                              which is stored in the database
      * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
      * @return string  The partname_hint attribute
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function getPartnameHint(bool $including_parents = false, bool $show_escape = true) : string
     {
@@ -318,7 +324,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *                                              which is stored in the database
      * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
      * @return string  The partname_hint attribute
-     * @throws Exception
+     * @throws DatabaseException
      */
     public function getPartnameRegexRaw(bool $including_parents = false, bool $show_escape = true) : string
     {
@@ -384,8 +390,6 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         return $obj->checkName($name);
     }
 
-
-
     /**
      *  Get all parts from this element
      *
@@ -402,9 +406,8 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        return parent::getTableParts('id_category', $recursive, $hide_obsolete_and_zero, $limit, $page);
+        return parent::getPartsForRowName('id_category', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
-
     /**
      * Return the number of all parts in this PartsContainingDBElement
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
@@ -412,8 +415,10 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountInternal($recursive, 'id_category');
+        return parent::getPartsCountForRowName($recursive, 'id_category');
     }
+
+
 
     /********************************************************************************
      *
@@ -530,24 +535,6 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     *  Get the count of categories
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return integer              count of categories
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(Database &$database) : int
-    {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
-        return $database->getCountOfRecords('categories');
-    }
-
-    /**
      *  Create a new category
      *
      * @param Database  &$database                  reference to the database object
@@ -607,6 +594,17 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match = false) : array
     {
         return parent::searchTable($database, $current_user, $log, 'categories', $keyword, $exact_match);
+    }
+
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "C" . sprintf("%09d", $this->getID());
     }
 
     /**

@@ -38,34 +38,41 @@ use PartDB\Permissions\PermissionManager;
  */
 class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ISearchable
 {
+
+    const TABLE_NAME = "footprints";
+
     /********************************************************************************
      *
      *   Constructor / Destructor / reset_attributes()
      *
      *********************************************************************************/
 
-    /**
-     *  Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @note  It's allowed to create an object with the ID 0 (for the root element).
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param integer   $id             ID of the footprint we want to get
-     *
-     * @throws Exception if there is no such footprint
-     * @throws Exception if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'footprints', $id, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
+    }
 
-        if ($id == 0) {
-            // this is the root node
-            $this->db_data['filename'] = '';
-            return;
+    public function getVirtualData(int $virtual_id): array
+    {
+        $tmp = parent::getVirtualData($virtual_id);
+        if($virtual_id == 0) {
+            $tmp['filename'] = "";
         }
+
+        return $tmp;
     }
 
     /********************************************************************************
@@ -77,20 +84,25 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     /**
      * Get the filename of the picture (absolute path from filesystem root)
      *
+     * @param bool $absolute If set to true, then the absolute filename (from system root) is returned.
+     * If set to false, then the path relative to Part-DB folder is returned.
      * @return string   @li the absolute path to the picture (from filesystem root), as a UNIX path (with slashes)
-     *                  @li an empty string if there is no picture
+     * @li an empty string if there is no picture
      */
     public function getFilename(bool $absolute = true) : string
     {
         if ($absolute == true) {
             return str_replace('%BASE%', BASE, $this->db_data['filename']);
         } else {
-            return str_replace('%BASE%', "", $this->db_data['filename']);
+            return $this->db_data['filename'];
         }
     }
 
     /**
      *   Get the filename of the 3d model (absolute path from filesystem root)
+     *
+     * @param bool $absolute If set to true, then the absolute filename (from system root) is returned.
+     * If set to false, then the path relative to Part-DB folder is returned.
      *
      * @return string   @li the absolute path to the model (from filesystem root), as a UNIX path (with slashes)
      *                  @li an empty string if there is no model
@@ -100,7 +112,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
         if ($absolute == true) {
             return str_replace('%BASE%', BASE, $this->db_data['filename_3d']);
         } else {
-            return str_replace('%BASE%', "", $this->db_data['filename_3d']);
+            return $this->db_data['filename_3d'];
         }
     }
 
@@ -122,7 +134,6 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     {
         return parent::getTableParts('id_footprint', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
-
     /**
      * Return the number of all parts in this PartsContainingDBElement
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
@@ -146,7 +157,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public function isFilenameValid() : bool
     {
-        if (strlen($this->getFilename()) == 0) {
+        if (empty($this->getFilename())) {
             return true;
         }
 
@@ -166,11 +177,11 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public function is3dFilenameValid() : bool
     {
-        if (strlen($this->get3dFilename()) == 0) {
+        if (empty($this->get3dFilename())) {
             return true;
         }
 
-        //Check if file is X3D-Model
+        //Check if file is X3D-Model (these has .x3d extension)
         if (strpos($this->get3dFilename(), '.x3d') == false) {
             return false;
         }
@@ -262,31 +273,13 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     }
 
     /**
-     *  Get count of footprints
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return integer              count of footprints
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(Database &$database)
-    {
-        if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
-        }
-
-        return $database->getCountOfRecords('footprints');
-    }
-
-    /**
      *  Get all footprints with invalid filenames (file does not exist)
      *
      * @param Database  &$database      reference to the database onject
      * @param User      &$current_user  reference to the current user which is logged in
      * @param Log       &$log           reference to the Log-object
      *
-     * @return array    all footprints with broken filename as a one-dimensional
+     * @return Footprint[]    all footprints with broken filename as a one-dimensional
      *                  array of Footprint objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -314,7 +307,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @param User      &$current_user  reference to the current user which is logged in
      * @param Log       &$log           reference to the Log-object
      *
-     * @return array    all footprints with broken filename as a one-dimensional
+     * @return Footprint[]    all footprints with broken filename as a one-dimensional
      *                  array of Footprint objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -360,7 +353,6 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
             $database,
             $current_user,
             $log,
-            'footprints',
             array(  'name'      => $name,
                 'parent_id' => $parent_id,
                 'filename'  => $filename,
@@ -410,5 +402,15 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     protected static function getPermissionName() : string
     {
         return PermissionManager::FOOTRPINTS;
+    }
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "F" . sprintf("%06d", $this->getID());
     }
 }

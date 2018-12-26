@@ -28,6 +28,8 @@ namespace PartDB;
 use Exception;
 use PartDB\Base\AttachementsContainingDBElement;
 use PartDB\Base\DBElement;
+use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PermissionManager;
@@ -38,7 +40,6 @@ use PartDB\Permissions\PermissionManager;
  *
  * @class Attachement
  *  All elements of this class are stored in the database table "attachements".
- * @author kami89
  */
 class Attachement extends Base\NamedDBElement
 {
@@ -52,7 +53,7 @@ class Attachement extends Base\NamedDBElement
      *
      *********************************************************************************/
 
-    /** @var object the element of this attachement (for example a "Part" object) */
+    /** @var DBElement the element of this attachement (for example a "Part" object) */
     private $element          = null;
     /** @var AttachementType the type of this attachement */
     private $attachement_type = null;
@@ -63,6 +64,8 @@ class Attachement extends Base\NamedDBElement
      *
      *********************************************************************************/
 
+    const TABLE_NAME = "attachements";
+
     /**
      * Constructor
      *
@@ -71,12 +74,13 @@ class Attachement extends Base\NamedDBElement
      * @param Log       &$log               reference to the Log-object
      * @param integer   $id                 ID of the attachement we want to get
      *
-     * @throws Exception        if there is no such attachement in the database
-     * @throws Exception        if there was an error
+     * @throws TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'attachements', $id, false, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
     }
 
     /**
@@ -203,13 +207,12 @@ class Attachement extends Base\NamedDBElement
      *********************************************************************************/
 
     /**
-     * Get the element (for example a "Part" object)
+     * Get the element, associated with this Attachement (for example a "Part" object)
      *
-     * @return object|DBElement
+     * @return DBElement The associated Element.
      *
-     * @throws Exception if there was an error
      */
-    public function getElement()
+    public function getElement() : DBElement
     {
         if (! is_object($this->element)) {
             $this->element = new $this->db_data['class_name'](
@@ -224,7 +227,9 @@ class Attachement extends Base\NamedDBElement
     }
 
     /**
-     * Checks if the file in this attachement is existing. This works for files on the HDD, and for URLs (its not checked if the ressource behind the URL is really existing).
+     * Checks if the file in this attachement is existing. This works for files on the HDD, and for URLs
+     * (it's not checked if the ressource behind the URL is really existing).
+     *
      * @return bool True if the file is existing.
      */
     public function isFileExisting() : bool
@@ -245,12 +250,12 @@ class Attachement extends Base\NamedDBElement
     /**
      * Get the show_in_table attribute
      *
-     * @return boolean      @li true means, this attachement will be listed in the "Attachements" column of the HTML tables
-     *                      @li false means, this attachement won't be listed in the "Attachements" column of the HTML tables
+     * @return bool  true means, this attachement will be listed in the "Attachements" column of the HTML tables
+     *               false means, this attachement won't be listed in the "Attachements" column of the HTML tables
      */
     public function getShowInTable() : bool
     {
-        return $this->db_data['show_in_table'];
+        return (bool) $this->db_data['show_in_table'];
     }
 
     /**
@@ -286,8 +291,8 @@ class Attachement extends Base\NamedDBElement
      * @note    The filename will not be checked, it's not really important that the filename is valid...
      *          For this reason we have the method Attachement::get_invalid_filename_attachements() :-)
      *
-     * @param string $new_filename      @li the new filename (absolute path from filesystem root as a UNIX path [only slashes]!!)
-     *                                  @li see also lib.functions.php::to_unix_path()
+     * @param string $new_filename the new filename (absolute path from filesystem root as a UNIX path [only slashes]!!)
+     *                             see also lib.functions.php::to_unix_path()
      *
      * @warning     It's really important that you pass the whole (UNIX) path from filesystem root!
      *              If the file is located in the base directory of Part-DB, the base path
@@ -322,7 +327,7 @@ class Attachement extends Base\NamedDBElement
      *********************************************************************************/
 
     /**
-     *  Get all Attachement-objects with a specific filename
+     *  Get all Attachement-objects with the specified filename
      *
      * @param Database  &$database          reference to the Database-object
      * @param User      &$current_user      reference to the current user which is logged in
@@ -334,7 +339,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getAttachementsByFilename(Database &$database, User &$current_user, Log &$log, string $filename)
+    public static function getAttachementsByFilename(Database &$database, User &$current_user, Log &$log, string $filename) : array
     {
         $attachements = array();
 
@@ -342,8 +347,8 @@ class Attachement extends Base\NamedDBElement
         // Then we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
         $filename_2 = str_replace(BASE, '%BASE%', trim($filename));
 
-        $query =    'SELECT * FROM attachements '.
-            'WHERE filename=? OR filename=? '.
+        $query =    'SELECT * FROM attachements ' .
+            'WHERE filename=? OR filename=? ' .
             'ORDER BY name ASC';
         // we will search for both, the original filename and the filename with replaced base-path
         $query_data = $database->query($query, array($filename, $filename_2));
@@ -368,11 +373,11 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getInvalidFilenameAttachements(Database &$database, User &$current_user, Log &$log)
+    public static function getInvalidFilenameAttachements(Database &$database, User &$current_user, Log &$log) : array
     {
         $attachements = array();
 
-        $query =    'SELECT * FROM attachements '.
+        $query =    'SELECT * FROM attachements ' .
             'ORDER BY name ASC';
         $query_data = $database->query($query);
 
@@ -387,12 +392,6 @@ class Attachement extends Base\NamedDBElement
 
     /**
      * @copydoc DBElement::check_values_validity()
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
      */
     public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
@@ -490,44 +489,27 @@ class Attachement extends Base\NamedDBElement
         $values['filename'] = str_replace(BASE, '%BASE%', $values['filename']);
     }
 
-    /**
-     *  Get count of attachements
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return integer              count of attachements
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(Database &$database) : int
-    {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
-        return $database->getCountOfRecords('attachements');
-    }
 
     /**
      * Create a new attachement
      *
-     * @param Database  &$database          reference to the database object
-     * @param User      &$current_user      reference to the user which is logged in
-     * @param Log       &$log               reference to the Log-object
-     * @param DBElement &$element           @li the element on which the file will be attached
-     *                                      @li For supported elements see Attachement::check_values_validity()
-     * @param integer   $type_id            the ID of the attachement type (see Attachement::set_type_id())
-     * @param string    $filename           the filename of the new attachement (see Attachement::set_filename())
-     * @param string    $name               the name of the new attachement (see Attachement::set_name())
-     * @param boolean   $show_in_table      the "show_in_table" attribute of the new filename (see Attachement::set_show_in_table())
+     * @param Database  &$database reference to the database object
+     * @param User      &$current_user reference to the user which is logged in
+     * @param Log       &$log reference to the Log-object
+     * @param DBElement &$element @li the element on which the file will be attached
+     * @li For supported elements see Attachement::check_values_validity()
+     * @param integer $type_id the ID of the attachement type (see Attachement::set_type_id())
+     * @param string $filename the filename of the new attachement (see Attachement::set_filename())
+     * @param string $name the name of the new attachement (see Attachement::set_name())
+     * @param bool $show_in_table the "show_in_table" attribute of the new filename (see Attachement::set_show_in_table())
      *
      * @warning         You have to supply the full path from filesystem root in $filename!!
      *                  For more details see Attachement::set_filename().
      *
      * @return Attachement|Base\NamedDBElement
      *
-     * @throws Exception    if (this combination of) values is not valid
-     * @throws Exception    if there was an error
+     * @throws \InvalidArgumentException If the $element is not a valid DBElement
+     * @throws Exception
      *
      * @see DBElement::add()
      */
@@ -544,8 +526,8 @@ class Attachement extends Base\NamedDBElement
         $current_user->tryDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE);
 
 
-        if (! is_object($element)) {
-            throw new Exception(_('$element ist kein Objekt!'));
+        if (! $element instanceof DBElement) {
+            throw new \InvalidArgumentException((_('$element ist kein gültiges DBElement!')));
         }
 
         return parent::addByArray(
@@ -560,5 +542,15 @@ class Attachement extends Base\NamedDBElement
                 'filename'          => $filename,
                 'show_in_table'     => $show_in_table)
         );
+    }
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "A" . sprintf("%09d", $this->getID());
     }
 }

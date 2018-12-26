@@ -47,33 +47,36 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      *********************************************************************************/
 
-    /**
-     * Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * It's allowed to create an object with the ID 0 (for the root element).
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param string    $tablename      the name of the database table (e.g. "suppliers" or "manufacturers")
-     * @param integer   $id             ID of the database record we want to get
-     *
-     * @throws Exception        if there is no such element in the database
-     * @throws Exception        if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, $data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, $tablename, $id, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
+    }
 
-        if ($id == 0) {
-            // this is the root node
-            $this->db_data['address'] = '';
-            $this->db_data['phone_number'] = '';
-            $this->db_data['fax_number'] = '';
-            $this->db_data['email_address'] = '';
-            $this->db_data['website'] = '';
-            return;
+    public function getVirtualData(int $virtual_id): array
+    {
+        $tmp = parent::getVirtualData($virtual_id);
+        if ($virtual_id == parent::ID_ROOT_ELEMENT) {
+            $tmp['address'] = '';
+            $tmp['phone_number'] = '';
+            $tmp['fax_number'] = '';
+            $tmp['email_address'] = '';
+            $tmp['website'] = '';
         }
+
+        return $tmp;
     }
 
     /********************************************************************************

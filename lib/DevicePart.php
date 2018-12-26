@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Exceptions\DatabaseException;
 use PartDB\Permissions\DevicePartPermission;
 use PartDB\Permissions\PermissionManager;
 
@@ -43,6 +44,9 @@ use PartDB\Permissions\PermissionManager;
  */
 class DevicePart extends Base\DBElement
 {
+
+    const TABLE_NAME = "device_parts";
+
     /********************************************************************************
      *
      *   Calculated Attributes
@@ -64,20 +68,22 @@ class DevicePart extends Base\DBElement
      *
      *********************************************************************************/
 
-    /**
-     * Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @param Database  &$database          reference to the Database-object
-     * @param User      &$current_user      reference to the current user which is logged in
-     * @param Log       &$log               reference to the Log-object
-     * @param integer   $id                 ID of the device-part we want to get
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @throws Exception        if there is no such device-part in the database
-     * @throws Exception        if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'device_parts', $id, false, $data);
+        parent::__construct($database, $current_user, $log, $id, false, $data);
     }
 
     /**
@@ -102,7 +108,7 @@ class DevicePart extends Base\DBElement
      *
      * @return Device       the device of this device-part
      *
-     * @throws Exception if there was an error
+     * @throws DatabaseException
      */
     public function getDevice() : Device
     {
@@ -123,7 +129,7 @@ class DevicePart extends Base\DBElement
      *
      * @return Part      the part of this device-part
      *
-     * @throws Exception if there was an error
+     * @throws DatabaseException
      */
     public function getPart() : Part
     {
@@ -333,10 +339,6 @@ class DevicePart extends Base\DBElement
      */
     public static function getDevicePart(Database &$database, User &$current_user, Log &$log, int $device_id, int $part_id)
     {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
         $query_data = $database->query(
             'SELECT id FROM device_parts '.
             'WHERE id_device=? AND id_part=? LIMIT 1',
@@ -399,6 +401,16 @@ class DevicePart extends Base\DBElement
         parent::setAttributes($new_values);
     }
 
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "DP" . sprintf("%06d", $this->getID());
+    }
 
     /**
      *  Create a new device-part
@@ -476,7 +488,6 @@ class DevicePart extends Base\DBElement
             $database,
             $current_user,
             $log,
-            'device_parts',
             array(  'id_device'     => $device_id,
                 'id_part'       => $part_id,
                 'quantity'      => $quantity,
