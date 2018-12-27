@@ -170,15 +170,6 @@ class Manufacturer extends Base\Company implements ISearchable
     }
 
     /**
-     * @copydoc NamedDBElement::search()
-     * @throws Exception
-     */
-    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match = false) : array
-    {
-        return parent::searchTable($database, $current_user, $log, 'manufacturers', $keyword, $exact_match);
-    }
-
-    /**
      * Gets the permission name for control access to this StructuralDBElement
      * @return string The name of the permission for this StructuralDBElement.
      */

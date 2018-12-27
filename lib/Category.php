@@ -587,16 +587,6 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @copydoc NamedDBElement::search()
-     * @throws Exception
-     */
-    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match = false) : array
-    {
-        return parent::searchTable($database, $current_user, $log, 'categories', $keyword, $exact_match);
-    }
-
-
-    /**
      * Returns the ID as an string, defined by the element class.
      * This should have a form like P000014, for a part with ID 14.
      * @return string The ID as a string;

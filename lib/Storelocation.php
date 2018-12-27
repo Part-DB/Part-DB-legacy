@@ -195,15 +195,6 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     }
 
     /**
-     * @copydoc NamedDBElement::search()
-     * @throws Exception
-     */
-    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match = false) : array
-    {
-        return parent::searchTable($database, $current_user, $log, 'storelocations', $keyword, $exact_match);
-    }
-
-    /**
      * Returns a Array representing the current object.
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.

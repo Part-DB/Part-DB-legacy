@@ -269,26 +269,6 @@ class Supplier extends Base\Company implements ISearchable
     }
 
     /**
-     * Search elements by name.
-     *
-     * @param Database  &$database              reference to the database object
-     * @param User      &$current_user          reference to the user which is logged in
-     * @param Log       &$log                   reference to the Log-object
-     * @param string    $keyword                the search string
-     * @param boolean   $exact_match            @li If true, only records which matches exactly will be returned
-     *                                          @li If false, all similar records will be returned
-     *
-     * @return array    all found elements as a one-dimensional array of objects,
-     *                  sorted by their names
-     *
-     * @throws Exception if there was an error
-     */
-    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match = false) : array
-    {
-        return parent::searchTable($database, $current_user, $log, 'suppliers', $keyword, $exact_match);
-    }
-
-    /**
      * Gets the permission name for control access to this StructuralDBElement
      * @return string The name of the permission for this StructuralDBElement.
      */
