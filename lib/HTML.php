@@ -358,7 +358,7 @@ class HTML
             $tmpl->assign("lastname", $user->getLastName());
             $tmpl->assign('can_search', $user->canDo(PermissionManager::PARTS, PartPermission::SEARCH));
             $tmpl->assign('can_category', $user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)
-                    && $user->canDo(PermissionManager::CATEGORIES, PartContainingPermission::LIST_PARTS));
+                && $user->canDo(PermissionManager::CATEGORIES, PartContainingPermission::LIST_PARTS));
             $tmpl->assign('can_device', $user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
         } catch (Exception $exception) {
             //TODO
@@ -462,7 +462,7 @@ class HTML
         $tmpl = $this->tmpl;
         $tmpl->clearAllAssign();
 
-        
+
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
         $tmpl->assign("debugging_activated", $config['debug']['enable']);

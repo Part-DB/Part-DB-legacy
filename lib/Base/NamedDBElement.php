@@ -251,70 +251,70 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
         }
     }
 
-        /**
-         * Search elements by name in the given table.
-         *
-         * @param Database  &$database              reference to the database object
-         * @param User      &$current_user          reference to the user which is logged in
-         * @param Log       &$log                   reference to the Log-object
-         * @param string    $tablename              The table in which should be searched.
-         * @param string    $keyword                the search string
-         * @param boolean   $exact_match            @li If true, only records which matches exactly will be returned
-         *                                          @li If false, all similar records will be returned
-         *
-         * @return static[]    all found elements as a one-dimensional array of objects,
-         *                  sorted by their names
-         *
-         * @throws Exception if there was an error
-         */
-        protected static function searchTable(Database &$database, User &$current_user, Log &$log, string $tablename, string $keyword, bool $exact_match) : array
-        {
-            if (strlen($keyword) == 0) {
-                return array();
-            }
-
-            if (! $exact_match) {
-                $keyword = str_replace('*', '%', $keyword);
-                $keyword = '%'.$keyword.'%';
-            }
-
-            $query = 'SELECT * FROM '.$tablename.' WHERE name'.(($exact_match) ? '=' : ' LIKE ').'? ORDER BY name ASC';
-            $query_data = $database->query($query, array($keyword));
-
-            $objects = array();
-
-            $classname = get_called_class();
-
-            foreach ($query_data as $row) {
-                $objects[] = new $classname($database, $current_user, $log, $row['id'], $row);
-            }
-
-            return $objects;
+    /**
+     * Search elements by name in the given table.
+     *
+     * @param Database  &$database              reference to the database object
+     * @param User      &$current_user          reference to the user which is logged in
+     * @param Log       &$log                   reference to the Log-object
+     * @param string    $tablename              The table in which should be searched.
+     * @param string    $keyword                the search string
+     * @param boolean   $exact_match            @li If true, only records which matches exactly will be returned
+     *                                          @li If false, all similar records will be returned
+     *
+     * @return static[]    all found elements as a one-dimensional array of objects,
+     *                  sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    protected static function searchTable(Database &$database, User &$current_user, Log &$log, string $tablename, string $keyword, bool $exact_match) : array
+    {
+        if (strlen($keyword) == 0) {
+            return array();
         }
 
-        /**
-         * Create a new DBElement (store it in the database)
-         *
-         * @param Database      $database           reference to the database onject
-         * @param User          $current_user       reference to the current user which is logged in
-         * @param Log           $log                reference to the Log-object
-         * @param string        $tablename          the name of the table where the new element should be inserted
-         * @param array         $new_values         @li one-dimensional array with all keys (table columns)
-         *                                              and the new values
-         *                                          @li example: @code
-         *                                              array(['name'] => 'abcd', ['parent_id'] => 123, ...) @endcode
-         *
-         * @return static
-         *
-         * @throws Exception if the values are not valid / the combination of values is not valid
-         */
-        public static function addByArray(Database &$database, User &$current_user, Log &$log, array $new_values)
-        {
-            $element = parent::addByArray($database, $current_user, $log, $new_values);
-            //Log this the creation of the element to database.
-
-            $log->elementCreated($element);
-
-            return $element;
+        if (! $exact_match) {
+            $keyword = str_replace('*', '%', $keyword);
+            $keyword = '%'.$keyword.'%';
         }
+
+        $query = 'SELECT * FROM '.$tablename.' WHERE name'.(($exact_match) ? '=' : ' LIKE ').'? ORDER BY name ASC';
+        $query_data = $database->query($query, array($keyword));
+
+        $objects = array();
+
+        $classname = get_called_class();
+
+        foreach ($query_data as $row) {
+            $objects[] = new $classname($database, $current_user, $log, $row['id'], $row);
+        }
+
+        return $objects;
     }
+
+    /**
+     * Create a new DBElement (store it in the database)
+     *
+     * @param Database      $database           reference to the database onject
+     * @param User          $current_user       reference to the current user which is logged in
+     * @param Log           $log                reference to the Log-object
+     * @param string        $tablename          the name of the table where the new element should be inserted
+     * @param array         $new_values         @li one-dimensional array with all keys (table columns)
+     *                                              and the new values
+     *                                          @li example: @code
+     *                                              array(['name'] => 'abcd', ['parent_id'] => 123, ...) @endcode
+     *
+     * @return static
+     *
+     * @throws Exception if the values are not valid / the combination of values is not valid
+     */
+    public static function addByArray(Database &$database, User &$current_user, Log &$log, array $new_values)
+    {
+        $element = parent::addByArray($database, $current_user, $log, $new_values);
+        //Log this the creation of the element to database.
+
+        $log->elementCreated($element);
+
+        return $element;
+    }
+}

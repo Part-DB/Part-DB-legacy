@@ -287,7 +287,7 @@ class DevicePart extends Base\DBElement
         try {
             if ($values['id_device'] == 0) {
                 throw new
-                    InvalidElementValueException(_('Der obersten Ebene können keine Bauteile zugeordnet werden!'));
+                InvalidElementValueException(_('Der obersten Ebene können keine Bauteile zugeordnet werden!'));
             }
 
             $device = new Device($database, $current_user, $log, $values['id_device']);

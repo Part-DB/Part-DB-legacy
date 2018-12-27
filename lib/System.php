@@ -86,14 +86,6 @@ class System
 
         // get the installed version
         $this->installed_version = SystemVersion::getInstalledVersion();
-
-        debug(
-            'hint',
-            'System initialisiert: Version '.$this->getInstalledVersion()->asString(false, false, false, true),
-            __FILE__,
-            __LINE__,
-            __METHOD__
-        );
     }
 
     /********************************************************************************

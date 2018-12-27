@@ -1786,9 +1786,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'id':
                 case 'button_increment':
                     $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(
-                        PermissionManager::PARTS_INSTOCK,
-                        PartAttributePermission::EDIT
-                    );
+                            PermissionManager::PARTS_INSTOCK,
+                            PartAttributePermission::EDIT
+                        );
                     break;
                 case 'button_edit':
                     $row_field['edit_disabled'] = !$this->current_user->canDo(
@@ -2802,7 +2802,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         //When searchstring begins and ends with a backslash, treat the input as regex query
         if (substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\'
-        || substr($keyword, 0, 1) === '/' &&  substr($keyword, -1) === '/') {
+            || substr($keyword, 0, 1) === '/' &&  substr($keyword, -1) === '/') {
             $regex_search = true;
             $keyword = mb_substr($keyword, 1, -1); //Remove the backslashes
         }
