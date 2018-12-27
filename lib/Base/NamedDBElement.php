@@ -267,7 +267,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
      *
      * @throws Exception if there was an error
      */
-    protected static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match) : array
+    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match) : array
     {
         $tablename = static::getTablename();
 
