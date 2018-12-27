@@ -28,6 +28,7 @@ namespace PartDB\Base;
 use Exception;
 use PartDB\Database;
 use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\InvalidElementValueException;
 use PartDB\Exceptions\NotImplementedException;
 use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Interfaces\IHasVirtualElements;
@@ -281,9 +282,6 @@ abstract class DBElement
      */
     public function setAttributes(array $new_values)
     {
-        if ($this->getID() < 1) {
-            throw new Exception(_('Das ausgewählte Element existiert nicht in der Datenbank!'));
-        }
 
         // We create an array of all database data.
         // All values from $new_values will be used instead of the values in $this->db_data (override them).
@@ -296,14 +294,19 @@ abstract class DBElement
         // up to the DBElement to check the data!)
         static::checkValuesValidity($this->database, $this->current_user, $this->log, $values, false, $this);
 
-        // all values are valid (there was no exception), so we write them to the database
-        // note:    We use the values from $values instead of the values from $new_values
-        //          because this way the method check_values_validity() can adjust the values.
-        //          For example, names can be trimmed [trim()] in check_values_validity().
-        $this->database->setDataFields($this->tablename, $this->getID(), $values);
+        /**
+         * Only write to DB, if this element is not a virtual element.
+         */
+        if (!$this->is_virtual_element) {
+            // all values are valid (there was no exception), so we write them to the database
+            // note:    We use the values from $values instead of the values from $new_values
+            //          because this way the method check_values_validity() can adjust the values.
+            //          For example, names can be trimmed [trim()] in check_values_validity().
+            $this->database->setDataFields($this->tablename, $this->getID(), $values);
 
-        // get all data from the database again (this is the savest way to be up-to-date)
-        $this->db_data = $this->database->getRecordData($this->tablename, $this->getID());
+            // get all data from the database again (this is the savest way to be up-to-date)
+            $this->db_data = $this->database->getRecordData($this->tablename, $this->getID());
+        }
 
         // set all calculated attributes to NULL (maybe they are no longer valid)
         // (all same-named methods of every subclass of DBElement will be executed!)
@@ -437,21 +440,22 @@ abstract class DBElement
      * @param static|NULL   &$element           if $is_new is 'false', we have to supply the element,
      *                                          which will be edited, here.
      *
-     * @throws Exception if the values are not valid / the combination of values is not valid
-     * @throws Exception if there was an error
+     * @throws InvalidElementValueException if the values are not valid / the combination of values is not valid
+     * @throws \InvalidArgumentException
+     *
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
-    {
+    public static function checkValuesValidity(
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        array &$values,
+        bool $is_new,
+        &$element = null
+    ) {
         // YOU HAVE TO IMPLEMENT THIS METHOD IN YOUR SUBCLASSES IF YOU WANT TO CHECK NEW VALUES !!
 
-        if (! is_array($values)) {
-            debug('error', sprintf(_('$values ist kein Array: "%s"'), $values), __FILE__, __LINE__, __METHOD__);
-            throw new Exception(_('$values ist kein Array!'));
-        }
-
         if ((! $is_new) && (! is_object($element))) {
-            debug('error', '$element="'.$element.'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception(_('$element ist kein Objekt!'));
+            throw new \InvalidArgumentException(_('$element ist kein Objekt!'));
         }
     }
 

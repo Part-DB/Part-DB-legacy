@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Exceptions\InvalidElementValueException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Interfaces\IHasPermissions;
 use PartDB\Interfaces\ISearchable;
@@ -800,15 +801,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         try {
             $group = new Group($database, $current_user, $log, $values['group_id']);
         } catch (Exception $e) {
-            debug(
-                'warning',
-                _('Ungültige "group_id": "').$values['group_id'].'"'.
-                _("\n\nUrsprüngliche Fehlermeldung: ").$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Die gewählte Gruppe existiert nicht!'));
+            throw new InvalidElementValueException(_('Die gewählte Gruppe existiert nicht!'));
         }
     }
 

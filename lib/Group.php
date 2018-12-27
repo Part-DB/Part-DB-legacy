@@ -295,7 +295,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
-        // TODO
+        $values['comment'] = trim($values['comment']);
     }
 
     public static function getPermissionName() : string

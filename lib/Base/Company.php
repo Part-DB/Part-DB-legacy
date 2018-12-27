@@ -247,14 +247,14 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
 
         // optimize attribute "website"
         $values['website'] = trim($values['website']);
-        if ((strlen($values['website']) > 0) && (mb_strpos($values['website'], '://') === false)) {  // if there is no protocol defined,
-            $values['website'] = 'http://'.$values['website'];
+        if (!empty($values['website']) && (mb_strpos($values['website'], '://') === false)) {  // if there is no protocol defined,
+            $values['website'] = 'https://' . $values['website'];
         }                                     // add "http://" to the begin
 
         // optimize attribute "auto_product_url"
         $values['auto_product_url'] = trim($values['auto_product_url']);
-        if ((strlen($values['auto_product_url']) > 0) && (mb_strpos($values['auto_product_url'], '://') === false)) {  // if there is no protocol defined,
-            $values['auto_product_url'] = 'http://'.$values['auto_product_url'];
+        if (!empty($values['auto_product_url']) && (mb_strpos($values['auto_product_url'], '://') === false)) {  // if there is no protocol defined,
+            $values['auto_product_url'] = 'https://' . $values['auto_product_url'];
         }                                     // add "http://" to the begin
     }
 

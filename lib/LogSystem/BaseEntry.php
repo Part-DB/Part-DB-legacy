@@ -54,7 +54,7 @@ abstract class BaseEntry extends DBElement
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
-        parent::__construct($database, $current_user, $log, $id, false, $db_data);
+        parent::__construct($database, $current_user, $log, $id, $db_data);
     }
 
     /**

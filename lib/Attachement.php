@@ -29,6 +29,7 @@ use Exception;
 use PartDB\Base\AttachementsContainingDBElement;
 use PartDB\Base\DBElement;
 use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\InvalidElementValueException;
 use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Permissions\CPartAttributePermission;
@@ -397,7 +398,7 @@ class Attachement extends Base\NamedDBElement
     {
         // first, we set the basename as the name if the name is empty
         $values['name'] = trim($values['name']);
-        if (strlen($values['name']) == 0) {
+        if (empty($values['name'])) {
             $values['name'] = basename($values['filename']);
         }
 
@@ -410,21 +411,13 @@ class Attachement extends Base\NamedDBElement
         // check "type_id"
         try {
             // type_id == 0 or NULL means "no attachement type", and this is not allowed!
-            if ($values['type_id'] == 0) {
-                throw new Exception(_('"type_id" ist Null!'));
+            if ($values['type_id'] <= 0) {
+                throw new InvalidElementValueException(_('"type_id" ist Null!'));
             }
 
             $attachement_type = new AttachementType($database, $current_user, $log, $values['type_id']);
-        } catch (Exception $e) {
-            debug(
-                'warning',
-                'Ungültige "type_id": "'.$values['type_id'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Der gewählte Dateityp existiert nicht!'));
+        } catch (ElementNotExistingException $e) {
+            throw new InvalidElementValueException(_('"type_id" ist Null!'));
         }
 
         //Namespace migration for old non-Namespace parts
@@ -435,22 +428,16 @@ class Attachement extends Base\NamedDBElement
         // check "class_name"
         $supported_classes = array("PartDB\Part",
             "PartDB\Device"); // to be continued (step by step)...
+
         if (! in_array($values['class_name'], $supported_classes)) {
-            debug(
-                'error',
-                'Die Klasse "'.$values['class_name'].'" unterstützt (noch) keine Dateianhänge!',
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(sprintf(_('Ungültiger Klassenname: "%s"'), $values['class_name']));
+            throw new InvalidElementValueException(sprintf(_('Ungültiger Klassenname: "%s"'), $values['class_name']));
         }
 
         // check "element_id"
         try {
             // element_id == 0 is not allowed!
             if ($values['element_id'] == 0) {
-                throw new Exception('"element_id" ist Null!');
+                throw new InvalidElementValueException(_('"element_id" ist Null!'));
             }
 
             /** @var AttachementsContainingDBElement $element */
@@ -461,28 +448,22 @@ class Attachement extends Base\NamedDBElement
                 //Do nothing
             }
         } catch (Exception $e) {
-            debug(
-                'warning',
-                'Ungültige "element_id"/"class_name": "'.$values['element_id'].'"/"'.
-                $values['class_name'].'"'."\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Das gewählte Element existiert nicht!'));
+            throw new InvalidElementValueException(_('Das gewählte Element existiert nicht!'));
         }
 
         // trim $values['filename']
         $values['filename'] = trim($values['filename']);
 
         // empty filenames are not allowed!
-        if (strlen($values['filename']) == 0) {
-            throw new Exception(_('Der Dateiname ist leer, das ist nicht erlaubt!'));
+        if (empty($values['filename'])) {
+            throw new InvalidElementValueException(_('Der Dateiname ist leer, das ist nicht erlaubt!'));
         }
 
         // check if "filename" is a valid (absolute and UNIX) filepath
         if (! isPathabsoluteAndUnix($values['filename'])) {
-            throw new Exception(sprintf(_('Der Dateipfad "%s" ist kein gültiger absoluter UNIX Dateipfad!'), $values['filename']));
+            throw new InvalidElementValueException(
+                sprintf(_('Der Dateipfad "%s" ist kein gültiger absoluter UNIX Dateipfad!'), $values['filename'])
+            );
         }
 
         // we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")

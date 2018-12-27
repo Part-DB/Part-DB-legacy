@@ -68,8 +68,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     protected function getVirtualData(int $virtual_id): array
     {
         $tmp = parent::getVirtualData($virtual_id);
-        if ($virtual_id == 0)
-        {
+        if ($virtual_id == 0) {
             $tmp['is_full'] = false;
         }
 
@@ -121,7 +120,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountForRowName($recursive, 'id_storelocation');
+        return parent::getPartsCountForRowName('id_storelocation', $recursive);
     }
 
     /********************************************************************************

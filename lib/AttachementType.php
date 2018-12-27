@@ -130,7 +130,6 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
             $database,
             $current_user,
             $log,
-            'attachement_types',
             array(  'name'              => $name,
                     'parent_id'         => $parent_id,
                     "comment"   => $comment)

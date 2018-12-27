@@ -568,7 +568,6 @@ class Device extends Base\PartsContainingDBElement
             $database,
             $current_user,
             $log,
-            'devices',
             array(  'name'                      => $name,
                 'parent_id'                 => $parent_id,
                 'order_quantity'            => 0,

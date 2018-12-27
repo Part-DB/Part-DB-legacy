@@ -68,7 +68,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     public function getVirtualData(int $virtual_id): array
     {
         $tmp = parent::getVirtualData($virtual_id);
-        if($virtual_id == 0) {
+        if ($virtual_id == parent::ID_ROOT_ELEMENT) {
             $tmp['filename'] = "";
         }
 
@@ -132,7 +132,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        return parent::getTableParts('id_footprint', $recursive, $hide_obsolete_and_zero, $limit, $page);
+        return parent::getPartsForRowName('id_footprint', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
     /**
      * Return the number of all parts in this PartsContainingDBElement
@@ -141,7 +141,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountInternal($recursive, 'id_footprint');
+        return parent::getPartsCountForRowName('id_footprint', $recursive);
     }
 
     /**

@@ -96,7 +96,7 @@ class Manufacturer extends Base\Company implements ISearchable
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountForRowName($recursive, 'id_manufacturer');
+        return parent::getPartsCountForRowName('id_manufacturer', $recursive);
     }
 
 

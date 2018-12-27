@@ -27,6 +27,8 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Exceptions\DatabaseException;
+use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\InvalidElementValueException;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PermissionManager;
 
@@ -89,7 +91,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, $id, false, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
     }
 
     /**
@@ -429,35 +431,19 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         try {
             $part = new Part($database, $current_user, $log, $values['part_id']);
             $part->setAttributes(array()); // save part attributes to update its "last_modified"
-        } catch (Exception $e) {
-            debug(
-                'error',
-                'Ungültige "part_id": "'.$values['part_id'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Das gewählte Bauteil existiert nicht!'));
+        } catch (ElementNotExistingException $e) {
+            throw new InvalidElementValueException(_('Das gewählte Bauteil existiert nicht!'));
         }
 
         // check "id_supplier"
         try {
             if ($values['id_supplier'] < 1) {
-                throw new Exception('id_supplier < 1');
+                throw new InvalidElementValueException('id_supplier < 1');
             }
 
             $supplier = new Supplier($database, $current_user, $log, $values['id_supplier']);
-        } catch (Exception $e) {
-            debug(
-                'error',
-                'Ungültige "id_supplier": "'.$values['id_supplier'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Der gewählte Lieferant existiert nicht!'));
+        } catch (ElementNotExistingException $e) {
+            throw new InvalidElementValueException(_('Der gewählte Lieferant existiert nicht!'));
         }
     }
 

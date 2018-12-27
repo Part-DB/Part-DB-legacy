@@ -27,6 +27,8 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Exceptions\DatabaseException;
+use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\InvalidElementValueException;
 use PartDB\Permissions\DevicePartPermission;
 use PartDB\Permissions\PermissionManager;
 
@@ -83,7 +85,7 @@ class DevicePart extends Base\DBElement
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, $id, false, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
     }
 
     /**
@@ -284,42 +286,32 @@ class DevicePart extends Base\DBElement
         // check "id_device"
         try {
             if ($values['id_device'] == 0) {
-                throw new Exception(_('Der obersten Ebene können keine Bauteile zugeordnet werden!'));
+                throw new
+                    InvalidElementValueException(_('Der obersten Ebene können keine Bauteile zugeordnet werden!'));
             }
 
             $device = new Device($database, $current_user, $log, $values['id_device']);
-        } catch (Exception $e) {
-            debug(
-                'error',
-                'Ungültige "id_device": "'.$values['id_device'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
+        } catch (ElementNotExistingException $e) {
+            throw new InvalidElementValueException(
+                sprintf(_('Es existiert keine Baugruppe mit der ID "%d"!'), $values['id_device'])
             );
-            throw new Exception(sprintf(_('Es existiert keine Baugruppe mit der ID "%d"!'), $values['id_device']));
         }
 
         // check "id_part"
         try {
             $part = new Part($database, $current_user, $log, $values['id_part']);
         } catch (Exception $e) {
-            debug(
-                'error',
-                'Ungültige "id_part": "'.$values['id_part'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
+            throw new InvalidElementValueException(
+                sprintf(_('Es existiert kein Bauteil mit der ID "%d"!'), $values['id_part'])
             );
-            throw new Exception(sprintf(_('Es existiert kein Bauteil mit der ID "%d"!'), $values['id_part']));
         }
 
         // check "quantity"
         if (((! is_int($values['quantity'])) && (! ctype_digit($values['quantity'])))
             || ($values['quantity'] < 0)) {
-            debug('error', 'quantity = "'.$values['quantity'].'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception(sprintf(_('Die Bestückungs-Anzahl "%d" ist ungültig!'), $values['quantity']));
+            throw new InvalidElementValueException(
+                sprintf(_('Die Bestückungs-Anzahl "%d" ist ungültig!'), $values['quantity'])
+            );
         }
     }
 
@@ -455,7 +447,6 @@ class DevicePart extends Base\DBElement
         if (is_object($existing_devicepart)) {
             if ($increase_if_exist) {
                 if (((! is_int($quantity)) && (! ctype_digit($quantity))) || ($quantity < 0)) {
-                    debug('error', 'quantity = "'.$quantity.'"', __FILE__, __LINE__, __METHOD__);
                     throw new Exception(_('Die Bestückungs-Anzahl ist ungültig!'));
                 }
 

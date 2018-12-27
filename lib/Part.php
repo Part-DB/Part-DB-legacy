@@ -27,6 +27,8 @@ namespace PartDB;
 
 use Exception;
 use Golonka\BBCode\BBCodeParser;
+use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\InvalidElementValueException;
 use PartDB\LogSystem\InstockChangedEntry;
 use PartDB\PartProperty\PartProperty;
 use PartDB\Permissions\CPartAttributePermission;
@@ -1964,16 +1966,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         // check "instock"
         if ((! is_int($values['instock'])) && (! is_numeric($values['instock']))) {
-            debug(
-                'warning',
-                $values['instock'].'"!',
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Der neue Lagerbestand ist ungültig!'));
+            throw new InvalidElementValueException(_('Der neue Lagerbestand ist ungültig!'));
         } elseif ($values['instock'] < 0 && $values['instock'] != static::INSTOCK_UNKNOWN) {
-            throw new Exception(sprintf(_('Der neue Lagerbestand von "%s" wäre negativ und kann deshalb nicht gespeichert werden!'), $values['name']));
+            throw new InvalidElementValueException(sprintf(_('Der neue Lagerbestand von "%s" wäre negativ und kann deshalb nicht gespeichert werden!'), $values['name']));
         }
 
         // check "order_orderdetails_id"
@@ -1997,16 +1992,14 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 $order_orderdetails = new Orderdetails($database, $current_user, $log, $values['order_orderdetails_id']);
             }
         } catch (Exception $e) {
-            debug('error', 'Ungültige "order_orderdetails_id": "'.$values['order_orderdetails_id'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(), __FILE__, __LINE__, __METHOD__);
-            throw new Exception(_('Die gewählte Einkaufsinformation existiert nicht!'));
+            throw new InvalidElementValueException(_('Die gewählte Einkaufsinformation existiert nicht!'));
         }
 
         // check "order_quantity"
         if (((! is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
             || ($values['order_quantity'] < 1)) {
             debug('error', 'order_quantity = "'.$values['order_quantity'].'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception(_('Die Bestellmenge ist ungültig!'));
+            throw new InvalidElementValueException(_('Die Bestellmenge ist ungültig!'));
         }
 
         // check if we have to reset the order attributes ("instock" is now less than "mininstock")
@@ -2021,35 +2014,20 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         // check "mininstock"
         if (((! is_int($values['mininstock'])) && (! ctype_digit($values['mininstock'])))
             || ($values['mininstock'] < 0)) {
-            debug(
-                'warning',
-                '"mininstock" ist keine gültige Zahl: "'.$values['mininstock'].'"!',
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Der neue Mindestlagerbestand ist ungültig!'));
+            throw new InvalidElementValueException(_('Der neue Mindestlagerbestand ist ungültig!'));
         }
 
 
         // id_category == NULL means "no category", and this is not allowed!
         if ($values['id_category'] == null || $values["id_category"] == 0) {
-            throw new Exception(_('Ein Bauteil muss eine Kategorie haben!'));
+            throw new InvalidElementValueException(_('Ein Bauteil muss eine Kategorie haben!'));
         }
 
         // check "id_category"
         try {
             $category = new Category($database, $current_user, $log, $values['id_category']);
         } catch (Exception $e) {
-            debug(
-                'warning',
-                'Ungültige "id_category": "'.$values['id_category'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Die gewählte Kategorie existiert nicht!'));
+            throw new InvalidElementValueException(_('Die gewählte Kategorie existiert nicht!'));
         }
 
         // check "id_footprint"
@@ -2059,15 +2037,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 $values['id_footprint'] = null;
             }
         } catch (Exception $e) {
-            debug(
-                'warning',
-                'Ungültige "id_footprint": "'.$values['id_footprint'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Der gewählte Footprint existiert nicht!'));
+            throw new InvalidElementValueException(_('Der gewählte Footprint existiert nicht!'));
         }
 
         // check "id_storelocation"
@@ -2076,16 +2046,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             if (($values['id_storelocation'] == 0) && ($values['id_storelocation'] !== null)) {
                 $values['id_storelocation'] = null;
             }
-        } catch (Exception $e) {
-            debug(
-                'warning',
-                'Ungültige "id_storelocation": "'.$values['id_storelocation'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Der gewählte Lagerort existiert nicht!'));
+        } catch (ElementNotExistingException $e) {
+            throw new InvalidElementValueException(_('Der gewählte Lagerort existiert nicht!'));
         }
 
         // check "id_manufacturer"
@@ -2094,16 +2056,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             if (($values['id_manufacturer'] == 0) && ($values['id_manufacturer'] !== null)) {
                 $values['id_manufacturer'] = null;
             }
-        } catch (Exception $e) {
-            debug(
-                'warning',
-                'Ungültige "id_manufacturer": "'.$values['id_manufacturer'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Der gewählte Hersteller existiert nicht!'));
+        } catch (ElementNotExistingException $e) {
+            throw new InvalidElementValueException(_('Der gewählte Hersteller existiert nicht!'));
         }
 
         // check "id_master_picture_attachement"
@@ -2114,15 +2068,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 $values['id_master_picture_attachement'] = null;
             } // this will replace the integer "0" with NULL
         } catch (Exception $e) {
-            debug(
-                'warning',
-                'Ungültige "id_master_picture_attachement": "'.$values['id_master_picture_attachement'].'"'.
-                "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Die gewählte Datei existiert nicht!'));
+            throw new InvalidElementValueException(_('Die gewählte Datei existiert nicht!'));
         }
     }
 

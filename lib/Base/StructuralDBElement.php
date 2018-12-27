@@ -29,6 +29,7 @@ use Exception;
 use Golonka\BBCode\BBCodeParser;
 use PartDB\Database;
 use PartDB\Exceptions\ElementNotExistingException;
+use PartDB\Exceptions\InvalidElementValueException;
 use PartDB\Exceptions\NotImplementedException;
 use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Exceptions\UserNotAllowedException;
@@ -717,8 +718,8 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @param static|NULL &$element if $is_new is 'false', we have to supply the element,
      *                                          which will be edited, here.
      *
-     * @throws Exception if the values are not valid / the combination of values is not valid
-     * @throws Exception if there was an error
+     * @throws InvalidElementValueException if the values are not valid / the combination of values is not valid
+     * @throws InvalidElementValueException
      */
     public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
@@ -730,36 +731,24 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         if ((! $is_new) && ($values['id'] == 0)) {
-            throw new Exception(_('Die Oberste Ebene kann nicht bearbeitet werden!'));
+            throw new InvalidElementValueException(_('Die Oberste Ebene kann nicht bearbeitet werden!'));
         }
-
-        // with get_called_class() we can get the class of the element which will be edited/created.
-        // example: if you write "$new_cat = Category::add(...);", get_called_class() returns "Category"
-        $classname = get_called_class();
 
         // check "parent_id"
         if ((! $is_new) && ($values['parent_id'] == $values['id'])) {
-            throw new Exception(_('Ein Element kann nicht als Unterelement von sich selber zugeordnet werden!'));
+            throw new InvalidElementValueException(_('Ein Element kann nicht als Unterelement von sich selber zugeordnet werden!'));
         }
 
         try {
             /** @var StructuralDBElement $parent_element */
-            $parent_element = new $classname($database, $current_user, $log, $values['parent_id']);
+            $parent_element = new static($database, $current_user, $log, $values['parent_id']);
         } catch (Exception $e) {
-            debug(
-                'warning',
-                _('Ungültige "parent_id": "').$values['parent_id'].'"'.
-                _("\n\nUrsprüngliche Fehlermeldung: ").$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
-            throw new Exception(_('Das ausgewählte übergeordnete Element existiert nicht!'));
+            throw new InvalidElementValueException(_('Das ausgewählte übergeordnete Element existiert nicht!'));
         }
 
         // to avoid infinite parent_id loops (this is not the same as the "check parent_id" above!)
         if ((! $is_new) && ($parent_element->getParentID() == $values['id'])) {
-            throw new Exception(_('Ein Element kann nicht einem seiner direkten Unterelemente zugeordnet werden!'));
+            throw new InvalidElementValueException(_('Ein Element kann nicht einem seiner direkten Unterelemente zugeordnet werden!'));
         }
 
         // check "name" + "parent_id" (the first check of "name" was already done by
@@ -767,13 +756,13 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         // we search for an element with the same name and parent ID, there shouldn't be one!
         $id = ($is_new) ? -1 : $values['id'];
         $query_data = $database->query(
-            'SELECT * FROM '. $parent_element->getTablename() .
+            'SELECT * FROM ' . $parent_element->getTablename() .
             ' WHERE name=? AND parent_id <=> ? AND id<>?',
             array($values['name'], $values['parent_id'], $id)
         );
-        if (count($query_data) > 0) {
+        if (!empty($query_data)) {
             throw new Exception(sprintf(_('Es existiert bereits ein Element auf gleicher Ebene (%1$s::%2$s)'.
-                ' mit gleichem Namen (%3$s)!'), $classname, $parent_element->getFullPath(), strip_tags($values['name'])));
+                ' mit gleichem Namen (%3$s)!'), static::class, $parent_element->getFullPath(), strip_tags($values['name'])));
         }
     }
 

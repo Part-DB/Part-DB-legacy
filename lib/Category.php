@@ -415,7 +415,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountForRowName($recursive, 'id_category');
+        return parent::getPartsCountForRowName('id_category', $recursive );
     }
 
 
@@ -574,7 +574,6 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             $database,
             $current_user,
             $log,
-            'categories',
             array(  'name'                      => $name,
                 'parent_id'                 => $parent_id,
                 'disable_footprints'        => $disable_footprints,
