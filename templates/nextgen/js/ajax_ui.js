@@ -191,9 +191,9 @@ var AjaxUI = /** @class */ (function () {
     AjaxUI.prototype.showRequest = function (formData, jqForm, options) {
         'use strict';
         if (!$(jqForm).hasClass("no-progbar")) {
-            $('#content').hide(0);
+            //$('#content').hide(0);
             AjaxUI.getInstance().beforeAjaxSubmit();
-            $('#progressbar').show(0);
+            //$('#progressbar').show(0);
         }
         return true;
     };
@@ -250,8 +250,8 @@ var AjaxUI = /** @class */ (function () {
                 var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, soft request only the content
                 _this.abortAllAjax();
                 _this.beforeAjaxSubmit();
-                $('#content').hide(0).load(href + " #content-data");
-                $('#progressbar').show(0);
+                $('#content').load(href + " #content-data");
+                //$('#progressbar').show(0);
                 return true;
             }
         });
@@ -279,8 +279,7 @@ var AjaxUI = /** @class */ (function () {
         }
         else {
             AjaxUI.getInstance().abortAllAjax();
-            $('#content').hide(0).load(addURLparam(data.href, "ajax") + " #content-data");
-            $('#progressbar').show(0);
+            $('#content').load(addURLparam(data.href, "ajax") + " #content-data");
         }
         $(this).treeview('toggleNodeExpanded', data.nodeId);
         $("#sidebar-container").removeClass("show");
@@ -463,9 +462,9 @@ var AjaxUI = /** @class */ (function () {
             return;
         }
         //Hide progressbar and show Result
-        $('#progressbar').hide(0);
+        //$('#progressbar').hide(0);
         //$('#content').fadeIn("fast");
-        $('#content').show(0);
+        //$('#content').show(0);
         this.registerForm();
         this.registerLinks();
         this.registerSubmitBtn();

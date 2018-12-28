@@ -205,9 +205,9 @@ class AjaxUI {
     private showRequest(formData, jqForm: JQuery<HTMLElement>, options: JQueryFormOptions) : boolean {
         'use strict';
         if(!$(jqForm).hasClass("no-progbar")) {
-            $('#content').hide(0);
+            //$('#content').hide(0);
             AjaxUI.getInstance().beforeAjaxSubmit();
-            $('#progressbar').show(0);
+            //$('#progressbar').show(0);
         }
         return true;
     }
@@ -273,8 +273,8 @@ class AjaxUI {
                 _this.abortAllAjax();
 
                 _this.beforeAjaxSubmit();
-                $('#content').hide(0).load(href + " #content-data");
-                $('#progressbar').show(0);
+                $('#content').load(href + " #content-data");
+                //$('#progressbar').show(0);
                 return true;
             }
         });
@@ -306,8 +306,7 @@ class AjaxUI {
         else
         {
             AjaxUI.getInstance().abortAllAjax();
-            $('#content').hide(0).load(addURLparam(data.href, "ajax") + " #content-data");
-            $('#progressbar').show(0);
+            $('#content').load(addURLparam(data.href, "ajax") + " #content-data");
         }
 
         $(this).treeview('toggleNodeExpanded',data.nodeId);
@@ -528,9 +527,9 @@ class AjaxUI {
         }
 
         //Hide progressbar and show Result
-        $('#progressbar').hide(0);
+        //$('#progressbar').hide(0);
         //$('#content').fadeIn("fast");
-        $('#content').show(0);
+        //$('#content').show(0);
 
         this.registerForm();
         this.registerLinks();
