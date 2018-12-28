@@ -723,8 +723,7 @@ function makeHistoryCharts() {
         let type : string = $(element).data("type");
 
         //let ctx = (<HTMLCanvasElement> element).getContext("2d");
-        let ctx = element;
-        let myChart = new Chart(ctx, {
+        let myChart = new Chart(element, {
             type: type,
             data: data,
             options: {

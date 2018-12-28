@@ -36,6 +36,7 @@ use PartDB\Tools\PDBDebugBar;
 use PDO;
 use PDOException;
 
+/** @noinspection PhpIncludeInspection */
 include_once(BASE.'/updates/db_update_steps.php');
 
 /**

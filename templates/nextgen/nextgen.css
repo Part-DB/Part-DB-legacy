@@ -31,7 +31,7 @@ body {
     padding-top: 70px;
     /* Use font size like in BS3 */
     font-size: 14px;
-    line-heigt: 1.428;
+    line-height: 1.428;
 }
 
 @media  (min-width: 768px) {
@@ -592,6 +592,7 @@ label:not(.form-check-label) {
 /* Font Awesome 5 with Checkbox support */
 .abc-checkbox input[type="checkbox"]:checked+label::after,
 .abc-checkbox input[type="radio"]:checked+label::after {
+    /*noinspection CssNoGenericFontName*/
     font-family: "FA5", "Font Awesome 5 Pro", "Font Awesome 5 Free";
     content: "\f00c";
     font-weight: 900;

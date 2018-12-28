@@ -31,7 +31,7 @@
     "kartik-v/bootstrap-fileinput": "4.*",
     "jquery-form/form": "4.*",
     "nnnick/chartjs": "2.7.*",
-    "geertw/ip-anonymizer" : "1.*"
+    "geertw/ip-anonymizer" : "1.*",
   },
 
   "require-dev": {

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpIncludeInspection */
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner

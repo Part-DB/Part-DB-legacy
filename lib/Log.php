@@ -252,8 +252,7 @@ class Log
 
         $part_id = $part->getID();
 
-        $query = "SELECT * FROM `log` WHERE";
-        $query .= " target_id = ?";
+        $query = "SELECT * FROM `log` WHERE target_id = ?";
         $data[] = $part_id; //Only parts with the given ID
         $query .= " AND target_type = ?";
         $data[] = Log::TARGET_TYPE_PART;    //Only parts as a target
@@ -348,8 +347,7 @@ class Log
 
         $part_id = $part->getID();
 
-        $query = "SELECT count(id) AS `count` FROM `log` WHERE";
-        $query .= " target_id = ?";
+        $query = "SELECT count(id) AS `count` FROM `log` WHERE target_id = ?";
         $data[] = $part_id; //Only parts with the given ID
         $query .= " AND target_type = ?";
         $data[] = Log::TARGET_TYPE_PART;    //Only parts as a target
