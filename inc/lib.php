@@ -1053,7 +1053,7 @@ function buildToolsTree($params) : array
         $edit_nodes[] = treeviewNode(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
     }
     if ($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
-        $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+        $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachment_types.php");
     }
     if($current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE)) {
         $edit_nodes[] = treeviewNode(_("Bauteil anlegen"), BASE_RELATIVE . "/edit_part_info.php");

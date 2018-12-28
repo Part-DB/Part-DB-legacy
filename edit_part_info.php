@@ -23,8 +23,8 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-use PartDB\Attachement;
-use PartDB\AttachementType;
+use PartDB\Attachment;
+use PartDB\AttachmentType;
 use PartDB\Category;
 use PartDB\Database;
 use PartDB\Footprint;
@@ -226,7 +226,7 @@ try {
     $root_manufacturer      = Manufacturer::getInstance($database, $current_user, $log, 0);
     $root_footprint         = Footprint::getInstance($database, $current_user, $log, 0);
     $root_supplier          = Supplier::getInstance($database, $current_user, $log, 0);
-    $root_attachement_type  = AttachementType::getInstance($database, $current_user, $log, 0);
+    $root_attachement_type  = AttachmentType::getInstance($database, $current_user, $log, 0);
 
     if (isset($orderdetails_id) && $orderdetails_id > 0) {
         $orderdetails = Orderdetails::getInstance($database, $current_user, $log, $orderdetails_id);
@@ -241,7 +241,7 @@ try {
     }
 
     if ($attachement_id > 0) {
-        $attachement = Attachement::getInstance($database, $current_user, $log, $attachement_id);
+        $attachement = Attachment::getInstance($database, $current_user, $log, $attachement_id);
     } else {
         $attachement = null;
     }
@@ -519,7 +519,7 @@ if (! $fatal_error) {
                     }
                 }
 
-                $new_attachement = Attachement::add(
+                $new_attachement = Attachment::add(
                     $database,
                     $current_user,
                     $log,
@@ -776,10 +776,10 @@ if (! $fatal_error) {
             // build attachements loop
             $master_picture_id = (is_object($part->getMasterPictureAttachement()) ? $part->getMasterPictureAttachement()->getID() : null);
             $attachements_loop = array();
-            $all_attachements = $part->getAttachements();
+            $all_attachements = $part->getAttachments();
             $row_odd = true;
             foreach ($all_attachements as $attachement) {
-                /** @var  $attachement Attachement */
+                /** @var  $attachement Attachment */
                 $attachement_types_list = $root_attachement_type->buildHtmlTree($attachement->getType()->getID(), true, false);
                 $attachements_loop[] = array(   'row_odd'                   => $row_odd,
                     'id'                        => $attachement->getID(),

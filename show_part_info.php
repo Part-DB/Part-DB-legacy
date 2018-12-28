@@ -293,15 +293,15 @@ if (! $fatal_error) {
         }
 
         // attachements
-        $attachement_types = $part->getAttachementTypes();
+        $attachement_types = $part->getAttachmentTypes();
         $attachement_types_loop = array();
         foreach ($attachement_types as $attachement_type) {
-            /** @var $attachement_type \PartDB\AttachementType */
-            /** @var $attachements \PartDB\Attachement[] */
-            $attachements = $part->getAttachements($attachement_type->getID());
+            /** @var $attachement_type \PartDB\AttachmentType */
+            /** @var $attachements \PartDB\Attachment[] */
+            $attachements = $part->getAttachments($attachement_type->getID());
             $attachements_loop = array();
             foreach ($attachements as $attachement) {
-                /** @var $attachement \PartDB\Attachement */
+                /** @var $attachement \PartDB\Attachment */
                 $attachements_loop[] = array(   'attachement_name'  => $attachement->getName(),
                     'filename'          => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
                     'is_picture'        => $attachement->isPicture(),

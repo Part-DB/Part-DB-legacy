@@ -29,7 +29,7 @@ include_once(BASE.'/inc/lib.export.php');
 /** @noinspection PhpIncludeInspection */
 include_once(BASE.'/inc/lib.import.php');
 
-use PartDB\Attachement;
+use PartDB\Attachment;
 use PartDB\Database;
 use PartDB\Device;
 use PartDB\DevicePart;
@@ -160,7 +160,7 @@ try {
     $device             = Device::getInstance($database, $current_user, $log, $device_id);
     $subdevices         = $device->getSubelements(false);
 
-    $root_attachement_type   = \PartDB\AttachementType::getInstance($database, $current_user, $log, 0);
+    $root_attachement_type   = \PartDB\AttachmentType::getInstance($database, $current_user, $log, 0);
 
     //Check for Device parts read permission, when on Device detail page.
     if ($device_id > 0) {
@@ -170,7 +170,7 @@ try {
     }
 
     if ($attachement_id > 0) {
-        $attachement = Attachement::getInstance($database, $current_user, $log, $attachement_id);
+        $attachement = Attachment::getInstance($database, $current_user, $log, $attachement_id);
     } else {
         $attachement = null;
     }
@@ -389,7 +389,7 @@ if (! $fatal_error) {
                     }
                 }
 
-                $new_attachement = Attachement::add(
+                $new_attachement = Attachment::add(
                     $database,
                     $current_user,
                     $log,
@@ -543,10 +543,10 @@ if (! $fatal_error) {
         //$html->set_variable('import_data_is_valid',     (isset($import_data_is_valid) && ($import_data_is_valid)), 'boolean');
 
         $attachements_loop = array();
-        $all_attachements = $device->getAttachements();
+        $all_attachements = $device->getAttachments();
         $row_odd = true;
         foreach ($all_attachements as $attachement) {
-            /** @var  $attachement Attachement */
+            /** @var  $attachement Attachment */
             $attachement_types_list = $root_attachement_type->buildHtmlTree($attachement->getType()->getID(), true, false);
             $attachements_loop[] = array('row_odd' => $row_odd,
                 'id' => $attachement->getID(),

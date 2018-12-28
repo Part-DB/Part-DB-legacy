@@ -55,7 +55,7 @@ use PartDB\Tools\BBCodeParsingLevel;
  *
  * @todo    The attribute "visible" is no longer required if there is a user management.
  */
-class Part extends Base\AttachementsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ILabel
+class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ILabel
 {
     const INSTOCK_UNKNOWN   = -2;
 
@@ -79,7 +79,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     private $storelocation = null;
     /** @var Manufacturer|null the manufacturer of this part (if there is one) */
     private $manufacturer = null;
-    /** @var Attachement|null the master picture Attachement of this part (if there is one) */
+    /** @var Attachment|null the master picture Attachement of this part (if there is one) */
     private $master_picture_attachement = null;
     /** @var Orderdetails[] all orderdetails-objects as a one-dimensional array of Orderdetails-objects
     (empty array if there are no orderdetails) */
@@ -758,7 +758,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      *  Get the master picture "Attachement"-object of this part (if there is one)
      *
-     * @return Attachement      the master picture Attachement of this part (if there is one)
+     * @return Attachment      the master picture Attachement of this part (if there is one)
      * @return NULL             if this part has no master picture
      *
      * @throws Exception if there was an error
@@ -771,7 +771,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ((! is_object($this->master_picture_attachement)) && ($this->db_data['id_master_picture_attachement'] != null)) {
-            $this->master_picture_attachement = Attachement::getInstance(
+            $this->master_picture_attachement = Attachment::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -1160,22 +1160,22 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         return parent::getLastModifiedUser();
     }
 
-    public function getAttachementTypes() : array
+    public function getAttachmentTypes() : array
     {
         //Check for permission.
         if (!$this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::READ)) {
             return array();
         }
-        return parent::getAttachementTypes();
+        return parent::getAttachmentTypes();
     }
 
-    public function getAttachements($type_id = null, bool $only_table_attachements = false) : array
+    public function getAttachments($type_id = null, bool $only_table_attachements = false) : array
     {
         //Check for permission.
         if (!$this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::READ)) {
             return array();
         }
-        return parent::getAttachements($type_id, $only_table_attachements);
+        return parent::getAttachments($type_id, $only_table_attachements);
     }
 
 
@@ -1775,7 +1775,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'attachements':
                     $attachements = array();
-                    foreach ($this->getAttachements(null, true) as $attachement) {
+                    foreach ($this->getAttachments(null, true) as $attachement) {
                         $attachements[] = array(    'name'      => $attachement->getName(),
                             'filename'  => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
                             'type'      => $attachement->getType()->getFullPath(),
@@ -2064,7 +2064,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         // check "id_master_picture_attachement"
         try {
             if ($values['id_master_picture_attachement']) {
-                $master_picture_attachement = Attachement::getInstance($database, $current_user, $log, $values['id_master_picture_attachement']);
+                $master_picture_attachement = Attachment::getInstance($database, $current_user, $log, $values['id_master_picture_attachement']);
             } else {
                 $values['id_master_picture_attachement'] = null;
             } // this will replace the integer "0" with NULL
@@ -3043,7 +3043,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param string    $comment            the comment of the new part (see Part::set_comment())
      * @param boolean   $visible            the visible attribute of the new part (see Part::set_visible())
      *
-     * @return Base\AttachementsContainingDBElement|Part
+     * @return Base\AttachmentsContainingDBElement|Part
      * @return Part     the new part
      *
      * @throws Exception    if (this combination of) values is not valid

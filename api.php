@@ -21,7 +21,7 @@
 
 include_once('start_session.php');
 
-use PartDB\AttachementType;
+use PartDB\AttachmentType;
 use PartDB\Category;
 use PartDB\Database;
 use PartDB\Device;
@@ -151,13 +151,13 @@ $app->get("/1.0.0/suppliers/{id}", function ($request, $response, $args) use (&$
  * Attachement Types
  ********************************************************************/
 
-$app->get("/1.0.0/attachementtypes/{id}", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
+$app->get("/1.0.0/attachmenttypes/{id}", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     if ($args['id'] < 1) {
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $at = AttachementType::getInstance($database, $current_user, $log, $args['id']);
+        $at = AttachmentType::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($at->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);

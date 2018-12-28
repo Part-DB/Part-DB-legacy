@@ -25,7 +25,7 @@
 
 include_once('start_session.php');
 
-use PartDB\Attachement;
+use PartDB\Attachment;
 use PartDB\Category;
 use PartDB\Database;
 use PartDB\Device;
@@ -122,7 +122,7 @@ if (! $fatal_error) {
         $html->setVariable('suppliers_count', Supplier::getCount($database), 'integer');
         $html->setVariable('manufacturers_count', Manufacturer::getCount($database), 'integer');
         $html->setVariable('devices_count', Device::getCount($database), 'integer');
-        $html->setVariable('attachements_count', Attachement::getCount($database), 'integer');
+        $html->setVariable('attachements_count', Attachment::getCount($database), 'integer');
 
         $html->setVariable('footprint_picture_count', count(findAllFiles(BASE.'/img/footprints/', true)), 'integer');
         $html->setVariable('iclogos_picture_count', count(findAllFiles(BASE.'/img/iclogos/', true)), 'integer');

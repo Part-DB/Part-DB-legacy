@@ -41,7 +41,7 @@ class UserNotAllowedEntry extends BaseEntry
      * @param Log       &$log           reference to the Log-object
      * @param integer   $id             ID of the filetype we want to get
      *
-     * @throws Exception    if there is no such attachement type in the database
+     * @throws Exception    if there is no such attachment type in the database
      * @throws Exception    if there was an error
      */
     public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)

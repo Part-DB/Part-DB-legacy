@@ -26,8 +26,8 @@
 namespace PartDB\Base;
 
 use Exception;
-use PartDB\Attachement;
-use PartDB\AttachementType;
+use PartDB\Attachment;
+use PartDB\AttachmentType;
 use PartDB\Database;
 use PartDB\Exceptions\ElementNotExistingException;
 use PartDB\Exceptions\TableNotExistingException;
@@ -42,7 +42,7 @@ use PartDB\User;
  * @brief All subclasses of this class are containing attachements.
  * @author kami89
  */
-abstract class AttachementsContainingDBElement extends NamedDBElement
+abstract class AttachmentsContainingDBElement extends NamedDBElement
 {
     /********************************************************************************
      *
@@ -54,12 +54,12 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *
      *********************************************************************************/
 
-    /** @var AttachementType[] All attachement types of the attachements of this element as an array of AttachementType objects.
-     *  @see AttachementsContainingDBElement::getAttachementTypes() */
-    protected $attachement_types     = null;
-    /** @var Attachement[] All attachements of this element as a one-dimensional array of Attachement objects.
-     *  @see AttachementsContainingDBElement::getAttachements() */
-    protected $attachements          = null;
+    /** @var AttachmentType[] All attachement types of the attachements of this element as an array of AttachementType objects.
+     *  @see AttachmentsContainingDBElement::getAttachmentTypes() */
+    protected $attachmentTypes     = null;
+    /** @var Attachment[] All attachements of this element as a one-dimensional array of Attachement objects.
+     *  @see AttachmentsContainingDBElement::getAttachments() */
+    protected $attachments          = null;
 
     /********************************************************************************
      *
@@ -105,8 +105,8 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      */
     public function resetAttributes(bool $all = false)
     {
-        $this->attachement_types = null;
-        $this->attachements = null;
+        $this->attachmentTypes = null;
+        $this->attachments = null;
 
         parent::resetAttributes($all);
     }
@@ -136,7 +136,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
             $transaction_id = $this->database->beginTransaction(); // start transaction
 
             // first, we will delete all files of this element
-            $attachements = $this->getAttachements();
+            $attachements = $this->getAttachments();
             $this->resetAttributes(); // set $this->attachements to NULL
             foreach ($attachements as $attachement) {
                 $attachement->delete($delete_files_from_hdd);
@@ -164,15 +164,15 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
     /**
      * Get all different attachement types of the attachements of this element
      *
-     * @return AttachementType[] the attachement types as a one-dimensional array of AttachementType objects,
+     * @return AttachmentType[] the attachement types as a one-dimensional array of AttachementType objects,
      *                      sorted by their names
      *
      * @throws Exception if there was an error
      */
-    public function getAttachementTypes() : array
+    public function getAttachmentTypes() : array
     {
-        if (! is_array($this->attachement_types)) {
-            $this->attachement_types = array();
+        if (! is_array($this->attachmentTypes)) {
+            $this->attachmentTypes = array();
 
             $query = 'SELECT attachement_types.* FROM attachements '.
                 'LEFT JOIN attachement_types ON attachements.type_id=attachement_types.id '.
@@ -183,11 +183,11 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
 
             //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
             foreach ($query_data as $row) {
-                $this->attachement_types[] = AttachementType::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->attachmentTypes[] = AttachmentType::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 
-        return $this->attachement_types;
+        return $this->attachmentTypes;
     }
 
 
@@ -198,14 +198,14 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *                                              @li if this is a number > 0, only attachements with this type ID will be returned
      * @param boolean   $only_table_attachements    if true, only attachements with "show_in_table == true"
      *
-     * @return Attachement[] the attachements as a one-dimensional array of Attachement objects
+     * @return Attachment[] the attachements as a one-dimensional array of Attachement objects
      *
      * @throws Exception if there was an error
      */
-    public function getAttachements($type_id = null, bool $only_table_attachements = false) : array
+    public function getAttachments($type_id = null, bool $only_table_attachements = false) : array
     {
-        if (! is_array($this->attachements)) {
-            $this->attachements = array();
+        if (! is_array($this->attachments)) {
+            $this->attachments = array();
 
             $query = 'SELECT attachements.* FROM attachements '.
                 'LEFT JOIN attachement_types ON attachements.type_id=attachement_types.id '.
@@ -215,12 +215,12 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
 
             //debug('temp', 'Anzahl gefundene Dateianhänge: '.count($query_data));
             foreach ($query_data as $row) {
-                $this->attachements[] = Attachement::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->attachments[] = Attachment::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 
         if ($only_table_attachements || $type_id) {
-            $attachements = $this->attachements;
+            $attachements = $this->attachments;
 
             foreach ($attachements as $key => $attachement) {
                 if (($only_table_attachements && (! $attachement->getShowInTable()))
@@ -231,7 +231,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
 
             return $attachements;
         } else {
-            return $this->attachements;
+            return $this->attachments;
         }
     }
 }

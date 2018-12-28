@@ -38,7 +38,7 @@ use PartDB\Permissions\PermissionManager;
  * All elements of this class are stored in the database table "attachement_types".
  * @author kami89
  */
-class AttachementType extends Base\StructuralDBElement implements Interfaces\IAPIModel
+class AttachmentType extends Base\StructuralDBElement implements Interfaces\IAPIModel
 {
 
     const TABLE_NAME = "attachement_types";
@@ -76,7 +76,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
     /**
      * Get all attachements ("Attachement" objects) with this type
      *
-     * @return Attachement[]        all attachements with this type, as a one-dimensional array of Attachement-objects
+     * @return Attachment[]        all attachements with this type, as a one-dimensional array of Attachement-objects
      *                      (sorted by their names)
      *
      *
@@ -86,8 +86,8 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
     public function getAttachementsForType() : array
     {
         // the attribute $this->attachements is used from class "AttachementsContainingDBELement"
-        if (! is_array($this->attachements)) {
-            $this->attachements = array();
+        if (! is_array($this->attachments)) {
+            $this->attachments = array();
 
             $query = 'SELECT * FROM attachements ' .
                 'WHERE type_id=? ' .
@@ -96,7 +96,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
 
             //debug('temp', 'Anzahl gefundene Dateien: '.count($query_data));
             foreach ($query_data as $row) {
-                $this->attachements[] = Attachement::getInstance(
+                $this->attachments[] = Attachment::getInstance(
                     $this->database,
                     $this->current_user,
                     $this->log,
@@ -106,7 +106,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
             }
         }
 
-        return $this->attachements;
+        return $this->attachments;
     }
 
     /********************************************************************************
@@ -123,7 +123,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      * @param string    $name               the name of the new attachement type (see AttachementType::set_name())
      * @param integer   $parent_id          the parent ID of the new attachement type (see AttachementType::set_parent_id())
      *
-     * @return AttachementType|Base\StructuralDBElement
+     * @return AttachmentType|Base\StructuralDBElement
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

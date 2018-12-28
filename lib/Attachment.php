@@ -26,7 +26,7 @@
 namespace PartDB;
 
 use Exception;
-use PartDB\Base\AttachementsContainingDBElement;
+use PartDB\Base\AttachmentsContainingDBElement;
 use PartDB\Base\DBElement;
 use PartDB\Exceptions\ElementNotExistingException;
 use PartDB\Exceptions\InvalidElementValueException;
@@ -42,7 +42,7 @@ use PartDB\Permissions\PermissionManager;
  * @class Attachement
  *  All elements of this class are stored in the database table "attachements".
  */
-class Attachement extends Base\NamedDBElement
+class Attachment extends Base\NamedDBElement
 {
     /********************************************************************************
      *
@@ -56,7 +56,7 @@ class Attachement extends Base\NamedDBElement
 
     /** @var DBElement the element of this attachement (for example a "Part" object) */
     private $element          = null;
-    /** @var AttachementType the type of this attachement */
+    /** @var AttachmentType the type of this attachement */
     private $attachement_type = null;
 
     /********************************************************************************
@@ -130,7 +130,7 @@ class Attachement extends Base\NamedDBElement
 
         if (($delete_from_hdd) && (strlen($filename) > 0)) {
             // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
-            $attachements = Attachement::getAttachementsByFilename($this->database, $this->current_user, $this->log, $filename);
+            $attachements = Attachment::getAttachementsByFilename($this->database, $this->current_user, $this->log, $filename);
 
             if ((count($attachements) <= 1) && (file_exists($filename))) {
                 // check if there are enought permissions to delete the file
@@ -262,14 +262,14 @@ class Attachement extends Base\NamedDBElement
     /**
      *  Get the type of this attachement
      *
-     * @return AttachementType     the type of this attachement
+     * @return AttachmentType     the type of this attachement
      *
      * @throws Exception if there was an error
      */
-    public function getType() : AttachementType
+    public function getType() : AttachmentType
     {
         if (! is_object($this->attachement_type)) {
-            $this->attachement_type = AttachementType::getInstance(
+            $this->attachement_type = AttachmentType::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -355,7 +355,7 @@ class Attachement extends Base\NamedDBElement
         $query_data = $database->query($query, array($filename, $filename_2));
 
         foreach ($query_data as $row) {
-            $attachements[] = Attachement::getInstance($database, $current_user, $log, $row['id'], $row);
+            $attachements[] = Attachment::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $attachements;
@@ -384,7 +384,7 @@ class Attachement extends Base\NamedDBElement
 
         foreach ($query_data as $row) {
             if (! file_exists(str_replace('%BASE%', BASE, $row['filename']))) {
-                $attachements[] = Attachement::getInstance($database, $current_user, $log, $row['id'], $row);
+                $attachements[] = Attachment::getInstance($database, $current_user, $log, $row['id'], $row);
             }
         }
 
@@ -415,7 +415,7 @@ class Attachement extends Base\NamedDBElement
                 throw new InvalidElementValueException(_('"type_id" ist Null!'));
             }
 
-            $attachement_type = AttachementType::getInstance($database, $current_user, $log, $values['type_id']);
+            $attachement_type = AttachmentType::getInstance($database, $current_user, $log, $values['type_id']);
         } catch (ElementNotExistingException $e) {
             throw new InvalidElementValueException(_('"type_id" ist Null!'));
         }
@@ -440,7 +440,7 @@ class Attachement extends Base\NamedDBElement
                 throw new InvalidElementValueException(_('"element_id" ist Null!'));
             }
 
-            /** @var AttachementsContainingDBElement $element */
+            /** @var AttachmentsContainingDBElement $element */
             $element = new $values['class_name']($database, $current_user, $log, $values['element_id']);
             try {
                 $element->setAttributes(array()); // save element attributes to update its "last_modified"
@@ -487,7 +487,7 @@ class Attachement extends Base\NamedDBElement
      * @warning         You have to supply the full path from filesystem root in $filename!!
      *                  For more details see Attachement::set_filename().
      *
-     * @return Attachement|Base\NamedDBElement
+     * @return Attachment|Base\NamedDBElement
      *
      * @throws \InvalidArgumentException If the $element is not a valid DBElement
      * @throws Exception

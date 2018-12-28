@@ -54,7 +54,7 @@ use Pimple\Exception\ExpectedInvokableException;
  *
  * @class StructuralDBElement
  */
-abstract class StructuralDBElement extends AttachementsContainingDBElement
+abstract class StructuralDBElement extends AttachmentsContainingDBElement
 {
 
     const ID_ROOT_ELEMENT = 0;

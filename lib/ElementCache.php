@@ -153,9 +153,9 @@ class ElementCache
     {
         switch ($element_type) {
             case self::ELEMENT_ATTACHEMENT:
-                return Attachement::class;
+                return Attachment::class;
             case self::ELEMENT_ATTACHEMENT_TYPE:
-                return AttachementType::class;
+                return AttachmentType::class;
             case self::ELEMENT_CATEGORY:
                 return Category::class;
             case self::ELEMENT_DEVICEPART:

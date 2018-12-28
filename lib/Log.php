@@ -406,9 +406,9 @@ class Log
      */
     public static function elementToTargetTypeID(NamedDBElement &$element) : int
     {
-        if ($element instanceof Attachement) {
+        if ($element instanceof Attachment) {
             return static::TARGET_TYPE_ATTACHEMENT;
-        } elseif ($element instanceof AttachementType) {
+        } elseif ($element instanceof AttachmentType) {
             return static::TARGET_TYPE_ATTACHEMENTTYPE;
         } elseif ($element instanceof User) {
             return static::TARGET_TYPE_USER;
@@ -444,9 +444,9 @@ class Log
             case static::TARGET_TYPE_USER:
                 return User::class;
             case static::TARGET_TYPE_ATTACHEMENT:
-                return Attachement::class;
+                return Attachment::class;
             case static::TARGET_TYPE_ATTACHEMENTTYPE:
-                return AttachementType::class;
+                return AttachmentType::class;
             case static::TARGET_TYPE_CATEGORY:
                 return Category::class;
             case static::TARGET_TYPE_DEVICE:
@@ -484,7 +484,7 @@ class Log
                 //Attachements dont have a info page yet.
                 return "";
             case static::TARGET_TYPE_ATTACHEMENTTYPE:
-                $url.= "edit_attachement_types.php?selected_id=";
+                $url.= "edit_attachment_types.php?selected_id=";
                 break;
             case static::TARGET_TYPE_CATEGORY:
                 $url.= "edit_categories.php?selected_id=";
