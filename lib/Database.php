@@ -308,7 +308,6 @@ class Database
 
         //TODO: Implement a correctly working version:
         return $query;
-
     }
 
     /**

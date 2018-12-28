@@ -89,8 +89,7 @@ class InstockChangedEntry extends BaseEntry
      */
     public function getOldInstockString()
     {
-        if ($this->getOldInstock() == Part::INSTOCK_UNKNOWN)
-        {
+        if ($this->getOldInstock() == Part::INSTOCK_UNKNOWN) {
             return _("[Unbekannt]");
         } else {
             return (string) $this->getOldInstock();
@@ -112,8 +111,7 @@ class InstockChangedEntry extends BaseEntry
      */
     public function getNewInstockString()
     {
-        if ($this->getNewInstock() == Part::INSTOCK_UNKNOWN)
-        {
+        if ($this->getNewInstock() == Part::INSTOCK_UNKNOWN) {
             return _("[Unbekannt]");
         } else {
             return (string) $this->getNewInstock();

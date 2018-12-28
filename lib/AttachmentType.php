@@ -40,7 +40,6 @@ use PartDB\Permissions\PermissionManager;
  */
 class AttachmentType extends Base\StructuralDBElement implements Interfaces\IAPIModel
 {
-
     const TABLE_NAME = "attachement_types";
 
     /********************************************************************************

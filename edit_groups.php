@@ -265,7 +265,6 @@ if (! $fatal_error) {
     $html->setVariable('can_move', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::MOVE));
     $html->setVariable('can_permission', !$perm_read_only);
     $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
-
 }
 
 /********************************************************************************

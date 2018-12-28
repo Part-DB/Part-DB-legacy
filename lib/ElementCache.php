@@ -2,14 +2,12 @@
 
 namespace PartDB;
 
-
 use PartDB\Base\DBElement;
 use PartDB\Exceptions\ElementNotExistingException;
 use Symfony\Component\VarDumper\Cloner\Data;
 
 class ElementCache
 {
-
     const USERID_CURRENT_USER = -1;
 
     const ELEMENT_PART = 1;

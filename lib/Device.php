@@ -45,8 +45,6 @@ use PartDB\Permissions\PermissionManager;
  */
 class Device extends Base\PartsContainingDBElement
 {
-
-
     const TABLE_NAME = 'devices';
 
     /********************************************************************************

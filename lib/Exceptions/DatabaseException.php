@@ -24,8 +24,6 @@
 
 namespace PartDB\Exceptions;
 
-
 class DatabaseException extends \Exception
 {
-
 }

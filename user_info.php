@@ -59,7 +59,6 @@ try {
         //Check if the current user, is allowed to view other profiles.
         $current_user->tryDo(\PartDB\Permissions\PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ);
     }
-
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;

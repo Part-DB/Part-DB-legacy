@@ -49,7 +49,6 @@ use PartDB\Permissions\PermissionManager;
  */
 class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
 {
-
     const TABLE_NAME = "pricedetails";
 
     /********************************************************************************

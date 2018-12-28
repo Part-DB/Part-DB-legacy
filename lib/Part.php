@@ -246,7 +246,6 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      */
     public function calculateInstockChangePrice(int $old_instock, int $new_instock) : float
     {
-
         if ($old_instock == Part::INSTOCK_UNKNOWN || $new_instock == Part::INSTOCK_UNKNOWN) {
             return 0;
         }

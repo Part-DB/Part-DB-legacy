@@ -87,9 +87,9 @@ if (!$json_storage->itemExists($generator_type . "@" . $profile_name)) {
             "use_footprint_image" => false);
     }
 
-/*if ($profile_name == "default") {
-    $json_storage->addItem($generator_type . "@default", $profile);
-}*/
+    /*if ($profile_name == "default") {
+        $json_storage->addItem($generator_type . "@default", $profile);
+    }*/
 } else {
     $profile = $json_storage->getItem($generator_type . "@" . $profile_name);
 }

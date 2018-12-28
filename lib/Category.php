@@ -40,7 +40,6 @@ use PartDB\Permissions\PermissionManager;
  */
 class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ISearchable
 {
-
     const TABLE_NAME = 'categories';
 
     /********************************************************************************

@@ -8,12 +8,10 @@
 
 namespace PartDB\Exceptions;
 
-
 /**
  * This exception is thrown, if the checkValueValidity notices, that a value is invalid and this can not be corrected!
  * @package PartDB\Exceptions
  */
 class InvalidElementValueException extends \InvalidArgumentException
 {
-
 }

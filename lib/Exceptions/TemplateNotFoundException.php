@@ -23,8 +23,6 @@
 
 namespace PartDB\Exceptions;
 
-
 class TemplateNotFoundException extends TemplateSystemException
 {
-
 }

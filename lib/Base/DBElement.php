@@ -166,7 +166,6 @@ abstract class DBElement
                     throw $ex;
                 }
             }
-
         }
     }
 
@@ -391,7 +390,6 @@ abstract class DBElement
      */
     final public static function getCount(Database &$database) : int
     {
-
         return $database->getCountOfRecords(static::getTablename());
     }
 

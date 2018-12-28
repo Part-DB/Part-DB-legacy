@@ -8,8 +8,6 @@
 
 namespace PartDB\Exceptions;
 
-
 class ElementNotExistingException extends \InvalidArgumentException
 {
-
 }

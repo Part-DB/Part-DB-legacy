@@ -45,7 +45,6 @@ use PartDB\Permissions\UserPermission;
  */
 class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 {
-
     const TABLE_NAME = 'users';
 
     /** The User id of the anonymous user */

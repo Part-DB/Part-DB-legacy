@@ -2,7 +2,6 @@
 
 namespace PartDB\Interfaces;
 
-
 /**
  * Elements implementing that interface contain infos about when they were created, and last modified.
  * Interface IHasModifiedCreatedInfos
@@ -25,5 +24,4 @@ interface IHasModifiedCreatedInfos
      * @return string The creation time of the part.
      */
     public function getDatetimeAdded(bool $formatted = true) : string;
-
 }

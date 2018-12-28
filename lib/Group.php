@@ -39,7 +39,6 @@ use PartDB\Permissions\PermissionManager;
  */
 class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissions
 {
-
     const TABLE_NAME = "groups";
 
     /********************************************************************************

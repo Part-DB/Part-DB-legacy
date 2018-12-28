@@ -56,7 +56,6 @@ use Pimple\Exception\ExpectedInvokableException;
  */
 abstract class StructuralDBElement extends AttachmentsContainingDBElement
 {
-
     const ID_ROOT_ELEMENT = 0;
 
     //This is a not standard character, so build a const, so a dev can easily use it
@@ -555,7 +554,6 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         string $root_name = '$$',
         string $value_prefix = ''
     ) : string {
-
         if ($root_name == '$$') {
             $root_name = _('Oberste Ebene');
         }

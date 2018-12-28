@@ -190,8 +190,6 @@ abstract class BasePermission
         }
 
         return $operations[$op]["n"];
-
-
     }
 
     /**

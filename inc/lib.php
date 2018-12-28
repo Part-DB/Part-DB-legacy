@@ -99,14 +99,14 @@ function getGitCommitHash(int $length = 40)
 
 /**
  * Creates a array containing data, usable for the used javascript library Bootstrap-treeview.
- * 
+ *
  * @param string $name This will be shown as the name/label of the node to the user
  * @param string $href When this is set, the node will be a link, with this URL as target
  * @param array $nodes The subnotes of this notes as array of the elements created by this function
  * @param string $icon The CSS class name of the icon this node should have
- * 
+ *
  * @return array An array containing the informations for this node
- *  
+ *
  * */
 function treeviewNode(string $name, $href = null, $nodes = null, $icon = null) : array
 {
@@ -281,9 +281,8 @@ function uploadFile(array $file_array, string $destination_directory, $destinati
     }
 
     //Dont allow to upload a PHP file.
-    if(strpos($file_array['name'], ".php") != false
-        || strpos($destination_filename, ".php") != false)
-    {
+    if (strpos($file_array['name'], ".php") != false
+        || strpos($destination_filename, ".php") != false) {
         throw new \Exception(_("Es ist nicht erlaubt PHP Dateien hochzuladen!"));
     }
 
@@ -433,7 +432,7 @@ function saveConfig()
 }
 
 /**
- * @brief For save_config(), this function takes both config arrays, and writes 
+ * @brief For save_config(), this function takes both config arrays, and writes
  * the new entries (in relative to config_defaults) into the config.php
  */
 function arrayToPhpLines(&$array_defaults, &$array, $path, $ignore_defaults)
@@ -529,11 +528,11 @@ function getCurrencySymbol() : string
     $language = $config['language'];
 
     //User can override the currency symbol in config, we need to respect that...
-    if(isset($config['money_format'][$language])) {
+    if (isset($config['money_format'][$language])) {
         return $config['money_format'][$language];
     }
 
-  return localeconv()['currency_symbol'];
+    return localeconv()['currency_symbol'];
 }
 
 /**
@@ -597,7 +596,7 @@ function downloadFile(string $url, string $path, string $filename = "", bool $do
     }
 
     //Dont allow to upload a PHP file.
-    if(strpos($filename, ".php") != false) {
+    if (strpos($filename, ".php") != false) {
         throw new \Exception(_("Es ist nicht erlaubt PHP Dateien herunterzuladen!"));
     }
 
@@ -827,7 +826,7 @@ function getKeywordAfterModifier(string $search_str, string $modifier) : string
 
 /**
  * Allow the usage of umlauts in the given pattern.
- * 
+ *
  * Normaly the \w class does not include umlauts like, ÄÜÖ etc..
  * This function replaces the \w class to a class that matches umlauts too.
  * @param $pattern string The pattern which should be modified for umlauts
@@ -1055,7 +1054,7 @@ function buildToolsTree($params) : array
     if ($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachment_types.php");
     }
-    if($current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE)) {
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE)) {
         $edit_nodes[] = treeviewNode(_("Bauteil anlegen"), BASE_RELATIVE . "/edit_part_info.php");
     }
 
@@ -1383,10 +1382,10 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries, $g
     $get_string = "";
     $prefix = "";
     //We only need the &, if the page_link does not end with ? (this is e.g. on show_all_parts.php the case)
-    if(substr($page_link, -1) != "?") {
+    if (substr($page_link, -1) != "?") {
         $prefix = "&";
     }
-    if(!empty($get_params)) {
+    if (!empty($get_params)) {
         $get_string = $prefix . http_build_query($get_params);
     }
 
@@ -1426,7 +1425,7 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries, $g
         "hint" => _("Alle anzeigen"));
 
     $upper_results = ($selected_page * $limit + 1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit : $max_entries;
-    if($upper_results == 0) {
+    if ($upper_results == 0) {
         $lower_results = 0;
     } else {
         $lower_results = $selected_page > 0 ? ($selected_page - 1) * $limit + 1 : 1;
@@ -1540,7 +1539,7 @@ function getConnectionIPAddress($mask_override_ipv4 = false, $mask_override_ipv6
 
     //Determine mask for IPv4
     if ($mask_override_ipv4 === false) {
-       $mask_ipv4 = $config['logging_system']['ip_anonymize_mask_ipv4'];
+        $mask_ipv4 = $config['logging_system']['ip_anonymize_mask_ipv4'];
     } else {
         $mask_ipv4 = $mask_override_ipv4;
     }
@@ -1552,7 +1551,7 @@ function getConnectionIPAddress($mask_override_ipv4 = false, $mask_override_ipv6
         $mask_ipv6 = $mask_override_ipv6;
     }
 
-    if($mask_ipv4 === "") {
+    if ($mask_ipv4 === "") {
         //Return IP address without any anonymization
         return $raw_ip;
     }

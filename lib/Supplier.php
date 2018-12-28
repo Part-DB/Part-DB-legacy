@@ -40,7 +40,6 @@ use PartDB\Permissions\PermissionManager;
  */
 class Supplier extends Base\Company implements ISearchable
 {
-
     const TABLE_NAME = 'suppliers';
 
     /********************************************************************************

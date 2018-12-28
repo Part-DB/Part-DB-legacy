@@ -23,8 +23,6 @@
 
 namespace PartDB\Exceptions;
 
-
 class TemplateSystemException extends \Exception
 {
-
 }

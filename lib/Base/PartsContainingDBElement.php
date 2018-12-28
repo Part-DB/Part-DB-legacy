@@ -160,7 +160,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      *
      * @throws Exception if there was an error
      */
-    abstract function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array;
+    abstract public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array;
 
     /**
      * Get all parts of this element

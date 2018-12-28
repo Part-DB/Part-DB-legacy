@@ -38,7 +38,6 @@ use PartDB\Permissions\PermissionManager;
  */
 class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ISearchable
 {
-
     const TABLE_NAME = "footprints";
 
     /********************************************************************************
