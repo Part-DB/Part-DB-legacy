@@ -91,7 +91,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             $parent_id = $this->getID();
 
             while ($parent_id > 0) {
-                $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                $category = Category::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->getParentID();
 
                 if ($category->getDisableFootprints()) {
@@ -123,7 +123,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             $parent_id = $this->getID();
 
             while ($parent_id > 0) {
-                $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                $category = Category::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->getParentID();
 
                 if ($category->getDisableManufacturers()) {
@@ -154,7 +154,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             $parent_id = $this->getID();
 
             while ($parent_id > 0) {
-                $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                $category = Category::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->getParentID();
 
                 if ($category->getDisableAutodatasheets()) {
@@ -185,7 +185,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             $parent_id = $this->getID();
 
             while ($parent_id > 0) {
-                $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                $category = Category::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->getParentID();
 
                 if ($category->getDisableProperties()) {
@@ -216,7 +216,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             $parent_id = $this->getID();
 
             while ($parent_id > 0) {
-                $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                $category = Category::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->getParentID();
 
                 if (!empty($category->getDefaultDescription())) {
@@ -256,7 +256,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             $parent_id = $this->getID();
 
             while ($parent_id > 0) {
-                $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                $category = Category::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->getParentID();
 
                 if (!empty($category->getDefaultComment())) {
@@ -291,7 +291,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             $parent_id = $this->getID();
 
             while ($parent_id > 0) {
-                $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                $category = Category::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->getParentID();
 
                 if (!empty($category->getPartnameHint())) {
@@ -332,7 +332,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             $parent_id = $this->getID();
 
             while ($parent_id > 0) {
-                $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                $category = Category::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->getParentID();
 
                 if (!empty($category->getPartnameRegexRaw())) {
@@ -415,7 +415,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountForRowName('id_category', $recursive );
+        return parent::getPartsCountForRowName('id_category', $recursive);
     }
 
 

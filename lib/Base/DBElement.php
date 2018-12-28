@@ -481,8 +481,6 @@ abstract class DBElement
      */
     protected static function addByArray(Database &$database, User &$current_user, Log &$log, array $new_values)
     {
-        $tablename = static::getTablename();
-
         // we check if the new data is valid
         // (with "static::" we let check every subclass of DBElement to check the data!)
         static::checkValuesValidity($database, $current_user, $log, $new_values, true);

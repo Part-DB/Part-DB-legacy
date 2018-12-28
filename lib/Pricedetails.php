@@ -160,7 +160,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     public function getOrderdetails() : Orderdetails
     {
         if (! is_object($this->orderdetails)) {
-            $this->orderdetails = new Orderdetails(
+            $this->orderdetails = Orderdetails::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -209,7 +209,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getPriceRelatedQuantity() : int
     {
-        return $this->db_data['price_related_quantity'];
+        return (int) $this->db_data['price_related_quantity'];
     }
 
     /**
@@ -224,7 +224,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getMinDiscountQuantity() : int
     {
-        return $this->db_data['min_discount_quantity'];
+        return (int) $this->db_data['min_discount_quantity'];
     }
 
     /********************************************************************************

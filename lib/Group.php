@@ -183,7 +183,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->users[] = new User($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->users[] = User::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 
@@ -275,7 +275,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
             return $tmp;
         }
 
-        $parent = new Group($this->database, $this->current_user, $this->log, $parent_id);
+        $parent = Group::getInstance($this->database, $this->current_user, $this->log, $parent_id);
         //Otherwise return the perm manager of the group.
         return $parent->getPermissionManager();
     }

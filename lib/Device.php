@@ -161,7 +161,7 @@ class Device extends Base\PartsContainingDBElement
         try {
             if (($with_subdevices) && ($parent_id > 0)) { // the root node (ID 0 or -1) is always allowed as the parent object
                 // check if $parent_id is NOT a child of this device
-                $parent_device = new Device($this->database, $this->current_user, $this->log, $parent_id);
+                $parent_device = Device::getInstance($this->database, $this->current_user, $this->log, $parent_id);
 
                 if (($parent_device->getID() == $this->getID()) || ($parent_device->isChildOf($this))) {
                     throw new Exception(_('Eine Baugruppe kann nicht in sich selber kopiert werden!'));
@@ -324,7 +324,7 @@ class Device extends Base\PartsContainingDBElement
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->parts[] = new DevicePart($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->parts[] = DevicePart::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 

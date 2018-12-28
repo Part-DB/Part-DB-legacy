@@ -177,7 +177,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     public function getPart() : Part
     {
         if (! is_object($this->part)) {
-            $this->part = new Part(
+            $this->part = Part::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -198,7 +198,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     public function getSupplier() : Supplier
     {
         if (! is_object($this->supplier)) {
-            $this->supplier = new Supplier(
+            $this->supplier = Supplier::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -275,7 +275,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->pricedetails[] = new Pricedetails($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->pricedetails[] = Pricedetails::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 

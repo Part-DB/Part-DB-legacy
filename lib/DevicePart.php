@@ -115,7 +115,7 @@ class DevicePart extends Base\DBElement
     public function getDevice() : Device
     {
         if (! is_object($this->device)) {
-            $this->device = new Device(
+            $this->device = Device::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -136,7 +136,7 @@ class DevicePart extends Base\DBElement
     public function getPart() : Part
     {
         if (! is_object($this->part)) {
-            $this->part = new Part(
+            $this->part = Part::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -158,7 +158,7 @@ class DevicePart extends Base\DBElement
             return 1;
         }
 
-        return $this->db_data['quantity'];
+        return (int) $this->db_data['quantity'];
     }
 
     /**

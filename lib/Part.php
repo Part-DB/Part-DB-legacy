@@ -392,7 +392,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function isInstockUnknown() : bool
     {
-        return $this->getInstock() <= static::INSTOCK_UNKNOWN;
+        return $this->db_data <= static::INSTOCK_UNKNOWN;
     }
 
     /**
@@ -504,7 +504,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ((! is_object($this->order_orderdetails)) && ($this->db_data['order_orderdetails_id'] != null)) {
-            $this->order_orderdetails = new Orderdetails(
+            $this->order_orderdetails = Orderdetails::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -657,7 +657,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public function getCategory() : Category
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
-            return new Category(
+            return Category::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -666,7 +666,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if (! is_object($this->category)) {
-            $this->category = new Category(
+            $this->category = Category::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -692,7 +692,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ((! is_object($this->footprint)) && ($this->db_data['id_footprint'] != null)) {
-            $this->footprint = new Footprint(
+            $this->footprint = Footprint::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -718,7 +718,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ((! is_object($this->storelocation)) && ($this->db_data['id_storelocation'] != null)) {
-            $this->storelocation = new Storelocation(
+            $this->storelocation = Storelocation::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -744,7 +744,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ((! is_object($this->manufacturer)) && ($this->db_data['id_manufacturer'] != null)) {
-            $this->manufacturer = new Manufacturer(
+            $this->manufacturer = Manufacturer::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -771,7 +771,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ((! is_object($this->master_picture_attachement)) && ($this->db_data['id_master_picture_attachement'] != null)) {
-            $this->master_picture_attachement = new Attachement(
+            $this->master_picture_attachement = Attachement::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -811,7 +811,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->orderdetails[] = new Orderdetails($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->orderdetails[] = Orderdetails::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 
@@ -851,7 +851,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->devices[] = new Device($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->devices[] = Device::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 
@@ -1572,7 +1572,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $table_row['row_fields']    = array();
         $table_row['favorite']      = $this->getFavorite();
         $table_row["show_full_paths"] = $config['table']['full_paths'];
-        $table_row["instock_warning_full_row"] = $config['table']['instock_warning_full_row_color'] && ($this->getAutoOrder());
+        $table_row["instock_warning_full_row"] =
+                $config['table']['instock_warning_full_row_color'] && ($this->getAutoOrder());
 
         foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
             $row_field = array();

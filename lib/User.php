@@ -137,7 +137,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
 
         if (! is_object($this->group)) {
-            $this->group = new Group(
+            $this->group = Group::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -827,7 +827,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
         $user_data = $query_data[0];
         $user = null;
-        return new User($database, $user, $log, $user_data['id'], $user_data);
+        return User::getInstance($database, $user, $log, $user_data['id'], $user_data);
     }
 
     /**

@@ -96,7 +96,13 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
 
             //debug('temp', 'Anzahl gefundene Dateien: '.count($query_data));
             foreach ($query_data as $row) {
-                $this->attachements[] = new Attachement($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->attachements[] = Attachement::getInstance(
+                    $this->database,
+                    $this->current_user,
+                    $this->log,
+                    $row['id'],
+                    $row
+                );
             }
         }
 

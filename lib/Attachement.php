@@ -152,7 +152,7 @@ class Attachement extends Base\NamedDBElement
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $part = new Part($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $part = Part::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
                 $part->setMasterPictureAttachementID(null);
             }
 
@@ -269,7 +269,7 @@ class Attachement extends Base\NamedDBElement
     public function getType() : AttachementType
     {
         if (! is_object($this->attachement_type)) {
-            $this->attachement_type = new AttachementType(
+            $this->attachement_type = AttachementType::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
@@ -515,7 +515,6 @@ class Attachement extends Base\NamedDBElement
             $database,
             $current_user,
             $log,
-            'attachements',
             array(  'name'              => $name,
                 'class_name'        => get_class($element),
                 'element_id'        => $element->getID(),
