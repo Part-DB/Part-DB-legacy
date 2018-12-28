@@ -103,6 +103,11 @@ abstract class DBElement
     /**
      * This creates a new Element object, representing an entry from the Database.
      *
+     * You should (and can not) use this constructor from outside. You have to use getInstance() with the same params,
+     * to get an instance. This way the object instances can be cached.
+     *
+     * @see DBElement::getInstance()
+     *
      * @param Database $database reference to the Database-object
      * @param User $current_user reference to the current user which is logged in
      * @param Log $log reference to the Log-object
@@ -492,7 +497,24 @@ abstract class DBElement
         return static::getInstance($database, $current_user, $log, $id);
     }
 
-    public static function &getInstance(Database &$database, User &$current_user, Log &$log, int $id, array $db_data = null)
+    /**
+     * Get an instance of the class. You have to use this function instead of the constructor, so it is possible to
+     * return an reference to a cached (already) existing object instance
+     *
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
+     *
+     * @throws TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws ElementNotExistingException If no such element exists in DB.
+     * @return DBElement A reference to the instance you wanted.
+     */
+    //$current_user must not have a type, because User passes, null!!
+    public static function &getInstance(Database &$database, &$current_user, Log &$log, int $id, array $db_data = null)
     {
         //Check if we already have a chached instance of the element:
         if (isset(static::$cache[static::class][$id])) {
