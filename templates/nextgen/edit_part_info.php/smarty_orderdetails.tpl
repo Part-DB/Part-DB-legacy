@@ -30,7 +30,7 @@
                             <input class="form-control mt-2" type="text" name="supplierpartnr_{$detail.orderdetails_id}" placeholder="{t}Bestellnr.{/t}"
                                    size="12" value="{$detail.supplierpartnr}"
                                    {if !($can_orderdetails_edit || ($can_orderdetails_create && $detail.orderdetails_id == "new"))}disabled{/if}>
-                            <input class="form-control mt-2" type="url" name="supplierurl_{$detail.orderdetails_id}" value="{$detail.supplier_url}"
+                            <input class="form-control mt-2" type="url" name="supplierurl_{$detail.orderdetails_id}" value="{if isset($detail.supplier_url)}{$detail.supplier_url}{/if}"
                                    placeholder="{t}Bestelllink{/t}" {if !($can_orderdetails_edit || ($can_orderdetails_create && $detail.orderdetails_id == "new"))}disabled{/if}>
                             <input type="hidden" name="pid" value="{$pid}">
                             <input type="hidden" name="orderdetails_id_{$detail.orderdetails_id}" value="{$detail.orderdetails_id}">

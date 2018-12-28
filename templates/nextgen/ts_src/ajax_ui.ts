@@ -500,8 +500,8 @@ class AjaxUI {
         //Go back only when the the target isnt the empty index.
         if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
             AjaxUI.getInstance().statePopped = true;
-            $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
-            $('#progressbar').show(0);
+            $('#content').load(addURLparam(location.href, "ajax") + " #content-data");
+            //$('#progressbar').show(0);
         }
     }
 

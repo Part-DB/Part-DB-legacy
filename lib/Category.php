@@ -268,7 +268,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
 
             return "";
         } elseif ($show_escape || $this->db_data['default_comment'] !== "@@") {
-            return $this->db_data['default_comment'];
+            return $this->db_data['default_comment'] ?? "";
         } else {
             return "";
         }
