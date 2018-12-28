@@ -92,7 +92,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database &$database, &$current_user, Log &$log, int $id, $data = null)
     {
         if (! is_object($current_user)) {     // this is that you can create an User-instance for first time
             $current_user = $this;

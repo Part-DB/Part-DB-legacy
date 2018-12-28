@@ -34,7 +34,6 @@ use PartDB\Exceptions\NotImplementedException;
 use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Group;
-use PartDB\Interfaces\IHasVirtualElements;
 use PartDB\Log;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
@@ -103,7 +102,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
     }

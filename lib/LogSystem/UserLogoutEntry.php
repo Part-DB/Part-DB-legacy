@@ -96,7 +96,7 @@ class UserLogoutEntry extends BaseEntry
     public function getTargetText() : string
     {
         try {
-            $user = new User($this->database, $this->current_user, $this->log, $this->getTargetID());
+            $user = User::getInstance($this->database, $this->current_user, $this->log, $this->getTargetID());
             return $user->getName();
         } catch (Exception $ex) {
             return "ERROR!";

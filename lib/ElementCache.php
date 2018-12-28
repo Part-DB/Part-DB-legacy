@@ -60,7 +60,7 @@ class ElementCache
         if ($user_id == self::USERID_CURRENT_USER) {
             $this->user = User::getLoggedInUser($this->database, $this->log);
         } else {
-            $this->user = new User($this->database, $this->user, $this->log, $user_id);
+            $this->user = User::getInstance($this->database, $this->user, $this->log, $user_id);
         }
 
 

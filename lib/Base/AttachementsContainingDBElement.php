@@ -81,7 +81,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
     }
@@ -183,7 +183,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
 
             //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
             foreach ($query_data as $row) {
-                $this->attachement_types[] = new AttachementType($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->attachement_types[] = AttachementType::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 
@@ -215,7 +215,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
 
             //debug('temp', 'Anzahl gefundene Dateianhänge: '.count($query_data));
             foreach ($query_data as $row) {
-                $this->attachements[] = new Attachement($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->attachements[] = Attachement::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 

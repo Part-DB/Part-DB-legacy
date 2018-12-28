@@ -65,7 +65,7 @@ abstract class BaseEntry extends DBElement
     public function getUser() : User
     {
         if ($this->user == null) {
-            $this->user = new User($this->database, $this->current_user, $this->log, $this->db_data['id_user']);
+            $this->user = User::getInstance($this->database, $this->current_user, $this->log, $this->db_data['id_user']);
         }
 
         return $this->user;

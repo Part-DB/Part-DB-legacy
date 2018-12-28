@@ -104,7 +104,7 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_group         = new \PartDB\Group($database, $current_user, $log, 0);
+    $root_group         = \PartDB\Group::getInstance($database, $current_user, $log, 0);
 
     //Check permissions
     $current_user->tryDo(PermissionManager::USERS, UserPermission::READ);

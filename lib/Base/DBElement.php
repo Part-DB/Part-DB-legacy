@@ -31,7 +31,6 @@ use PartDB\Exceptions\ElementNotExistingException;
 use PartDB\Exceptions\InvalidElementValueException;
 use PartDB\Exceptions\NotImplementedException;
 use PartDB\Exceptions\TableNotExistingException;
-use PartDB\Interfaces\IHasVirtualElements;
 use PartDB\Log;
 use PartDB\User;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -115,7 +114,7 @@ abstract class DBElement
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         $this->database = $database;
         $this->current_user = $current_user;

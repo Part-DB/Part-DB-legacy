@@ -65,7 +65,8 @@ function generateTreeForClass($class, &$database, &$current_user, &$log, $params
     try {
         $root_id = (isset($params['root_id']) && $params['root_id'] >= 0) ? $params['root_id'] : 0;
         /** @var \PartDB\Base\StructuralDBElement $root */
-        $root = new $class($database, $current_user, $log, $root_id);
+        /** @var \PartDB\Base\DBElement $class */
+        $root = $class::getInstance($database, $current_user, $log, $root_id);
         if (isset($params['page']) && isset($params['parameter'])) {
             return $root->buildBootstrapTree($params['page'], $params['parameter']);
         } else {
@@ -74,6 +75,7 @@ function generateTreeForClass($class, &$database, &$current_user, &$log, $params
     } catch (Exception $ex) {
         debug("error", $ex);
     }
+    return null;
 }
 
 

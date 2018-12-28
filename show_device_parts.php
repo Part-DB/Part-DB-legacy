@@ -160,7 +160,7 @@ try {
     $device             = Device::getInstance($database, $current_user, $log, $device_id);
     $subdevices         = $device->getSubelements(false);
 
-    $root_attachement_type   = new \PartDB\AttachementType($database, $current_user, $log, 0);
+    $root_attachement_type   = \PartDB\AttachementType::getInstance($database, $current_user, $log, 0);
 
     //Check for Device parts read permission, when on Device detail page.
     if ($device_id > 0) {

@@ -76,7 +76,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
         $this->perm_manager = new PermissionManager($this);

@@ -168,7 +168,7 @@ try {
             /* @var $generator_class BaseLabel */
             $generator_class = \PartDB\Label\StorelocationLabel::class;
             if ($element_id > 0) {
-                $element = new \PartDB\Storelocation($database, $current_user, $log, $element_id);
+                $element = \PartDB\Storelocation::getInstance($database, $current_user, $log, $element_id);
             }
             break;
     }

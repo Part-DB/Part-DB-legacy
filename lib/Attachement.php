@@ -79,7 +79,7 @@ class Attachement extends Base\NamedDBElement
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    protected function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }

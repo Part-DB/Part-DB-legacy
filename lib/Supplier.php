@@ -62,7 +62,7 @@ class Supplier extends Base\Company implements ISearchable
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }
@@ -97,7 +97,7 @@ class Supplier extends Base\Company implements ISearchable
                 'GROUP BY part_id ORDER BY parts.name';
             $query_data = $this->database->query($query, array($this->getID()));
             foreach ($query_data as $row) {
-                $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['part_id']);
+                $this->parts[] = Part::getInstance($this->database, $this->current_user, $this->log, $row['part_id']);
             }
         }
         $parts = $this->parts;
