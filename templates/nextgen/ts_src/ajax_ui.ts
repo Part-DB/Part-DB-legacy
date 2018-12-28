@@ -175,7 +175,7 @@ class AjaxUI {
      */
     private showFormResponse(responseText, statusText, xhr, $form) {
         'use strict';
-        $("#content").html($(responseText).find("#content-data").html()).fadeIn('slow');
+        $("#content").html($(responseText).find("#content-data").html()).show(0);
     }
 
     /**
@@ -306,8 +306,8 @@ class AjaxUI {
         else
         {
             AjaxUI.getInstance().abortAllAjax();
-            $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
-            $('#progressbar').show();
+            $('#content').hide(0).load(addURLparam(data.href, "ajax") + " #content-data");
+            $('#progressbar').show(0);
         }
 
         $(this).treeview('toggleNodeExpanded',data.nodeId);
@@ -529,7 +529,8 @@ class AjaxUI {
 
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
-        $('#content').fadeIn("fast");
+        //$('#content').fadeIn("fast");
+        $('#content').show(0);
 
         this.registerForm();
         this.registerLinks();
@@ -1022,14 +1023,14 @@ function makeSortTable() {
                 let tmp = [];
                 //Show The select action bar only, if a element is selected.
                 if(count > 0) {
-                    $(".select_actions").show();
+                    $(".select_actions").show(0);
                     $(".selected_n").text(count);
                     //Build a string containing all parts, that should be modified
                     for (let n of data[0]) {
                         tmp.push($(data.row(n).node()).find("input").val());
                     }
                 } else {
-                    $(".select_actions").hide();
+                    $(".select_actions").hide(0);
                 }
 
                 //Combine all selected IDs into a string.
