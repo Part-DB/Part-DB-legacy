@@ -161,7 +161,7 @@ try {
             /* @var $generator_class BaseLabel */
             $generator_class = \PartDB\Label\PartLabel::class;
             if ($element_id > 0) {
-                $element = new Part($database, $current_user, $log, $element_id);
+                $element = Part::getInstance($database, $current_user, $log, $element_id);
             }
             break;
         case "location":

@@ -87,12 +87,12 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_device        = new Device($database, $current_user, $log, 0);
+    $root_device        = Device::getInstance($database, $current_user, $log, 0);
 
     $current_user->tryDo(PermissionManager::DEVICES, StructuralPermission::READ);
 
     if ($selected_id > 0) {
-        $selected_device = new Device($database, $current_user, $log, $selected_id);
+        $selected_device = Device::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_device = null;
     }

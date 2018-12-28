@@ -799,7 +799,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
         // check "group_id"
         try {
-            $group = new Group($database, $current_user, $log, $values['group_id']);
+            $group = Group::getInstance($database, $current_user, $log, $values['group_id']);
         } catch (Exception $e) {
             throw new InvalidElementValueException(_('Die gewählte Gruppe existiert nicht!'));
         }
@@ -982,7 +982,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         $results = $database->query("SELECT * FROM users");
         $users = array();
         foreach ($results as $result) {
-            $users[] = new User($database, $current_user, $log, $result['id'], $result);
+            $users[] = User::getInstance($database, $current_user, $log, $result['id'], $result);
         }
 
         return $users;

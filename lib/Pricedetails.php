@@ -311,7 +311,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
 
         // check "orderdetails_id"
         try {
-            $orderdetails = new Orderdetails($database, $current_user, $log, $values['orderdetails_id']);
+            $orderdetails = Orderdetails::getInstance($database, $current_user, $log, $values['orderdetails_id']);
 
             // save orderdetails attributes to update its "last_modified" and "last_modified" of the part
             $orderdetails->setAttributes(array());

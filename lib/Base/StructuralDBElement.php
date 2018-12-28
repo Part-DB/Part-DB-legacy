@@ -260,7 +260,12 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         } else {
 
             /** @var StructuralDBElement $parent_element */
-            $parent_element = new static($this->database, $this->current_user, $this->log, $this->getParentID());
+            $parent_element = static::getInstance(
+                $this->database,
+                $this->current_user,
+                $this->log,
+                $this->getParentID()
+            );
 
             //If this' parents element, is $another_element, then we are finished
             return (($parent_element->getID() == $another_element->getID())
@@ -404,7 +409,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $parent_id = $this->getParentID();
             while ($parent_id > 0) {
                 /** @var StructuralDBElement $element */
-                $element = new static($this->database, $this->current_user, $this->log, $parent_id);
+                $element = static::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $element->getParentID();
                 $this->level++;
             }
@@ -434,7 +439,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $parent_id = static::getParentID();
             while ($parent_id > 0) {
                 /** @var StructuralDBElement $element */
-                $element = new static($this->database, $this->current_user, $this->log, $parent_id);
+                $element = static::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $element->getParentID();
                 $this->full_path_strings[] = $element->getName();
             }
@@ -472,7 +477,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
                 ' WHERE parent_id <=> ? ORDER BY name ASC', array($id));
 
             foreach ($query_data as $row) {
-                $this->subelements[] = new static($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->subelements[] = static::getInstance($this->database, $this->current_user, $this->log, $row['id']);
             }
         }
 
@@ -671,9 +676,9 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         $parent_id = static::getParentID();
         while ($parent_id > 0) {
             /** @var StructuralDBElement $element */
-            $element = new static($this->database, $this->current_user, $this->log, $parent_id);
+            $element = static::getInstance($this->database, $this->current_user, $this->log, $parent_id);
             $parent_id = $element->getParentID();
-            $tmp[] = array("label" => $element->getName(), 'href' => $page . "?" . $parameter . "=".$element->getID());
+            $tmp[] = array("label" => $element->getName(), 'href' => $page . "?" . $parameter . "=" . $element->getID());
         }
         $tmp = array_reverse($tmp);
 
@@ -741,7 +746,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
 
         try {
             /** @var StructuralDBElement $parent_element */
-            $parent_element = new static($database, $current_user, $log, $values['parent_id']);
+            $parent_element = static::getInstance($database, $current_user, $log, $values['parent_id']);
         } catch (Exception $e) {
             throw new InvalidElementValueException(_('Das ausgewählte übergeordnete Element existiert nicht!'));
         }

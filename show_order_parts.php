@@ -132,7 +132,7 @@ if (! $fatal_error) {
                 $order_quantity         = isset($_REQUEST['order_quantity_'.$i])    ? max(0, (int)$_REQUEST['order_quantity_'.$i])  : 0;
 
                 try {
-                    $part = new Part($database, $current_user, $log, $part_id);
+                    $part = Part::getInstance($database, $current_user, $log, $part_id);
 
                     $part->setOrderOrderdetailsID($order_orderdetails_id);
                     $part->setOrderQuantity($order_quantity);
@@ -157,7 +157,7 @@ if (! $fatal_error) {
                 $part_id                = isset($_REQUEST['id_'.$i])                ? (int)$_REQUEST['id_'.$i]                      : 0;
 
                 try {
-                    $part = new Part($database, $current_user, $log, $part_id);
+                    $part = Part::getInstance($database, $current_user, $log, $part_id);
                     $part->setOrderQuantity($part->getMinOrderQuantity());
                 } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -169,7 +169,7 @@ if (! $fatal_error) {
 
         case 'remove_device':
             try {
-                $device = new Device($database, $current_user, $log, $device_id);
+                $device = Device::getInstance($database, $current_user, $log, $device_id);
                 $device->setOrderQuantity(0);
                 $reload_site = true;
             } catch (Exception $e) {
@@ -180,7 +180,7 @@ if (! $fatal_error) {
         case 'export':
             try {
                 if ($selected_supplier_id > 0) {
-                    $supplier = new Supplier($database, $current_user, $log, $selected_supplier_id);
+                    $supplier = Supplier::getInstance($database, $current_user, $log, $selected_supplier_id);
                     $parts = Part::getOrderParts($database, $current_user, $log, array($selected_supplier_id)); // parts from ONE supplier
                     $filename = 'order_parts_'.$supplier->getName();
                 } else {

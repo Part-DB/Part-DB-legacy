@@ -114,7 +114,7 @@ try {
     //Check permission
     $current_user->tryDo(PermissionManager::PARTS, PartPermission::READ);
 
-    $part               = new Part($database, $current_user, $log, $part_id);
+    $part               = Part::getInstance($database, $current_user, $log, $part_id);
     $footprint          = $part->getFootprint();
     $storelocation      = $part->getStorelocation();
     $manufacturer       = $part->getManufacturer();
@@ -350,7 +350,7 @@ if (! $fatal_error) {
                 "mount_name" => $device_part->getMountNames());
         }
 
-        $root_device = new Device($database, $current_user, $log, 0);
+        $root_device = Device::getInstance($database, $current_user, $log, 0);
         $html->setVariable("devices_list", $root_device->buildHtmlTree(Device::getPrimaryDevice(), true, false), "string");
 
         if (count($devices_loop) > 0) {

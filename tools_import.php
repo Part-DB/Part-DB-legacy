@@ -156,7 +156,7 @@ if (! $fatal_error) {
                 $new_parts = array();
                 foreach ($ids as $id) {
                     if ($id > 0) {
-                        $new_parts[] = new Part($database, $current_user, $log, $id);
+                        $new_parts[] = Part::getInstance($database, $current_user, $log, $id);
                     }
                 }
             } catch (Exception $e) {

@@ -110,7 +110,7 @@ try {
     $current_user->tryDo(PermissionManager::USERS, UserPermission::READ);
 
     if ($selected_id > -1) {
-        $selected_user = new User($database, $current_user, $log, $selected_id);
+        $selected_user = User::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_device = null;
     }

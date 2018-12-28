@@ -156,8 +156,8 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_device        = new Device($database, $current_user, $log, 0);
-    $device             = new Device($database, $current_user, $log, $device_id);
+    $root_device        = Device::getInstance($database, $current_user, $log, 0);
+    $device             = Device::getInstance($database, $current_user, $log, $device_id);
     $subdevices         = $device->getSubelements(false);
 
     $root_attachement_type   = new \PartDB\AttachementType($database, $current_user, $log, 0);
@@ -170,7 +170,7 @@ try {
     }
 
     if ($attachement_id > 0) {
-        $attachement = new Attachement($database, $current_user, $log, $attachement_id);
+        $attachement = Attachement::getInstance($database, $current_user, $log, $attachement_id);
     } else {
         $attachement = null;
     }
@@ -257,7 +257,7 @@ if (! $fatal_error) {
                 $mountname  = isset($_POST['mountnames_'.$i])   ? trim((string)$_POST['mountnames_'.$i]) : '';
 
                 try {
-                    $device_part = new DevicePart($database, $current_user, $log, $part_id);
+                    $device_part = DevicePart::getInstance($database, $current_user, $log, $part_id);
 
                     if ($quantity > 0) {
                         $device_part->setAttributes(array('quantity' => $quantity, 'mountnames' => $mountname));

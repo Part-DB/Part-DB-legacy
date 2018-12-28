@@ -98,7 +98,7 @@ try {
     $current_user       = User::getLoggedInUser($database, $log);
 
     if ($selected_part_id > 0) {
-        $part = new Part($database, $current_user, $log, $selected_part_id);
+        $part = Part::getInstance($database, $current_user, $log, $selected_part_id);
     } else {
         $part = null;
     }

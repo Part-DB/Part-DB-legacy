@@ -1912,7 +1912,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $parts = array();
 
         foreach ($query_data as $row) {
-            $part = new Part($database, $current_user, $log, $row['id']);
+            $part = Part::getInstance($database, $current_user, $log, $row['id']);
             $parts[] = $part;
         }
 
@@ -1989,7 +1989,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             }
 
             if ($values['order_orderdetails_id'] != null) {
-                $order_orderdetails = new Orderdetails($database, $current_user, $log, $values['order_orderdetails_id']);
+                $order_orderdetails = Orderdetails::getInstance($database, $current_user, $log, $values['order_orderdetails_id']);
             }
         } catch (Exception $e) {
             throw new InvalidElementValueException(_('Die gewählte Einkaufsinformation existiert nicht!'));
@@ -2025,14 +2025,14 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         // check "id_category"
         try {
-            $category = new Category($database, $current_user, $log, $values['id_category']);
+            $category = Category::getInstance($database, $current_user, $log, $values['id_category']);
         } catch (Exception $e) {
             throw new InvalidElementValueException(_('Die gewählte Kategorie existiert nicht!'));
         }
 
         // check "id_footprint"
         try {
-            $footprint = new Footprint($database, $current_user, $log, $values['id_footprint'] ?? 0);
+            $footprint = Footprint::getInstance($database, $current_user, $log, $values['id_footprint'] ?? 0);
             if (($values['id_footprint'] == 0) && ($values['id_footprint'] !== null)) {
                 $values['id_footprint'] = null;
             }
@@ -2042,7 +2042,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         // check "id_storelocation"
         try {
-            $storelocation = new Storelocation($database, $current_user, $log, $values['id_storelocation'] ?? 0);
+            $storelocation = Storelocation::getInstance($database, $current_user, $log, $values['id_storelocation'] ?? 0);
             if (($values['id_storelocation'] == 0) && ($values['id_storelocation'] !== null)) {
                 $values['id_storelocation'] = null;
             }
@@ -2052,7 +2052,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         // check "id_manufacturer"
         try {
-            $manufacturer = new Manufacturer($database, $current_user, $log, $values['id_manufacturer'] ?? 0);
+            $manufacturer = Manufacturer::getInstance($database, $current_user, $log, $values['id_manufacturer'] ?? 0);
             if (($values['id_manufacturer'] == 0) && ($values['id_manufacturer'] !== null)) {
                 $values['id_manufacturer'] = null;
             }
@@ -2063,7 +2063,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         // check "id_master_picture_attachement"
         try {
             if ($values['id_master_picture_attachement']) {
-                $master_picture_attachement = new Attachement($database, $current_user, $log, $values['id_master_picture_attachement']);
+                $master_picture_attachement = Attachement::getInstance($database, $current_user, $log, $values['id_master_picture_attachement']);
             } else {
                 $values['id_master_picture_attachement'] = null;
             } // this will replace the integer "0" with NULL
@@ -2202,7 +2202,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query_data = $database->query($query, $supplier_ids);
 
         foreach ($query_data as $row) {
-            $part = new Part($database, $current_user, $log, $row['id'], $row);
+            $part = Part::getInstance($database, $current_user, $log, $row['id'], $row);
             if (($part->getManualOrder()) || ($part->getMinOrderQuantity() > 0)) {
                 $parts[] = $part;
             }
@@ -2250,7 +2250,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $parts;
@@ -2327,7 +2327,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $parts;
@@ -2402,7 +2402,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $parts;
@@ -2481,7 +2481,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $parts;
@@ -2564,7 +2564,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $parts;
@@ -2666,7 +2666,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $parts;
@@ -2926,7 +2926,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query_data = $database->query($query, $values);
 
         foreach ($query_data as $row) {
-            $part = new Part($database, $current_user, $log, $row['id'], $row);
+            $part = Part::getInstance($database, $current_user, $log, $row['id'], $row);
 
             switch ($group_by) {
                 case '':
@@ -3004,7 +3004,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $part = new Part($database, $current_user, $log, $row['id'], $row);
+            $part = Part::getInstance($database, $current_user, $log, $row['id'], $row);
 
             switch ($group_by) {
                 case '':

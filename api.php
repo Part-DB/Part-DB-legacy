@@ -86,7 +86,7 @@ $app->get("/1.0.0/categories/{cid}", function ($request, $response, $args) use (
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $category = new Category($database, $current_user, $log, $args['cid']);
+        $category = Category::getInstance($database, $current_user, $log, $args['cid']);
         return $response->withJson($category->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -104,7 +104,7 @@ $app->get("/1.0.0/locations/{lid}", function ($request, $response, $args) use (&
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $loc = new Storelocation($database, $current_user, $log, $args['lid']);
+        $loc = Storelocation::getInstance($database, $current_user, $log, $args['lid']);
         return $response->withJson($loc->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -121,7 +121,7 @@ $app->get("/1.0.0/manufacturers/{id}", function ($request, $response, $args) use
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $man = new Manufacturer($database, $current_user, $log, $args['id']);
+        $man = Manufacturer::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($man->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -138,7 +138,7 @@ $app->get("/1.0.0/suppliers/{id}", function ($request, $response, $args) use (&$
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $sup = new Supplier($database, $current_user, $log, $args['id']);
+        $sup = Supplier::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($sup->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -155,7 +155,7 @@ $app->get("/1.0.0/attachementtypes/{id}", function ($request, $response, $args) 
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $at = new AttachementType($database, $current_user, $log, $args['id']);
+        $at = AttachementType::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($at->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -172,7 +172,7 @@ $app->get("/1.0.0/footprints/{id}", function ($request, $response, $args) use (&
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $foot = new Footprint($database, $current_user, $log, $args['id']);
+        $foot = Footprint::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($foot->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -229,7 +229,7 @@ $app->get("/1.0.0/parts/{id}", function ($request, $response, $args) use (&$data
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $part = new Part($database, $current_user, $log, $args['id']);
+        $part = Part::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($part->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -243,7 +243,7 @@ $app->get("/1.0.0/parts/by-category/{id}", function ($request, $response, $args)
     }
     try {
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
-        $category = new Category($database, $current_user, $log, $args['id']);
+        $category = Category::getInstance($database, $current_user, $log, $args['id']);
         $parts = $category->getParts($recursive);
         return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
@@ -258,7 +258,7 @@ $app->get("/1.0.0/parts/by-location/{id}", function ($request, $response, $args)
     }
     try {
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
-        $location = new Storelocation($database, $current_user, $log, $args['id']);
+        $location = Storelocation::getInstance($database, $current_user, $log, $args['id']);
         $parts = $location->getParts($recursive);
         return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
@@ -273,7 +273,7 @@ $app->get("/1.0.0/parts/by-footprint/{id}", function ($request, $response, $args
     }
     try {
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
-        $footprint = new Footprint($database, $current_user, $log, $args['id']);
+        $footprint = Footprint::getInstance($database, $current_user, $log, $args['id']);
         $parts = $footprint->getParts($recursive);
         return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
@@ -288,7 +288,7 @@ $app->get("/1.0.0/parts/by-manufacturer/{id}", function ($request, $response, $a
     }
     try {
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
-        $manufacturer = new Manufacturer($database, $current_user, $log, $args['id']);
+        $manufacturer = Manufacturer::getInstance($database, $current_user, $log, $args['id']);
         $parts = $manufacturer->getParts($recursive);
         return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
@@ -303,7 +303,7 @@ $app->get("/1.0.0/parts/by-supplier/{id}", function ($request, $response, $args)
     }
     try {
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
-        $supplier = new Supplier($database, $current_user, $log, $args['id']);
+        $supplier = Supplier::getInstance($database, $current_user, $log, $args['id']);
         $parts = $supplier->getParts($recursive);
         return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
@@ -406,7 +406,7 @@ $app->get("/1.0.0/tree/categories[/{root_id}]", function ($request, $response, $
 $app->get("/1.0.0/tree/devices[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $root_device = new Device($database, $current_user, $log, 0);
+        $root_device = Device::getInstance($database, $current_user, $log, 0);
         $tree = $root_device->buildBootstrapTree(
             "show_device_parts.php",
             "device_id",

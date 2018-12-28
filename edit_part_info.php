@@ -215,33 +215,33 @@ try {
     $current_user           = User::getLoggedInUser($database, $log);
 
     if (! $is_new_part) {
-        $part               = new Part($database, $current_user, $log, $part_id);
+        $part               = Part::getInstance($database, $current_user, $log, $part_id);
 
         ///@todo: remove this line:
         $new_visible = $part->getVisible();
     }
 
-    $root_storelocation     = new Storelocation($database, $current_user, $log, 0);
-    $root_category          = new Category($database, $current_user, $log, 0);
-    $root_manufacturer      = new Manufacturer($database, $current_user, $log, 0);
-    $root_footprint         = new Footprint($database, $current_user, $log, 0);
-    $root_supplier          = new Supplier($database, $current_user, $log, 0);
-    $root_attachement_type  = new AttachementType($database, $current_user, $log, 0);
+    $root_storelocation     = Storelocation::getInstance($database, $current_user, $log, 0);
+    $root_category          = Category::getInstance($database, $current_user, $log, 0);
+    $root_manufacturer      = Manufacturer::getInstance($database, $current_user, $log, 0);
+    $root_footprint         = Footprint::getInstance($database, $current_user, $log, 0);
+    $root_supplier          = Supplier::getInstance($database, $current_user, $log, 0);
+    $root_attachement_type  = AttachementType::getInstance($database, $current_user, $log, 0);
 
     if (isset($orderdetails_id) && $orderdetails_id > 0) {
-        $orderdetails = new Orderdetails($database, $current_user, $log, $orderdetails_id);
+        $orderdetails = Orderdetails::getInstance($database, $current_user, $log, $orderdetails_id);
     } else {
         $orderdetails = null;
     }
 
     if (isset($pricedetails_id) && $pricedetails_id > 0) {
-        $pricedetails = new Pricedetails($database, $current_user, $log, $pricedetails_id);
+        $pricedetails = Pricedetails::getInstance($database, $current_user, $log, $pricedetails_id);
     } else {
         $pricedetails = null;
     }
 
     if ($attachement_id > 0) {
-        $attachement = new Attachement($database, $current_user, $log, $attachement_id);
+        $attachement = Attachement::getInstance($database, $current_user, $log, $attachement_id);
     } else {
         $attachement = null;
     }
@@ -265,7 +265,7 @@ if (! $fatal_error) {
     switch ($action) {
         case 'create_new_part':
             try {
-                $category = new Category($database, $current_user, $log, $new_category_id);
+                $category = Category::getInstance($database, $current_user, $log, $new_category_id);
 
                 if (Part::isValidName($new_name, $category) || isset($_POST['create_name_save'])) {
                     $part = Part::add(
@@ -442,7 +442,7 @@ if (! $fatal_error) {
 
         case 'orderdetails_delete':
             try {
-                //$orderdetails = new Orderdetails($database, $current_user, $log, $_REQUEST['orderdetails_delete']);
+                //$orderdetails = Orderdetails::getInstance($database, $current_user, $log, $_REQUEST['orderdetails_delete']);
                 if (! is_object($orderdetails)) {
                     throw new Exception(_('Es ist keine Einkaufsinformation ausgewählt!'));
                 }
@@ -472,7 +472,7 @@ if (! $fatal_error) {
         case 'pricedetails_apply':
             try {
                 //$pricedetails_id = $_REQUEST['pricedetails_apply'];
-                //$pricedetails = new Pricedetails($database, $current_user, $log, $pricedetails_id);
+                //$pricedetails = Pricedetails::getInstance($database, $current_user, $log, $pricedetails_id);
                 if (! is_object($pricedetails)) {
                     throw new Exception(_('Es ist keine Preisinformation ausgewählt!'));
                 }
@@ -487,7 +487,7 @@ if (! $fatal_error) {
 
         case 'pricedetails_delete':
             try {
-                $pricedetails = new Pricedetails($database, $current_user, $log, $_POST['pricedetails_delete']);
+                $pricedetails = Pricedetails::getInstance($database, $current_user, $log, $_POST['pricedetails_delete']);
                 if (! is_object($pricedetails)) {
                     throw new Exception(_('Es ist keine Preisinformation ausgewählt!'));
                 }
@@ -814,7 +814,7 @@ if (! $fatal_error) {
 
         if (($print_unsaved_values) || (! isset($part)) || (! is_object($part))) {
             if (isset($new_category_id)) {
-                $cat = new Category($database, $current_user, $log, $new_category_id);
+                $cat = Category::getInstance($database, $current_user, $log, $new_category_id);
                 if (empty($new_description)) {
                     $new_description = $cat->getDefaultDescription(true, false);
                 }
@@ -870,7 +870,7 @@ if (! $fatal_error) {
         $html->setVariable('footprint_list', $footprint_list, 'string');
 
         // global/category stuff
-        $category = new Category($database, $current_user, $log, $category_id);
+        $category = Category::getInstance($database, $current_user, $log, $category_id);
         $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
         $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');

@@ -199,7 +199,7 @@ class Log
 
         $results = $database->query($query, $data);
         if (count($results) > 0) {
-            return new User($database, $current_user, $log, $results[0]['id_user']);
+            return User::getInstance($database, $current_user, $log, $results[0]['id_user']);
         } else {
             return null;
         }
@@ -230,7 +230,7 @@ class Log
 
         $results = $database->query($query, $data);
         if (count($results) > 0) {
-            return new User($database, $current_user, $log, $results[0]['id_user']);
+            return User::getInstance($database, $current_user, $log, $results[0]['id_user']);
         } else {
             return null;
         }

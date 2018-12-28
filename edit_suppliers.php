@@ -93,12 +93,12 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_supplier      = new Supplier($database, $current_user, $log, 0);
+    $root_supplier      = Supplier::getInstance($database, $current_user, $log, 0);
 
     $current_user->tryDo(PermissionManager::SUPPLIERS, StructuralPermission::READ);
 
     if ($selected_id > 0) {
-        $selected_supplier = new Supplier($database, $current_user, $log, $selected_id);
+        $selected_supplier = Supplier::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_supplier = null;
     }

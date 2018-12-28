@@ -123,12 +123,12 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_footprint     = new Footprint($database, $current_user, $log, 0);
+    $root_footprint     = Footprint::getInstance($database, $current_user, $log, 0);
 
     $current_user->tryDo(PermissionManager::FOOTRPINTS, StructuralPermission::READ);
 
     if ($selected_id > 0) {
-        $selected_footprint = new Footprint($database, $current_user, $log, $selected_id);
+        $selected_footprint = Footprint::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_footprint = null;
     }
@@ -272,7 +272,7 @@ if (! $fatal_error) {
 
                 try {
                     if ($spf_checked) {
-                        $spf_broken_footprint = new Footprint($database, $current_user, $log, $spf_footprint_id);
+                        $spf_broken_footprint = Footprint::getInstance($database, $current_user, $log, $spf_footprint_id);
                         $spf_broken_footprint->setFilename($spf_new_filename);
                     }
                 } catch (Exception $e) {
@@ -299,7 +299,7 @@ if (! $fatal_error) {
 
                 try {
                     if ($spf_checked) {
-                        $spf_broken_footprint = new Footprint($database, $current_user, $log, $spf_footprint_id);
+                        $spf_broken_footprint = Footprint::getInstance($database, $current_user, $log, $spf_footprint_id);
                         $spf_broken_footprint->set3dFilename($spf_new_filename);
                     }
                 } catch (Exception $e) {

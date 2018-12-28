@@ -210,7 +210,7 @@ class Supplier extends Base\Company implements ISearchable
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $suppliers[] = new Supplier($database, $current_user, $log, $row['id_supplier']);
+            $suppliers[] = Supplier::getInstance($database, $current_user, $log, $row['id_supplier']);
         }
 
         return $suppliers;

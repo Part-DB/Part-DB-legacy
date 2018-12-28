@@ -98,12 +98,12 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_category      = new Category($database, $current_user, $log, 0);
+    $root_category      = Category::getInstance($database, $current_user, $log, 0);
 
     $current_user->tryDo(PermissionManager::CATEGORIES, StructuralPermission::READ);
 
     if ($selected_id > 0) {
-        $selected_category = new Category($database, $current_user, $log, $selected_id);
+        $selected_category = Category::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_category = null;
     }

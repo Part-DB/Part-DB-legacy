@@ -290,7 +290,7 @@ class DevicePart extends Base\DBElement
                 InvalidElementValueException(_('Der obersten Ebene können keine Bauteile zugeordnet werden!'));
             }
 
-            $device = new Device($database, $current_user, $log, $values['id_device']);
+            $device = Device::getInstance($database, $current_user, $log, $values['id_device']);
         } catch (ElementNotExistingException $e) {
             throw new InvalidElementValueException(
                 sprintf(_('Es existiert keine Baugruppe mit der ID "%d"!'), $values['id_device'])
@@ -299,7 +299,7 @@ class DevicePart extends Base\DBElement
 
         // check "id_part"
         try {
-            $part = new Part($database, $current_user, $log, $values['id_part']);
+            $part = Part::getInstance($database, $current_user, $log, $values['id_part']);
         } catch (Exception $e) {
             throw new InvalidElementValueException(
                 sprintf(_('Es existiert kein Bauteil mit der ID "%d"!'), $values['id_part'])
@@ -338,7 +338,7 @@ class DevicePart extends Base\DBElement
         );
 
         if (count($query_data) > 0) {
-            return new DevicePart($database, $current_user, $log, $query_data[0]['id']);
+            return DevicePart::getInstance($database, $current_user, $log, $query_data[0]['id']);
         } else {
             return null;
         }
@@ -375,7 +375,7 @@ class DevicePart extends Base\DBElement
         $query_data = $database->query($query, ($part_id ? array($part_id) : array()));
 
         foreach ($query_data as $row) {
-            $device_parts[] = new DevicePart($database, $current_user, $log, $row['id'], $row);
+            $device_parts[] = DevicePart::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $device_parts;
@@ -466,8 +466,8 @@ class DevicePart extends Base\DBElement
 
                 return $existing_devicepart;
             } else {
-                $device = new Device($database, $current_user, $log, $device_id);
-                $part = new Part($database, $current_user, $log, $part_id);
+                $device = Device::getInstance($database, $current_user, $log, $device_id);
+                $part = Part::getInstance($database, $current_user, $log, $part_id);
 
                 throw new Exception(sprintf(_('Die Baugruppe "%1$s"'.
                     ' enthält bereits das Bauteil "%2$s"!'), $device->getName(), $part->getName()));

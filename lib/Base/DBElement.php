@@ -90,6 +90,11 @@ abstract class DBElement
      */
     protected $is_virtual_element = false;
 
+    /**
+     * @var array In this array we cache the instances of the objects
+     */
+    protected static $cache = array();
+
     /********************************************************************************
      *
      *   Constructor / Destructor / reset_attributes()
@@ -489,6 +494,24 @@ abstract class DBElement
             throw new Exception(_('Der Datenbankeintrag konnte nicht angelegt werden.'));
         }
 
-        return new static($database, $current_user, $log, $id);
+        return static::getInstance($database, $current_user, $log, $id);
+    }
+
+    public static function &getInstance(Database &$database, User &$current_user, Log &$log, int $id, array $db_data = null)
+    {
+        //Check if we already have a chached instance of the element:
+        if (isset(static::$cache[static::class][$id])) {
+            return static::$cache[static::class][$id];
+        } else {
+            $element = new static($database, $current_user, $log, $id, $db_data);
+
+            //Only cache elements, whose user is the currently logged in user (this should be true for nearly all)
+            if ($current_user->isLoggedInUser()) {
+                static::$cache[static::class][$id] = $element;
+                return static::$cache[static::class][$id];
+            }
+
+            return $element;
+        }
     }
 }

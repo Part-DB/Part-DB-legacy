@@ -55,7 +55,7 @@ try {
     if ($user_id == 0) {
         $selected_user      = $current_user;
     } else {
-        $selected_user = new User($database, $current_user, $log, $user_id);
+        $selected_user = User::getInstance($database, $current_user, $log, $user_id);
         //Check if the current user, is allowed to view other profiles.
         $current_user->tryDo(\PartDB\Permissions\PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ);
     }

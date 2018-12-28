@@ -100,10 +100,10 @@ try {
         throw new Exception(_('Es wurde keine gültige Kategorien-ID übermittelt!'));
     }
 
-    $category = new Category($database, $current_user, $log, $category_id);
+    $category = Category::getInstance($database, $current_user, $log, $category_id);
 
     if ($selected_part_id > 0) {
-        $part = new Part($database, $current_user, $log, $selected_part_id);
+        $part = Part::getInstance($database, $current_user, $log, $selected_part_id);
     } else {
         $part = null;
     }
@@ -239,19 +239,19 @@ if (! $fatal_error) {
         $html->setVariable('export_formats', buildExportFormatsLoop('showparts'));
 
         if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
-            $root_category = new Category($database, $current_user, $log, 0);
+            $root_category = Category::getInstance($database, $current_user, $log, 0);
             $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
         }
         if ($current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
-            $root_footprint = new Footprint($database, $current_user, $log, 0);
+            $root_footprint = Footprint::getInstance($database, $current_user, $log, 0);
             $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
         }
         if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
-            $root_manufacturer = new Manufacturer($database, $current_user, $log, 0);
+            $root_manufacturer = Manufacturer::getInstance($database, $current_user, $log, 0);
             $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
         }
         if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
-            $root_location = new Storelocation($database, $current_user, $log, 0);
+            $root_location = Storelocation::getInstance($database, $current_user, $log, 0);
             $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
         }
 

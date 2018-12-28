@@ -429,7 +429,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
 
         // check "part_id"
         try {
-            $part = new Part($database, $current_user, $log, $values['part_id']);
+            $part = Part::getInstance($database, $current_user, $log, $values['part_id']);
             $part->setAttributes(array()); // save part attributes to update its "last_modified"
         } catch (ElementNotExistingException $e) {
             throw new InvalidElementValueException(_('Das gewählte Bauteil existiert nicht!'));
@@ -441,7 +441,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
                 throw new InvalidElementValueException('id_supplier < 1');
             }
 
-            $supplier = new Supplier($database, $current_user, $log, $values['id_supplier']);
+            $supplier = Supplier::getInstance($database, $current_user, $log, $values['id_supplier']);
         } catch (ElementNotExistingException $e) {
             throw new InvalidElementValueException(_('Der gewählte Lieferant existiert nicht!'));
         }

@@ -68,7 +68,7 @@ try {
 
 if (! $fatal_error) {
     try {
-        $helper = new StatisticsHelpers($database, $current_user, $log);
+        $helper = StatisticsHelpers::getInstance($database, $current_user, $log);
         //Most used categories
         $array = $helper->getMostUsedCategories();
         $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Kategorie"), StatisticsHelpers::COLOR_BLUE);

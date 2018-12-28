@@ -93,12 +93,12 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_manufacturer  = new Manufacturer($database, $current_user, $log, 0);
+    $root_manufacturer  = Manufacturer::getInstance($database, $current_user, $log, 0);
 
     $current_user->tryDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ);
 
     if ($selected_id > 0) {
-        $selected_manufacturer = new Manufacturer($database, $current_user, $log, $selected_id);
+        $selected_manufacturer = Manufacturer::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_manufacturer = null;
     }

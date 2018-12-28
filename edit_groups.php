@@ -87,12 +87,12 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_group         = new Group($database, $current_user, $log, 0);
+    $root_group         = Group::getInstance($database, $current_user, $log, 0);
 
     $current_user->tryDo(PermissionManager::GROUPS, GroupPermission::READ);
 
     if ($selected_id > 0) {
-        $selected_group = new Group($database, $current_user, $log, $selected_id);
+        $selected_group = Group::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_group = null;
     }

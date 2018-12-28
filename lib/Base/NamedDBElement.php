@@ -288,7 +288,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
         $objects = array();
 
         foreach ($query_data as $row) {
-            $objects[] = new static($database, $current_user, $log, $row['id'], $row);
+            $objects[] = static::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $objects;

@@ -355,7 +355,7 @@ class Attachement extends Base\NamedDBElement
         $query_data = $database->query($query, array($filename, $filename_2));
 
         foreach ($query_data as $row) {
-            $attachements[] = new Attachement($database, $current_user, $log, $row['id'], $row);
+            $attachements[] = Attachement::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $attachements;
@@ -384,7 +384,7 @@ class Attachement extends Base\NamedDBElement
 
         foreach ($query_data as $row) {
             if (! file_exists(str_replace('%BASE%', BASE, $row['filename']))) {
-                $attachements[] = new Attachement($database, $current_user, $log, $row['id'], $row);
+                $attachements[] = Attachement::getInstance($database, $current_user, $log, $row['id'], $row);
             }
         }
 
@@ -415,7 +415,7 @@ class Attachement extends Base\NamedDBElement
                 throw new InvalidElementValueException(_('"type_id" ist Null!'));
             }
 
-            $attachement_type = new AttachementType($database, $current_user, $log, $values['type_id']);
+            $attachement_type = AttachementType::getInstance($database, $current_user, $log, $values['type_id']);
         } catch (ElementNotExistingException $e) {
             throw new InvalidElementValueException(_('"type_id" ist Null!'));
         }

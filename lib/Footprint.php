@@ -287,7 +287,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     public static function getBrokenFilenameFootprints(Database &$database, User &$current_user, Log &$log) : array
     {
         $broken_filename_footprints = array();
-        $root_footprint = new Footprint($database, $current_user, $log, 0);
+        $root_footprint = Footprint::getInstance($database, $current_user, $log, 0);
         $all_footprints = $root_footprint->getSubelements(true);
 
         foreach ($all_footprints as $footprint) {
@@ -315,7 +315,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     public static function getBroken3dFilenameFootprints(Database &$database, User &$current_user, Log &$log) : array
     {
         $broken_filename_footprints = array();
-        $root_footprint = new Footprint($database, $current_user, $log, 0);
+        $root_footprint = Footprint::getInstance($database, $current_user, $log, 0);
         $all_footprints = $root_footprint->getSubelements(true);
 
         foreach ($all_footprints as $footprint) {

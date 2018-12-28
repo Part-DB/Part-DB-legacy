@@ -502,7 +502,7 @@ class Device extends Base\PartsContainingDBElement
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $devices[] = new Device($database, $current_user, $log, $row['id'], $row);
+            $devices[] = Device::getInstance($database, $current_user, $log, $row['id'], $row);
         }
 
         return $devices;

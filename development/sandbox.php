@@ -71,7 +71,7 @@ $html->printHeader($messages);
 $database           = new Database();
 $log                = new Log($database);
 $system             = new System($database, $log);
-$current_user       = new User($database, $current_user, $log, 1); // admin
+$current_user       = User::getInstance($database, $current_user, $log, 1); // admin
 
 \PartDB\User::getLoggedInUser()->tryDo(\PartDB\Permissions\PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::USE_DEBUG);
 
