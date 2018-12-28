@@ -60,7 +60,7 @@ class InstockChangedEntry extends BaseEntry
 
         try {
             $class = Log::targetTypeIDToClass($this->getTargetType());
-            $this->element = new $class($database, $current_user, $log, $this->getTargetID());
+            $this->element = $class::getInstance($database, $current_user, $log, $this->getTargetID());
         } catch (\Exception $ex) {
         }
 
