@@ -511,11 +511,16 @@ abstract class DBElement
      * @throws TableNotExistingException If the table is not existing in the DataBase
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
-     * @return DBElement A reference to the instance you wanted.
+     * @return static A reference to the instance you wanted.
      */
     //$current_user must not have a type, because User passes, null!!
-    public static function &getInstance(Database &$database, &$current_user, Log &$log, int $id, array $db_data = null)
-    {
+    public static function &getInstance(
+        Database &$database,
+        &$current_user,
+        Log &$log,
+        int $id,
+        array $db_data = null
+    ) : DBElement {
         //Check if we already have a chached instance of the element:
         if (isset(static::$cache[static::class][$id])) {
             return static::$cache[static::class][$id];
