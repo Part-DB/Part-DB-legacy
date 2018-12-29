@@ -5,6 +5,7 @@
 **If you are using Part-DB, then it would be helpful for further development, if you participate in the following anonymous survey:
 https://docs.google.com/forms/d/e/1FAIpQLSdmhcNutwuG35m5JLpxF8xJpJqTCDhTpSupV5dnJrMOYISm9w/viewform?usp=sf_link**
 
+**Part-DB 0.6 requires now PHP7 (PHP7.0 or higher)! Use Part-DB 0.5, if you need a version for PHP5.6.**
 
 ### Description
 

@@ -5,6 +5,8 @@
 **Wenn sie Part-DB verwenden, dann wäre es sehr hilfreich, wenn sie folgende anonyme Umfrage ausfüllen:
 https://docs.google.com/forms/d/e/1FAIpQLSfPn9Fu9Z-h4qftdzzpIhvNUnjH-99SzCrgfraruNNJn_J15Q/viewform?usp=sf_link**
 
+**Part-DB 0.6 benötigt PHP7 (PHP7.0 oder höher). Benutzen Sie Part-DB 0.5, wenn sie PHP5.6 benutzen wollen!**
+
 ### Beschreibung
 
 Part-DB ist eine webbasierte Datenbank zum Verwalten von Elektronischen Bauteilen. Da der Zugriff über den Webbrowser erfolgt, muss Part-DB auf einem Webserver installiert werden. Danach kann die Software mit jedem gängigen Browser und Betriebssystem ohne Installation von Zusatzsoftware benutzt werden.
