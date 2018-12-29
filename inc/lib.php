@@ -466,7 +466,7 @@ function arrayToPhpLines(&$array_defaults, &$array, $path, $ignore_defaults)
  *
  * @return string       The formatted money string
  */
-function floatToMoneyString(float $number, string $language = '') : string
+function floatToMoneyString($number, string $language = '') : string
 {
     if ($number === null) {
         return '-';

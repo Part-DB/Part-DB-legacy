@@ -41,7 +41,6 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $db_type                    = isset($_POST['db_type'])        ? (string)$_POST['db_type']              : 'mysql';
-$db_charset                 = isset($_POST['db_charset'])     ? (string)$_POST['db_charset']           : 'utf8';
 $db_host                    = isset($_POST['db_host'])        ? (string)$_POST['db_host']              : 'localhost';
 $db_name                    = isset($_POST['db_name'])        ? (string)$_POST['db_name']              : '';
 $db_user                    = isset($_POST['db_user'])        ? (string)$_POST['db_user']              : '';
@@ -163,7 +162,6 @@ if (true) { //Allow to save connection settings, even when a error happened.
 try {
     $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
     $html->setVariable('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
-    $html->setVariable('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
     $html->setVariable('db_host', $config['db']['host'], 'string');
     $html->setVariable('db_name', $config['db']['name'], 'string');
     $html->setVariable('db_user', $config['db']['user'], 'string');
