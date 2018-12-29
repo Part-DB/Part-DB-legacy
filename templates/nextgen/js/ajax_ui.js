@@ -144,6 +144,19 @@ var AjaxUI = /** @class */ (function () {
     AjaxUI.prototype.addStartAction = function (func) {
         this.start_listeners.push(func);
     };
+    AjaxUI.prototype.showProgressBar = function () {
+        $('#progressModal').modal({
+            keyboard: false,
+            backdrop: false,
+            show: true
+        });
+    };
+    AjaxUI.prototype.closeProgressBar = function () {
+        //Remove the remaining things of the modal
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+        $('body, .navbar').css('padding-right', "");
+    };
     /*****************************************************************************
      * Form functions
      *****************************************************************************/
@@ -191,9 +204,8 @@ var AjaxUI = /** @class */ (function () {
     AjaxUI.prototype.showRequest = function (formData, jqForm, options) {
         'use strict';
         if (!$(jqForm).hasClass("no-progbar")) {
-            //$('#content').hide(0);
             AjaxUI.getInstance().beforeAjaxSubmit();
-            //$('#progressbar').show(0);
+            this.showProgressBar();
         }
         return true;
     };
@@ -251,7 +263,7 @@ var AjaxUI = /** @class */ (function () {
                 _this.abortAllAjax();
                 _this.beforeAjaxSubmit();
                 $('#content').load(href + " #content-data");
-                //$('#progressbar').show(0);
+                _this.showProgressBar();
                 return true;
             }
         });
@@ -279,6 +291,7 @@ var AjaxUI = /** @class */ (function () {
         }
         else {
             AjaxUI.getInstance().abortAllAjax();
+            AjaxUI.getInstance().showProgressBar();
             $('#content').load(addURLparam(data.href, "ajax") + " #content-data");
         }
         $(this).treeview('toggleNodeExpanded', data.nodeId);
@@ -440,7 +453,7 @@ var AjaxUI = /** @class */ (function () {
         if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
             AjaxUI.getInstance().statePopped = true;
             $('#content').load(addURLparam(location.href, "ajax") + " #content-data");
-            //$('#progressbar').show(0);
+            this.showProgressBar();
         }
     };
     /**
@@ -461,6 +474,7 @@ var AjaxUI = /** @class */ (function () {
         if (url.indexOf("api.php") != -1) {
             return;
         }
+        this.closeProgressBar();
         //Hide progressbar and show Result
         //$('#progressbar').hide(0);
         //$('#content').fadeIn("fast");
@@ -469,13 +483,6 @@ var AjaxUI = /** @class */ (function () {
         this.registerLinks();
         this.registerSubmitBtn();
         this.fillTypeahead();
-        if (url.indexOf("#") != -1) {
-            var hash = url.substring(url.indexOf("#"));
-            scrollToAnchor(hash);
-        }
-        if (url.indexOf("api.php/1.0.0/3d_models") != -1) {
-            return;
-        }
         this.checkRedirect();
         //Execute the registered handlers.
         for (var _i = 0, _a = this.ajax_complete_listeners; _i < _a.length; _i++) {
@@ -484,6 +491,14 @@ var AjaxUI = /** @class */ (function () {
         }
         //Push only if it was a "GET" request and requested data was an HTML
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
+            //Only scroll to anchor/top in a GET request!
+            if (url.indexOf("#") != -1) {
+                var hash = url.substring(url.indexOf("#"));
+                scrollToAnchor(hash);
+            }
+            else {
+                $('body,html').scrollTop(0);
+            }
             //Push the cleaned (no ajax request) to history
             var clean_url = settings.url.replace(/&ajax/g, "").replace(/\?ajax/g, "");
             if (this.statePopped == false) { //Only add this load to history if not an old value was loaded.
@@ -498,6 +513,7 @@ var AjaxUI = /** @class */ (function () {
             if (title !== "") {
                 document.title = title;
             }
+            //Fill trees
             if (this.trees_filled) {
                 //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
                 var selected = $("#tree-categories").treeview("getSelected")[0];

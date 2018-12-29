@@ -22,6 +22,25 @@
     </div>
 {/if}
 
+
+<!-- Modal -->
+<div class="modal border-primary" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content shadow-lg">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{t}Lade{/t}
+                    <small class="text-muted">{t}Dies kann einen Moment dauern...{/t}</small></h5>
+            </div>
+            <div class="modal-body">
+                <div class="progress-bar progress-bar-striped active progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                     aria-valuemax="100" style="width: 100%;">
+                    <span>{t}Lade{/t}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <input type="hidden" id="basepath" value="{$relative_path}">
 <input type="hidden" id="autorefresh" value="{$autorefresh}">
 <input type="hidden" id="redirect_url" value="{$redirect_url}">

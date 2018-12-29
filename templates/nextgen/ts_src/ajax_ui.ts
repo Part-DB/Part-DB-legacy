@@ -149,6 +149,23 @@ class AjaxUI {
         this.start_listeners.push(func);
     }
 
+    public showProgressBar()
+    {
+        $('#progressModal').modal({
+            keyboard: false,
+            backdrop: false,
+            show: true
+        });
+    }
+
+    public closeProgressBar()
+    {
+        //Remove the remaining things of the modal
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+        $('body, .navbar').css('padding-right', "");
+    }
+
     /*****************************************************************************
      * Form functions
      *****************************************************************************/
@@ -205,9 +222,8 @@ class AjaxUI {
     private showRequest(formData, jqForm: JQuery<HTMLElement>, options: JQueryFormOptions) : boolean {
         'use strict';
         if(!$(jqForm).hasClass("no-progbar")) {
-            //$('#content').hide(0);
             AjaxUI.getInstance().beforeAjaxSubmit();
-            //$('#progressbar').show(0);
+            this.showProgressBar();
         }
         return true;
     }
@@ -274,7 +290,7 @@ class AjaxUI {
 
                 _this.beforeAjaxSubmit();
                 $('#content').load(href + " #content-data");
-                //$('#progressbar').show(0);
+                _this.showProgressBar();
                 return true;
             }
         });
@@ -306,6 +322,7 @@ class AjaxUI {
         else
         {
             AjaxUI.getInstance().abortAllAjax();
+            AjaxUI.getInstance().showProgressBar();
             $('#content').load(addURLparam(data.href, "ajax") + " #content-data");
         }
 
@@ -501,7 +518,7 @@ class AjaxUI {
         if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
             AjaxUI.getInstance().statePopped = true;
             $('#content').load(addURLparam(location.href, "ajax") + " #content-data");
-            //$('#progressbar').show(0);
+            this.showProgressBar();
         }
     }
 
@@ -526,6 +543,9 @@ class AjaxUI {
             return;
         }
 
+
+        this.closeProgressBar();
+
         //Hide progressbar and show Result
         //$('#progressbar').hide(0);
         //$('#content').fadeIn("fast");
@@ -537,19 +557,6 @@ class AjaxUI {
 
         this.fillTypeahead();
 
-
-
-        if(url.indexOf("#") != -1)
-        {
-            let hash = url.substring(url.indexOf("#"));
-            scrollToAnchor(hash);
-        }
-
-        if(url.indexOf("api.php/1.0.0/3d_models") != -1)
-        {
-            return;
-        }
-
         this.checkRedirect();
 
         //Execute the registered handlers.
@@ -560,6 +567,15 @@ class AjaxUI {
 
         //Push only if it was a "GET" request and requested data was an HTML
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
+            //Only scroll to anchor/top in a GET request!
+            if(url.indexOf("#") != -1)
+            {
+                let hash = url.substring(url.indexOf("#"));
+                scrollToAnchor(hash);
+            } else {
+                $('body,html').scrollTop(0);
+            }
+
 
             //Push the cleaned (no ajax request) to history
             let clean_url : string = settings.url.replace(/&ajax/g, "").replace(/\?ajax/g, "");
@@ -575,12 +591,12 @@ class AjaxUI {
             //Set page title from response
             let input : string = xhr.responseText;
             let title : string = extractTitle(input);
-
             if(title !== "")
             {
                 document.title = title;
             }
 
+            //Fill trees
             if(this.trees_filled) {
                 //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
                 let selected = $("#tree-categories").treeview("getSelected")[0];
