@@ -49,8 +49,8 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 
 $show_no_orderdetails_parts = (isset($_REQUEST['show_no_orderdetails_parts'])) ? $_REQUEST['show_no_orderdetails_parts'] : false;
 
-$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
-$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+$page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : $config['table']['default_limit'];
 
 $action = 'default';
 if (isset($_REQUEST['change_show_no_orderdetails'])) {
@@ -132,10 +132,10 @@ if (! $fatal_error) {
     try {
         $parts = Part::getObsoleteParts($database, $current_user, $log, $show_no_orderdetails_parts, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'obsolete_parts');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
         $html->setVariable("table_rowcount", count($parts), 'int');
 
-        $html->setLoop("pagination", generatePagination(
+        $html->setVariable("pagination", generatePagination(
             "show_obsolete_parts.php?show_no_orderdetails_parts=" .($show_no_orderdetails_parts ? '1' : '0'),
             $page,
             $limit,
@@ -165,24 +165,20 @@ if (! $fatal_error) {
         $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
         $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
         if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
-            $root_category = new Category($database, $current_user, $log, 0);
+            $root_category = Category::getInstance($database, $current_user, $log, 0);
             $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
         }
         if ($current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
-            $root_footprint = new Footprint($database, $current_user, $log, 0);
+            $root_footprint = Footprint::getInstance($database, $current_user, $log, 0);
             $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
         }
         if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
-            $root_manufacturer = new Manufacturer($database, $current_user, $log, 0);
+            $root_manufacturer = Manufacturer::getInstance($database, $current_user, $log, 0);
             $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
         }
         if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
-            $root_location = new Storelocation($database, $current_user, $log, 0);
+            $root_location = Storelocation::getInstance($database, $current_user, $log, 0);
             $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
         }
 

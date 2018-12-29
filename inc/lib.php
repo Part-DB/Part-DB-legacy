@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -49,7 +49,7 @@ use geertw\IpAnonymizer\IpAnonymizer;
  * * true if the number is odd
  * * false if the number is even
  */
-function isOdd($number)
+function isOdd(int $number) : bool
 {
     return ($number & 1) ? true : false; // false = even, true = odd
 }
@@ -84,7 +84,7 @@ function getGitBranchName()
  *
  * @throws Exception if there was an error
  */
-function getGitCommitHash($length = 40)
+function getGitCommitHash(int $length = 40)
 {
     $filename = BASE.'/.git/refs/remotes/origin/'.getGitBranchName();
 
@@ -99,16 +99,16 @@ function getGitCommitHash($length = 40)
 
 /**
  * Creates a array containing data, usable for the used javascript library Bootstrap-treeview.
- * 
+ *
  * @param string $name This will be shown as the name/label of the node to the user
  * @param string $href When this is set, the node will be a link, with this URL as target
  * @param array $nodes The subnotes of this notes as array of the elements created by this function
  * @param string $icon The CSS class name of the icon this node should have
- * 
+ *
  * @return array An array containing the informations for this node
- *  
+ *
  * */
-function treeviewNode($name, $href = null, $nodes = null, $icon = null)
+function treeviewNode(string $name, $href = null, $nodes = null, $icon = null) : array
 {
     $ret = array('text' => $name);
 
@@ -143,7 +143,7 @@ function treeviewNode($name, $href = null, $nodes = null, $icon = null)
  *
  * @throws Exception if there was an error
  */
-function findAllFiles($directory, $recursive = false, $search_string = '')
+function findAllFiles(string $directory, bool $recursive = false, string $search_string = '') : array
 {
     $files = array();
 
@@ -177,7 +177,7 @@ function findAllFiles($directory, $recursive = false, $search_string = '')
  *
  * @throws Exception if there was an error
  */
-function findAllDirectories($directory, $recursive = false)
+function findAllDirectories(string $directory, bool $recursive = false) : array
 {
     $directories = array();
 
@@ -207,7 +207,7 @@ function findAllDirectories($directory, $recursive = false)
  * @param string $mimetype      * The mime type of the file
  * * if NULL, we will try to read the mimetype from the file
  */
-function sendFile($filename, $mimetype = null)
+function sendFile(string $filename, $mimetype = null)
 {
     $mtime = ($mtime = filemtime($filename)) ? $mtime : time();
 
@@ -224,7 +224,7 @@ function sendFile($filename, $mimetype = null)
     header("Content-Type: ".$mimetype);
     header("Content-Length:". filesize($filename));
 
-    if (in_array('mod_xsendfile', apache_get_modules())) {
+    if (function_exists("apache_get_modules") && in_array('mod_xsendfile', apache_get_modules())) {
         header('X-Sendfile: '.$filename);
     } else {
         readfile($filename);
@@ -242,7 +242,7 @@ function sendFile($filename, $mimetype = null)
  * @param string $filename      The name of the file which is displayed in the user's browser
  * @param string $mimetype      The mime type of the file
  */
-function sendString($content, $filename, $mimetype)
+function sendString(string $content, string $filename, string $mimetype)
 {
     $mtime = time();
 
@@ -274,16 +274,15 @@ function sendString($content, $filename, $mimetype)
  * @throws Exception if the destination file exists already
  * @throws Exception if there was an error
  */
-function uploadFile($file_array, $destination_directory, $destination_filename = null)
+function uploadFile(array $file_array, string $destination_directory, $destination_filename = null) : string
 {
     if ((! isset($file_array['name'])) || (! isset($file_array['tmp_name'])) || (! isset($file_array['error']))) {
         throw new Exception(_('Ungültiges Array übergeben!'));
     }
 
     //Dont allow to upload a PHP file.
-    if(strpos($file_array['name'], ".php") != false
-        || strpos($destination_filename, ".php") != false)
-    {
+    if (strpos($file_array['name'], ".php") != false
+        || strpos($destination_filename, ".php") != false) {
         throw new \Exception(_("Es ist nicht erlaubt PHP Dateien hochzuladen!"));
     }
 
@@ -367,7 +366,7 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
  * @throws Exception    if the new passworts are different
  * @throws Exception    if $config could not be saved in config.php
  */
-function setTempAdminPassword($new_password_1, $new_password_2, $save_config = true)
+function setTempAdminPassword(string $new_password_1, string $new_password_2, bool $save_config = true)
 {
     global $config;
 
@@ -433,7 +432,7 @@ function saveConfig()
 }
 
 /**
- * @brief For save_config(), this function takes both config arrays, and writes 
+ * @brief For save_config(), this function takes both config arrays, and writes
  * the new entries (in relative to config_defaults) into the config.php
  */
 function arrayToPhpLines(&$array_defaults, &$array, $path, $ignore_defaults)
@@ -467,7 +466,7 @@ function arrayToPhpLines(&$array_defaults, &$array, $path, $ignore_defaults)
  *
  * @return string       The formatted money string
  */
-function floatToMoneyString($number, $language = '')
+function floatToMoneyString($number, string $language = '') : string
 {
     if ($number === null) {
         return '-';
@@ -523,17 +522,17 @@ function floatToMoneyString($number, $language = '')
  * Returns the Currency symbol for the configured locale.
  * @return string The currency symbol.
  */
-function getCurrencySymbol()
+function getCurrencySymbol() : string
 {
     global $config;
     $language = $config['language'];
 
     //User can override the currency symbol in config, we need to respect that...
-    if(isset($config['money_format'][$language])) {
+    if (isset($config['money_format'][$language])) {
         return $config['money_format'][$language];
     }
 
-  return localeconv()['currency_symbol'];
+    return localeconv()['currency_symbol'];
 }
 
 /**
@@ -541,11 +540,11 @@ function getCurrencySymbol()
  *
  * @param string $url   The internet URL to the file
  *
- * @return string       The downloaded file
+ * @return string       The content of the downloaded file
  *
  * @throws Exception if there was an error (maybe "curl" is not installed on the server)
  */
-function curlGetData($url)
+function curlGetData(string $url) : string
 {
     if (! extension_loaded('curl')) {
         throw new Exception(_('"curl" scheint auf ihrem System nicht installiert zu sein! '.
@@ -578,7 +577,7 @@ function curlGetData($url)
  * @throws Exception Throws an exception if an error happened, or file could not be downloaded.
  * @return string|boolean The path of the created file, when the file was successful downloaded. False, when an error happened.
  */
-function downloadFile($url, $path, $filename = "", $download_override = false)
+function downloadFile(string $url, string $path, string $filename = "", bool $download_override = false)
 {
     global $config;
     if ($config['allow_server_downloads'] == false && $download_override == false) {
@@ -597,7 +596,7 @@ function downloadFile($url, $path, $filename = "", $download_override = false)
     }
 
     //Dont allow to upload a PHP file.
-    if(strpos($filename, ".php") != false) {
+    if (strpos($filename, ".php") != false) {
         throw new \Exception(_("Es ist nicht erlaubt PHP Dateien herunterzuladen!"));
     }
 
@@ -628,7 +627,7 @@ function downloadFile($url, $path, $filename = "", $download_override = false)
  * * Best matches are at the beginning of the array,
  *                          worst matches are at the end of the array
  */
-function getProposedFilenames($missing_filename, $available_files)
+function getProposedFilenames(string $missing_filename, array $available_files) : array
 {
     $filenames = array();
     $filenames_tmp = array();
@@ -668,12 +667,12 @@ function getProposedFilenames($missing_filename, $available_files)
  *
  * @note    Have a look at system_config.php, there you can see how this function works.
  *
- * @param array $array              A simple array with keys and values
+ * @param array|null $array              A simple array with keys and values
  * @param mixed $selected_value     The value of the selected item
  *
  * @return array        The template loop array
  */
-function arrayToTemplateLoop($array, $selected_value = null)
+function arrayToTemplateLoop($array, $selected_value = null) : array
 {
     $loop = array();
     foreach ($array as $key => $value) {
@@ -691,7 +690,7 @@ function arrayToTemplateLoop($array, $selected_value = null)
  *
  * @return string           the UNIX path
  */
-function toUnixPath($path)
+function toUnixPath(string $path) : string
 {
     return str_replace('\\', '/', trim($path)); // replace all "\" with "/"
 }
@@ -706,7 +705,7 @@ function toUnixPath($path)
  * * false if the path is definitive not absolute or definitive not an UNIX path
  * * if $path is an empty string, this function will return "false"
  */
-function isPathabsoluteAndUnix($path, $accept_protocols = true)
+function isPathabsoluteAndUnix(string $path, bool $accept_protocols = true) : bool
 {
     if (mb_strpos($path, '\\') !== false) { // $path contains backslashes -> it's not a UNIX path
         return false;
@@ -756,7 +755,7 @@ function isPathabsoluteAndUnix($path, $accept_protocols = true)
  * * if $search_str does not contain any search modifier, then every element of the array
  *                          will contain the original search string.
  */
-function searchStringToArray($search_str)
+function searchStringToArray(string $search_str) : array
 {
     $arr = array();
     $arr['name'] = getKeywordAfterModifier($search_str, "inname:");
@@ -804,7 +803,7 @@ function searchStringToArray($search_str)
  * @param $modifier  string The modifier which should be searched for
  * @return string Return the keyword after the modifier, if it was found. Else returns "".
  */
-function getKeywordAfterModifier($search_str, $modifier)
+function getKeywordAfterModifier(string $search_str, string $modifier) : string
 {
     $pos = strpos($search_str, $modifier);
     if ($pos === false) {   //This modifier was not found in the search_str, so return "".
@@ -827,13 +826,13 @@ function getKeywordAfterModifier($search_str, $modifier)
 
 /**
  * Allow the usage of umlauts in the given pattern.
- * 
+ *
  * Normaly the \w class does not include umlauts like, ÄÜÖ etc..
  * This function replaces the \w class to a class that matches umlauts too.
  * @param $pattern string The pattern which should be modified for umlauts
  * @return string The modified pattern which matches the umlauts
  */
-function regexAllowUmlauts($pattern)
+function regexAllowUmlauts(string $pattern) : string
 {
     return str_replace("\w", '[\wÄäÖöÜüß]', $pattern);
 }
@@ -841,7 +840,7 @@ function regexAllowUmlauts($pattern)
 /**
  * Strips the trailing and leading slash from a Regex pattern.
  */
-function regexStripSlashes($pattern, $mb = true)
+function regexStripSlashes(string $pattern, bool $mb = true) : string
 {
     if (mb_substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/") {
         return mb_substr($pattern, 1, -1);
@@ -857,17 +856,17 @@ function regexStripSlashes($pattern, $mb = true)
  * @param $value string The "value" attribute of the <input> element
  * @return string The HTML string.
  */
-function generateInputHidden($name, $value = "")
+function generateInputHidden(string $name, string $value = "") : string
 {
     return '<input type="hidden" name="' . $name . '" value="' . $value . '">';
 }
 
-function generateButton($name, $text, $theme = "btn-secondary", $val = "")
+function generateButton(string $name, string $text, string $theme = "btn-secondary", string $val = "") : string
 {
     return "<button type='submit' class='btn $theme' name='$name' value='$val'>$text</button>";
 }
 
-function generateButtonRed($name, $text, $theme = "btn-danger", $val = "")
+function generateButtonRed(string $name, string $text, string $theme = "btn-danger", string $val = "") : string
 {
     return generateButton($name, $text, $theme, $val);
 }
@@ -878,7 +877,7 @@ function generateButtonRed($name, $text, $theme = "btn-danger", $val = "")
  * @param $needle string The string which should be searched.
  * @return bool True if $haystack contains $needle, else false.
  */
-function strcontains($haystack, $needle)
+function strcontains(string $haystack, string $needle) : bool
 {
     if (strpos($haystack, $needle) !== false) {
         return true;
@@ -894,7 +893,7 @@ function strcontains($haystack, $needle)
  * @return IAPIModel[] An array of API objects
  * @throws Exception
  */
-function convertAPIModelArray($array, $verbose = false)
+function convertAPIModelArray(array $array, bool $verbose = false)
 {
     if (is_null($array)) {
         return null;
@@ -917,7 +916,7 @@ function convertAPIModelArray($array, $verbose = false)
  *          Otherwise only most important informations are shown.
  * @return array An array describing the object.
  */
-function tryToGetAPIModelArray($object, $verbose = false)
+function tryToGetAPIModelArray(IAPIModel $object, bool $verbose = false) : array
 {
     if (is_null($object)) {
         return null;
@@ -932,7 +931,7 @@ function tryToGetAPIModelArray($object, $verbose = false)
  * @return array
  * @throws Exception
  */
-function buildToolsTree($params)
+function buildToolsTree($params) : array
 {
     global $config;
 
@@ -1053,9 +1052,9 @@ function buildToolsTree($params)
         $edit_nodes[] = treeviewNode(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
     }
     if ($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
-        $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+        $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachment_types.php");
     }
-    if($current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE)) {
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE)) {
         $edit_nodes[] = treeviewNode(_("Bauteil anlegen"), BASE_RELATIVE . "/edit_part_info.php");
     }
 
@@ -1092,48 +1091,22 @@ function buildToolsTree($params)
 }
 
 /**
- * Short for "set if empty"
- * Checks if $test is null, then set it to $default_val, else return the normal
- * @param mixed $test The value which should be checked.
- * @param mixed $default_val The value, to which the value should be set defaultly
- * @return mixed The result
- */
-function sie($test, $default_val = "")
-{
-    if (isset($test)) {
-        return $test;
-    } else {
-        return $default_val;
-    }
-}
-
-/**
  * Gets the name of the class of the given Object without the namespace.
  * @param $object mixed  The object, whose clasname should be get.
  * @return string The class name of $object.
  * @throws ReflectionException
  */
-function getClassShort($object)
+function getClassShort($object) : string
 {
     $reflect = new \ReflectionClass($object);
     return $reflect->getShortName();
 }
 
 /**
- * Checks if $var is empty. This function capsules the empty function, so we can use it for expressions.
- * @param $var mixed The variable which should be checked.
- * @return boolean
- */
-function _empty($var)
-{
-    return empty($var);
-}
-
-/**
  * Check if the connection to the server is using HTTPS.
  * @return bool True if the connection is using HTTPS, false if not.
  */
-function isUsingHTTPS()
+function isUsingHTTPS() : bool
 {
     return
         (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
@@ -1147,7 +1120,7 @@ function isUsingHTTPS()
  * @return string The generated path
  * @throws Exception
  */
-function generateAttachementPath($base_dir, $element)
+function generateAttachementPath(string $base_dir, \PartDB\Base\StructuralDBElement $element) : string
 {
     //Split full path into different categories
     $categories = explode("@@", $element->getFullPath("@@"));
@@ -1163,9 +1136,9 @@ function generateAttachementPath($base_dir, $element)
  * Removes characters, that are not allowed in filenames, from the filenames.
  * @param $filename string The filename which should be parsed.
  * @param bool $beautify boolean When true, the filename gets beautified, so test---file.pdf, becomes test-file.pdf
- * @return mixed|string
+ * @return string
  */
-function filter_filename($filename, $beautify = true)
+function filter_filename(string $filename, bool $beautify = true) : string
 {
     // sanitize filename
     $filename = preg_replace(
@@ -1196,7 +1169,7 @@ function filter_filename($filename, $beautify = true)
  * @param $filename
  * @return mixed|string
  */
-function beautify_filename($filename)
+function beautify_filename(string $filename) : string
 {
     //Spaces becomes _
     $filename = preg_replace(array('/ +/'), "_", $filename);
@@ -1224,7 +1197,7 @@ function beautify_filename($filename)
  * @param $path string The path of the deepest folder, that should be created.
  * @return boolean Returns true, if the folder hierachy was created successful.
  */
-function createPath($path)
+function createPath(string $path) : bool
 {
     if (is_dir($path)) {
         return true;
@@ -1242,7 +1215,7 @@ function createPath($path)
  *  *Caution: When this is set to false, a attacker could use the file:// schema, to get internal server files, like /etc/passwd.*
  * @return bool True if the string is a valid URL. False, if the string is not an URL or invalid.
  */
-function isURL($string, $path_required = true, $only_http = true)
+function isURL(string $string, bool $path_required = true, bool $only_http = true) : bool
 {
     if ($only_http) {   //Check if scheme is HTTPS or HTTP
         $scheme = parse_url($string, PHP_URL_SCHEME);
@@ -1265,7 +1238,7 @@ function isURL($string, $path_required = true, $only_http = true)
  * @param $size string The size of the icon as an FA size class (e.g. fa-lg)
  * @return string The resulted HTML code or the fa-class.
  */
-function extToFAIcon($path, $with_html = true, $size = "fa-lg")
+function extToFAIcon(string $path, bool $with_html = true, string $size = "fa-lg") : string
 {
     $ext = pathinfo($path, PATHINFO_EXTENSION);
     $fa_class = "";
@@ -1351,7 +1324,7 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
  * @param $tristate_data string The Request data of the Tristate input.
  * @return int 0, if checkbox was indetermined, 1 if checkbox was checked, 2 if checkbox, was not checked.
  */
-function parseTristateCheckbox($tristate_data)
+function parseTristateCheckbox(string $tristate_data) : int
 {
     switch ($tristate_data) {
         case "true":
@@ -1370,7 +1343,7 @@ function parseTristateCheckbox($tristate_data)
  * @param $timestamp int The timestamp which should be formatted.
  * @return string The formatted string.
  */
-function formatTimestamp($timestamp)
+function formatTimestamp(int $timestamp) : string
 {
     global $config;
     $language = $config['language'];
@@ -1409,10 +1382,10 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries, $g
     $get_string = "";
     $prefix = "";
     //We only need the &, if the page_link does not end with ? (this is e.g. on show_all_parts.php the case)
-    if(substr($page_link, -1) != "?") {
+    if (substr($page_link, -1) != "?") {
         $prefix = "&";
     }
-    if(!empty($get_params)) {
+    if (!empty($get_params)) {
         $get_string = $prefix . http_build_query($get_params);
     }
 
@@ -1452,7 +1425,7 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries, $g
         "hint" => _("Alle anzeigen"));
 
     $upper_results = ($selected_page * $limit + 1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit : $max_entries;
-    if($upper_results == 0) {
+    if ($upper_results == 0) {
         $lower_results = 0;
     } else {
         $lower_results = $selected_page > 0 ? ($selected_page - 1) * $limit + 1 : 1;
@@ -1468,7 +1441,7 @@ function parsePartsSelection(&$database, &$current_user, &$log, $selection, $act
 {
     $ids = explode(",", $selection);
     foreach ($ids as $id) {
-        $part = new Part($database, $current_user, $log, $id);
+        $part = Part::getInstance($database, $current_user, $log, $id);
         if ($action=="delete_confirmed") {
             $part->delete();
         } elseif ($action=="move") {
@@ -1558,7 +1531,7 @@ function buildLabelProfilesDropdown($generator, $include_default = false)
  * @param bool|string $mask_override_ipv6 Overrides the anonymization mask for IPv6 addresses.
  * @return string The anonymized IP Address
  */
-function getConnectionIPAddress($mask_override_ipv4 = false, $mask_override_ipv6 = false)
+function getConnectionIPAddress($mask_override_ipv4 = false, $mask_override_ipv6 = false) : string
 {
     global $config;
 
@@ -1566,7 +1539,7 @@ function getConnectionIPAddress($mask_override_ipv4 = false, $mask_override_ipv6
 
     //Determine mask for IPv4
     if ($mask_override_ipv4 === false) {
-       $mask_ipv4 = $config['logging_system']['ip_anonymize_mask_ipv4'];
+        $mask_ipv4 = $config['logging_system']['ip_anonymize_mask_ipv4'];
     } else {
         $mask_ipv4 = $mask_override_ipv4;
     }
@@ -1578,7 +1551,7 @@ function getConnectionIPAddress($mask_override_ipv4 = false, $mask_override_ipv6
         $mask_ipv6 = $mask_override_ipv6;
     }
 
-    if($mask_ipv4 === "") {
+    if ($mask_ipv4 === "") {
         //Return IP address without any anonymization
         return $raw_ip;
     }

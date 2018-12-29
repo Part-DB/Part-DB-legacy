@@ -1,9 +1,25 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: janhb
- * Date: 01.10.2018
- * Time: 13:48
+ *
+ * Part-DB Version 0.4+ "nextgen"
+ * Copyright (C) 2016 - 2018 Jan Böhmer
+ * https://github.com/jbtronics
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+ *
  */
 
 namespace PartDB\LogSystem;
@@ -23,7 +39,8 @@ class InstockChangedEntry extends BaseEntry
     protected $element;
 
     /** @var int */
-    protected $old_instock, $new_instock;
+    protected $old_instock;
+    protected $new_instock;
 
     /**
      * @var string
@@ -43,9 +60,8 @@ class InstockChangedEntry extends BaseEntry
 
         try {
             $class = Log::targetTypeIDToClass($this->getTargetType());
-            $this->element = new $class($database, $current_user, $log, $this->getTargetID());
+            $this->element = $class::getInstance($database, $current_user, $log, $this->getTargetID());
         } catch (\Exception $ex) {
-
         }
 
         //Fill our extra values.
@@ -62,7 +78,7 @@ class InstockChangedEntry extends BaseEntry
      * Returns the instock value, the part had before the change
      * @return int The old instock value.
      */
-    public function getOldInstock()
+    public function getOldInstock() : int
     {
         return $this->old_instock;
     }
@@ -73,8 +89,7 @@ class InstockChangedEntry extends BaseEntry
      */
     public function getOldInstockString()
     {
-        if ($this->getOldInstock() == Part::INSTOCK_UNKNOWN)
-        {
+        if ($this->getOldInstock() == Part::INSTOCK_UNKNOWN) {
             return _("[Unbekannt]");
         } else {
             return (string) $this->getOldInstock();
@@ -85,7 +100,7 @@ class InstockChangedEntry extends BaseEntry
      * Returns the instock value, the part had after the change.
      * @return int The new instock value.
      */
-    public function getNewInstock()
+    public function getNewInstock() : int
     {
         return $this->new_instock;
     }
@@ -96,8 +111,7 @@ class InstockChangedEntry extends BaseEntry
      */
     public function getNewInstockString()
     {
-        if ($this->getNewInstock() == Part::INSTOCK_UNKNOWN)
-        {
+        if ($this->getNewInstock() == Part::INSTOCK_UNKNOWN) {
             return _("[Unbekannt]");
         } else {
             return (string) $this->getNewInstock();
@@ -108,15 +122,15 @@ class InstockChangedEntry extends BaseEntry
      * Returns the comment associated with the change.
      * @return string The comment.
      */
-    public function getComment()
+    public function getComment() : string
     {
         return $this->comment;
     }
 
-    public function getExtra($html = false)
+    public function getExtra(bool $html = false) : string
     {
         $difference = $this->getDifference();
-        if($difference > 0 ) {
+        if ($difference > 0) {
             $difference = "+".$difference;
         }
 
@@ -137,9 +151,9 @@ class InstockChangedEntry extends BaseEntry
      * @param $absolute bool Set this to true, if you want only get the absolute value of the price (without minus)
      * @return float
      */
-    public function getPrice($absolute = false)
+    public function getPrice(bool $absolute = false) : float
     {
-        if($absolute) {
+        if ($absolute) {
             return abs($this->price);
         }
         return $this->price;
@@ -150,7 +164,7 @@ class InstockChangedEntry extends BaseEntry
      * @param bool $absolute
      * @return string
      */
-    public function getPriceMoneyString($absolute = true)
+    public function getPriceMoneyString(bool $absolute = true) : string
     {
         $float = $this->getPrice($absolute);
         return floatToMoneyString($float);
@@ -159,9 +173,9 @@ class InstockChangedEntry extends BaseEntry
     /**
      * Returns the difference value of the change ($new_instock - $old_instock).
      * @param bool $absolute Set this to true if you want only the absolute value of the difference.
-     * @return float|int Difference is positive if instock has increased, negative if decreased.
+     * @return int Difference is positive if instock has increased, negative if decreased.
      */
-    public function getDifference($absolute = false)
+    public function getDifference(bool $absolute = false) : int
     {
         if ($this->new_instock == Part::INSTOCK_UNKNOWN || $this->old_instock == Part::INSTOCK_UNKNOWN) {
             return 0;
@@ -179,7 +193,7 @@ class InstockChangedEntry extends BaseEntry
      * Checks if the Change was an withdrawal of parts.
      * @return bool True if the change was an withdrawal, false if not.
      */
-    public function isWithdrawal()
+    public function isWithdrawal() : bool
     {
         return $this->new_instock < $this->old_instock;
     }
@@ -188,9 +202,9 @@ class InstockChangedEntry extends BaseEntry
      * Returns an string description, if the Change was an withdrawal or an addition.
      * @return string
      */
-    public function getTypeString()
+    public function getTypeString() : string
     {
-        if($this->isWithdrawal()) {
+        if ($this->isWithdrawal()) {
             return _("Entnahme");
         } else {
             return _("Zugabe");
@@ -201,7 +215,7 @@ class InstockChangedEntry extends BaseEntry
      * Returns the a text representation of the target
      * @return string The text describing the target
      */
-    public function getTargetText()
+    public function getTargetText() : string
     {
         $part_name = ($this->element != null) ? $this->element->getName() : $this->getTargetID();
         return Log::targetTypeIDToString($this->getTargetType()) . ": " . $part_name;
@@ -211,7 +225,7 @@ class InstockChangedEntry extends BaseEntry
      * Return a link to the target. Returns empty string if no link is available.
      * @return string the link to the target.
      */
-    public function getTargetLink()
+    public function getTargetLink() : string
     {
         return Log::generateLinkForTarget($this->getTargetType(), $this->getTargetID());
     }
@@ -228,16 +242,11 @@ class InstockChangedEntry extends BaseEntry
      *
      * @throws \Exception
      */
-    public static function add(&$database, &$current_user, &$log, &$part, $old_instock, $new_instock, $comment = null)
+    public static function add(Database &$database, User &$current_user, Log &$log, Part &$part, $old_instock, $new_instock, $comment = null)
     {
-        //Do some checks
-        if (!$part instanceof Part) {
-            throw new \RuntimeException(_('$element muss vom Typ Part sein!'));
-        }
-
         if (!is_int($old_instock) || !is_int($new_instock)) {
             if (is_float($old_instock) || is_float($new_instock)) {
-               throw new \RuntimeException(sprintf(_('Es können maximal %d Bauteile vorhanden sein!'), PHP_INT_MAX));
+                throw new \RuntimeException(sprintf(_('Es können maximal %d Bauteile vorhanden sein!'), PHP_INT_MAX));
             }
             throw new \RuntimeException(_('$old_instock und $new_instock müssen vom Typ int sein'));
         }
@@ -252,7 +261,7 @@ class InstockChangedEntry extends BaseEntry
             //throw new \RuntimeException(_('Die Anzahl der vorhanden Teile muss sich ändern um ein InstockChangedEntry erzeugen zu können!'));
         }
 
-        if($comment === null) {
+        if ($comment === null) {
             $comment = $current_user->getDefaultInstockChangeComment($new_instock < $old_instock);
         }
 
@@ -278,5 +287,4 @@ class InstockChangedEntry extends BaseEntry
             $extra_array
         );
     }
-
 }

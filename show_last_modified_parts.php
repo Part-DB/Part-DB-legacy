@@ -32,8 +32,8 @@ use PartDB\User;
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
-$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
-$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+$page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : $config['table']['default_limit'];
 
 $mode               = isset($_REQUEST['mode'])              ? (string)$_REQUEST['mode']             : "last_modified";
 
@@ -80,10 +80,10 @@ if (! $fatal_error) {
         }
 
         $table_loop = Part::buildTemplateTableArray($parts, 'last_modified_parts');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
 
-        $html->setLoop("pagination", generatePagination(
+        $html->setVariable("pagination", generatePagination(
             "show_last_modified_parts.php?",
             $page,
             $limit,
@@ -111,10 +111,6 @@ if (! $fatal_error) {
     $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
     $html->setVariable('mode', $mode, "string");
-
-    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 }
 
 /********************************************************************************

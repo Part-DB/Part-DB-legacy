@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 01.01.2017
- * Time: 16:34
- */
 class SystemVersionTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()

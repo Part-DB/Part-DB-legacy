@@ -1,3 +1,25 @@
+/*
+ *
+ * Part-DB Version 0.4+ "nextgen"
+ * Copyright (C) 2016 - 2018 Jan Böhmer
+ * https://github.com/jbtronics
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+ *
+ */
+
 //import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
 
 let BASE="";
@@ -127,6 +149,23 @@ class AjaxUI {
         this.start_listeners.push(func);
     }
 
+    public showProgressBar()
+    {
+        $('#progressModal').modal({
+            keyboard: false,
+            backdrop: false,
+            show: true
+        });
+    }
+
+    public closeProgressBar()
+    {
+        //Remove the remaining things of the modal
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+        $('body, .navbar').css('padding-right', "");
+    }
+
     /*****************************************************************************
      * Form functions
      *****************************************************************************/
@@ -153,7 +192,7 @@ class AjaxUI {
      */
     private showFormResponse(responseText, statusText, xhr, $form) {
         'use strict';
-        $("#content").html($(responseText).find("#content-data").html()).fadeIn('slow');
+        $("#content").html($(responseText).find("#content-data").html()).show(0);
     }
 
     /**
@@ -183,9 +222,7 @@ class AjaxUI {
     private showRequest(formData, jqForm: JQuery<HTMLElement>, options: JQueryFormOptions) : boolean {
         'use strict';
         if(!$(jqForm).hasClass("no-progbar")) {
-            $('#content').hide(0);
             AjaxUI.getInstance().beforeAjaxSubmit();
-            $('#progressbar').show(0);
         }
         return true;
     }
@@ -251,8 +288,8 @@ class AjaxUI {
                 _this.abortAllAjax();
 
                 _this.beforeAjaxSubmit();
-                $('#content').hide(0).load(href + " #content-data");
-                $('#progressbar').show(0);
+                $('#content').load(href + " #content-data");
+                _this.showProgressBar();
                 return true;
             }
         });
@@ -284,8 +321,8 @@ class AjaxUI {
         else
         {
             AjaxUI.getInstance().abortAllAjax();
-            $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
-            $('#progressbar').show();
+            AjaxUI.getInstance().showProgressBar();
+            $('#content').load(addURLparam(data.href, "ajax") + " #content-data");
         }
 
         $(this).treeview('toggleNodeExpanded',data.nodeId);
@@ -447,6 +484,7 @@ class AjaxUI {
     private beforeAjaxSubmit()
     {
         //$(".table-sortable").DataTable().fixedHeader.disable();
+        this.showProgressBar();
     }
 
     /**
@@ -479,8 +517,8 @@ class AjaxUI {
         //Go back only when the the target isnt the empty index.
         if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
             AjaxUI.getInstance().statePopped = true;
-            $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
-            $('#progressbar').show(0);
+            $('#content').load(addURLparam(location.href, "ajax") + " #content-data");
+            this.showProgressBar();
         }
     }
 
@@ -505,28 +543,19 @@ class AjaxUI {
             return;
         }
 
+
+        this.closeProgressBar();
+
         //Hide progressbar and show Result
-        $('#progressbar').hide(0);
-        $('#content').fadeIn("fast");
+        //$('#progressbar').hide(0);
+        //$('#content').fadeIn("fast");
+        //$('#content').show(0);
 
         this.registerForm();
         this.registerLinks();
         this.registerSubmitBtn();
 
         this.fillTypeahead();
-
-
-
-        if(url.indexOf("#") != -1)
-        {
-            let hash = url.substring(url.indexOf("#"));
-            scrollToAnchor(hash);
-        }
-
-        if(url.indexOf("api.php/1.0.0/3d_models") != -1)
-        {
-            return;
-        }
 
         this.checkRedirect();
 
@@ -538,6 +567,15 @@ class AjaxUI {
 
         //Push only if it was a "GET" request and requested data was an HTML
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
+            //Only scroll to anchor/top in a GET request!
+            if(url.indexOf("#") != -1)
+            {
+                let hash = url.substring(url.indexOf("#"));
+                scrollToAnchor(hash);
+            } else {
+                $('body,html').scrollTop(0);
+            }
+
 
             //Push the cleaned (no ajax request) to history
             let clean_url : string = settings.url.replace(/&ajax/g, "").replace(/\?ajax/g, "");
@@ -553,12 +591,12 @@ class AjaxUI {
             //Set page title from response
             let input : string = xhr.responseText;
             let title : string = extractTitle(input);
-
             if(title !== "")
             {
                 document.title = title;
             }
 
+            //Fill trees
             if(this.trees_filled) {
                 //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
                 let selected = $("#tree-categories").treeview("getSelected")[0];
@@ -701,8 +739,7 @@ function makeHistoryCharts() {
         let type : string = $(element).data("type");
 
         //let ctx = (<HTMLCanvasElement> element).getContext("2d");
-        let ctx = element;
-        let myChart = new Chart(ctx, {
+        let myChart = new Chart(element, {
             type: type,
             data: data,
             options: {
@@ -1001,14 +1038,14 @@ function makeSortTable() {
                 let tmp = [];
                 //Show The select action bar only, if a element is selected.
                 if(count > 0) {
-                    $(".select_actions").show();
+                    $(".select_actions").show(0);
                     $(".selected_n").text(count);
                     //Build a string containing all parts, that should be modified
                     for (let n of data[0]) {
                         tmp.push($(data.row(n).node()).find("input").val());
                     }
                 } else {
-                    $(".select_actions").hide();
+                    $(".select_actions").hide(0);
                 }
 
                 //Combine all selected IDs into a string.

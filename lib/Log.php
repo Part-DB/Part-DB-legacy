@@ -28,9 +28,12 @@ namespace PartDB;
 use Exception;
 use PartDB\Base\NamedDBElement;
 use PartDB\LogSystem\BaseEntry;
+use PartDB\LogSystem\ConfigChangedEntry;
+use PartDB\LogSystem\DatabaseUpdatedEntry;
 use PartDB\LogSystem\ElementCreatedEntry;
 use PartDB\LogSystem\ElementDeletedEntry;
 use PartDB\LogSystem\ElementEditedEntry;
+use PartDB\LogSystem\ExceptionEntry;
 use PartDB\LogSystem\InstockChangedEntry;
 use PartDB\LogSystem\UnknownTypeEntry;
 use PartDB\LogSystem\UserLoginEntry;
@@ -50,9 +53,7 @@ use PartDB\Tools\StatisticsHelpers;
  * This class manages all log types.
  * With one instance of this class, you have access to all supported log types.
  *
- * @author kami89
  *
- * @todo There are no log types implemented yet.
  */
 class Log
 {
@@ -114,7 +115,7 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function __construct(&$database)
+    public function __construct(Database &$database)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt'));
@@ -124,12 +125,11 @@ class Log
         $this->current_user = User::getLoggedInUser($this->database, $this);
     }
 
-    public function userLogsIn($user, $ip_address = "")
+    public function userLogsIn(User $user, string $ip_address = "")
     {
         try {
             UserLoginEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user, $ip_address);
         } catch (Exception $e) {
-
         }
     }
 
@@ -138,7 +138,6 @@ class Log
         try {
             UserLogoutEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user, $ip_address);
         } catch (Exception $e) {
-
         }
     }
 
@@ -147,7 +146,6 @@ class Log
         try {
             UserNotAllowedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $permission_string);
         } catch (Exception $e) {
-
         }
     }
 
@@ -156,7 +154,6 @@ class Log
         try {
             ElementDeletedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $element);
         } catch (Exception $e) {
-
         }
     }
 
@@ -165,7 +162,6 @@ class Log
         try {
             ElementCreatedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $element);
         } catch (Exception $e) {
-
         }
     }
 
@@ -174,7 +170,6 @@ class Log
         try {
             ElementEditedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $element, $data_array);
         } catch (Exception $e) {
-
         }
     }
 
@@ -188,7 +183,7 @@ class Log
      * @return null|User Return the User if an entry was found in the log. Returns null otherwise.
      * @throws Exception
      */
-    public static function getLastModifiedUserForElement(&$database, &$current_user, &$log, &$element)
+    public static function getLastModifiedUserForElement(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element)
     {
         $data = array();
 
@@ -204,7 +199,7 @@ class Log
 
         $results = $database->query($query, $data);
         if (count($results) > 0) {
-            return new User($database, $current_user, $log, $results[0]['id_user']);
+            return User::getInstance($database, $current_user, $log, $results[0]['id_user']);
         } else {
             return null;
         }
@@ -219,7 +214,7 @@ class Log
      * @return null|User Return the User if an entry was found in the log. Returns null otherwise.
      * @throws Exception
      */
-    public static function getCreationUserForElement(&$database, &$current_user, &$log, &$element)
+    public static function getCreationUserForElement(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element)
     {
         $data = array();
 
@@ -235,7 +230,7 @@ class Log
 
         $results = $database->query($query, $data);
         if (count($results) > 0) {
-            return new User($database, $current_user, $log, $results[0]['id_user']);
+            return User::getInstance($database, $current_user, $log, $results[0]['id_user']);
         } else {
             return null;
         }
@@ -249,16 +244,15 @@ class Log
      * @return array
      * @throws Exception
      */
-    public static function getHistoryForPart(&$database, &$current_user, &$log, &$part, $limit = 50, $page = 1)
+    public static function getHistoryForPart(Database &$database, User &$current_user, Log &$log, Part &$part, int $limit = 50, int $page = 1) : array
     {
-        if(!$part instanceof Part) {
+        if (!$part instanceof Part) {
             throw new \RuntimeException(_("getInstockHistoryForPart() funktioniert nur für Bauteile!"));
         }
 
         $part_id = $part->getID();
 
-        $query = "SELECT * FROM `log` WHERE";
-        $query .= " target_id = ?";
+        $query = "SELECT * FROM `log` WHERE target_id = ?";
         $data[] = $part_id; //Only parts with the given ID
         $query .= " AND target_type = ?";
         $data[] = Log::TARGET_TYPE_PART;    //Only parts as a target
@@ -278,7 +272,7 @@ class Log
         $entries = $log->queryDataToEntryObjects($results);
 
         $return_data = array();
-        foreach($entries as $entry) {
+        foreach ($entries as $entry) {
             /** @var BaseEntry $entry */
             $tmp = array();
             //Basic info
@@ -286,19 +280,19 @@ class Log
             $tmp['timestamp_formatted'] = $entry->getTimestamp(true);
             $tmp['user_name'] = $entry->getUser()->getFullName(true);
             $tmp['user_id'] = $entry->getUser()->getID();
-            if($current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            if ($current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
                 $tmp['user_link'] = "user_info.php?uid=" . $tmp['user_id'];
             }
             $tmp['type_id'] = $entry->getTypeID();
             $tmp['type_text'] = static::typeIDToString($entry->getTypeID());
 
-            if($entry instanceof ElementCreatedEntry) {
+            if ($entry instanceof ElementCreatedEntry) {
                 /** @var ElementCreatedEntry $entry*/
                 $tmp['instock'] = $entry->hasCreationInstockValue() ? $entry->getCreationInstockValue() : 0;
-            } elseif($entry instanceof ElementEditedEntry) {
+            } elseif ($entry instanceof ElementEditedEntry) {
                 /** @var ElementEditedEntry $entry */
                 $tmp['message'] = $entry->getMessage();
-            } elseif($entry instanceof InstockChangedEntry) {
+            } elseif ($entry instanceof InstockChangedEntry) {
                 /** @var InstockChangedEntry $entry */
                 $tmp['instock'] = $entry->getNewInstock();
                 $tmp['difference'] = $entry->getDifference() < 0 ? $entry->getDifference() : "+". $entry->getDifference() ;
@@ -313,7 +307,7 @@ class Log
         return $return_data;
     }
 
-    public static function historyToGraph($history_entries)
+    public static function historyToGraph(array $history_entries) : string
     {
         $dataset = array("label" => _("Vorhandene Bauteile"));
         $dataset["backgroundColor"] = StatisticsHelpers::COLOR_BLUE;
@@ -321,7 +315,7 @@ class Log
         $data = array();
         $instock = 0;
         foreach ($history_entries as $entry) {
-            if(isset($entry['instock'])) {
+            if (isset($entry['instock'])) {
                 $instock = $entry['instock'];
             }
             $tmp = array('t' => $entry["timestamp"],
@@ -330,10 +324,10 @@ class Log
             $tmp["type"] = $entry["type_text"];
             $tmp["user_name"] = $entry["user_name"];
 
-            if(isset($entry["difference"])) {
+            if (isset($entry["difference"])) {
                 $tmp["difference"] = _("Veränderung: ") . $entry["difference"] . "; " . _("Preis: ") . $entry["price_string"];
             }
-            if(!empty($entry["message"])) {
+            if (!empty($entry["message"])) {
                 $tmp["message"] = _("Kommentar: ") . mb_substr($entry["message"], 0, 100);
             }
 
@@ -345,16 +339,15 @@ class Log
         //return "[{x: 10, y: 20}, {x: 15, y: 10}]";
     }
 
-    public static function getHistoryForPartCount(&$database, &$current_user, &$log, &$part)
+    public static function getHistoryForPartCount(Database &$database, User &$current_user, Log &$log, Part &$part) : int
     {
-        if(!$part instanceof Part) {
+        if (!$part instanceof Part) {
             throw new \RuntimeException(_("getInstockHistoryForPart() funktioniert nur für Bauteile!"));
         }
 
         $part_id = $part->getID();
 
-        $query = "SELECT count(id) AS `count` FROM `log` WHERE";
-        $query .= " target_id = ?";
+        $query = "SELECT count(id) AS `count` FROM `log` WHERE target_id = ?";
         $data[] = $part_id; //Only parts with the given ID
         $query .= " AND target_type = ?";
         $data[] = Log::TARGET_TYPE_PART;    //Only parts as a target
@@ -371,11 +364,11 @@ class Log
 
 
     /**
-     * Converts an type id (integer) to a localized string version.
+     * Converts an type id (int) to a localized string version.
      * @param $id int The id of the log type you want to have a localized string.
      * @return string The localized string.
      */
-    public static function typeIDToString($id)
+    public static function typeIDToString(int $id) : string
     {
         switch ($id) {
             case static::TYPE_USERLOGIN:
@@ -409,11 +402,11 @@ class Log
      * @return int The id of the target type
      * @throws \RuntimeException When no Targettype for this class was found.
      */
-    public static function elementToTargetTypeID(&$element)
+    public static function elementToTargetTypeID(NamedDBElement &$element) : int
     {
-        if ($element instanceof Attachement) {
+        if ($element instanceof Attachment) {
             return static::TARGET_TYPE_ATTACHEMENT;
-        } elseif ($element instanceof AttachementType) {
+        } elseif ($element instanceof AttachmentType) {
             return static::TARGET_TYPE_ATTACHEMENTTYPE;
         } elseif ($element instanceof User) {
             return static::TARGET_TYPE_USER;
@@ -443,35 +436,33 @@ class Log
      * @param $target_id int The id of the target type-
      * @return NamedDBElement The full qualified class name.
      */
-    public static function targetTypeIDToClass($target_id)
+    public static function targetTypeIDToClass(int $target_id) : string
     {
-        $base_ns = "PartDB\\";
-
         switch ($target_id) {
             case static::TARGET_TYPE_USER:
-                return $base_ns . "User";
+                return User::class;
             case static::TARGET_TYPE_ATTACHEMENT:
-                return $base_ns . "Attachement";
+                return Attachment::class;
             case static::TARGET_TYPE_ATTACHEMENTTYPE:
-                return $base_ns . "AttachementType";
+                return AttachmentType::class;
             case static::TARGET_TYPE_CATEGORY:
-                return $base_ns . "Category";
+                return Category::class;
             case static::TARGET_TYPE_DEVICE:
-                return $base_ns . "Device";
+                return Device::class;
             case static::TARGET_TYPE_DEVICEPART:
-                return $base_ns . "DevicePart";
+                return DevicePart::class;
             case static::TARGET_TYPE_FOOTPRINT:
-                return $base_ns . "Footprint";
+                return Footprint::class;
             case static::TARGET_TYPE_GROUP:
-                return $base_ns . "Group";
+                return Group::class;
             case static::TARGET_TYPE_MANUFACTURER:
-                return $base_ns . "Manufacturer";
+                return Manufacturer::class;
             case static::TARGET_TYPE_PART:
-                return $base_ns . "Part";
+                return Part::class;
             case static::TARGET_TYPE_STORELOCATION:
-                return $base_ns . "Storelocation";
+                return Storelocation::class;
             case static::TARGET_TYPE_SUPPLIER:
-                return $base_ns . "Supplier";
+                return Supplier::class;
             default:
                 throw new \RuntimeException(_("Unbekannter Target Typ"));
         }
@@ -483,7 +474,7 @@ class Log
      * @param $target_id int The id of the target.
      * @return string The URL to the info page
      */
-    public static function generateLinkForTarget($target_type, $target_id)
+    public static function generateLinkForTarget(int $target_type, int $target_id) : string
     {
         $url = BASE_RELATIVE . "/";
         switch ($target_type) {
@@ -491,7 +482,7 @@ class Log
                 //Attachements dont have a info page yet.
                 return "";
             case static::TARGET_TYPE_ATTACHEMENTTYPE:
-                $url.= "edit_attachement_types.php?selected_id=";
+                $url.= "edit_attachment_types.php?selected_id=";
                 break;
             case static::TARGET_TYPE_CATEGORY:
                 $url.= "edit_categories.php?selected_id=";
@@ -535,7 +526,7 @@ class Log
      * @param $target_id int The ID for that the text should be returned.
      * @return string The text version for the target type.
      */
-    public static function targetTypeIDToString($target_id)
+    public static function targetTypeIDToString(int $target_id) : string
     {
         switch ($target_id) {
             case static::TARGET_TYPE_ATTACHEMENT:
@@ -565,7 +556,7 @@ class Log
         }
     }
 
-    public static function getLogTypesList()
+    public static function getLogTypesList() : array
     {
         $data = array();
 
@@ -586,14 +577,13 @@ class Log
     /**
      * @param $entries BaseEntry[]
      */
-    public function generateTemplateLoop($entries)
+    public function generateTemplateLoop(array $entries) : array
     {
         $row_index = 0;
 
         $rows = array();
         /** @var BaseEntry $entry */
         foreach ($entries as $entry) {
-
             $data = array(
                 "id" => $entry->getID(),
                 "timestamp" => $entry->getTimestamp(true),
@@ -627,9 +617,19 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function getEntries($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type_id = -1, $search_str = "",
-                               $target_type = -1, $target_id = -1, $min_date = "", $max_date = "",  $limit = 50, $page = 1)
-    {
+    public function getEntries(
+        bool $newest_first = true,
+        int $min_level = self::LEVEL_DEBUG,
+        int $user_id = -1,
+        int $type_id = -1,
+        string $search_str = "",
+        int $target_type = -1,
+        int $target_id = -1,
+        string $min_date = "",
+        string $max_date = "",
+        int $limit = 50,
+        int $page = 1
+    ) {
         $search_str = "%" . $search_str . "%";
 
         $data = array();
@@ -673,7 +673,7 @@ class Log
             $query .= " AND (datetime <= ?)";
             $data[] = $max_date;
         }
-        if($min_date != "") {
+        if ($min_date != "") {
             $query .= " AND (datetime >= ?)";
             $data[] = $min_date;
         }
@@ -699,9 +699,17 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function getEntriesCount($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1,
-                                    $type_id = -1, $search_str = "", $target_type = -1, $min_date = "", $max_date = "", $target_id = -1)
-    {
+    public function getEntriesCount(
+        bool $newest_first = true,
+        int $min_level = self::LEVEL_DEBUG,
+        int $user_id = -1,
+        int $type_id = -1,
+        string $search_str = "",
+        int $target_type = -1,
+        int $target_id = -1,
+        string $min_date = "",
+        string $max_date = ""
+    ) {
         $data = array();
 
         $query =    'SELECT COUNT(id) AS count from log ';
@@ -743,7 +751,7 @@ class Log
             $query .= " AND (datetime <= ?)";
             $data[] = $max_date;
         }
-        if($min_date != "") {
+        if ($min_date != "") {
             $query .= " AND (datetime >= ?)";
             $data[] = $min_date;
         }
@@ -761,7 +769,7 @@ class Log
      * @return BaseEntry[] The converted data as BaseEntry objects.
      * @throws Exception If an Error happened.
      */
-    protected function queryDataToEntryObjects($query_data)
+    protected function queryDataToEntryObjects(array $query_data) : array
     {
         $entries = array();
 
@@ -774,7 +782,7 @@ class Log
         return $entries;
     }
 
-    public function deleteSelected($select_string)
+    public function deleteSelected(string $select_string)
     {
         $ids = explode(",", $select_string);
 
@@ -791,33 +799,31 @@ class Log
      * @param $type_id int The id of the type.
      * @return BaseEntry The classname for this type id.
      */
-    protected static function typeIDToClass($type_id)
+    protected static function typeIDToClass(int $type_id) : string
     {
-        $base_ns = "PartDB\LogSystem\\";
-
         switch ($type_id) {
             case static::TYPE_USERLOGIN:
-                return $base_ns . "UserLoginEntry";
+                return UserLoginEntry::class;
             case static::TYPE_USERLOGOUT:
-                return $base_ns . "UserLogoutEntry";
+                return UserLogoutEntry::class;
             case static::TYPE_USERNOTALLOWED:
-                return $base_ns . "UserNotAllowedEntry";
+                return UserNotAllowedEntry::class;
             case static::TYPE_EXCEPTION:
-                return $base_ns . "ExceptionEntry";
+                return ExceptionEntry::class;
             case static::TYPE_ELEMENTDELETED:
-                return $base_ns . "ElementDeletedEntry";
+                return ElementDeletedEntry::class;
             case static::TYPE_ELEMENTCREATED:
-                return $base_ns . "ElementCreatedEntry";
+                return ElementCreatedEntry::class;
             case static::TYPE_ELEMENTEDITED:
-                return $base_ns . "ElementEditedEntry";
+                return ElementEditedEntry::class;
             case static::TYPE_CONFIGCHANGED:
-                return $base_ns . "ConfigChangedEntry";
+                return ConfigChangedEntry::class;
             case static::TYPE_INSTOCKCHANGE:
-                return $base_ns . "InstockChangedEntry";
+                return InstockChangedEntry::class;
             case static::TYPE_DATABASEUPDATE:
-                return $base_ns . "DatabaseUpdatedEntry";
+                return DatabaseUpdatedEntry::class;
             default:
-                return $base_ns . "UnknownTypeEntry";
+                return UnknownTypeEntry::class;
         }
     }
 }

@@ -58,7 +58,6 @@ $config['db']['host']                                   = 'localhost';
 $config['db']['name']                                   = '';
 $config['db']['user']                                   = '';
 $config['db']['password']                               = '';
-$config['db']['charset']                                = 'utf8'; ///< @todo THIS IS NOT USED AT THE MOMENT (hardcoded to "uft8" in Database.php)!! Do we need this parameter?!?!
 $config['db']['auto_update']                            = false;
 $config['db']['backup']['name']                         = ''; // If you use an external database backup system, set here "MySQLDumper" for example
 $config['db']['backup']['url']                          = ''; // the link to the database backup system, e.g. "../mysqldumper/"
@@ -68,7 +67,6 @@ $config['db']['limit']['search_parts']                  = 200; // Limits the num
 $config['db']['space_fix']                              = false; //Add a space between mysql: and host= in the PDO dsn string. This maybe helps connecting to an external DB. See: http://stackoverflow.com/a/25432156
 
 // html/template settings
-$config['html']['http_charset']                         = 'utf-8'; ///< @todo remove this parameter completely, I think we don't need it! temporary hardcoded in start_session.php
 $config['html']['theme']                                = 'nextgen';
 $config['html']['custom_css']                           = '';
 
@@ -105,12 +103,6 @@ $config['menu']['disable_labels']                       = false; // tools -> lab
 $config['menu']['disable_calculator']                   = false; // tools -> calculator
 $config['menu']['disable_iclogos']                      = false; // tools -> iclogos
 $config['menu']['disable_footprints']                   = false; // tools -> footprints
-
-// popup settings
-$config['popup']['modal']                               = true;
-$config['popup']['width']                               = 1000;
-$config['popup']['height']                              = 800;
-
 // debug settings
 $config['debug']['enable']                              = false;
 $config['debug']['debugbar']                            = false;
@@ -229,19 +221,18 @@ $config['system']['version']                            = '0.6.0.dev';  // examp
 $config['system']['latest_config_version']              = 2; // only increase for one!
 
 // minimum requirements of the system (PHP, PHP Modules, Apache, ...) [used in "install.php"]
-$config['requirements']['php_version']                  = '5.4.0';
+$config['requirements']['php_version']                  = '7.0.0';
 $config['requirements']['pdo']                          = true; // PDO must be installed
 
 // HTTP charsets* (the key is used for the HTML header, the value is only used for displaying)
-$config['http_charsets']['utf-8']                       = 'UTF-8 Unicode';
-//$config['http_charsets']['ISO-8859-1']                  = 'ISO-8859-1'; ///< @todo remove the choice of the http charset!
+//$config['http_charsets']['utf-8']                       = 'UTF-8 Unicode';
 
 // database types* (the key is used for the class "Database", the value is only used for displaying)
 $config['db_types']['mysql']                            = 'MySQL';
 //$config['db_types']['sqlite']                           = 'SQLite 3';
 
 // database charsets* (the key is used for the class "Database", the value is only used for displaying)
-$config['db_charsets']['utf8']                          = 'UTF-8 Unicode (utf8)';
+//$config['db_charsets']['utf8']                          = 'UTF-8 Unicode (utf8)';
 //$config['db_charsets']['latin2']                        = 'ISO 8859-2 Central European (latin2)';
 //$config['db_charsets']['cp1250']                        = 'Windows Central European (cp1250)';
 //$config['db_charsets']['macce']                         = 'Mac Central European (macce)';

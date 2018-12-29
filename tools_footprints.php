@@ -160,7 +160,7 @@ if (!$fatal_error && count($directories) > 0) {
         }
     }
 
-    $html->setLoop('categories_loop', $categories_loop);
+    $html->setVariable('categories_loop', $categories_loop);
 }
 
 /********************************************************************************

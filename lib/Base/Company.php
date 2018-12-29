@@ -47,33 +47,36 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      *********************************************************************************/
 
-    /**
-     * Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * It's allowed to create an object with the ID 0 (for the root element).
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param string    $tablename      the name of the database table (e.g. "suppliers" or "manufacturers")
-     * @param integer   $id             ID of the database record we want to get
-     *
-     * @throws Exception        if there is no such element in the database
-     * @throws Exception        if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(&$database, &$current_user, &$log, $tablename, $id, $data = null)
+    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, $tablename, $id, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
+    }
 
-        if ($id == 0) {
-            // this is the root node
-            $this->db_data['address'] = '';
-            $this->db_data['phone_number'] = '';
-            $this->db_data['fax_number'] = '';
-            $this->db_data['email_address'] = '';
-            $this->db_data['website'] = '';
-            return;
+    public function getVirtualData(int $virtual_id): array
+    {
+        $tmp = parent::getVirtualData($virtual_id);
+        if ($virtual_id == parent::ID_ROOT_ELEMENT) {
+            $tmp['address'] = '';
+            $tmp['phone_number'] = '';
+            $tmp['fax_number'] = '';
+            $tmp['email_address'] = '';
+            $tmp['website'] = '';
         }
+
+        return $tmp;
     }
 
     /********************************************************************************
@@ -87,7 +90,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the address of the company (with "\n" as line break)
      */
-    public function getAddress()
+    public function getAddress() : string
     {
         return $this->db_data['address'];
     }
@@ -97,7 +100,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the phone number of the company
      */
-    public function getPhoneNumber()
+    public function getPhoneNumber() : string
     {
         return $this->db_data['phone_number'];
     }
@@ -107,7 +110,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the fax number of the company
      */
-    public function getFaxNumber()
+    public function getFaxNumber() : string
     {
         return $this->db_data['fax_number'];
     }
@@ -117,7 +120,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the e-mail address of the company
      */
-    public function getEmailAddress()
+    public function getEmailAddress() : string
     {
         return $this->db_data['email_address'];
     }
@@ -127,7 +130,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the website of the company
      */
-    public function getWebsite()
+    public function getWebsite() : string
     {
         return $this->db_data['website'];
     }
@@ -140,7 +143,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string           the link to the article
      */
-    public function getAutoProductUrl($partnr = null)
+    public function getAutoProductUrl($partnr = null) : string
     {
         if (is_string($partnr)) {
             return str_replace('%PARTNUMBER%', $partnr, $this->db_data['auto_product_url']);
@@ -162,7 +165,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setAddress($new_address)
+    public function setAddress(string $new_address)
     {
         $this->setAttributes(array('address' => $new_address));
     }
@@ -174,7 +177,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setPhoneNumber($new_phone_number)
+    public function setPhoneNumber(string $new_phone_number)
     {
         $this->setAttributes(array('phone_number' => $new_phone_number));
     }
@@ -186,7 +189,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setFaxNumber($new_fax_number)
+    public function setFaxNumber(string $new_fax_number)
     {
         $this->setAttributes(array('fax_number' => $new_fax_number));
     }
@@ -198,7 +201,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setEmailAddress($new_email_address)
+    public function setEmailAddress(string $new_email_address)
     {
         $this->setAttributes(array('email_address' => $new_email_address));
     }
@@ -210,7 +213,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setWebsite($new_website)
+    public function setWebsite(string $new_website)
     {
         $this->setAttributes(array('website' => $new_website));
     }
@@ -222,7 +225,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setAutoProductUrl($new_url)
+    public function setAutoProductUrl(string $new_url)
     {
         $this->setAttributes(array('auto_product_url' => $new_url));
     }
@@ -237,21 +240,21 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // optimize attribute "website"
         $values['website'] = trim($values['website']);
-        if ((strlen($values['website']) > 0) && (mb_strpos($values['website'], '://') === false)) {  // if there is no protocol defined,
-            $values['website'] = 'http://'.$values['website'];
+        if (!empty($values['website']) && (mb_strpos($values['website'], '://') === false)) {  // if there is no protocol defined,
+            $values['website'] = 'https://' . $values['website'];
         }                                     // add "http://" to the begin
 
         // optimize attribute "auto_product_url"
         $values['auto_product_url'] = trim($values['auto_product_url']);
-        if ((strlen($values['auto_product_url']) > 0) && (mb_strpos($values['auto_product_url'], '://') === false)) {  // if there is no protocol defined,
-            $values['auto_product_url'] = 'http://'.$values['auto_product_url'];
+        if (!empty($values['auto_product_url']) && (mb_strpos($values['auto_product_url'], '://') === false)) {  // if there is no protocol defined,
+            $values['auto_product_url'] = 'https://' . $values['auto_product_url'];
         }                                     // add "http://" to the begin
     }
 
@@ -262,7 +265,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      * @throws Exception
      * @throws Exception
      */
-    public function getAPIArray($verbose = false)
+    public function getAPIArray(bool $verbose = false) : array
     {
         $json =  array( "id" => $this->getID(),
             "name" => $this->getName(),

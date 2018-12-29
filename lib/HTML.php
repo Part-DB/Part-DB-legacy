@@ -26,6 +26,8 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Exceptions\TemplateNotFoundException;
+use PartDB\Exceptions\TemplateSystemException;
 use PartDB\Permissions\PartContainingPermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
@@ -63,13 +65,15 @@ class HTML
     private $javascript_files   = array();
     /** @var string OnLoad string for the HTML body */
     private $body_onload        = '';
-
-    /** @var array variables for the HTML template */
+    /** @var array variables (and which was called loops before => arrays) for the HTML template */
     private $variables          = array();
-    /** @var array loops for the HTML template */
-    private $loops              = array();
     /** @var string  */
     private $redirect_url       = "";
+
+    /**
+     * @var Smarty The shared Smarty object.
+     */
+    private $tmpl;
 
     /********************************************************************************
      *
@@ -93,20 +97,18 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function __construct($theme, $custom_css_file = '', $page_title = '', $autorefresh = 0)
+    public function __construct(string $theme, string $custom_css_file = '', string $page_title = '', int $autorefresh = 0)
     {
         // specify the variable type
         settype($this->meta, 'array');
         settype($this->javascript_files, 'array');
         settype($this->body_onload, 'string');
         settype($this->variables, 'array');
-        settype($this->loops, 'array');
 
         // specify the variable type of array $this->meta
         settype($this->meta['theme'], 'string');
         settype($this->meta['title'], 'string');
         settype($this->meta['custom_css'], 'string');
-        settype($this->meta['frameset'], 'boolean');
         settype($this->meta['autorefresh'], 'integer');
 
         // check passed parameters
@@ -129,8 +131,21 @@ class HTML
         $this->meta['theme']        = $theme;
         $this->meta['custom_css']   = $custom_css_file;
         $this->meta['title']        = $page_title;
-        $this->meta['frameset']     = false;
         $this->meta['autorefresh'] = $autorefresh;
+
+        global $config;
+
+        //Init Smarty Objects
+        $this->tmpl = new Smarty();
+
+        if ($config['debug']['template_debugging_enable']) {
+            $this->tmpl->debugging = true;
+        }
+
+        //Remove white space from Output
+        $this->tmpl->loadFilter('output', 'trimwhitespace');
+        //Prevent XSS attacks
+        $this->tmpl->escape_html = true;
     }
 
     /********************************************************************************
@@ -147,11 +162,11 @@ class HTML
      *
      * @throws Exception if the parameter is no array
      */
-    public function setMeta($meta = array())
+    public function setMeta(array $meta = array())
     {
         if (! is_array($meta)) {
             debug('error', '$meta='.print_r($meta, true), __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$meta ist kein Array!');
+            throw new TemplateSystemException(_('$meta ist kein Array!'));
         }
 
         foreach ($meta as $key => $value) {
@@ -164,15 +179,8 @@ class HTML
      * @param string $new_title the new title of the page
      * @throws Exception if the param is not a string or is null
      */
-    public function setTitle($new_title)
+    public function setTitle(string $new_title)
     {
-        if (is_null($new_title)) {
-            throw new Exception("$new_title must not be null!");
-        }
-        if (!is_string($new_title)) {
-            throw new Exception("$new_title must be an string!");
-        }
-
         $this->meta['title'] = $new_title;
     }
 
@@ -184,7 +192,7 @@ class HTML
      * is printed. Note, if this option is activated, the code execution is stopped after this call.
      * @throws Exception
      */
-    public function redirect($url, $instant = false)
+    public function redirect(string $url, bool $instant = false)
     {
         if (!is_string($url)) {
             throw new \InvalidArgumentException(_('$url must be a valid a string'));
@@ -215,18 +223,13 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function useJavascript($filenames = array(), $body_onload = '')
+    public function useJavascript(array $filenames = array(), string $body_onload = '')
     {
-        if (! is_array($filenames)) {
-            debug('error', '$filenames='.print_r($filenames, true), __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$filenames ist kein Array!');
-        }
-
         foreach ($filenames as $filename) {
             if (! in_array($filename, $this->javascript_files)) {
                 $full_filename = BASE.'/javascript/'.$filename.'.js';
                 if (! is_readable($full_filename)) {
-                    throw new Exception('Die JavaScript-Datei "'.$full_filename.'" existiert nicht!');
+                    throw new TemplateSystemException(sprintf(_('Die JavaScript-Datei "%s" existiert nicht!'), $full_filename));
                 }
 
                 $this->javascript_files[] = $filename;
@@ -247,20 +250,17 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function setVariable($key, $value, $type = '')
+    public function setVariable(string $key, $value, string $type = '')
     {
-        settype($key, 'string');
-        settype($type, 'string');
-
-        if (strlen($key) == 0) {
+        if (empty($key)) {
             debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$key ist leer!');
+            throw new TemplateSystemException(_('$key ist leer!'));
         }
 
-        if (strlen($type) > 0) {
-            if (! in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', 'string'))) {
+        if (!empty($type)) {
+            if (! in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', "double", 'string', "array", "object"))) {
                 debug('error', '$type='.print_r($type, true), __FILE__, __LINE__, __METHOD__);
-                throw new Exception('$type hat einen ungültigen Inhalt!');
+                throw new TemplateSystemException(_('$type hat einen ungültigen Inhalt!'));
             }
 
             settype($value, $type);
@@ -269,26 +269,6 @@ class HTML
         $this->variables[$key] = $value;
     }
 
-    /**
-     * Set a loop for the HTML template (site content)
-     *
-     * @param string    $key        the name of the loop
-     * @param array     $loop       the loop array
-     *
-     * @throws Exception if there was an error
-     */
-    public function setLoop($key, $loop = array())
-    {
-        settype($key, 'string');
-        settype($loop, 'array');
-
-        if (strlen($key) == 0) {
-            debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$key ist leer!');
-        }
-
-        $this->loops[$key] = $loop;
-    }
 
     /********************************************************************************
      *
@@ -303,35 +283,14 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function unsetVariable($key)
+    public function unsetVariable(string $key)
     {
-        settype($key, 'string');
-
-        if (strlen($key) == 0) {
+        if (empty($key)) {
             debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$key ist leer!');
+            throw new TemplateSystemException(_('$key ist leer!'));
         }
 
         unset($this->variables[$key]);
-    }
-
-    /**
-     * Unset a loop
-     *
-     * @param string    $key        the name of the loop
-     *
-     * @throws Exception if there was an error
-     */
-    public function unsetLoop($key)
-    {
-        settype($key, 'string');
-
-        if (strlen($key) == 0) {
-            debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$key ist leer!');
-        }
-
-        unset($this->loops[$key]);
     }
 
     /********************************************************************************
@@ -355,7 +314,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function printHeader($messages = array(), $reload_link = '', $messages_div_title = '', $redirect = false)
+    public function printHeader(array $messages = array(), string $reload_link = '', string $messages_div_title = '', bool $redirect = false)
     {
         if (PDBDebugBar::isActivated()) {
             PDBDebugBar::getInstance()->sendData();
@@ -363,25 +322,18 @@ class HTML
 
         global $config;
 
-        if ((! is_array($this->meta)) || (count($this->meta) == 0) || (strlen($this->meta['theme']) == 0)) {
+        if ((! is_array($this->meta)) || (count($this->meta) == 0) || (empty($this->meta['theme']))) {
             debug('warning', 'Meta not set!', __FILE__, __LINE__, __METHOD__);
         }
         $smarty_head = BASE.'/templates/'.$this->meta['theme'].'/smarty_head.tpl';
         if (! is_readable($smarty_head)) {
             debug('error', 'File "'.$smarty_head.'" not found!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('Template Header-Datei "'.$smarty_head.'" wurde nicht gefunden!');
+            throw new TemplateNotFoundException(sprintf(_('Template Header-Datei "%s" wurde nicht gefunden!'), $smarty_head));
         }
 
-        $tmpl = new Smarty;
-
-        if ($config['debug']['template_debugging_enable']) {
-            $tmpl->debugging = true;
-        }
-
-        //Remove white space from Output
-        $tmpl->loadFilter('output', 'trimwhitespace');
-
-        $tmpl->escape_html = true;
+        $tmpl = $this->tmpl;
+        //Clear all assigned variables
+        $tmpl->clearAllAssign();
 
 
         //Unix locales (de_DE) are other than the HTML lang (de), so edit them
@@ -394,7 +346,6 @@ class HTML
         $tmpl->assign('lang', $lang);
         $tmpl->assign('body_onload', $this->body_onload);
         $tmpl->assign('theme', $this->meta['theme']);
-        $tmpl->assign('frameset', $this->meta['frameset']);
         $tmpl->assign('redirect', $redirect);
         $tmpl->assign('partdb_title', $config['partdb_title']);
 
@@ -407,7 +358,7 @@ class HTML
             $tmpl->assign("lastname", $user->getLastName());
             $tmpl->assign('can_search', $user->canDo(PermissionManager::PARTS, PartPermission::SEARCH));
             $tmpl->assign('can_category', $user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)
-                    && $user->canDo(PermissionManager::CATEGORIES, PartContainingPermission::LIST_PARTS));
+                && $user->canDo(PermissionManager::CATEGORIES, PartContainingPermission::LIST_PARTS));
             $tmpl->assign('can_device', $user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
         } catch (Exception $exception) {
             //TODO
@@ -483,7 +434,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function printTemplate($template, $use_scriptname = true)
+    public function printTemplate(string $template, bool $use_scriptname = true)
     {
         global $config;
 
@@ -505,14 +456,12 @@ class HTML
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Template-Datei "'.$smarty_template.'" konnte nicht gefunden werden!');
+            throw new TemplateNotFoundException(sprintf(_('Template-Datei "%s" konnte nicht gefunden werden!'), $smarty_template));
         }
 
-        $tmpl = new Smarty();
+        $tmpl = $this->tmpl;
+        $tmpl->clearAllAssign();
 
-        if ($config['debug']['template_debugging_enable']) {
-            $tmpl->debugging = true;
-        }
 
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
@@ -522,16 +471,6 @@ class HTML
             //debug('temp', $key.' => '.$value);
             $tmpl->assign($key, $value);
         }
-
-        foreach ($this->loops as $key => $loop) {
-            $tmpl->assign($key, $loop);
-        }
-
-        //Remove white space from Output
-        $tmpl->loadFilter('output', 'trimwhitespace');
-
-        //Prevents XSS
-        $tmpl->escape_html = true;
 
         if ($this->redirect_url == "") { //Dont print template, if the page should be redirected.
             $tmpl->display($smarty_template);
@@ -548,7 +487,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function printFooter($messages = array(), $messages_div_title = '')
+    public function printFooter(array $messages = array(), string $messages_div_title = '')
     {
         global $config;
 
@@ -556,21 +495,17 @@ class HTML
 
         if (! is_readable($smarty_foot)) {
             debug('error', 'File "'.$smarty_foot.'" not found!', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('Template Footer-Datei "'.$smarty_foot.'" wurde nicht gefunden!');
+            throw new TemplateNotFoundException(sprintf(_('Template Footer-Datei "%s" wurde nicht gefunden!'), $smarty_foot));
         }
 
-        $tmpl = new Smarty();
-
-        if ($config['debug']['template_debugging_enable']) {
-            $tmpl->debugging = true;
-        }
+        $tmpl = $this->tmpl;
+        $tmpl->clearAllAssign();
 
         if (isset($this->variables['ajax_request'])) {
             $tmpl->assign("ajax_request", $this->variables['ajax_request']);
         }
 
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
-        $tmpl->assign('frameset', $this->meta['frameset']);
 
         // messages
         if ((is_array($messages) && (count($messages) > 0))) {
@@ -590,18 +525,12 @@ class HTML
         $tmpl->assign("redirect_url", $this->redirect_url);
 
         $tmpl->assign("cookie_consent_active", $config['cookie_consent']['enable']);
-        if($config['cookie_consent']['enable'])
-        {
+        if ($config['cookie_consent']['enable']) {
             $tmpl->assign("cookie_consent_config", $config['cookie_consent']);
         }
 
         $tmpl->assign("debugging_activated", $config['debug']['enable']);
 
-        //Remove white space from Output
-        $tmpl->loadFilter('output', 'trimwhitespace');
-
-        //Prevents XSS
-        $tmpl->escape_html = true;
         $tmpl->display($smarty_foot);
     }
 }

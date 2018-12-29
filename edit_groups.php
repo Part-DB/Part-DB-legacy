@@ -34,7 +34,6 @@
 include_once('start_session.php');
 
 use PartDB\Database;
-use PartDB\Device;
 use PartDB\Group;
 use PartDB\HTML;
 use PartDB\Log;
@@ -56,9 +55,9 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : 0;
+$selected_id                = isset($_REQUEST['selected_id'])   ? (int)$_REQUEST['selected_id'] : 0;
 $new_name                   = isset($_POST['name'])          ? (string)$_POST['name']         : '';
-$new_parent_id              = isset($_POST['parent_id'])     ? (integer)$_POST['parent_id']   : 0;
+$new_parent_id              = isset($_POST['parent_id'])     ? (int)$_POST['parent_id']   : 0;
 $new_comment                = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
 $add_more                   = isset($_POST['add_more']);
 
@@ -88,12 +87,12 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_group         = new Group($database, $current_user, $log, 0);
+    $root_group         = Group::getInstance($database, $current_user, $log, 0);
 
     $current_user->tryDo(PermissionManager::GROUPS, GroupPermission::READ);
 
     if ($selected_id > 0) {
-        $selected_group = new Group($database, $current_user, $log, $selected_id);
+        $selected_group = Group::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_group = null;
     }
@@ -251,7 +250,7 @@ if (! $fatal_error) {
         $device_list = $root_group->buildHtmlTree($selected_id, true, false);
         $html->setVariable('group_list', $device_list, 'string');
 
-        $html->setLoop("perm_loop", $perm_loop);
+        $html->setVariable("perm_loop", $perm_loop);
 
         $parent_device_list = $root_group->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_group_list', $parent_device_list, 'string');
@@ -266,7 +265,6 @@ if (! $fatal_error) {
     $html->setVariable('can_move', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::MOVE));
     $html->setVariable('can_permission', !$perm_read_only);
     $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
-
 }
 
 /********************************************************************************

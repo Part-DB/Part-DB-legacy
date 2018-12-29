@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -504,7 +504,7 @@ function buildDevicepartsImportTemplateLoop(&$database, &$current_user, &$log, $
     $row_index = 0;
     foreach ($data as $row) {
         try {
-            $part = new Part($database, $current_user, $log, $row['devicepart_part_id']);
+            $part = Part::getInstance($database, $current_user, $log, $row['devicepart_part_id']);
         } catch (Exception $e) {
             $part = null; // To avoid warnings like "undefined variable $part"
         }

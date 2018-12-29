@@ -1,15 +1,30 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: janhb
- * Date: 06.02.2018
- * Time: 18:52
+ *
+ * Part-DB Version 0.4+ "nextgen"
+ * Copyright (C) 2016 - 2018 Jan Böhmer
+ * https://github.com/jbtronics
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+ *
  */
 
 namespace PartDB\LogSystem;
 
 use Exception;
-use PartDB\Base\DBElement;
 use PartDB\Database;
 use PartDB\Log;
 use PartDB\User;
@@ -31,7 +46,7 @@ class UserLogoutEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
@@ -57,7 +72,7 @@ class UserLogoutEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(&$database, &$current_user, &$log, $user, $ip_address = "")
+    public static function add(Database &$database, User &$current_user, Log &$log, User $user, string $ip_address = "")
     {
         $arr = array("i" => $ip_address);
 
@@ -78,10 +93,10 @@ class UserLogoutEntry extends BaseEntry
      * Returns the a text representation of the target
      * @return string The text describing the target
      */
-    public function getTargetText()
+    public function getTargetText() : string
     {
         try {
-            $user = new User($this->database, $this->current_user, $this->log, $this->getTargetID());
+            $user = User::getInstance($this->database, $this->current_user, $this->log, $this->getTargetID());
             return $user->getName();
         } catch (Exception $ex) {
             return "ERROR!";
@@ -92,7 +107,7 @@ class UserLogoutEntry extends BaseEntry
      * Return a link to the target. Returns empty string if no link is available.
      * @return string the link to the target.
      */
-    public function getTargetLink()
+    public function getTargetLink() : string
     {
         return BASE_RELATIVE . "user_info?uid=" . $this->getTargetID();
     }
@@ -102,7 +117,7 @@ class UserLogoutEntry extends BaseEntry
      * @param $html bool Set this to true, to get an HTML formatted version of the extra.
      * @return string The extra information
      */
-    public function getExtra($html = false)
+    public function getExtra(bool $html = false) : string
     {
         return _("Von IP: ") . $this->ip_address;
     }

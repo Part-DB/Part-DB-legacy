@@ -77,8 +77,6 @@ function update_users_config_php()
                 $config['menu']['disable_help']             = $disable_help;
                 global $disable_config;
                 $config['menu']['disable_config']           = $disable_config;
-                global $use_modal_dialog;
-                $config['popup']['modal']                   = $use_modal_dialog;
                 global $dialog_width;
                 $config['popup']['width']                   = $dialog_width;
                 global $dialog_height;

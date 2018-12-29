@@ -1,13 +1,29 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: janhb
- * Date: 31.03.2018
- * Time: 12:36
+ *
+ * Part-DB Version 0.4+ "nextgen"
+ * Copyright (C) 2016 - 2018 Jan Böhmer
+ * https://github.com/jbtronics
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+ *
  */
 
-namespace PartDB\Tools;
 
+namespace PartDB\Tools;
 
 use PartDB\Database;
 use PartDB\Log;
@@ -15,7 +31,6 @@ use PartDB\User;
 
 class StatisticsHelpers
 {
-
     protected $database;
     protected $current_user;
     protected $log;
@@ -32,7 +47,7 @@ class StatisticsHelpers
      * @param $current_user User
      * @param $log Log
      */
-    public function __construct($database, $current_user, $log)
+    public function __construct(Database $database, User $current_user, Log $log)
     {
         $this->database = $database;
         $this->current_user = $current_user;
@@ -45,9 +60,9 @@ class StatisticsHelpers
      * @return array
      * @throws \Exception
      */
-    public function getMostUsedCategories($limit = 25)
+    public function getMostUsedCategories(int $limit = 25) : array
     {
-        if(!is_int($limit)) {
+        if (!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -58,9 +73,9 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
-    public function getMostUsedLocations($limit = 25)
+    public function getMostUsedLocations(int $limit = 25) : array
     {
-        if(!is_int($limit)) {
+        if (!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -71,9 +86,9 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
-    public function getMostUsedFootprints($limit = 25)
+    public function getMostUsedFootprints(int $limit = 25) : array
     {
-        if(!is_int($limit)) {
+        if (!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -84,9 +99,9 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
-    public function getMostUsedManufacturers($limit = 25)
+    public function getMostUsedManufacturers(int $limit = 25) : array
     {
-        if(!is_int($limit)) {
+        if (!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -97,7 +112,7 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
-    public function getPartsWithMostInstock($limit = 25)
+    public function getPartsWithMostInstock(int $limit = 25) : array
     {
         $query = "SELECT parts.name AS name, parts.instock AS count FROM parts ORDER BY count DESC LIMIT $limit";
         $values = array();
@@ -105,7 +120,7 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
-    public static function arrayToChartJSData($array, $label, $bg_color = self::COLOR_BLUE)
+    public static function arrayToChartJSData(array $array, string $label, string $bg_color = self::COLOR_BLUE) : string
     {
         //Split array in name and count section
         $names = array();
@@ -126,5 +141,4 @@ class StatisticsHelpers
 
         return json_encode($data);
     }
-
 }

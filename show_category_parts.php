@@ -50,14 +50,14 @@ $starttime = microtime(true); // this is to measure the time while debugging is 
  *
  *********************************************************************************/
 
-$category_id        = isset($_REQUEST['cid'])               ? (integer)$_REQUEST['cid']             : 0;
-$with_subcategories = isset($_REQUEST['subcat'])            ? (boolean)$_REQUEST['subcat']          : $config['table']['default_show_subcategories'];
-$table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
+$category_id        = isset($_REQUEST['cid'])               ? (int)$_REQUEST['cid']             : 0;
+$with_subcategories = isset($_REQUEST['subcat'])            ? (bool)$_REQUEST['subcat']          : $config['table']['default_show_subcategories'];
+$table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (int)$_REQUEST['table_rowcount']  : 0;
 
-$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
-$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+$page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : $config['table']['default_limit'];
 
-$export_format_id       = isset($_REQUEST['export_format'])     ? (integer)$_REQUEST['export_format']   : 0;
+$export_format_id       = isset($_REQUEST['export_format'])     ? (int)$_REQUEST['export_format']   : 0;
 
 $action = 'default';
 if (isset($_REQUEST['subcat_button'])) {
@@ -70,7 +70,7 @@ if (isset($_REQUEST['subcat_button'])) {
 
 $selected_part_id = 0;
 for ($i=0; $i<$table_rowcount; $i++) {
-    $selected_part_id = isset($_POST['id_'.$i]) ? (integer)$_POST['id_'.$i] : 0;
+    $selected_part_id = isset($_POST['id_'.$i]) ? (int)$_POST['id_'.$i] : 0;
 
     if (isset($_POST['decrement_'.$i])) {
         $action = 'decrement';
@@ -100,10 +100,10 @@ try {
         throw new Exception(_('Es wurde keine gültige Kategorien-ID übermittelt!'));
     }
 
-    $category = new Category($database, $current_user, $log, $category_id);
+    $category = Category::getInstance($database, $current_user, $log, $category_id);
 
     if ($selected_part_id > 0) {
-        $part = new Part($database, $current_user, $log, $selected_part_id);
+        $part = Part::getInstance($database, $current_user, $log, $selected_part_id);
     } else {
         $part = null;
     }
@@ -198,12 +198,12 @@ if (! $fatal_error) {
         $parts = $category->getParts($with_subcategories, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'category_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
-        $html->setLoop('table', $table_loop);
-        $html->setLoop("pagination", generatePagination("show_category_parts.php?cid=$category_id", $page, $limit, $category->getPartsCount($with_subcategories)));
+        $html->setVariable('table', $table_loop);
+        $html->setVariable("pagination", generatePagination("show_category_parts.php?cid=$category_id", $page, $limit, $category->getPartsCount($with_subcategories)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
 
-        $html->setLoop('breadcrumb', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", true, _("Kategorien")));
+        $html->setVariable('breadcrumb', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", true, _("Kategorien")));
 
         //Export Parts
         if ($action == "export") {
@@ -236,26 +236,22 @@ if (! $fatal_error) {
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
         $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable'] || $category->getDisableAutodatasheets(true)), 'boolean');
 
-        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
-        $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
+        $html->setVariable('export_formats', buildExportFormatsLoop('showparts'));
 
         if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
-            $root_category = new Category($database, $current_user, $log, 0);
+            $root_category = Category::getInstance($database, $current_user, $log, 0);
             $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
         }
         if ($current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
-            $root_footprint = new Footprint($database, $current_user, $log, 0);
+            $root_footprint = Footprint::getInstance($database, $current_user, $log, 0);
             $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
         }
         if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
-            $root_manufacturer = new Manufacturer($database, $current_user, $log, 0);
+            $root_manufacturer = Manufacturer::getInstance($database, $current_user, $log, 0);
             $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
         }
         if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
-            $root_location = new Storelocation($database, $current_user, $log, 0);
+            $root_location = Storelocation::getInstance($database, $current_user, $log, 0);
             $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
         }
 
@@ -298,9 +294,9 @@ if (! $fatal_error) {
 $debug_messages = array();
 if ((! $fatal_error) && ($config['debug']['enable'])) {
     $endtime = microtime(true);
-    $lifetime = (integer)(1000*($endtime - $starttime));
-    $php_lifetime = (integer)(1000*($php_endtime - $starttime));
-    $html_lifetime = (integer)(1000*($endtime - $php_endtime));
+    $lifetime = (int)(1000*($endtime - $starttime));
+    $php_lifetime = (int)(1000*($php_endtime - $starttime));
+    $html_lifetime = (int)(1000*($endtime - $php_endtime));
     $debug_messages[] = array('text' => 'Debug-Meldungen: ', 'strong' => true, 'color' => 'darkblue');
     $debug_messages[] = array('text' => 'Anzahl Teile in dieser Kategorie: '.(count($parts)), 'color' => 'darkblue');
     $debug_messages[] = array('text' => 'Gesamte Laufzeit: '.$lifetime.'ms', 'color' => 'darkblue');

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 29.08.2017
- * Time: 16:05
- */
-
 function footprint_migration_8(&$updateSteps)
 {
     // footprints auf neues schema umbennenen

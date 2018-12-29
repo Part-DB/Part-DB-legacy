@@ -193,17 +193,17 @@ $html->setVariable('packing_checklist_link', BASE_RELATIVE.'/development/package
 
 if (isset($doxygen_output_loop)) {
     //$html->set_variable('exec_successful', $doxygen_successful, 'boolean');
-    $html->setLoop('exec_output', $doxygen_output_loop);
+    $html->setVariable('exec_output', $doxygen_output_loop);
 }
 
 if (isset($tab2spaces_output_loop)) {
     //$html->set_variable('exec_successful', $tab2spaces_successful, 'boolean');
-    $html->setLoop('exec_output', $tab2spaces_output_loop);
+    $html->setVariable('exec_output', $tab2spaces_output_loop);
 }
 
 if (isset($release_packing_output_loop)) {
     //$html->set_variable('exec_successful', $release_packing_successful, 'boolean');
-    $html->setLoop('exec_output', $release_packing_output_loop);
+    $html->setVariable('exec_output', $release_packing_output_loop);
 }
 
 /********************************************************************************

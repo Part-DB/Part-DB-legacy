@@ -33,7 +33,7 @@
 
 include_once('start_session.php');
 
-use PartDB\AttachementType;
+use PartDB\AttachmentType;
 use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
@@ -55,9 +55,9 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : 0;
+$selected_id                = isset($_REQUEST['selected_id'])   ? (int)$_REQUEST['selected_id'] : 0;
 $new_name                   = isset($_POST['name'])          ? (string)$_POST['name']         : '';
-$new_parent_id              = isset($_POST['parent_id'])     ? (integer)$_POST['parent_id']   : 0;
+$new_parent_id              = isset($_POST['parent_id'])     ? (int)$_POST['parent_id']   : 0;
 $add_more                   = isset($_POST['add_more']);
 $new_comment                = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
 
@@ -87,12 +87,12 @@ try {
     $database               = new Database();
     $log                    = new Log($database);
     $current_user           = User::getLoggedInUser($database, $log);
-    $root_attachement_type  = new AttachementType($database, $current_user, $log, 0);
+    $root_attachement_type  = AttachmentType::getInstance($database, $current_user, $log, 0);
 
     $current_user->tryDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ);
 
     if ($selected_id > 0) {
-        $selected_attachement_type = new AttachementType($database, $current_user, $log, $selected_id);
+        $selected_attachement_type = AttachmentType::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_attachement_type = null;
     }
@@ -111,7 +111,7 @@ if (! $fatal_error) {
     switch ($action) {
         case 'add':
             try {
-                $new_attachement_type = AttachementType::add($database, $current_user, $log, $new_name, $new_parent_id);
+                $new_attachement_type = AttachmentType::add($database, $current_user, $log, $new_name, $new_parent_id);
 
                 if (! $add_more) {
                     $selected_attachement_type = $new_attachement_type;
@@ -255,7 +255,7 @@ if (isset($_REQUEST["ajax"])) {
     $html->setVariable("ajax_request", true);
 }
 
-$reload_link = $fatal_error ? 'edit_attachement_types.php' : '';    // an empty string means that the...
+$reload_link = $fatal_error ? 'edit_attachment_types.php' : '';    // an empty string means that the...
 $html->printHeader($messages, $reload_link);                       // ...reload-button won't be visible
 
 if (! $fatal_error) {

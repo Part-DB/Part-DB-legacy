@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection ALL */
+
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -73,7 +74,9 @@ try {
  *********************************************************************************/
 
 try {
-    if ((!$fatal_error) && ($database->isUpdateRequired())) {
+    $db_update_required = $database->isUpdateRequired();
+
+    if ((!$fatal_error) && ($db_update_required)) {
         if (($database->getCurrentVersion() < 13) && ($database->getLatestVersion() >= 13)) { // v12 to v13 was a huge update! disable auto-update temporary!
             $config['db']['auto_update'] = false;
             $html->setVariable('auto_disabled_autoupdate', true, 'boolean');
@@ -86,7 +89,13 @@ try {
 
         if ($config['db']['auto_update'] == true) {
             $update_log = $database->update();
-            $html->setVariable('database_update_log', nl2br($update_log));
+            $text = array();
+            foreach ($update_log as $log) {
+                $text[] = $log["text"];
+                $text[] = $log["error"];
+            }
+            $update_text = implode("\n", $text);
+            $html->setVariable('database_update_log', nl2br($update_text));
         }
     }
 } catch (Exception $e) {
@@ -101,7 +110,7 @@ try {
  *
  *********************************************************************************/
 
-if ((! $fatal_error) && (! $database->isUpdateRequired())) {
+if ((! $fatal_error) && (! $db_update_required)) {
     $good = "&#x2714; ";
     $bad  = "&#x2718; ";
 
@@ -130,7 +139,7 @@ if ((! $fatal_error) && (! $database->isUpdateRequired())) {
  *
  *********************************************************************************/
 
-if ((! $fatal_error) && (! $database->isUpdateRequired())) {
+if ((! $fatal_error) && (! $db_update_required)) {
     try {
         if (count(Footprint::getBrokenFilenameFootprints($database, $current_user, $log)) > 0) {
             $html->setVariable('broken_filename_footprints', true);
@@ -203,7 +212,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
         $rss_loop = array(array('title' => $e->getMessage()));
     }
 
-    $html->setLoop('rss_feed_loop', $rss_loop);
+    $html->setVariable('rss_feed_loop', $rss_loop);
 }
 
 /********************************************************************************
@@ -212,7 +221,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
  *
  *********************************************************************************/
 
-$html->setLoop('authors', $authors);
+$html->setVariable('authors', $authors);
 
 if (! $fatal_error) {
     $bbcode = new \Golonka\BBCode\BBCodeParser();

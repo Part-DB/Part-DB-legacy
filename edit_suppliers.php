@@ -55,9 +55,9 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$selected_id          = isset($_REQUEST['selected_id'])      ? (integer)$_REQUEST['selected_id']     : 0;
+$selected_id          = isset($_REQUEST['selected_id'])      ? (int)$_REQUEST['selected_id']     : 0;
 $new_name             = isset($_POST['name'])             ? (string)$_POST['name']             : '';
-$new_parent_id        = isset($_POST['parent_id'])        ? (integer)$_POST['parent_id']       : 0;
+$new_parent_id        = isset($_POST['parent_id'])        ? (int)$_POST['parent_id']       : 0;
 $new_address          = isset($_POST['address'])          ? (string)$_POST['address']          : '';
 $new_phone_number     = isset($_POST['phone_number'])     ? (string)$_POST['phone_number']     : '';
 $new_fax_number       = isset($_POST['fax_number'])       ? (string)$_POST['fax_number']       : '';
@@ -93,12 +93,12 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_supplier      = new Supplier($database, $current_user, $log, 0);
+    $root_supplier      = Supplier::getInstance($database, $current_user, $log, 0);
 
     $current_user->tryDo(PermissionManager::SUPPLIERS, StructuralPermission::READ);
 
     if ($selected_id > 0) {
-        $selected_supplier = new Supplier($database, $current_user, $log, $selected_id);
+        $selected_supplier = Supplier::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_supplier = null;
     }

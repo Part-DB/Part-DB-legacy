@@ -23,8 +23,8 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-use PartDB\Attachement;
-use PartDB\AttachementType;
+use PartDB\Attachment;
+use PartDB\AttachmentType;
 use PartDB\Category;
 use PartDB\Database;
 use PartDB\Footprint;
@@ -64,17 +64,17 @@ $is_new_part                = !isset($_REQUEST['pid']);
 $add_one_more_part          = isset($_REQUEST['add_one_more_part']);
 
 // section: part attributes
-$part_id                    = isset($_REQUEST['pid'])                       ? (integer)$_REQUEST['pid']                      : -1;
+$part_id                    = isset($_REQUEST['pid'])                       ? (int)$_REQUEST['pid']                      : -1;
 $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
 $new_description            = isset($_POST['description'])               ? (string)$_POST['description']               : '';
-$new_instock                = isset($_POST['instock'])                   ? (integer)$_POST['instock']                  : 0;
-$new_instock                = isset($_POST['instock_unknown'])           ? (integer) Part::INSTOCK_UNKNOWN                : $new_instock;
-$new_mininstock             = isset($_POST['mininstock'])                ? (integer)$_POST['mininstock']               : 0;
+$new_instock                = isset($_POST['instock'])                   ? (int)$_POST['instock']                  : 0;
+$new_instock                = isset($_POST['instock_unknown'])           ? (int) Part::INSTOCK_UNKNOWN                : $new_instock;
+$new_mininstock             = isset($_POST['mininstock'])                ? (int)$_POST['mininstock']               : 0;
 //The category ID is given as a GET param, so we need REQUEST here.
-$new_category_id            = isset($_REQUEST['category_id'])               ? (integer)$_REQUEST['category_id']        : 0;
-$new_storelocation_id       = isset($_REQUEST['storelocation_id'])          ? (integer)$_REQUEST['storelocation_id']   : 0;
-$new_footprint_id           = isset($_REQUEST['footprint_id'])              ? (integer)$_REQUEST['footprint_id']          : 0;
-$new_manufacturer_id        = isset($_REQUEST['manufacturer_id'])           ? (integer)$_REQUEST['manufacturer_id']       : 0;
+$new_category_id            = isset($_REQUEST['category_id'])               ? (int)$_REQUEST['category_id']        : 0;
+$new_storelocation_id       = isset($_REQUEST['storelocation_id'])          ? (int)$_REQUEST['storelocation_id']   : 0;
+$new_footprint_id           = isset($_REQUEST['footprint_id'])              ? (int)$_REQUEST['footprint_id']          : 0;
+$new_manufacturer_id        = isset($_REQUEST['manufacturer_id'])           ? (int)$_REQUEST['manufacturer_id']       : 0;
 $new_visible                = isset($_POST['visible']);
 $new_comment                = isset($_POST['comment'])                   ? (string)$_POST['comment']                   : '';
 $new_manufacturer_url       = isset($_POST["manufacturer_url"])          ? (string)$_POST['manufacturer_url']          : '';
@@ -90,8 +90,8 @@ $search_manufacturer_name   = isset($_POST['search_manufacturer_name'])  ? (stri
 // section: attachements
 $new_show_in_table          = isset($_POST['show_in_table']);
 $new_is_master_picture      = isset($_POST['is_master_picture']);
-$attachement_id             = isset($_POST['attachement_id'])            ? (integer)$_POST['attachement_id']           : 0;
-$new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (integer)$_POST['attachement_type_id']      : 0;
+$attachement_id             = isset($_POST['attachement_id'])            ? (int)$_POST['attachement_id']           : 0;
+$new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (int)$_POST['attachement_type_id']      : 0;
 $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
 $new_filename               = isset($_POST['attachement_filename'])      ? toUnixPath(trim((string)$_POST['attachement_filename'])) : '';
 $download_file              = isset($_POST['download_file']);
@@ -183,7 +183,7 @@ if (isset($_POST["create_name_save"])) {
 
 // section: orderdetails
 if (isset($orderdetails_id)) {
-    $new_supplier_id = isset($_POST['supplier_id_'.$orderdetails_id]) ? (integer)$_POST['supplier_id_'.$orderdetails_id] : 0;
+    $new_supplier_id = isset($_POST['supplier_id_'.$orderdetails_id]) ? (int)$_POST['supplier_id_'.$orderdetails_id] : 0;
     $new_supplierpartnr = isset($_POST['supplierpartnr_'.$orderdetails_id]) ? (string)$_POST['supplierpartnr_'.$orderdetails_id] : '';
     $new_obsolete = isset($_POST['obsolete_'.$orderdetails_id]);
     $new_supplier_url = isset($_POST["supplierurl_".$orderdetails_id]) ? (string)$_POST['supplierurl_'.$orderdetails_id] : '';
@@ -192,12 +192,12 @@ if (isset($orderdetails_id)) {
 if (isset($pricedetails_id)) {
     if (isset($orderdetails_id)) {
         $new_price = isset($_POST['price_' . $orderdetails_id . "_" . $pricedetails_id]) ? (float)str_replace(',', '.', $_POST['price_' . $orderdetails_id . "_" . $pricedetails_id]) : 0;
-        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id]) ? (integer)$_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id] : 1;
-        $new_price_related_quantity = isset($_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id]) ? (integer)$_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id] : 1;
+        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id]) ? (int)$_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id] : 1;
+        $new_price_related_quantity = isset($_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id]) ? (int)$_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id] : 1;
     } else {
         $new_price = isset($_POST['price_' . $pricedetails_id]) ? (float)str_replace(',', '.', $_POST['price_'  . $pricedetails_id]) : 0;
-        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' .  $pricedetails_id]) ? (integer)$_POST['min_discount_quantity_'  .  $pricedetails_id] : 1;
-        $new_price_related_quantity = isset($_POST['price_related_quantity_'  . $pricedetails_id]) ? (integer)$_POST['price_related_quantity_' . $pricedetails_id] : 1;
+        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' .  $pricedetails_id]) ? (int)$_POST['min_discount_quantity_'  .  $pricedetails_id] : 1;
+        $new_price_related_quantity = isset($_POST['price_related_quantity_'  . $pricedetails_id]) ? (int)$_POST['price_related_quantity_' . $pricedetails_id] : 1;
     }
 }
 
@@ -215,33 +215,33 @@ try {
     $current_user           = User::getLoggedInUser($database, $log);
 
     if (! $is_new_part) {
-        $part               = new Part($database, $current_user, $log, $part_id);
+        $part               = Part::getInstance($database, $current_user, $log, $part_id);
 
         ///@todo: remove this line:
         $new_visible = $part->getVisible();
     }
 
-    $root_storelocation     = new Storelocation($database, $current_user, $log, 0);
-    $root_category          = new Category($database, $current_user, $log, 0);
-    $root_manufacturer      = new Manufacturer($database, $current_user, $log, 0);
-    $root_footprint         = new Footprint($database, $current_user, $log, 0);
-    $root_supplier          = new Supplier($database, $current_user, $log, 0);
-    $root_attachement_type  = new AttachementType($database, $current_user, $log, 0);
+    $root_storelocation     = Storelocation::getInstance($database, $current_user, $log, 0);
+    $root_category          = Category::getInstance($database, $current_user, $log, 0);
+    $root_manufacturer      = Manufacturer::getInstance($database, $current_user, $log, 0);
+    $root_footprint         = Footprint::getInstance($database, $current_user, $log, 0);
+    $root_supplier          = Supplier::getInstance($database, $current_user, $log, 0);
+    $root_attachement_type  = AttachmentType::getInstance($database, $current_user, $log, 0);
 
     if (isset($orderdetails_id) && $orderdetails_id > 0) {
-        $orderdetails = new Orderdetails($database, $current_user, $log, $orderdetails_id);
+        $orderdetails = Orderdetails::getInstance($database, $current_user, $log, $orderdetails_id);
     } else {
         $orderdetails = null;
     }
 
     if (isset($pricedetails_id) && $pricedetails_id > 0) {
-        $pricedetails = new Pricedetails($database, $current_user, $log, $pricedetails_id);
+        $pricedetails = Pricedetails::getInstance($database, $current_user, $log, $pricedetails_id);
     } else {
         $pricedetails = null;
     }
 
     if ($attachement_id > 0) {
-        $attachement = new Attachement($database, $current_user, $log, $attachement_id);
+        $attachement = Attachment::getInstance($database, $current_user, $log, $attachement_id);
     } else {
         $attachement = null;
     }
@@ -265,7 +265,7 @@ if (! $fatal_error) {
     switch ($action) {
         case 'create_new_part':
             try {
-                $category = new Category($database, $current_user, $log, $new_category_id);
+                $category = Category::getInstance($database, $current_user, $log, $new_category_id);
 
                 if (Part::isValidName($new_name, $category) || isset($_POST['create_name_save'])) {
                     $part = Part::add(
@@ -332,7 +332,6 @@ if (! $fatal_error) {
 
                     $partname_invalid = true;
                 }
-
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -443,7 +442,7 @@ if (! $fatal_error) {
 
         case 'orderdetails_delete':
             try {
-                //$orderdetails = new Orderdetails($database, $current_user, $log, $_REQUEST['orderdetails_delete']);
+                //$orderdetails = Orderdetails::getInstance($database, $current_user, $log, $_REQUEST['orderdetails_delete']);
                 if (! is_object($orderdetails)) {
                     throw new Exception(_('Es ist keine Einkaufsinformation ausgewählt!'));
                 }
@@ -473,7 +472,7 @@ if (! $fatal_error) {
         case 'pricedetails_apply':
             try {
                 //$pricedetails_id = $_REQUEST['pricedetails_apply'];
-                //$pricedetails = new Pricedetails($database, $current_user, $log, $pricedetails_id);
+                //$pricedetails = Pricedetails::getInstance($database, $current_user, $log, $pricedetails_id);
                 if (! is_object($pricedetails)) {
                     throw new Exception(_('Es ist keine Preisinformation ausgewählt!'));
                 }
@@ -488,7 +487,7 @@ if (! $fatal_error) {
 
         case 'pricedetails_delete':
             try {
-                $pricedetails = new Pricedetails($database, $current_user, $log, $_POST['pricedetails_delete']);
+                $pricedetails = Pricedetails::getInstance($database, $current_user, $log, $_POST['pricedetails_delete']);
                 if (! is_object($pricedetails)) {
                     throw new Exception(_('Es ist keine Preisinformation ausgewählt!'));
                 }
@@ -520,7 +519,7 @@ if (! $fatal_error) {
                     }
                 }
 
-                $new_attachement = Attachement::add(
+                $new_attachement = Attachment::add(
                     $database,
                     $current_user,
                     $log,
@@ -672,7 +671,7 @@ if (! $fatal_error) {
                 $searched_element = new $classname($database, $current_user, $log, (int)str_replace('__ID__=', '', $search_name));
             } else {
                 /** @var \PartDB\Interfaces\ISearchable $classname */
-                $elements = $classname::search($database, $current_user, $log, $search_name);
+                $elements = $classname::search($database, $current_user, $log, $search_name, false);
 
                 if (count($elements) > 0) {
                     $searched_element = $elements[0];
@@ -695,11 +694,6 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     try {
-        // global settings
-        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
         // special
         $html->setVariable('is_new_part', ($is_new_part || $add_one_more_part), 'boolean');
 
@@ -777,15 +771,15 @@ if (! $fatal_error) {
                 'supplierpartnr'            => '',
                 'obsolete'                  => false);
 
-            $html->setLoop('orderdetails', $orderdetails_loop);
+            $html->setVariable('orderdetails', $orderdetails_loop);
 
             // build attachements loop
             $master_picture_id = (is_object($part->getMasterPictureAttachement()) ? $part->getMasterPictureAttachement()->getID() : null);
             $attachements_loop = array();
-            $all_attachements = $part->getAttachements();
+            $all_attachements = $part->getAttachments();
             $row_odd = true;
             foreach ($all_attachements as $attachement) {
-                /** @var  $attachement Attachement */
+                /** @var  $attachement Attachment */
                 $attachement_types_list = $root_attachement_type->buildHtmlTree($attachement->getType()->getID(), true, false);
                 $attachements_loop[] = array(   'row_odd'                   => $row_odd,
                     'id'                        => $attachement->getID(),
@@ -815,12 +809,12 @@ if (! $fatal_error) {
                 'picture_filename'          => '',
                 'download_file'             => $config['attachements']['download_default']);
 
-            $html->setLoop('attachements_loop', $attachements_loop);
+            $html->setVariable('attachements_loop', $attachements_loop);
         }
 
         if (($print_unsaved_values) || (! isset($part)) || (! is_object($part))) {
             if (isset($new_category_id)) {
-                $cat = new Category($database, $current_user, $log, $new_category_id);
+                $cat = Category::getInstance($database, $current_user, $log, $new_category_id);
                 if (empty($new_description)) {
                     $new_description = $cat->getDefaultDescription(true, false);
                 }
@@ -876,7 +870,7 @@ if (! $fatal_error) {
         $html->setVariable('footprint_list', $footprint_list, 'string');
 
         // global/category stuff
-        $category = new Category($database, $current_user, $log, $category_id);
+        $category = Category::getInstance($database, $current_user, $log, $category_id);
         $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
         $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
@@ -892,7 +886,7 @@ if (! $fatal_error) {
 }
 
 try {
-//Set permissions
+    //Set permissions
     $html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
     $html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
     $html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));

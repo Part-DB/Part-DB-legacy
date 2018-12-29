@@ -1,3 +1,25 @@
+/*
+ *
+ * Part-DB Version 0.4+ "nextgen"
+ * Copyright (C) 2016 - 2018 Jan Böhmer
+ * https://github.com/jbtronics
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+ *
+ */
+
 /************************************
 * Basic layout (Navbar, sidebar, etc.)
 *************************************/
@@ -9,7 +31,7 @@ body {
     padding-top: 70px;
     /* Use font size like in BS3 */
     font-size: 14px;
-    line-heigt: 1.428;
+    line-height: 1.428;
 }
 
 @media  (min-width: 768px) {
@@ -570,6 +592,7 @@ label:not(.form-check-label) {
 /* Font Awesome 5 with Checkbox support */
 .abc-checkbox input[type="checkbox"]:checked+label::after,
 .abc-checkbox input[type="radio"]:checked+label::after {
+    /*noinspection CssNoGenericFontName*/
     font-family: "FA5", "Font Awesome 5 Pro", "Font Awesome 5 Free";
     content: "\f00c";
     font-weight: 900;

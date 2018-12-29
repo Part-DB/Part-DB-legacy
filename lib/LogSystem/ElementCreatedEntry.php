@@ -1,15 +1,30 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: janhb
- * Date: 06.02.2018
- * Time: 18:52
+ *
+ * Part-DB Version 0.4+ "nextgen"
+ * Copyright (C) 2016 - 2018 Jan Böhmer
+ * https://github.com/jbtronics
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+ *
  */
 
 namespace PartDB\LogSystem;
 
 use Exception;
-use PartDB\Base\DBElement;
 use PartDB\Base\NamedDBElement;
 use PartDB\Database;
 use PartDB\Log;
@@ -39,7 +54,7 @@ class ElementCreatedEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
@@ -50,9 +65,8 @@ class ElementCreatedEntry extends BaseEntry
 
         try {
             $class = Log::targetTypeIDToClass($this->getTargetType());
-            $this->element = new $class($database, $current_user, $log, $this->getTargetID());
+            $this->element = $class::getInstance($database, $current_user, $log, $this->getTargetID());
         } catch (Exception $ex) {
-
         }
 
         $arr = $this->deserializeExtra();
@@ -65,7 +79,7 @@ class ElementCreatedEntry extends BaseEntry
      * Checks if this Entry has an instock at creation value.
      * @return bool true if this entry has this value.
      */
-    public function hasCreationInstockValue()
+    public function hasCreationInstockValue() : bool
     {
         return $this->creation_instock != null;
     }
@@ -90,7 +104,7 @@ class ElementCreatedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(&$database, &$current_user, &$log, &$element)
+    public static function add(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element)
     {
         $type_id = Log::elementToTargetTypeID($element);
 
@@ -102,7 +116,7 @@ class ElementCreatedEntry extends BaseEntry
         }
 
         $arr = array();
-        if($element instanceof Part) {
+        if ($element instanceof Part) {
             /** @var Part */
             $arr['i'] = $element->getInstock();
         }
@@ -124,7 +138,7 @@ class ElementCreatedEntry extends BaseEntry
      * Returns the a text representation of the target
      * @return string The text describing the target
      */
-    public function getTargetText()
+    public function getTargetText() : string
     {
         try {
             $part_name = ($this->element != null) ? $this->element->getName() : $this->getTargetID();
@@ -138,7 +152,7 @@ class ElementCreatedEntry extends BaseEntry
      * Return a link to the target. Returns empty string if no link is available.
      * @return string the link to the target.
      */
-    public function getTargetLink()
+    public function getTargetLink() : string
     {
         //We can not link to a part, that dont exists any more...
         return Log::generateLinkForTarget($this->getTargetType(), $this->getTargetID());
@@ -149,12 +163,12 @@ class ElementCreatedEntry extends BaseEntry
      * @param $html bool Set this to true, to get an HTML formatted version of the extra.
      * @return string The extra information
      */
-    public function getExtra($html = false)
+    public function getExtra(bool $html = false) : string
     {
-        if($this->hasCreationInstockValue()) {
+        if ($this->hasCreationInstockValue()) {
             return _("Anzahl: ") . $this->getCreationInstockValue();
         }
 
-            return "";
+        return "";
     }
 }

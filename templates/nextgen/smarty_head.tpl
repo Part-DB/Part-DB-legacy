@@ -397,17 +397,6 @@
                 </div>
 
             <div class="col-md-9 col-lg-10 offset-md-3 offset-lg-2 pl-0" id="main">
-
-                <div class="container-fluid container-progress" id="progressbar" style="display: none;">
-                    <div class="progress mb-3">
-                        <div class="progress-bar progress-bar-striped active progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                             aria-valuemax="100" style="width: 100%;">
-                            <span>{t}Lade{/t}</span>
-                        </div>
-                    </div>
-                    <h4>{t}Dies kann einen Moment dauern...{/t}</h4>
-                </div>
-
                 <div class="container-fluid mr-0 pr-0" id="content">
 
                     {else} {* Print tile in ajax requests, or we cant set the tab title *}

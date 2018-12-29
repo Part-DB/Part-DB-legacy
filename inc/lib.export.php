@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -265,7 +265,7 @@ function exportParts(&$objects, $export_type, $format_id, $send_file = false, $f
                     if (! isset($additional_params['export_quantity'])) {
                         throw new Exception('$additional_params[\'export_quantity\'] ist nicht gesetzt!');
                     }
-                    $value = $devicepart->getMountQuantity() * (integer)$additional_params['export_quantity'];
+                    $value = $devicepart->getMountQuantity() * (int)$additional_params['export_quantity'];
                     break;
                 case 'mount_names':
                     $value = $devicepart->getMountNames();
@@ -274,7 +274,7 @@ function exportParts(&$objects, $export_type, $format_id, $send_file = false, $f
                     if (! isset($additional_params['export_quantity'])) {
                         throw new Exception('$additional_params[\'export_quantity\'] ist nicht gesetzt!');
                     }
-                    $value = $part->getPrices(false, $items_separator, $devicepart->getMountQuantity() * (integer)$additional_params['export_quantity'], null, true);
+                    $value = $part->getPrices(false, $items_separator, $devicepart->getMountQuantity() * (int)$additional_params['export_quantity'], null, true);
                     break;
 
                 // unknown column

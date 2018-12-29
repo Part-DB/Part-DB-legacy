@@ -99,7 +99,7 @@ class SystemVersion
      *
      * @throws Exception if the parameter was not valid
      */
-    public function __construct($version_string)
+    public function __construct(string $version_string)
     {
         $version = str_replace(' ', '.', trim(strtolower($version_string)));
 
@@ -161,7 +161,7 @@ class SystemVersion
      *
      * @note    The release candidate number won't be printed if it is zero (even if "$hide_rc == false")!
      */
-    public function asString($internal_format = true, $hide_rc = false, $hide_rev = false, $show_type = false)
+    public function asString(bool $internal_format = true, bool $hide_rc = false, bool $hide_rev = false, bool $show_type = false) : string
     {
         $string = $this->major_version.'.'.$this->minor_version.'.'.$this->update_version;
 
@@ -202,7 +202,7 @@ class SystemVersion
      * @return boolean  @li true if this Version is newer than $version_2
      *                  @li otherwise false (equal or older)
      */
-    public function isNewerThan($version_2)
+    public function isNewerThan(SystemVersion $version_2) : bool
     {
         if ($this->major_version != $version_2->major_version) {
             return ($this->major_version > $version_2->major_version);
@@ -262,7 +262,7 @@ class SystemVersion
      *
      * @return string       'stable' or 'unstable'
      */
-    public function getVersionType()
+    public function getVersionType() : string
     {
         return $this->type;
     }
@@ -280,7 +280,7 @@ class SystemVersion
      *
      * @throws Exception if there was an error
      */
-    public static function getInstalledVersion()
+    public static function getInstalledVersion() : SystemVersion
     {
         global $config;
 
@@ -301,7 +301,7 @@ class SystemVersion
      * @todo    Search also in the local direcotry "/updates/" for updates.
      *          This is needed for manual updates (maybe the server has no internet access, or no "curl").
      */
-    public static function getLatestVersion($type)
+    public static function getLatestVersion(string $type) : SystemVersion
     {
         if ((($type == 'stable') && (! is_object(SystemVersion::$latest_stable_version)))
             || (($type == 'unstable') && (! is_object(SystemVersion::$latest_unstable_version)))) {

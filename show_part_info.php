@@ -47,20 +47,20 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$part_id            = isset($_REQUEST['pid'])               ? (integer)$_REQUEST['pid']             : 0;
-$n_less             = isset($_POST['n_less'])            ? (integer)$_POST['n_less']          : 0;
-$n_more             = isset($_POST['n_more'])            ? (integer)$_POST['n_more']          : 0;
-$order_quantity     = isset($_POST['order_quantity'])    ? (integer)$_POST['order_quantity']  : 0;
+$part_id            = isset($_REQUEST['pid'])               ? (int)$_REQUEST['pid']             : 0;
+$n_less             = isset($_POST['n_less'])            ? (int)$_POST['n_less']          : 0;
+$n_more             = isset($_POST['n_more'])            ? (int)$_POST['n_more']          : 0;
+$order_quantity     = isset($_POST['order_quantity'])    ? (int)$_POST['order_quantity']  : 0;
 $instock_change_comment = isset($_POST['instock_change_comment']) ? (string)$_POST['instock_change_comment'] : "";
 
 //When adding to a device
-$device_id          = isset($_POST['device_id_new'])     ? (integer)$_POST['device_id_new']   : 0;
-$device_qty         = isset($_POST['device_quantity_new']) ? (integer)$_POST['device_quantity_new'] : 0;
+$device_id          = isset($_POST['device_id_new'])     ? (int)$_POST['device_id_new']   : 0;
+$device_qty         = isset($_POST['device_quantity_new']) ? (int)$_POST['device_quantity_new'] : 0;
 $device_name        = isset($_POST['device_name_new'])   ? (string)$_POST['device_name_new'] : "";
 
 //Pagination for history
-$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
-$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : 10;
+$page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : 10;
 
 
 //Parse Label scan
@@ -71,7 +71,7 @@ if (isset($_REQUEST['barcode'])) {
             //Remove parity
             $barcode = substr($barcode, 0, -1);
         }
-        $part_id = (integer) $barcode;
+        $part_id = (int) $barcode;
     } else {
         $messages[] = $messages[] = array('text' => nl2br(_("Label input is not valid!")), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -114,7 +114,7 @@ try {
     //Check permission
     $current_user->tryDo(PermissionManager::PARTS, PartPermission::READ);
 
-    $part               = new Part($database, $current_user, $log, $part_id);
+    $part               = Part::getInstance($database, $current_user, $log, $part_id);
     $footprint          = $part->getFootprint();
     $storelocation      = $part->getStorelocation();
     $manufacturer       = $part->getManufacturer();
@@ -134,7 +134,7 @@ try {
 if (! $fatal_error) {
 
     //If no comment was set, than use the default one from the user profile.
-    if($instock_change_comment == "") {
+    if ($instock_change_comment == "") {
         $instock_change_comment = null;
     }
 
@@ -209,13 +209,7 @@ if (! $fatal_error) {
 if (! $fatal_error) {
     try {
         $properties = $part->getPropertiesLoop();
-        $html->setLoop("properties_loop", $properties);
-
-        // global settings
-        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
+        $html->setVariable("properties_loop", $properties);
 
         //Set title
         $title = _('Detailinfo') . ': ' . $part->getName() . '';
@@ -226,21 +220,21 @@ if (! $fatal_error) {
         $html->setVariable('name', $part->getName(), 'string');
         $html->setVariable('manufacturer_product_url', $part->getManufacturerProductUrl(), 'string');
         $html->setVariable('description', $part->getDescription(), 'string');
-        $html->setLoop('category_path', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", false, null, true));
+        $html->setVariable('category_path', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", false, null, true));
         $html->setVariable('category_id', $part->getCategory()->getID(), 'string');
         $html->setVariable('instock', $part->getInstock(true), 'string');
         $html->setVariable('instock_unknown', $part->isInstockUnknown(), 'boolean');
         $html->setVariable('mininstock', $part->getMinInstock(), 'integer');
         $html->setVariable('visible', $part->getVisible(), 'boolean');
         $html->setVariable('comment', nl2br($part->getComment()), 'string');
-        $html->setLoop('footprint_path', (is_object($footprint) ? $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", false, null, true) : null));
+        $html->setVariable('footprint_path', (is_object($footprint) ? $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", false, null, true) : null));
         $html->setVariable('footprint_id', (is_object($footprint) ? $footprint->getID() : 0), 'integer');
         $html->setVariable('footprint_filename', (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->getFilename()) : ''), 'string');
         $html->setVariable('footprint_valid', (is_object($footprint) ? $footprint->isFilenameValid() : false), 'boolean');
-        $html->setLoop('storelocation_path', (is_object($storelocation) ? $storelocation->buildBreadcrumbLoop("show_location_parts.php", "lid", false, null, true) : null));
+        $html->setVariable('storelocation_path', (is_object($storelocation) ? $storelocation->buildBreadcrumbLoop("show_location_parts.php", "lid", false, null, true) : null));
         $html->setVariable('storelocation_id', (is_object($storelocation) ? $storelocation->getID() : '0'), 'integer');
         $html->setVariable('storelocation_is_full', (is_object($storelocation) ? $storelocation->getIsFull() : false), 'boolean');
-        $html->setLoop('manufacturer_path', (is_object($manufacturer) ? $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", false, null, true) : null));
+        $html->setVariable('manufacturer_path', (is_object($manufacturer) ? $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", false, null, true) : null));
         $html->setVariable('manufacturer_id', (is_object($manufacturer) ? $manufacturer->getID() : 0), 'integer');
         $html->setVariable('auto_order_exists', ($part->getAutoOrder()), 'boolean');
         $html->setVariable('manual_order_exists', ($part->getManualOrder() && ($part->getInstock() >= $part->getMinInstock())), 'boolean');
@@ -292,22 +286,22 @@ if (! $fatal_error) {
             $row_odd = ! $row_odd;
         }
 
-        $html->setLoop('orderdetails', $orderdetails_loop);
+        $html->setVariable('orderdetails', $orderdetails_loop);
 
         if ($part->getAveragePrice(false, 1) > 0) {
             $html->setVariable('average_price', $part->getAveragePrice(true, 1), 'string');
         }
 
         // attachements
-        $attachement_types = $part->getAttachementTypes();
+        $attachement_types = $part->getAttachmentTypes();
         $attachement_types_loop = array();
         foreach ($attachement_types as $attachement_type) {
-            /** @var $attachement_type \PartDB\AttachementType */
-            /** @var $attachements \PartDB\Attachement[] */
-            $attachements = $part->getAttachements($attachement_type->getID());
+            /** @var $attachement_type \PartDB\AttachmentType */
+            /** @var $attachements \PartDB\Attachment[] */
+            $attachements = $part->getAttachments($attachement_type->getID());
             $attachements_loop = array();
             foreach ($attachements as $attachement) {
-                /** @var $attachement \PartDB\Attachement */
+                /** @var $attachement \PartDB\Attachment */
                 $attachements_loop[] = array(   'attachement_name'  => $attachement->getName(),
                     'filename'          => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
                     'is_picture'        => $attachement->isPicture(),
@@ -325,7 +319,7 @@ if (! $fatal_error) {
         }
 
         if (count($attachement_types_loop) > 0) {
-            $html->setLoop('attachement_types_loop', $attachement_types_loop);
+            $html->setVariable('attachement_types_loop', $attachement_types_loop);
         }
 
         //Auto datasheets
@@ -342,7 +336,7 @@ if (! $fatal_error) {
                 }
             }
         }
-        $html->setLoop("datasheet_loop", $datasheet_loop);
+        $html->setVariable("datasheet_loop", $datasheet_loop);
 
         //Devices
         $devices = $part->getDevices();
@@ -356,11 +350,11 @@ if (! $fatal_error) {
                 "mount_name" => $device_part->getMountNames());
         }
 
-        $root_device = new Device($database, $current_user, $log, 0);
+        $root_device = Device::getInstance($database, $current_user, $log, 0);
         $html->setVariable("devices_list", $root_device->buildHtmlTree(Device::getPrimaryDevice(), true, false), "string");
 
         if (count($devices_loop) > 0) {
-            $html->setLoop('devices_loop', $devices_loop);
+            $html->setVariable('devices_loop', $devices_loop);
         }
 
         // global/category stuff
@@ -368,19 +362,18 @@ if (! $fatal_error) {
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
 
         //Barcode stuff
-        $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
+        $html->setVariable("barcode_profiles", buildLabelProfilesDropdown("part"));
 
         $count = 0;
-        if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
+        if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
             $history = Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page);
             $html->setVariable("graph_history", Log::historyToGraph($history));
-            $html->setLoop("history", $history);
+            $html->setVariable("history", $history);
             $count = Log::getHistoryForPartCount($database, $current_user, $log, $part);
         }
-        $html->setLoop("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
+        $html->setVariable("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
-
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -435,7 +428,7 @@ if (! $fatal_error) {
         $html->printTemplate('attachements');
     }
 
-    if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
         $html->printTemplate('history');
     }
 

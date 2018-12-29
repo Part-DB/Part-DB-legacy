@@ -55,11 +55,10 @@ try {
     if ($user_id == 0) {
         $selected_user      = $current_user;
     } else {
-        $selected_user = new User($database, $current_user, $log, $user_id);
+        $selected_user = User::getInstance($database, $current_user, $log, $user_id);
         //Check if the current user, is allowed to view other profiles.
         $current_user->tryDo(\PartDB\Permissions\PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ);
     }
-
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -111,7 +110,7 @@ if (! $fatal_error) {
         $html->setVariable("group", $selected_user->getGroup()->getFullPath(), "string");
         $html->setVariable('avatar_url', $selected_user->getAvatar(), "string");
 
-        $html->setLoop('perm_loop', $selected_user->getPermissionManager()->generatePermissionsLoop(true, true));
+        $html->setVariable('perm_loop', $selected_user->getPermissionManager()->generatePermissionsLoop(true, true));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

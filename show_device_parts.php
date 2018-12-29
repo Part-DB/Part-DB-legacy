@@ -29,7 +29,7 @@ include_once(BASE.'/inc/lib.export.php');
 /** @noinspection PhpIncludeInspection */
 include_once(BASE.'/inc/lib.import.php');
 
-use PartDB\Attachement;
+use PartDB\Attachment;
 use PartDB\Database;
 use PartDB\Device;
 use PartDB\DevicePart;
@@ -52,34 +52,34 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 // for all sections
-$device_id                = isset($_REQUEST['device_id'])               ? (integer)$_REQUEST['device_id']               : 0;
+$device_id                = isset($_REQUEST['device_id'])               ? (int)$_REQUEST['device_id']               : 0;
 
 // sections "search parts" and "parts table"
 $new_part_name            = isset($_POST['new_part_name'])           ? (string)$_POST['new_part_name']            : '';
-$searched_parts_rowcount  = isset($_POST['searched_parts_rowcount']) ? (integer)$_POST['searched_parts_rowcount'] : 0;
-$device_parts_rowcount    = isset($_POST['device_parts_rowcount'])   ? (integer)$_POST['device_parts_rowcount']   : 0;
+$searched_parts_rowcount  = isset($_POST['searched_parts_rowcount']) ? (int)$_POST['searched_parts_rowcount'] : 0;
+$device_parts_rowcount    = isset($_POST['device_parts_rowcount'])   ? (int)$_POST['device_parts_rowcount']   : 0;
 
 // section "export"
-$export_multiplier        = isset($_POST['export_multiplier'])       ? abs((integer)$_POST['export_multiplier'])  : 0;
+$export_multiplier        = isset($_POST['export_multiplier'])       ? abs((int)$_POST['export_multiplier'])  : 0;
 $export_multiplier_original = $export_multiplier; // for HTML->set_variable(), because $export_multiplier will be edited in this script
-$export_format_id         = isset($_POST['export_format'])           ? (integer)$_POST['export_format']           : 0;
+$export_format_id         = isset($_POST['export_format'])           ? (int)$_POST['export_format']           : 0;
 $export_only_missing      = isset($_POST['only_missing_material']);
 
 // section "import"
 $import_file_content      = isset($_POST['import_file_content'])     ? (string)$_POST['import_file_content']      : '';
 $import_format            = isset($_POST['import_format'])           ? (string)$_POST['import_format']            : 'CSV';
 $import_separator         = isset($_POST['import_separator'])        ? trim((string)$_POST['import_separator'])   : ';';
-$import_rowcount          = isset($_POST['import_rowcount'])         ? (integer)$_POST['import_rowcount']         : 0;
+$import_rowcount          = isset($_POST['import_rowcount'])         ? (int)$_POST['import_rowcount']         : 0;
 
 // section "copy device"
 $copy_new_name            = isset($_POST['copy_new_name'])           ? (string)$_POST['copy_new_name']            : '';
-$copy_new_parent_id       = isset($_POST['copy_new_parent_id'])      ? (integer)$_POST['copy_new_parent_id']      : 0;
+$copy_new_parent_id       = isset($_POST['copy_new_parent_id'])      ? (int)$_POST['copy_new_parent_id']      : 0;
 $copy_recursive           = isset($_POST['copy_recursive']);
 
 // section: attachements
 $new_show_in_table          = isset($_POST['show_in_table']);
-$attachement_id             = isset($_POST['attachement_id'])            ? (integer)$_POST['attachement_id']           : 0;
-$new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (integer)$_POST['attachement_type_id']      : 0;
+$attachement_id             = isset($_POST['attachement_id'])            ? (int)$_POST['attachement_id']           : 0;
+$new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (int)$_POST['attachement_type_id']      : 0;
 $new_name                   = isset($_POST['name'])                      ? (string)$_POST['name']                      : '';
 $new_filename               = isset($_POST['attachement_filename'])      ? toUnixPath(trim((string)$_POST['attachement_filename'])) : '';
 $download_file              = isset($_POST['download_file']);
@@ -156,11 +156,11 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_device        = new Device($database, $current_user, $log, 0);
-    $device             = new Device($database, $current_user, $log, $device_id);
+    $root_device        = Device::getInstance($database, $current_user, $log, 0);
+    $device             = Device::getInstance($database, $current_user, $log, $device_id);
     $subdevices         = $device->getSubelements(false);
 
-    $root_attachement_type   = new \PartDB\AttachementType($database, $current_user, $log, 0);
+    $root_attachement_type   = \PartDB\AttachmentType::getInstance($database, $current_user, $log, 0);
 
     //Check for Device parts read permission, when on Device detail page.
     if ($device_id > 0) {
@@ -170,7 +170,7 @@ try {
     }
 
     if ($attachement_id > 0) {
-        $attachement = new Attachement($database, $current_user, $log, $attachement_id);
+        $attachement = Attachment::getInstance($database, $current_user, $log, $attachement_id);
     } else {
         $attachement = null;
     }
@@ -222,8 +222,8 @@ if (! $fatal_error) {
 
         case 'assign_by_selected': // add some parts (which were listed by part search) to this device
             for ($i=0; $i<$searched_parts_rowcount; $i++) {
-                $part_id    = isset($_POST['id_'.$i])           ? (integer)$_POST['id_'.$i]              : 0;
-                $quantity   = isset($_POST['quantity_'.$i])     ? abs((integer)$_POST['quantity_'.$i])   : 0;
+                $part_id    = isset($_POST['id_'.$i])           ? (int)$_POST['id_'.$i]              : 0;
+                $quantity   = isset($_POST['quantity_'.$i])     ? abs((int)$_POST['quantity_'.$i])   : 0;
                 $mountname  = isset($_POST['mountnames_'.$i])   ? trim((string)$_POST['mountnames_'.$i]) : '';
 
                 if ($quantity > 0) {
@@ -252,12 +252,12 @@ if (! $fatal_error) {
 
         case 'device_parts_apply': // apply new quantities and new mountnames, or remove parts from this device
             for ($i=0; $i<$device_parts_rowcount; $i++) {
-                $part_id    = isset($_POST['id_'.$i])           ? (integer)$_POST['id_'.$i]              : 0;
-                $quantity   = isset($_POST['quantity_'.$i])     ? abs((integer)$_POST['quantity_'.$i])   : 0;
+                $part_id    = isset($_POST['id_'.$i])           ? (int)$_POST['id_'.$i]              : 0;
+                $quantity   = isset($_POST['quantity_'.$i])     ? abs((int)$_POST['quantity_'.$i])   : 0;
                 $mountname  = isset($_POST['mountnames_'.$i])   ? trim((string)$_POST['mountnames_'.$i]) : '';
 
                 try {
-                    $device_part = new DevicePart($database, $current_user, $log, $part_id);
+                    $device_part = DevicePart::getInstance($database, $current_user, $log, $part_id);
 
                     if ($quantity > 0) {
                         $device_part->setAttributes(array('quantity' => $quantity, 'mountnames' => $mountname));
@@ -389,7 +389,7 @@ if (! $fatal_error) {
                     }
                 }
 
-                $new_attachement = Attachement::add(
+                $new_attachement = Attachment::add(
                     $database,
                     $current_user,
                     $log,
@@ -474,7 +474,7 @@ if (! $fatal_error) {
 
             $row_odd = ! $row_odd;
         }
-        $html->setLoop('subdevices', $subdevices_loop);
+        $html->setVariable('subdevices', $subdevices_loop);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -516,10 +516,6 @@ if (! $fatal_error) {
         $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
         $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
         // device stuff
         $html->setVariable('device_id', $device->getID(), 'integer');
         $html->setVariable('device_name', $device->getName(), 'string');
@@ -532,7 +528,7 @@ if (! $fatal_error) {
         $html->setVariable('order_quantity', $device->getOrderQuantity(), 'integer');
         $html->setVariable('order_only_missing_parts', $device->getOrderOnlyMissingParts(), 'boolean');
         $html->setVariable('export_only_missing', $export_only_missing, 'boolean');
-        $html->setLoop('export_formats', buildExportFormatsLoop('deviceparts', $export_format_id));
+        $html->setVariable('export_formats', buildExportFormatsLoop('deviceparts', $export_format_id));
         if (isset($export_string)) {
             $html->setVariable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
                 str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)
@@ -547,10 +543,10 @@ if (! $fatal_error) {
         //$html->set_variable('import_data_is_valid',     (isset($import_data_is_valid) && ($import_data_is_valid)), 'boolean');
 
         $attachements_loop = array();
-        $all_attachements = $device->getAttachements();
+        $all_attachements = $device->getAttachments();
         $row_odd = true;
         foreach ($all_attachements as $attachement) {
-            /** @var  $attachement Attachement */
+            /** @var  $attachement Attachment */
             $attachement_types_list = $root_attachement_type->buildHtmlTree($attachement->getType()->getID(), true, false);
             $attachements_loop[] = array('row_odd' => $row_odd,
                 'id' => $attachement->getID(),
@@ -579,7 +575,7 @@ if (! $fatal_error) {
             'picture_filename' => '',
             'download_file' => $config['attachements']['download_default']);
 
-        $html->setLoop('attachements_loop', $attachements_loop);
+        $html->setVariable('attachements_loop', $attachements_loop);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
@@ -624,10 +620,10 @@ if (! $fatal_error) {
     }
 
     if ($device_id > 0) {
-        $html->setLoop('table', (isset($searched_parts_loop) ? $searched_parts_loop : array()));
+        $html->setVariable('table', (isset($searched_parts_loop) ? $searched_parts_loop : array()));
         $html->printTemplate('add_parts');
 
-        $html->setLoop('table', $device_parts_loop);
+        $html->setVariable('table', $device_parts_loop);
         $html->printTemplate('device_parts');
 
         if (isset($comment)) {
@@ -640,7 +636,7 @@ if (! $fatal_error) {
         $html->printTemplate('export');
 
         //Import deviceparts does not work at all! To fix this we need a reworked import/export system... [TODO]
-        //$html->setLoop('table', (isset($import_loop) ? $import_loop : array()));
+        //$html->setVariable('table', (isset($import_loop) ? $import_loop : array()));
         //$html->printTemplate('import');
 
         $html->printTemplate('copy_device');

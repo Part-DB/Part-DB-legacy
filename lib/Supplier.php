@@ -40,29 +40,30 @@ use PartDB\Permissions\PermissionManager;
  */
 class Supplier extends Base\Company implements ISearchable
 {
+    const TABLE_NAME = 'suppliers';
+
     /********************************************************************************
      *
      *   Constructor / Destructor / reset_attributes()
      *
      *********************************************************************************/
 
-    /**
-     *  Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @note  It's allowed to create an object with the ID 0 (for the root element).
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param integer   $id             ID of the supplier we want to get
-     * @param array     $data           An array of data that overrides the DB data temporary
-     *
-     * @throws Exception    if there is no such supplier in the database
-     * @throws Exception    if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'suppliers', $id, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
     }
 
     /********************************************************************************
@@ -85,25 +86,20 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
+    public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
         if (! is_array($this->parts)) {
             $this->parts = array();
-
             $query =    'SELECT part_id FROM orderdetails '.
                 'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
                 'WHERE id_supplier=? '.
                 'GROUP BY part_id ORDER BY parts.name';
-
             $query_data = $this->database->query($query, array($this->getID()));
-
             foreach ($query_data as $row) {
-                $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['part_id']);
+                $this->parts[] = Part::getInstance($this->database, $this->current_user, $this->log, $row['part_id']);
             }
         }
-
         $parts = $this->parts;
-
         if ($hide_obsolete_and_zero) {
             // remove obsolete parts from array
             $parts = array_values(array_filter($parts, function ($part) {
@@ -111,53 +107,44 @@ class Supplier extends Base\Company implements ISearchable
                 return ((! $part->getObsolete()) || ($part->getInstock() > 0));
             }));
         }
-
         if ($recursive) {
             $sub_suppliers = $this->getSubelements(true);
-
             foreach ($sub_suppliers as $sub_supplier) {
                 $parts = array_merge($parts, $sub_supplier->getParts(false, $hide_obsolete_and_zero));
             }
         }
-
         return $parts;
     }
-
     /**
      * Return the number of all parts in this PartsContainingDBElement
      * @param boolean $recursive if true, the parts of all subcategories will be listed too
      * @return int The number of parts of this PartContainingDBElement
      * @throws Exception If an Error occured
      */
-    public function getPartsCount($recursive = false)
+    public function getPartsCount(bool $recursive = false) : int
     {
         $query =    'SELECT count(part_id) AS count FROM orderdetails '.
             'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
             'WHERE id_supplier=? ';
-
         $query_data = $this->database->query($query, array($this->getID()));
-
         $count = $query_data[0]['count'];
-
         if ($recursive) {
             $sub_suppliers = $this->getSubelements(true);
-
             foreach ($sub_suppliers as $sub_supplier) {
                 $count+= $sub_supplier->getPartsCount(true);
             }
         }
-
         return $count;
     }
 
     /**
      *  Get all parts from this element
      *
-     * @return array        all parts in a one-dimensional array of Part objects
+     * @return int        all parts in a one-dimensional array of Part objects
      *
      * @throws Exception    if there was an error
      */
-    public function getCountOfPartsToOrder()
+    public function getCountOfPartsToOrder() : int
     {
         $query =    'SELECT COUNT(*) as count FROM parts '.
             'LEFT JOIN device_parts ON device_parts.id_part = parts.id '.
@@ -182,24 +169,6 @@ class Supplier extends Base\Company implements ISearchable
      *********************************************************************************/
 
     /**
-     *  Get count of suppliers
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return integer              count of suppliers
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(&$database)
-    {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
-        return $database->getCountOfRecords('suppliers');
-    }
-
-    /**
      *  Get all suppliers which have parts to order
      *
      * @note    This method will only return suppliers, which have parts to order and
@@ -217,7 +186,7 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @todo Check if the SQL query works correctly! It's a quite complicated query...
      */
-    public static function getOrderSuppliers(&$database, &$current_user, &$log)
+    public static function getOrderSuppliers(Database &$database, User &$current_user, Log &$log) : array
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -240,7 +209,7 @@ class Supplier extends Base\Company implements ISearchable
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $suppliers[] = new Supplier($database, $current_user, $log, $row['id_supplier']);
+            $suppliers[] = Supplier::getInstance($database, $current_user, $log, $row['id_supplier']);
         }
 
         return $suppliers;
@@ -269,24 +238,23 @@ class Supplier extends Base\Company implements ISearchable
      * @see DBElement::add()
      */
     public static function add(
-        &$database,
-        &$current_user,
-        &$log,
-        $name,
-        $parent_id,
-        $address = '',
-        $phone_number = '',
-        $fax_number = '',
-        $email_address = '',
-        $website = '',
-        $auto_product_url = '',
-        $comment = ""
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        string $name,
+        int $parent_id,
+        string $address = '',
+        string $phone_number = '',
+        string $fax_number = '',
+        string $email_address = '',
+        string $website = '',
+        string $auto_product_url = '',
+        string $comment = ""
     ) {
         return parent::addByArray(
             $database,
             $current_user,
             $log,
-            'suppliers',
             array(  'name'              => $name,
                 'parent_id'         => $parent_id,
                 'address'           => $address,
@@ -300,31 +268,21 @@ class Supplier extends Base\Company implements ISearchable
     }
 
     /**
-     * Search elements by name.
-     *
-     * @param Database  &$database              reference to the database object
-     * @param User      &$current_user          reference to the user which is logged in
-     * @param Log       &$log                   reference to the Log-object
-     * @param string    $keyword                the search string
-     * @param boolean   $exact_match            @li If true, only records which matches exactly will be returned
-     *                                          @li If false, all similar records will be returned
-     *
-     * @return array    all found elements as a one-dimensional array of objects,
-     *                  sorted by their names
-     *
-     * @throws Exception if there was an error
-     */
-    public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
-    {
-        return parent::searchTable($database, $current_user, $log, 'suppliers', $keyword, $exact_match);
-    }
-
-    /**
      * Gets the permission name for control access to this StructuralDBElement
      * @return string The name of the permission for this StructuralDBElement.
      */
-    protected static function getPermissionName()
+    protected static function getPermissionName() : string
     {
         return PermissionManager::SUPPLIERS;
+    }
+
+    /**
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
+     */
+    public function getIDString(): string
+    {
+        return "L" . sprintf("%06d", $this->getID());
     }
 }

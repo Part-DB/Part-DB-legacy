@@ -1,4 +1,24 @@
-//import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
+/*
+ *
+ * Part-DB Version 0.4+ "nextgen"
+ * Copyright (C) 2016 - 2018 Jan Böhmer
+ * https://github.com/jbtronics
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+ *
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -34,6 +54,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+//import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
 var BASE = "";
 /****************************************************************************************
  * **************************************************************************************
@@ -123,6 +144,19 @@ var AjaxUI = /** @class */ (function () {
     AjaxUI.prototype.addStartAction = function (func) {
         this.start_listeners.push(func);
     };
+    AjaxUI.prototype.showProgressBar = function () {
+        $('#progressModal').modal({
+            keyboard: false,
+            backdrop: false,
+            show: true
+        });
+    };
+    AjaxUI.prototype.closeProgressBar = function () {
+        //Remove the remaining things of the modal
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+        $('body, .navbar').css('padding-right', "");
+    };
     /*****************************************************************************
      * Form functions
      *****************************************************************************/
@@ -144,7 +178,7 @@ var AjaxUI = /** @class */ (function () {
      */
     AjaxUI.prototype.showFormResponse = function (responseText, statusText, xhr, $form) {
         'use strict';
-        $("#content").html($(responseText).find("#content-data").html()).fadeIn('slow');
+        $("#content").html($(responseText).find("#content-data").html()).show(0);
     };
     /**
      * Modify the form, so tristate checkbox values are submitted, even if the checkbox is not a succesfull control (value = checked)
@@ -170,9 +204,7 @@ var AjaxUI = /** @class */ (function () {
     AjaxUI.prototype.showRequest = function (formData, jqForm, options) {
         'use strict';
         if (!$(jqForm).hasClass("no-progbar")) {
-            $('#content').hide(0);
             AjaxUI.getInstance().beforeAjaxSubmit();
-            $('#progressbar').show(0);
         }
         return true;
     };
@@ -229,8 +261,8 @@ var AjaxUI = /** @class */ (function () {
                 var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, soft request only the content
                 _this.abortAllAjax();
                 _this.beforeAjaxSubmit();
-                $('#content').hide(0).load(href + " #content-data");
-                $('#progressbar').show(0);
+                $('#content').load(href + " #content-data");
+                _this.showProgressBar();
                 return true;
             }
         });
@@ -258,8 +290,8 @@ var AjaxUI = /** @class */ (function () {
         }
         else {
             AjaxUI.getInstance().abortAllAjax();
-            $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
-            $('#progressbar').show();
+            AjaxUI.getInstance().showProgressBar();
+            $('#content').load(addURLparam(data.href, "ajax") + " #content-data");
         }
         $(this).treeview('toggleNodeExpanded', data.nodeId);
         $("#sidebar-container").removeClass("show");
@@ -392,6 +424,7 @@ var AjaxUI = /** @class */ (function () {
      */
     AjaxUI.prototype.beforeAjaxSubmit = function () {
         //$(".table-sortable").DataTable().fixedHeader.disable();
+        this.showProgressBar();
     };
     /**
      * Called when an error occurs on loading ajax. Outputs the message to the console.
@@ -419,8 +452,8 @@ var AjaxUI = /** @class */ (function () {
         //Go back only when the the target isnt the empty index.
         if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
             AjaxUI.getInstance().statePopped = true;
-            $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
-            $('#progressbar').show(0);
+            $('#content').load(addURLparam(location.href, "ajax") + " #content-data");
+            this.showProgressBar();
         }
     };
     /**
@@ -441,20 +474,15 @@ var AjaxUI = /** @class */ (function () {
         if (url.indexOf("api.php") != -1) {
             return;
         }
+        this.closeProgressBar();
         //Hide progressbar and show Result
-        $('#progressbar').hide(0);
-        $('#content').fadeIn("fast");
+        //$('#progressbar').hide(0);
+        //$('#content').fadeIn("fast");
+        //$('#content').show(0);
         this.registerForm();
         this.registerLinks();
         this.registerSubmitBtn();
         this.fillTypeahead();
-        if (url.indexOf("#") != -1) {
-            var hash = url.substring(url.indexOf("#"));
-            scrollToAnchor(hash);
-        }
-        if (url.indexOf("api.php/1.0.0/3d_models") != -1) {
-            return;
-        }
         this.checkRedirect();
         //Execute the registered handlers.
         for (var _i = 0, _a = this.ajax_complete_listeners; _i < _a.length; _i++) {
@@ -463,6 +491,14 @@ var AjaxUI = /** @class */ (function () {
         }
         //Push only if it was a "GET" request and requested data was an HTML
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
+            //Only scroll to anchor/top in a GET request!
+            if (url.indexOf("#") != -1) {
+                var hash = url.substring(url.indexOf("#"));
+                scrollToAnchor(hash);
+            }
+            else {
+                $('body,html').scrollTop(0);
+            }
             //Push the cleaned (no ajax request) to history
             var clean_url = settings.url.replace(/&ajax/g, "").replace(/\?ajax/g, "");
             if (this.statePopped == false) { //Only add this load to history if not an old value was loaded.
@@ -477,6 +513,7 @@ var AjaxUI = /** @class */ (function () {
             if (title !== "") {
                 document.title = title;
             }
+            //Fill trees
             if (this.trees_filled) {
                 //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
                 var selected = $("#tree-categories").treeview("getSelected")[0];
@@ -603,8 +640,7 @@ function makeHistoryCharts() {
         var data = $(element).data("data");
         var type = $(element).data("type");
         //let ctx = (<HTMLCanvasElement> element).getContext("2d");
-        var ctx = element;
-        var myChart = new Chart(ctx, {
+        var myChart = new Chart(element, {
             type: type,
             data: data,
             options: {
@@ -883,7 +919,7 @@ function makeSortTable() {
             var tmp = [];
             //Show The select action bar only, if a element is selected.
             if (count > 0) {
-                $(".select_actions").show();
+                $(".select_actions").show(0);
                 $(".selected_n").text(count);
                 //Build a string containing all parts, that should be modified
                 for (var _i = 0, _a = data[0]; _i < _a.length; _i++) {
@@ -892,7 +928,7 @@ function makeSortTable() {
                 }
             }
             else {
-                $(".select_actions").hide();
+                $(".select_actions").hide(0);
             }
             //Combine all selected IDs into a string.
             var str = tmp.join();

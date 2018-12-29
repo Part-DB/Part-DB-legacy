@@ -43,7 +43,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 // We save every setting in this array, so we can serialize and deserialize it later easily.
 $profile = array();
 
-$element_id                       = isset($_REQUEST['id'])                 ? (integer)$_REQUEST['id']             : 0;
+$element_id                       = isset($_REQUEST['id'])                 ? (int)$_REQUEST['id']             : 0;
 $generator_type                   = isset($_REQUEST['generator'])          ? (string)$_REQUEST['generator']       : "part";
 $profile_name                     = !empty($_REQUEST['profile'])            ? (string)$_REQUEST['profile']         : "default";
 $selected_profile                 = isset($_REQUEST['selected_profile'])   ? (string)$_REQUEST['selected_profile'] : "";
@@ -96,7 +96,7 @@ if (!$json_storage->itemExists($generator_type . "@" . $profile_name)) {
 
 $profile['label_size']            = isset($_REQUEST['size'])               ? (string)$_REQUEST['size']            : $profile['label_size'];
 $profile['label_preset']          = isset($_REQUEST['preset'])             ? (string)$_REQUEST['preset']          : $profile['label_preset'];
-$profile['label_type']            = isset($_REQUEST['type'])               ? (integer)$_REQUEST['type']           : $profile['label_type'] ;
+$profile['label_type']            = isset($_REQUEST['type'])               ? (int)$_REQUEST['type']           : $profile['label_type'] ;
 
 
 //Advanced settings
@@ -159,16 +159,16 @@ try {
     switch ($generator_type) {
         case "part":
             /* @var $generator_class BaseLabel */
-            $generator_class = "\PartDB\Label\PartLabel";
+            $generator_class = \PartDB\Label\PartLabel::class;
             if ($element_id > 0) {
-                $element = new Part($database, $current_user, $log, $element_id);
+                $element = Part::getInstance($database, $current_user, $log, $element_id);
             }
             break;
         case "location":
             /* @var $generator_class BaseLabel */
-            $generator_class = "\PartDB\Label\StorelocationLabel";
+            $generator_class = \PartDB\Label\StorelocationLabel::class;
             if ($element_id > 0) {
-                $element = new \PartDB\Storelocation($database, $current_user, $log, $element_id);
+                $element = \PartDB\Storelocation::getInstance($database, $current_user, $log, $element_id);
             }
             break;
     }
@@ -313,9 +313,9 @@ if (! $fatal_error) {
         $html->setVariable("generator", $generator_type, "string");
 
         //Show which label sizes are supported.
-        $html->setLoop("supported_sizes", $generator_class::getSupportedSizes());
-        $html->setLoop("supported_types", $generator_class::getSupportedTypes());
-        $html->setLoop("available_presets", $generator_class::getLinePresets());
+        $html->setVariable("supported_sizes", $generator_class::getSupportedSizes());
+        $html->setVariable("supported_types", $generator_class::getSupportedTypes());
+        $html->setVariable("available_presets", $generator_class::getLinePresets());
 
         //Advanced settings
         $html->setVariable("text_bold", $profile['text_bold'], "bool");
@@ -335,7 +335,7 @@ if (! $fatal_error) {
         //Profile tabs
         $html->setVariable("save_name", $profile_name != "default" ? $profile_name : "", "string");
         $html->setVariable("selected_profile", $profile_name, "string");
-        $html->setLoop("profiles", buildLabelProfilesDropdown($generator_type, true));
+        $html->setVariable("profiles", buildLabelProfilesDropdown($generator_type, true));
 
         //Permission variables
         $html->setVariable("can_save_profile", $current_user->canDo(PermissionManager::LABELS, LabelPermission::EDIT_PROFILES));

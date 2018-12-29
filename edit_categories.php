@@ -56,9 +56,9 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : 0;
+$selected_id                = isset($_REQUEST['selected_id'])   ? (int)$_REQUEST['selected_id'] : 0;
 $new_name                   = isset($_POST['name'])          ? (string)$_POST['name']         : '';
-$new_parent_id              = isset($_POST['parent_id'])     ? (integer)$_POST['parent_id']   : 0;
+$new_parent_id              = isset($_POST['parent_id'])     ? (int)$_POST['parent_id']   : 0;
 $new_disable_footprints     = isset($_POST['disable_footprints']);
 $new_disable_manufacturers  = isset($_POST['disable_manufacturers']);
 $new_disable_autodatasheets = isset($_POST['disable_autodatasheets']);
@@ -98,12 +98,12 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
-    $root_category      = new Category($database, $current_user, $log, 0);
+    $root_category      = Category::getInstance($database, $current_user, $log, 0);
 
     $current_user->tryDo(PermissionManager::CATEGORIES, StructuralPermission::READ);
 
     if ($selected_id > 0) {
-        $selected_category = new Category($database, $current_user, $log, $selected_id);
+        $selected_category = Category::getInstance($database, $current_user, $log, $selected_id);
     } else {
         $selected_category = null;
     }

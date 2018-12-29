@@ -46,7 +46,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["download"])) {
     if (is_readable(DEBUG_LOG_FILENAME)) {
         sendFile(DEBUG_LOG_FILENAME);
-        // TODO: how can we re-activate the autorefresh now?!
+    // TODO: how can we re-activate the autorefresh now?!
     } else {
         $errors[] = _('Die Log-Datei kann nicht gelesen werden!');
     }
@@ -85,8 +85,8 @@ $html = new HTML($config['html']['theme'], $user_config['theme'], "Debugging");
 $html->setVariable("debug_enable", $config['debug']['enable'], "boolean");
 $html->setVariable("autorefresh", $autorefresh, "boolean");
 //$html->set_variable("errors_count", count($errors), "integer");
-$html->setLoop("errors", $errors);
-$html->setLoop("logs", getDebugLogElements());
+$html->setVariable("errors", $errors);
+$html->setVariable("logs", getDebugLogElements());
 
 // Print template
 $html->printHeader();

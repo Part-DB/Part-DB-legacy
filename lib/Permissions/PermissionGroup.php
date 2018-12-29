@@ -40,19 +40,19 @@ class PermissionGroup
      * @param BasePermission[] $permissions All permissions of the Permissiongroup.
      * @param string $description A string describing the new permissiongroup.
      */
-    public function __construct($title, &$permissions, $description = "")
+    public function __construct(string $title, array &$permissions, string $description = "")
     {
         $this->title = $title;
         $this->permissions = $permissions;
         $this->description = $description;
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    public function &getPermissions()
+    public function &getPermissions() : array
     {
         return $this->permissions;
     }
@@ -63,7 +63,7 @@ class PermissionGroup
      * @param $inherit boolean If true, inherit values, are resolved.
      * @return array The loop for the permissions table.
      */
-    public function generatePermissionsLoop($read_only = false, $inherit = false)
+    public function generatePermissionsLoop(bool $read_only = false, bool $inherit = false) : array
     {
         $perms = array();
         foreach ($this->permissions as $permission) {

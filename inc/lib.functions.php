@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -27,14 +27,6 @@
  * This file includes alternatives for system functions which can be missing in the user's PHP installation.
  */
 
-
-/*
- * ENT_SUBSTITUTE is not available in PHP 5.3.0, it was introduced in PHP 5.4.0
- * Note: ENT_SUBSTITUTE is used in htmlspecialchars() and htmlentities()
- */
-if (! defined('ENT_SUBSTITUTE')) {
-    define('ENT_SUBSTITUTE', 0);
-}
 
 /*
  * money_format()
@@ -128,34 +120,13 @@ if (! function_exists('money_format')) {
 }
 
 /*
- * str_getcsv()
- */
-if (! function_exists('str_getcsv')) {
-    function str_getcsv($str, $delim = ',', $enclose = '"', $preserve = false)
-    {
-        $resArr = array();
-        $n = 0;
-        $expEncArr = explode($enclose, $str);
-        foreach ($expEncArr as $EncItem) {
-            if ($n++ % 2) {
-                array_push($resArr, array_pop($resArr) . ($preserve ? $enclose : '') .
-                    $EncItem. ($preserve ? $enclose : ''));
-            } else {
-                $expDelArr = explode($delim, $EncItem);
-                array_push($resArr, array_pop($resArr) . array_shift($expDelArr));
-                $resArr = array_merge($resArr, $expDelArr);
-            }
-        }
-        return $resArr;
-    }
-}
-
-/*
  * get the mime type of a file
  *
  * @param string    $filename   The file to check (absolute filename from filesystem root!)
+ *
+ * @return string The mimetype of the file.
  */
-function getMimetype($filename)
+function getMimetype(string $filename) : string
 {
     $mime_types = array(
         'txt' => 'text/plain',
@@ -238,7 +209,7 @@ function getMimetype($filename)
  *
  * @param string    $dir   The path to the directory (absolute filename from filesystem root!)
  */
-function rmdirRecursive($dir)
+function rmdirRecursive(string $dir)
 {
     if (is_dir($dir)) {
         $objects = scandir($dir);

@@ -39,28 +39,30 @@ use PartDB\Permissions\PermissionManager;
  */
 class Manufacturer extends Base\Company implements ISearchable
 {
+    const TABLE_NAME = "manufacturers";
+
     /********************************************************************************
      *
      *   Constructor / Destructor / reset_attributes()
      *
      *********************************************************************************/
 
-    /**
-     *  Constructor
+    /** This creates a new Element object, representing an entry from the Database.
      *
-     * @note  It's allowed to create an object with the ID 0 (for the root element).
+     * @param Database $database reference to the Database-object
+     * @param User $current_user reference to the current user which is logged in
+     * @param Log $log reference to the Log-object
+     * @param integer $id ID of the element we want to get
+     * @param array $db_data If you have already data from the database,
+     * then use give it with this param, the part, wont make a database request.
      *
-     * @param Database  &$database      reference to the Database-object
-     * @param User      &$current_user  reference to the current user which is logged in
-     * @param Log       &$log           reference to the Log-object
-     * @param integer   $id             ID of the manufacturer we want to get
-     *
-     * @throws Exception    if there is no such manufacturer in the database
-     * @throws Exception    if there was an error
+     * @throws \PartDB\Exceptions\TableNotExistingException If the table is not existing in the DataBase
+     * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
+     * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'manufacturers', $id, $data);
+        parent::__construct($database, $current_user, $log, $id, $data);
     }
 
     /********************************************************************************
@@ -83,19 +85,18 @@ class Manufacturer extends Base\Company implements ISearchable
      *
      * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
+    public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        return parent::getTableParts('id_manufacturer', $recursive, $hide_obsolete_and_zero, $limit, $page);
+        return parent::getPartsForRowName('id_manufacturer', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
-
     /**
      * Return the number of all parts in this PartsContainingDBElement
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @return int The number of parts of this PartContainingDBElement
      */
-    public function getPartsCount($recursive = false)
+    public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountInternal($recursive, 'id_manufacturer');
+        return parent::getPartsCountForRowName('id_manufacturer', $recursive);
     }
 
 
@@ -104,24 +105,6 @@ class Manufacturer extends Base\Company implements ISearchable
      *   Static Methods
      *
      *********************************************************************************/
-
-    /**
-     * Get count of manufacturers
-     *
-     * @param Database &$database   reference to the Database-object
-     *
-     * @return integer              count of manufacturers
-     *
-     * @throws Exception            if there was an error
-     */
-    public static function getCount(&$database)
-    {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
-        return $database->getCountOfRecords('manufacturers');
-    }
 
     /**
      * @brief Create a new manufacturer
@@ -146,24 +129,23 @@ class Manufacturer extends Base\Company implements ISearchable
      * @see DBElement::add()
      */
     public static function add(
-        &$database,
-        &$current_user,
-        &$log,
-        $name,
-        $parent_id,
-        $address = '',
-        $phone_number = '',
-        $fax_number = '',
-        $email_address = '',
-        $website = '',
-        $auto_product_url = '',
-        $comment = ""
-    ) {
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        string $name,
+        int $parent_id,
+        string $address = '',
+        string $phone_number = '',
+        string $fax_number = '',
+        string $email_address = '',
+        string $website = '',
+        string $auto_product_url = '',
+        string $comment = ""
+    ) : Manufacturer {
         return parent::addByArray(
             $database,
             $current_user,
             $log,
-            'manufacturers',
             array(  'name'              => $name,
                 'parent_id'         => $parent_id,
                 'address'           => $address,
@@ -178,19 +160,20 @@ class Manufacturer extends Base\Company implements ISearchable
 
 
     /**
-     * @copydoc NamedDBElement::search()
-     * @throws Exception
+     * Returns the ID as an string, defined by the element class.
+     * This should have a form like P000014, for a part with ID 14.
+     * @return string The ID as a string;
      */
-    public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
+    public function getIDString(): string
     {
-        return parent::searchTable($database, $current_user, $log, 'manufacturers', $keyword, $exact_match);
+        return "M" . sprintf("%06d", $this->getID());
     }
 
     /**
      * Gets the permission name for control access to this StructuralDBElement
      * @return string The name of the permission for this StructuralDBElement.
      */
-    protected static function getPermissionName()
+    protected static function getPermissionName() : string
     {
         return PermissionManager::MANUFACTURERS;
     }

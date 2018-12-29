@@ -44,12 +44,12 @@ $starttime = microtime(true); // this is to measure the time while debugging is 
  *
  *********************************************************************************/
 
-$location_id        = isset($_REQUEST['lid'])               ? (integer)$_REQUEST['lid']             : 0;
-$with_sublocations = isset($_REQUEST['subloc'])            ? (boolean)$_REQUEST['subloc']          : true;
-$table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
+$location_id        = isset($_REQUEST['lid'])               ? (int)$_REQUEST['lid']             : 0;
+$with_sublocations = isset($_REQUEST['subloc'])            ? (bool)$_REQUEST['subloc']          : true;
+$table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (int)$_REQUEST['table_rowcount']  : 0;
 
-$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
-$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+$page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : $config['table']['default_limit'];
 
 
 $action = 'default';
@@ -62,7 +62,7 @@ if (isset($_REQUEST['subloc_button'])) {
 
 $selected_part_id = 0;
 for ($i=0; $i<$table_rowcount; $i++) {
-    $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
+    $selected_part_id = isset($_REQUEST['id_'.$i]) ? (int)$_REQUEST['id_'.$i] : 0;
 
     if (isset($_REQUEST['decrement_'.$i])) {
         $action = 'decrement';
@@ -92,10 +92,10 @@ try {
         throw new Exception(_('Es wurde keine gültige Lagerort-ID übermittelt!'));
     }
 
-    $location = new Storelocation($database, $current_user, $log, $location_id);
+    $location = Storelocation::getInstance($database, $current_user, $log, $location_id);
 
     if ($selected_part_id > 0) {
-        $part = new Part($database, $current_user, $log, $selected_part_id);
+        $part = Part::getInstance($database, $current_user, $log, $selected_part_id);
     } else {
         $part = null;
     }
@@ -184,13 +184,13 @@ if (! $fatal_error) {
         $parts = $location->getParts($with_sublocations, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'location_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
 
-        $html->setLoop("pagination", generatePagination("show_location_parts.php?lid=$location_id", $page, $limit, $location->getPartsCount($with_sublocations)));
+        $html->setVariable("pagination", generatePagination("show_location_parts.php?lid=$location_id", $page, $limit, $location->getPartsCount($with_sublocations)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
 
-        $html->setLoop('breadcrumb', $location->buildBreadcrumbLoop("show_location_parts.php", "lid", true, _("Lagerorte")));
+        $html->setVariable('breadcrumb', $location->buildBreadcrumbLoop("show_location_parts.php", "lid", true, _("Lagerorte")));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -217,29 +217,24 @@ if (! $fatal_error) {
     $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
     $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-
-    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
     //Barcode stuff
-    $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("location"));
+    $html->setVariable("barcode_profiles", buildLabelProfilesDropdown("location"));
 
 
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
-        $root_category = new Category($database, $current_user, $log, 0);
+        $root_category = Category::getInstance($database, $current_user, $log, 0);
         $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
     }
     if ($current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
-        $root_footprint = new Footprint($database, $current_user, $log, 0);
+        $root_footprint = Footprint::getInstance($database, $current_user, $log, 0);
         $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
     }
     if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
-        $root_manufacturer = new Manufacturer($database, $current_user, $log, 0);
+        $root_manufacturer = Manufacturer::getInstance($database, $current_user, $log, 0);
         $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
     }
     if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
-        $root_location = new Storelocation($database, $current_user, $log, 0);
+        $root_location = Storelocation::getInstance($database, $current_user, $log, 0);
         $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
     }
 
@@ -280,9 +275,9 @@ if (! $fatal_error) {
 $debug_messages = array();
 if ((! $fatal_error) && ($config['debug']['enable'])) {
     $endtime = microtime(true);
-    $lifetime = (integer)(1000*($endtime - $starttime));
-    $php_lifetime = (integer)(1000*($php_endtime - $starttime));
-    $html_lifetime = (integer)(1000*($endtime - $php_endtime));
+    $lifetime = (int)(1000*($endtime - $starttime));
+    $php_lifetime = (int)(1000*($php_endtime - $starttime));
+    $html_lifetime = (int)(1000*($endtime - $php_endtime));
     $debug_messages[] = array('text' => 'Debug-Meldungen: ', 'strong' => true, 'color' => 'darkblue');
     $debug_messages[] = array('text' => 'Anzahl Teile in diesem Lagerort: '.(count($parts)), 'color' => 'darkblue');
     $debug_messages[] = array('text' => 'Gesamte Laufzeit: '.$lifetime.'ms', 'color' => 'darkblue');

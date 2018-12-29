@@ -21,7 +21,7 @@
 
 include_once('start_session.php');
 
-use PartDB\AttachementType;
+use PartDB\AttachmentType;
 use PartDB\Category;
 use PartDB\Database;
 use PartDB\Device;
@@ -65,7 +65,8 @@ function generateTreeForClass($class, &$database, &$current_user, &$log, $params
     try {
         $root_id = (isset($params['root_id']) && $params['root_id'] >= 0) ? $params['root_id'] : 0;
         /** @var \PartDB\Base\StructuralDBElement $root */
-        $root = new $class($database, $current_user, $log, $root_id);
+        /** @var \PartDB\Base\DBElement $class */
+        $root = $class::getInstance($database, $current_user, $log, $root_id);
         if (isset($params['page']) && isset($params['parameter'])) {
             return $root->buildBootstrapTree($params['page'], $params['parameter']);
         } else {
@@ -74,6 +75,7 @@ function generateTreeForClass($class, &$database, &$current_user, &$log, $params
     } catch (Exception $ex) {
         debug("error", $ex);
     }
+    return null;
 }
 
 
@@ -86,7 +88,7 @@ $app->get("/1.0.0/categories/{cid}", function ($request, $response, $args) use (
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $category = new Category($database, $current_user, $log, $args['cid']);
+        $category = Category::getInstance($database, $current_user, $log, $args['cid']);
         return $response->withJson($category->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -104,7 +106,7 @@ $app->get("/1.0.0/locations/{lid}", function ($request, $response, $args) use (&
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $loc = new Storelocation($database, $current_user, $log, $args['lid']);
+        $loc = Storelocation::getInstance($database, $current_user, $log, $args['lid']);
         return $response->withJson($loc->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -121,7 +123,7 @@ $app->get("/1.0.0/manufacturers/{id}", function ($request, $response, $args) use
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $man = new Manufacturer($database, $current_user, $log, $args['id']);
+        $man = Manufacturer::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($man->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -138,7 +140,7 @@ $app->get("/1.0.0/suppliers/{id}", function ($request, $response, $args) use (&$
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $sup = new Supplier($database, $current_user, $log, $args['id']);
+        $sup = Supplier::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($sup->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -149,13 +151,13 @@ $app->get("/1.0.0/suppliers/{id}", function ($request, $response, $args) use (&$
  * Attachement Types
  ********************************************************************/
 
-$app->get("/1.0.0/attachementtypes/{id}", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
+$app->get("/1.0.0/attachmenttypes/{id}", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     if ($args['id'] < 1) {
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $at = new AttachementType($database, $current_user, $log, $args['id']);
+        $at = AttachmentType::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($at->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -172,7 +174,7 @@ $app->get("/1.0.0/footprints/{id}", function ($request, $response, $args) use (&
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $foot = new Footprint($database, $current_user, $log, $args['id']);
+        $foot = Footprint::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($foot->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -229,7 +231,7 @@ $app->get("/1.0.0/parts/{id}", function ($request, $response, $args) use (&$data
         return generateError($response, "The id must be greater 0!", 400);
     }
     try {
-        $part = new Part($database, $current_user, $log, $args['id']);
+        $part = Part::getInstance($database, $current_user, $log, $args['id']);
         return $response->withJson($part->getAPIArray(true));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -243,7 +245,7 @@ $app->get("/1.0.0/parts/by-category/{id}", function ($request, $response, $args)
     }
     try {
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
-        $category = new Category($database, $current_user, $log, $args['id']);
+        $category = Category::getInstance($database, $current_user, $log, $args['id']);
         $parts = $category->getParts($recursive);
         return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
@@ -258,7 +260,7 @@ $app->get("/1.0.0/parts/by-location/{id}", function ($request, $response, $args)
     }
     try {
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
-        $location = new Storelocation($database, $current_user, $log, $args['id']);
+        $location = Storelocation::getInstance($database, $current_user, $log, $args['id']);
         $parts = $location->getParts($recursive);
         return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
@@ -273,7 +275,7 @@ $app->get("/1.0.0/parts/by-footprint/{id}", function ($request, $response, $args
     }
     try {
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
-        $footprint = new Footprint($database, $current_user, $log, $args['id']);
+        $footprint = Footprint::getInstance($database, $current_user, $log, $args['id']);
         $parts = $footprint->getParts($recursive);
         return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
@@ -288,7 +290,7 @@ $app->get("/1.0.0/parts/by-manufacturer/{id}", function ($request, $response, $a
     }
     try {
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
-        $manufacturer = new Manufacturer($database, $current_user, $log, $args['id']);
+        $manufacturer = Manufacturer::getInstance($database, $current_user, $log, $args['id']);
         $parts = $manufacturer->getParts($recursive);
         return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
@@ -303,7 +305,7 @@ $app->get("/1.0.0/parts/by-supplier/{id}", function ($request, $response, $args)
     }
     try {
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
-        $supplier = new Supplier($database, $current_user, $log, $args['id']);
+        $supplier = Supplier::getInstance($database, $current_user, $log, $args['id']);
         $parts = $supplier->getParts($recursive);
         return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
@@ -321,16 +323,16 @@ $app->get("/1.0.0/parts/by-keyword/{keyword}", function ($request, $response, $a
             $current_user,
             $log,
             $keyword,
-            sie($args['groupby'], ""),
-            sie($args['name'], true),
-            sie($args['description'], true),
-            sie($args['comment'], false),
-            sie($args['footprint'], false),
-            sie($args['category'], false),
-            sie($args['location'], false),
-            sie($args['supplier'], false),
-            sie($args['partnr'], false),
-            sie($args['manufacturer'], false),
+            $args['groupby'] ?? "",
+            $args['name'] ?? true,
+            $args['description'] ?? true,
+            $args['comment'] ?? false,
+            $args['footprint'] ?? false,
+            $args['category'] ?? false,
+            $args['location'] ?? false,
+            $args['supplier'] ?? false,
+            $args['partnr'] ?? false,
+            $args['manufacturer'] ?? false,
             false
         );
         return $response->withJson(convertAPIModelArray($parts));
@@ -349,16 +351,16 @@ $app->get("/1.0.0/parts/by-regex/{keyword}", function ($request, $response, $arg
             $current_user,
             $log,
             $keyword,
-            sie($args['groupby'], ""),
-            sie($args['name'], true),
-            sie($args['description'], true),
-            sie($args['comment'], false),
-            sie($args['footprint'], false),
-            sie($args['category'], false),
-            sie($args['location'], false),
-            sie($args['supplier'], false),
-            sie($args['partnr'], false),
-            sie($args['manufacturer'], false),
+            $args['groupby'] ?? "",
+            $args['name'] ?? true,
+            $args['description'] ?? true,
+            $args['comment'] ??false,
+            $args['footprint'] ?? false,
+            $args['category'] ?? false,
+            $args['location'] ?? false,
+            $args['supplier'] ?? false,
+            $args['partnr'] ?? false,
+            $args['manufacturer'] ?? false,
             true
         );
         return $response->withJson(convertAPIModelArray($parts));
@@ -393,7 +395,7 @@ $app->get("/1.0.0/system/info", function ($request, $response, $args) {
 $app->get("/1.0.0/tree/categories[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass("\PartDB\Category", $database, $current_user, $log, $args, "show_category_parts.php", "cid");
+        $tree = generateTreeForClass(Category::class, $database, $current_user, $log, $args, "show_category_parts.php", "cid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -406,7 +408,7 @@ $app->get("/1.0.0/tree/categories[/{root_id}]", function ($request, $response, $
 $app->get("/1.0.0/tree/devices[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $root_device = new Device($database, $current_user, $log, 0);
+        $root_device = Device::getInstance($database, $current_user, $log, 0);
         $tree = $root_device->buildBootstrapTree(
             "show_device_parts.php",
             "device_id",
@@ -427,7 +429,7 @@ $app->get("/1.0.0/tree/devices[/{root_id}]", function ($request, $response, $arg
 $app->get("/1.0.0/tree/footprints[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass("\PartDB\Footprint", $database, $current_user, $log, $args, "show_footprint_parts.php", "fid");
+        $tree = generateTreeForClass(Footprint::class, $database, $current_user, $log, $args, "show_footprint_parts.php", "fid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -440,7 +442,7 @@ $app->get("/1.0.0/tree/footprints[/{root_id}]", function ($request, $response, $
 $app->get("/1.0.0/tree/locations[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass("\PartDB\Storelocation", $database, $current_user, $log, $args, "show_location_parts.php", "lid");
+        $tree = generateTreeForClass(Storelocation::class, $database, $current_user, $log, $args, "show_location_parts.php", "lid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -453,7 +455,7 @@ $app->get("/1.0.0/tree/locations[/{root_id}]", function ($request, $response, $a
 $app->get("/1.0.0/tree/manufacturers[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass("\PartDB\Manufacturer", $database, $current_user, $log, $args, "show_manufacturer_parts.php", "mid");
+        $tree = generateTreeForClass(Manufacturer::class, $database, $current_user, $log, $args, "show_manufacturer_parts.php", "mid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -466,7 +468,7 @@ $app->get("/1.0.0/tree/manufacturers[/{root_id}]", function ($request, $response
 $app->get("/1.0.0/tree/suppliers[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass("\PartDB\Supplier", $database, $current_user, $log, $args, "show_supplier_parts.php", "sid");
+        $tree = generateTreeForClass(Supplier::class, $database, $current_user, $log, $args, "show_supplier_parts.php", "sid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);

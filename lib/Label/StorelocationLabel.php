@@ -1,10 +1,27 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: janhb
- * Date: 13.01.2018
- * Time: 15:13
+ *
+ * Part-DB Version 0.4+ "nextgen"
+ * Copyright (C) 2016 - 2018 Jan Böhmer
+ * https://github.com/jbtronics
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+ *
  */
+
 
 namespace PartDB\Label;
 
@@ -19,7 +36,7 @@ class StorelocationLabel extends BaseLabel
     /**
      * Returns all presets for lines
      */
-    public static function getLinePresets()
+    public static function getLinePresets() : array
     {
         $presets = array();
 
@@ -63,7 +80,7 @@ class StorelocationLabel extends BaseLabel
      * Returns all label sizes, that are supported by this class.
      * @return string[] A array containing all sizes that are supported by this class.
      */
-    public static function getSupportedSizes()
+    public static function getSupportedSizes() : array
     {
         return array(static::SIZE_50X30, static::SIZE_62X30);
     }
@@ -72,7 +89,7 @@ class StorelocationLabel extends BaseLabel
      * Returns all label types, that are supported by this class.
      * @return int[] A array containing all sizes that are supported by this class.
      */
-    public static function getSupportedTypes()
+    public static function getSupportedTypes() : array
     {
         return array(static::TYPE_C39, static::TYPE_TEXT);
     }

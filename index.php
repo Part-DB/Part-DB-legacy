@@ -90,10 +90,6 @@ $html->set_variable('mobile', $mobile, 'boolean');*/
  *
  *********************************************************************************/
 
-if (count($messages) == 0) {
-    $html->setMeta(array('frameset' => true));
-}
-
 $html->printHeader($messages, 'index.php', '', true);
 
 if ((! $fatal_error) && (count($messages) == 0)) {

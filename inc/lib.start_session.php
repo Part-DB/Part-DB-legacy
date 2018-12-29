@@ -41,14 +41,17 @@ use PartDB\User;
  * @param string        $page_title     the page title
  * @param string|NULL   $div_title      a DIV title, or NULL for a message without a title
  * @param string        $messages       the HTML-coded messages
+ * @param string        $panel_type     the bootstrap panel, class, that should be used to output the message
  */
-function printMessagesWithoutTemplate($page_title, $div_title, $messages, $panel_type = "panel-danger")
+function printMessagesWithoutTemplate(string $page_title, $div_title, string $messages, string $panel_type = "panel-danger")
 {
     //Compatibility with panel-things
     $bg_type = str_replace("panel-", "bg-", $panel_type);
     $border_type = str_replace("panel-", "border-", $panel_type);
 
-    print '<!DOCTYPE html><html lang="en"><head>';
+    $title = $div_title ?? _("Schwerwiegender Fehler");
+
+    print '<!DOCTYPE html><html lang="en"><title>' . $title .'</title><head>';
     print '<title>'.htmlspecialchars($page_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</title>';
     print '<meta charset="utf-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,7 +63,7 @@ function printMessagesWithoutTemplate($page_title, $div_title, $messages, $panel
     }
     print '<div class="card-body">';
     print $messages;
-    {print '</div>';}
+    print '</div>';
     print '</div></main></body></html>';
 }
 
@@ -77,7 +80,7 @@ function printMessagesWithoutTemplate($page_title, $div_title, $messages, $panel
  *
  * @todo    the Workaround for Windows is not really pretty -> make it better!
  */
-function ownSetlocale($category, $locale)
+function ownSetlocale(int $category, string $locale) : bool
 {
     $charsets = array('utf8', 'UTF8', 'utf-8', 'UTF-8');
     $base_locales = array($locale);
@@ -154,7 +157,7 @@ function ownSetlocale($category, $locale)
  *
  * @throws Exception if there was an error
  */
-function checkRequirements()
+function checkRequirements() : array
 {
     global $config;
     $messages = array();
@@ -188,7 +191,7 @@ function checkRequirements()
  * @return string[]  * an array with a string for each error message
  * * an empty array means everything is fine
  */
-function checkFilePermissions()
+function checkFilePermissions() : array
 {
     $messages = array();
 
@@ -235,7 +238,7 @@ function checkFilePermissions()
  *  @return array * an array with a string for each error message
  *  * an empty array means everything is fine
  */
-function checkComposerFolder()
+function checkComposerFolder() : array
 {
     $messages = array();
 
@@ -277,9 +280,9 @@ function checkIfConfigIsValid()
 
 /**
  * Handles an Exception
- * @param $e \Exception
+ * @param $e \Throwable
  */
-function exception_handler($e)
+function exception_handler(Throwable $e)
 {
     //Try to log the exception to the database
     try {

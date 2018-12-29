@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpIncludeInspection */
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -46,7 +46,7 @@ $file_format    = isset($_POST['file_format'])       ? (string)$_POST['file_form
 $separator      = isset($_POST['separator'])         ? (string)$_POST['separator']        : ';';
 
 // section "check data"
-$table_rowcount = isset($_POST['table_rowcount'])    ? (integer)$_POST['table_rowcount']  : 0;
+$table_rowcount = isset($_POST['table_rowcount'])    ? (int)$_POST['table_rowcount']  : 0;
 $file_content   = isset($_POST['file_content'])      ? (string)$_POST['file_content']     : '';
 
 $new_part_ids   = isset($_POST['new_part_ids'])      ? (string)$_POST['new_part_ids']     : '';
@@ -156,7 +156,7 @@ if (! $fatal_error) {
                 $new_parts = array();
                 foreach ($ids as $id) {
                     if ($id > 0) {
-                        $new_parts[] = new Part($database, $current_user, $log, $id);
+                        $new_parts[] = Part::getInstance($database, $current_user, $log, $id);
                     }
                 }
             } catch (Exception $e) {
@@ -179,10 +179,6 @@ if (! $fatal_error) {
         $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
         $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
         $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
-
-        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
         // import stuff
         $html->setVariable('file_format', $file_format, 'string');
@@ -227,7 +223,7 @@ if (! $fatal_error) {
     $html->printTemplate('upload');
 
     if (isset($import_data)) {
-        $html->setLoop('table', $table_loop);
+        $html->setVariable('table', $table_loop);
         $html->setVariable('table_rowcount', count($import_data), 'integer');
         $html->printTemplate('check_data');
     }
@@ -237,7 +233,7 @@ if (! $fatal_error) {
     }
 
     if (isset($new_parts_loop)) {
-        $html->setLoop('table', $new_parts_loop);
+        $html->setVariable('table', $new_parts_loop);
         $html->printTemplate('new_parts');
     }
 
