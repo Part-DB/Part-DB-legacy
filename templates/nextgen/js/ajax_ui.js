@@ -205,7 +205,6 @@ var AjaxUI = /** @class */ (function () {
         'use strict';
         if (!$(jqForm).hasClass("no-progbar")) {
             AjaxUI.getInstance().beforeAjaxSubmit();
-            this.showProgressBar();
         }
         return true;
     };
@@ -425,6 +424,7 @@ var AjaxUI = /** @class */ (function () {
      */
     AjaxUI.prototype.beforeAjaxSubmit = function () {
         //$(".table-sortable").DataTable().fixedHeader.disable();
+        this.showProgressBar();
     };
     /**
      * Called when an error occurs on loading ajax. Outputs the message to the console.

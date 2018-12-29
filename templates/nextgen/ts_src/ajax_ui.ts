@@ -223,7 +223,6 @@ class AjaxUI {
         'use strict';
         if(!$(jqForm).hasClass("no-progbar")) {
             AjaxUI.getInstance().beforeAjaxSubmit();
-            this.showProgressBar();
         }
         return true;
     }
@@ -485,6 +484,7 @@ class AjaxUI {
     private beforeAjaxSubmit()
     {
         //$(".table-sortable").DataTable().fixedHeader.disable();
+        this.showProgressBar();
     }
 
     /**
