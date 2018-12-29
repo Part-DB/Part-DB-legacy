@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -163,7 +163,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['orderdetails_id']
+                (int)$this->db_data['orderdetails_id']
             );
         }
 
@@ -310,7 +310,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
 
         // check "orderdetails_id"
         try {
-            $orderdetails = Orderdetails::getInstance($database, $current_user, $log, $values['orderdetails_id']);
+            $orderdetails = Orderdetails::getInstance($database, $current_user, $log, (int) $values['orderdetails_id']);
 
             // save orderdetails attributes to update its "last_modified" and "last_modified" of the part
             $orderdetails->setAttributes(array());

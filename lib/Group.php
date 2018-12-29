@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -182,7 +182,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->users[] = User::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->users[] = User::getInstance($this->database, $this->current_user, $this->log, (int) $row['id'], $row);
             }
         }
 

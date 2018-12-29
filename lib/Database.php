@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -728,7 +728,7 @@ class Database
             throw new DatabaseException(_("Datenbankfehler: \n").$e->getMessage()._("\n\n SQL-Query:\n ").$query);
         }
 
-        return $result;
+        return (int) $result;
     }
 
     /**
@@ -755,7 +755,7 @@ class Database
      * @throws DatabaseException If there was an error executing the query
      * @throws Exception If there was an error with the underlying PDO statement
      */
-    public function query(string $query, array $values = array(), int $fetch_style = PDO::FETCH_ASSOC) : array
+    public function  query(string $query, array $values = array(), int $fetch_style = PDO::FETCH_ASSOC) : array
     {
         try {
             $pdo_statement = $this->pdo->prepare($query);

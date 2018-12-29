@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -273,7 +273,7 @@ class Attachment extends Base\NamedDBElement
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['type_id']
+                (int) $this->db_data['type_id']
             );
         }
 
@@ -355,7 +355,7 @@ class Attachment extends Base\NamedDBElement
         $query_data = $database->query($query, array($filename, $filename_2));
 
         foreach ($query_data as $row) {
-            $attachements[] = Attachment::getInstance($database, $current_user, $log, $row['id'], $row);
+            $attachements[] = Attachment::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $attachements;
@@ -384,7 +384,7 @@ class Attachment extends Base\NamedDBElement
 
         foreach ($query_data as $row) {
             if (! file_exists(str_replace('%BASE%', BASE, $row['filename']))) {
-                $attachements[] = Attachment::getInstance($database, $current_user, $log, $row['id'], $row);
+                $attachements[] = Attachment::getInstance($database, $current_user, $log, (int) $row['id'], $row);
             }
         }
 
@@ -441,7 +441,7 @@ class Attachment extends Base\NamedDBElement
             }
 
             /** @var AttachmentsContainingDBElement $element */
-            $element = new $values['class_name']($database, $current_user, $log, $values['element_id']);
+            $element = $values['class_name']::getInstance($database, $current_user, $log, (int) $values['element_id']);
             try {
                 $element->setAttributes(array()); // save element attributes to update its "last_modified"
             } catch (UserNotAllowedException $ex) {

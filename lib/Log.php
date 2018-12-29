@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -199,7 +199,7 @@ class Log
 
         $results = $database->query($query, $data);
         if (count($results) > 0) {
-            return User::getInstance($database, $current_user, $log, $results[0]['id_user']);
+            return User::getInstance($database, $current_user, $log, (int) $results[0]['id_user']);
         } else {
             return null;
         }
@@ -230,7 +230,7 @@ class Log
 
         $results = $database->query($query, $data);
         if (count($results) > 0) {
-            return User::getInstance($database, $current_user, $log, $results[0]['id_user']);
+            return User::getInstance($database, $current_user, $log,(int) $results[0]['id_user']);
         } else {
             return null;
         }

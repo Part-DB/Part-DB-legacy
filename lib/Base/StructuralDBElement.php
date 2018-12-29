@@ -340,7 +340,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
             return "???";
         }
 
-        $val = htmlspecialchars($this->db_data['comment']);
+        $val = htmlspecialchars($this->db_data['comment'] ?? "");
         if ($parse_bbcode) {
             $bbcode = new BBCodeParser();
             $val = $bbcode->parse($val);
@@ -743,7 +743,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
 
         try {
             /** @var StructuralDBElement $parent_element */
-            $parent_element = static::getInstance($database, $current_user, $log, $values['parent_id']);
+            $parent_element = static::getInstance($database, $current_user, $log, (int) $values['parent_id'] ?? 0);
         } catch (Exception $e) {
             throw new InvalidElementValueException(_('Das ausgewählte übergeordnete Element existiert nicht!'));
         }

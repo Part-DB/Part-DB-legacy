@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -140,7 +140,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['group_id'] ?? 0
+                (int) $this->db_data['group_id'] ?? 0
             );
         }
 
@@ -798,7 +798,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
         // check "group_id"
         try {
-            $group = Group::getInstance($database, $current_user, $log, $values['group_id']);
+            $group = Group::getInstance($database, $current_user, $log, (int) $values['group_id']);
         } catch (Exception $e) {
             throw new InvalidElementValueException(_('Die gewählte Gruppe existiert nicht!'));
         }
@@ -826,7 +826,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
         $user_data = $query_data[0];
         $user = null;
-        return User::getInstance($database, $user, $log, $user_data['id'], $user_data);
+        return User::getInstance($database, $user, $log, (int) $user_data['id'], $user_data);
     }
 
     /**
@@ -981,7 +981,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         $results = $database->query("SELECT * FROM users");
         $users = array();
         foreach ($results as $result) {
-            $users[] = User::getInstance($database, $current_user, $log, $result['id'], $result);
+            $users[] = User::getInstance($database, $current_user, $log, (int) $result['id'], $result);
         }
 
         return $users;

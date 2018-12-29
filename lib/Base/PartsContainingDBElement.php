@@ -286,7 +286,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
 
         $query_data = $this->database->query($query, $vals);
 
-        return $query_data[0]['count'];
+        return (int) $query_data[0]['count'];
     }
 
     /**

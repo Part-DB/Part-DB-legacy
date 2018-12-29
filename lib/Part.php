@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -507,7 +507,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['order_orderdetails_id']
+                (int) $this->db_data['order_orderdetails_id']
             );
 
             if ($this->order_orderdetails->getObsolete()) {
@@ -669,7 +669,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['id_category']
+                (int) $this->db_data['id_category']
             );
         }
 
@@ -695,7 +695,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['id_footprint']
+                (int) $this->db_data['id_footprint']
             );
         }
 
@@ -721,7 +721,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['id_storelocation']
+                (int) $this->db_data['id_storelocation']
             );
         }
 
@@ -747,7 +747,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['id_manufacturer']
+                (int) $this->db_data['id_manufacturer']
             );
         }
 
@@ -774,7 +774,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['id_master_picture_attachement']
+                (int) $this->db_data['id_master_picture_attachement']
             );
         }
 
@@ -810,7 +810,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->orderdetails[] = Orderdetails::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->orderdetails[] = Orderdetails::getInstance($this->database, $this->current_user, $this->log, (int) $row['id'], $row);
             }
         }
 
@@ -850,7 +850,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->devices[] = Device::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->devices[] = Device::getInstance($this->database, $this->current_user, $this->log, (int) $row['id'], $row);
             }
         }
 
@@ -1912,7 +1912,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $parts = array();
 
         foreach ($query_data as $row) {
-            $part = Part::getInstance($database, $current_user, $log, $row['id']);
+            $part = Part::getInstance($database, $current_user, $log, (int) $row['id']);
             $parts[] = $part;
         }
 
@@ -1989,7 +1989,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             }
 
             if ($values['order_orderdetails_id'] != null) {
-                $order_orderdetails = Orderdetails::getInstance($database, $current_user, $log, $values['order_orderdetails_id']);
+                $order_orderdetails = Orderdetails::getInstance($database, $current_user, $log, (int) $values['order_orderdetails_id']);
             }
         } catch (Exception $e) {
             throw new InvalidElementValueException(_('Die gewählte Einkaufsinformation existiert nicht!'));
@@ -2025,14 +2025,14 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         // check "id_category"
         try {
-            $category = Category::getInstance($database, $current_user, $log, $values['id_category']);
+            $category = Category::getInstance($database, $current_user, $log, (int) $values['id_category']);
         } catch (Exception $e) {
             throw new InvalidElementValueException(_('Die gewählte Kategorie existiert nicht!'));
         }
 
         // check "id_footprint"
         try {
-            $footprint = Footprint::getInstance($database, $current_user, $log, $values['id_footprint'] ?? 0);
+            $footprint = Footprint::getInstance($database, $current_user, $log,  (int)$values['id_footprint'] ?? 0);
             if (($values['id_footprint'] == 0) && ($values['id_footprint'] !== null)) {
                 $values['id_footprint'] = null;
             }
@@ -2042,7 +2042,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         // check "id_storelocation"
         try {
-            $storelocation = Storelocation::getInstance($database, $current_user, $log, $values['id_storelocation'] ?? 0);
+            $storelocation = Storelocation::getInstance($database, $current_user, $log, (int)$values['id_storelocation'] ?? 0);
             if (($values['id_storelocation'] == 0) && ($values['id_storelocation'] !== null)) {
                 $values['id_storelocation'] = null;
             }
@@ -2052,7 +2052,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         // check "id_manufacturer"
         try {
-            $manufacturer = Manufacturer::getInstance($database, $current_user, $log, $values['id_manufacturer'] ?? 0);
+            $manufacturer = Manufacturer::getInstance($database, $current_user, $log, (int) $values['id_manufacturer'] ?? 0);
             if (($values['id_manufacturer'] == 0) && ($values['id_manufacturer'] !== null)) {
                 $values['id_manufacturer'] = null;
             }
@@ -2063,7 +2063,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         // check "id_master_picture_attachement"
         try {
             if ($values['id_master_picture_attachement']) {
-                $master_picture_attachement = Attachment::getInstance($database, $current_user, $log, $values['id_master_picture_attachement']);
+                $master_picture_attachement = Attachment::getInstance($database, $current_user, $log, (int) $values['id_master_picture_attachement']);
             } else {
                 $values['id_master_picture_attachement'] = null;
             } // this will replace the integer "0" with NULL
@@ -2202,7 +2202,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query, $supplier_ids);
 
         foreach ($query_data as $row) {
-            $part = Part::getInstance($database, $current_user, $log, $row['id'], $row);
+            $part = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
             if (($part->getManualOrder()) || ($part->getMinOrderQuantity() > 0)) {
                 $parts[] = $part;
             }
@@ -2250,7 +2250,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2327,7 +2327,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2402,7 +2402,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2481,7 +2481,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2564,7 +2564,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2666,7 +2666,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, $row['id'], $row);
+            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2926,7 +2926,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query, $values);
 
         foreach ($query_data as $row) {
-            $part = Part::getInstance($database, $current_user, $log, $row['id'], $row);
+            $part = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
 
             switch ($group_by) {
                 case '':
@@ -3004,7 +3004,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $part = Part::getInstance($database, $current_user, $log, $row['id'], $row);
+            $part = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
 
             switch ($group_by) {
                 case '':

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -96,7 +96,7 @@ class Supplier extends Base\Company implements ISearchable
                 'GROUP BY part_id ORDER BY parts.name';
             $query_data = $this->database->query($query, array($this->getID()));
             foreach ($query_data as $row) {
-                $this->parts[] = Part::getInstance($this->database, $this->current_user, $this->log, $row['part_id']);
+                $this->parts[] = Part::getInstance($this->database, $this->current_user, $this->log, (int) $row['part_id']);
             }
         }
         $parts = $this->parts;
@@ -209,7 +209,7 @@ class Supplier extends Base\Company implements ISearchable
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $suppliers[] = Supplier::getInstance($database, $current_user, $log, $row['id_supplier']);
+            $suppliers[] = Supplier::getInstance($database, $current_user, $log, (int) $row['id_supplier']);
         }
 
         return $suppliers;
