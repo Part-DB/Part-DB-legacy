@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -180,7 +180,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['part_id']
+                (int) $this->db_data['part_id']
             );
         }
 
@@ -201,7 +201,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['id_supplier']
+                (int) $this->db_data['id_supplier']
             );
         }
 
@@ -274,7 +274,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->pricedetails[] = Pricedetails::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->pricedetails[] = Pricedetails::getInstance($this->database, $this->current_user, $this->log, (int) $row['id'], $row);
             }
         }
 
@@ -428,7 +428,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
 
         // check "part_id"
         try {
-            $part = Part::getInstance($database, $current_user, $log, $values['part_id']);
+            $part = Part::getInstance($database, $current_user, $log, (int) $values['part_id']);
             $part->setAttributes(array()); // save part attributes to update its "last_modified"
         } catch (ElementNotExistingException $e) {
             throw new InvalidElementValueException(_('Das gewählte Bauteil existiert nicht!'));
@@ -440,7 +440,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
                 throw new InvalidElementValueException('id_supplier < 1');
             }
 
-            $supplier = Supplier::getInstance($database, $current_user, $log, $values['id_supplier']);
+            $supplier = Supplier::getInstance($database, $current_user, $log, (int) $values['id_supplier']);
         } catch (ElementNotExistingException $e) {
             throw new InvalidElementValueException(_('Der gewählte Lieferant existiert nicht!'));
         }

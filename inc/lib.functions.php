@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php declare(strict_types=1); /** @noinspection ALL */
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -26,6 +26,7 @@
 /*
  * This file includes alternatives for system functions which can be missing in the user's PHP installation.
  */
+
 
 
 /*

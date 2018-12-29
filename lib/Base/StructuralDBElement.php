@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -292,12 +292,12 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
      *                          @li NULL means, the parent is the root node
      *                          @li the parent ID of the root node is -1
      */
-    public function getParentID()
+    public function getParentID() : int
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return self::ID_ROOT_ELEMENT;
         }
-        return $this->db_data['parent_id'] ?? self::ID_ROOT_ELEMENT; //Null means root element
+        return (int) $this->db_data['parent_id'] ?? self::ID_ROOT_ELEMENT; //Null means root element
     }
 
     /**
@@ -340,7 +340,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
             return "???";
         }
 
-        $val = htmlspecialchars($this->db_data['comment']);
+        $val = htmlspecialchars($this->db_data['comment'] ?? "");
         if ($parse_bbcode) {
             $bbcode = new BBCodeParser();
             $val = $bbcode->parse($val);
@@ -475,7 +475,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
                 ' WHERE parent_id <=> ? ORDER BY name ASC', array($id));
 
             foreach ($query_data as $row) {
-                $this->subelements[] = static::getInstance($this->database, $this->current_user, $this->log, $row['id']);
+                $this->subelements[] = static::getInstance($this->database, $this->current_user, $this->log, (int) $row['id']);
             }
         }
 
@@ -743,7 +743,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
 
         try {
             /** @var StructuralDBElement $parent_element */
-            $parent_element = static::getInstance($database, $current_user, $log, $values['parent_id']);
+            $parent_element = static::getInstance($database, $current_user, $log, (int) $values['parent_id'] ?? 0);
         } catch (Exception $e) {
             throw new InvalidElementValueException(_('Das ausgewählte übergeordnete Element existiert nicht!'));
         }

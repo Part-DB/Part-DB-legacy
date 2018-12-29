@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -493,6 +493,13 @@ abstract class DBElement
         if ($id == null) {
             throw new Exception(_('Der Datenbankeintrag konnte nicht angelegt werden.'));
         }
+
+        //Clear the cache, so all objects are freshly retrieved from DB (this should not have a big impact)
+        //We need to do this, because, the elements cache associated objects by there self, and these caches need
+        //eventually to be updated, when adding a new part.
+        //For example without this line, newly added pricedetails won't be shown directly to user, because
+        //Orderdetails cache its associated pricedetails.
+        static::$cache = array();
 
         return static::getInstance($database, $current_user, $log, $id);
     }

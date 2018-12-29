@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -111,6 +111,10 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
         $time_str = $this->db_data['last_modified'];
         if ($formatted) {
             $timestamp = strtotime($time_str);
+            //strtotime returns false in the case of an error
+            if ($timestamp === false) {
+                return "";
+            }
             return formatTimestamp($timestamp);
         }
         return $time_str;
@@ -127,6 +131,10 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
         $time_str = $this->db_data['datetime_added'];
         if ($formatted) {
             $timestamp = strtotime($time_str);
+            //strtotime returns false in the case of an error
+            if ($timestamp === false) {
+                return "";
+            }
             return formatTimestamp($timestamp);
         }
         return $time_str;

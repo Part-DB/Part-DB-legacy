@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -132,7 +132,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
 
             return false;
         } else {
-            return $this->db_data['disable_manufacturers'];
+            return (bool) $this->db_data['disable_manufacturers'];
         }
     }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -28,6 +28,8 @@
  * @brief in this file are some functions which are needed in start_session.php
  * @author kami89
  */
+
+
 
 use PartDB\Database;
 use PartDB\Log;

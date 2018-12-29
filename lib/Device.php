@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -264,7 +264,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getOrderQuantity() : int
     {
-        return $this->db_data['order_quantity'];
+        return (int) $this->db_data['order_quantity'];
     }
 
     /**
@@ -274,7 +274,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getOrderOnlyMissingParts() : bool
     {
-        return $this->db_data['order_only_missing_parts'];
+        return (bool) $this->db_data['order_only_missing_parts'];
     }
 
     /**
@@ -322,7 +322,7 @@ class Device extends Base\PartsContainingDBElement
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->parts[] = DevicePart::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->parts[] = DevicePart::getInstance($this->database, $this->current_user, $this->log, (int) $row['id'], $row);
             }
         }
 
@@ -500,7 +500,7 @@ class Device extends Base\PartsContainingDBElement
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $devices[] = Device::getInstance($database, $current_user, $log, $row['id'], $row);
+            $devices[] = Device::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $devices;

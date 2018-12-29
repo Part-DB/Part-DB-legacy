@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -33,6 +33,8 @@ use PartDB\Exceptions\ElementNotExistingException;
 use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Log;
 use PartDB\User;
+
+
 
 /**
  * @file class.AttachementsContainingDBElement.php
@@ -215,7 +217,7 @@ abstract class AttachmentsContainingDBElement extends NamedDBElement
 
             //debug('temp', 'Anzahl gefundene Dateianhänge: '.count($query_data));
             foreach ($query_data as $row) {
-                $this->attachments[] = Attachment::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->attachments[] = Attachment::getInstance($this->database, $this->current_user, $this->log, (int) $row['id'], $row);
             }
         }
 
