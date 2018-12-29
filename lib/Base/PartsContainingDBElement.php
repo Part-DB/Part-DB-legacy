@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -216,7 +216,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
             $query_data = $this->database->query($query, $vals);
 
             foreach ($query_data as $row) {
-                $this->parts[] = Part::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->parts[] = Part::getInstance($this->database, $this->current_user, $this->log, (int) $row['id'], $row);
             }
         }
 

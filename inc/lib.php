@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php declare(strict_types=1); /** @noinspection ALL */
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -496,7 +496,7 @@ function floatToMoneyString($number, string $language = '') : string
         // number of digits used in current language
         $local_digits = $locale['int_frac_digits'];
         // digits of the number
-        $number_digits = ((int) $number != $number) ? (strlen($number) - strpos($number, $locale['decimal_point'])) - 1 : 0;
+        $number_digits = ((int) $number != $number) ? (strlen((string) $number) - strpos((string) $number, $locale['decimal_point'])) - 1 : 0;
 
         // international or local format?
         $format_type = ($language == $config['language']) ? 'n' : 'i';
