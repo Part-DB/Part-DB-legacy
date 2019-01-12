@@ -87,7 +87,7 @@ class PartPermission extends BasePermission
                 || $operation == static::SEARCH
                 || $operation == static::ALL_PARTS)
             && $new_value == static::ALLOW) {
-            return $this->writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

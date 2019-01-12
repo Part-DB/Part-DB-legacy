@@ -76,7 +76,7 @@ class UserPermission extends BasePermission
                 || $operation == static::SET_PASSWORD
                 || $operation == static::EDIT_PERMISSIONS)
             && $new_value == static::ALLOW) {
-            return $this->writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

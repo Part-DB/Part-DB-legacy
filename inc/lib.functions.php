@@ -73,7 +73,11 @@ if (! function_exists('money_format')) {
             }
             $letter = $positive ? 'p' : 'n';
 
-            $prefix = $suffix = $cprefix = $csuffix = $signal = '';
+            $signal = '';
+            $csuffix = $signal;
+            $cprefix = $csuffix;
+            $suffix = $cprefix;
+            $prefix = $suffix;
 
             $signal = $positive ? $locale['positive_sign'] : $locale['negative_sign'];
             switch (true) {

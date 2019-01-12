@@ -597,10 +597,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                     $arr['email'] = $new_values['email'];
                 }
             }
-            if ($this->current_user->canDo(PermissionManager::SELF, UserPermission::EDIT_USERNAME)) {
-                if (isset($new_values['name'])) {
-                    $arr['name'] = $new_values['name'];
-                }
+            if ($this->current_user->canDo(PermissionManager::SELF, UserPermission::EDIT_USERNAME) && isset($new_values['name'])) {
+                $arr['name'] = $new_values['name'];
             }
 
             //A user can always change its own configuration.

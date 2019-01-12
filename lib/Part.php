@@ -1984,7 +1984,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         }
 
         // check if we have to reset the order attributes ("instock" is now less than "mininstock")
-        if (($values['instock'] < $values['mininstock']) && ($is_new || ($element->getInstock() >= $element->getMininstock()))) {
+        if (($values['instock'] < $values['mininstock']) && ($is_new || ($element->getInstock() >= $element->getMinInstock()))) {
             if (! $values['manual_order']) {
                 $values['order_quantity'] = $values['mininstock'] - $values['instock'];
             }
@@ -2121,7 +2121,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             $price_per_piece = $row['price'] / $row['price_related_quantity'];
             $taken_parts = $row['min_discount_quantity'] * (int)($instock / $row['min_discount_quantity']);
             $price_sum += $price_per_piece * $taken_parts;
-            $instock = $instock - $taken_parts;
+            $instock -= $taken_parts;
         }
         $price_sum = round($price_sum, 2);
 

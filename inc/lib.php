@@ -89,7 +89,7 @@ function getGitCommitHash(int $length = 40)
     $filename = BASE.'/.git/refs/remotes/origin/'.getGitBranchName();
 
     if (file_exists($filename)) {
-        $head = File($filename);
+        $head = file($filename);
         $hash = $head[0];
         return substr($hash, 0, $length);
     }
@@ -475,11 +475,8 @@ function floatToMoneyString($number, string $language = '') : string
         $language = $config['language'];
     }
 
-    if ($language != $config['language']) {
-        // change locale, because the $language is not the default language!
-        if (! ownSetlocale(LC_MONETARY, $language)) {
-            debug('error', 'Sprache "'.$language.'" kann nicht gesetzt werden!', __FILE__, __LINE__, __METHOD__);
-        }
+    if (($language != $config['language']) && !ownSetlocale(LC_MONETARY, $language)) {
+        debug('error', 'Sprache "'.$language.'" kann nicht gesetzt werden!', __FILE__, __LINE__, __METHOD__);
     }
 
     // get the money format from config(_defaults).php

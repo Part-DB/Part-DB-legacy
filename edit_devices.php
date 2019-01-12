@@ -248,7 +248,7 @@ try {
     $html->setVariable('can_read', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
     $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 } catch (Exception $e) {
-    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
 

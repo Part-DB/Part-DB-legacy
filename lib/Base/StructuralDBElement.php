@@ -431,7 +431,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         if (! \is_array($this->full_path_strings)) {
             $this->full_path_strings = array();
             $this->full_path_strings[] = $this->getName();
-            $parent_id = static::getParentID();
+            $parent_id = $this->getParentID();
             while ($parent_id > 0) {
                 /** @var StructuralDBElement $element */
                 $element = static::getInstance($this->database, $this->current_user, $this->log, $parent_id);
@@ -616,17 +616,15 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
             } else { //Dont show root node
                 $tree = $nodes;
             }
+        } else if (!empty($nodes)) {
+            $tree = array('text' => htmlspecialchars($this->getName()),
+                'href' => $page . '?' . $parameter . '=' . $this->getID(),
+                'nodes' => $nodes
+            );
         } else {
-            if (!empty($nodes)) {
-                $tree = array('text' => htmlspecialchars($this->getName()),
-                    'href' => $page . '?' . $parameter . '=' . $this->getID(),
-                    'nodes' => $nodes
-                );
-            } else {
-                $tree = array('text' => htmlspecialchars($this->getName()),
-                    'href' => $page . '?' . $parameter . '=' .  $this->getID()
-                );
-            }
+            $tree = array('text' => htmlspecialchars($this->getName()),
+                'href' => $page . '?' . $parameter . '=' .  $this->getID()
+            );
         }
 
 

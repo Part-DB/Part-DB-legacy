@@ -62,7 +62,7 @@ class PartContainingPermission extends StructuralPermission
                 || $operation == static::CREATE
                 || $operation == static::LIST_PARTS)
             && $new_value == static::ALLOW) {
-            return $this->writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

@@ -56,12 +56,12 @@ class DatabasePermission extends BasePermission
     {
         //Set read permission, too, when you get edit permissions.
         if ($operation == static::UPDATE_DB && $new_value == static::ALLOW) {
-            return $this->writeBitPair($data, static::opToBitN(static::SEE_STATUS), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::SEE_STATUS), static::ALLOW);
         }
 
         //Set read permission, too, when you get edit permissions.
         if ($operation == static::WRITE_DB_SETTINGS && $new_value == static::ALLOW) {
-            return parent::writeBitPair($data, static::opToBitN(static::READ_DB_SETTINGS), static::ALLOW);
+            return $this->writeBitPair($data, static::opToBitN(static::READ_DB_SETTINGS), static::ALLOW);
         }
 
         return $data;

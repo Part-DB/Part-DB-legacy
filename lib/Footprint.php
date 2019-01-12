@@ -140,7 +140,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountForRowName('id_footprint', $recursive);
+        return $this->getPartsCountForRowName('id_footprint', $recursive);
     }
 
     /**

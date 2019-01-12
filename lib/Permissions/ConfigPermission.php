@@ -58,7 +58,7 @@ class ConfigPermission extends BasePermission
 
         //Set read permission, too, when you get edit permissions.
         if ($operation == static::EDIT_CONFIG && $new_value == static::ALLOW) {
-            return $this->writeBitPair($data, static::opToBitN(static::READ_CONFIG), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ_CONFIG), static::ALLOW);
         }
 
 

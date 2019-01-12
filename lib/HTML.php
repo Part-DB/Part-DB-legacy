@@ -99,11 +99,7 @@ class HTML
      */
     public function __construct(string $theme, string $custom_css_file = '', string $page_title = '', int $autorefresh = 0)
     {
-        // specify the variable type
-        $this->meta = (array)$this->meta;
         $this->javascript_files = (array)$this->javascript_files;
-        $this->body_onload = (string)$this->body_onload;
-        $this->variables = (array)$this->variables;
 
         // specify the variable type of array $this->meta
         $this->meta['theme'] = (string)$this->meta['theme'];
@@ -112,7 +108,7 @@ class HTML
         $this->meta['autorefresh'] = (int)$this->meta['autorefresh'];
 
         // check passed parameters
-        if (($theme != 'nextgen') && (! is_readable(BASE.'/templates/'.$theme. '/info.json'))) {
+        if (($theme !== 'nextgen') && (! is_readable(BASE.'/templates/'.$theme. '/info.json'))) {
             debug('warning', 'Template "'.$theme.'" could not be found! '.
                 'Use "nextgen" template instead...', __FILE__, __LINE__, __METHOD__);
             $theme = 'nextgen';
@@ -235,8 +231,6 @@ class HTML
                 $this->javascript_files[] = $filename;
             }
         }
-
-        $body_onload = (string)$body_onload;
         $this->body_onload .= $body_onload;
     }
 

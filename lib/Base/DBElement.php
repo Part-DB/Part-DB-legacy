@@ -195,13 +195,8 @@ abstract class DBElement
             $id_tmp = $this->db_data['id']; // backup ID
             $this->db_data = array();
             $this->db_data['id'] = $id_tmp; // restore ID
-        } else {
-            // get all data of the database record with the ID "$id"
-            // But if the ID is zero, it could be a root element of StructuralDBElement,
-            // so there is no data to get from database.
-            if ($this->getID() != 0) {
-                $this->db_data = $this->database->getRecordData($this->tablename, $this->getID());
-            }
+        } else if ($this->getID() != 0) {
+            $this->db_data = $this->database->getRecordData($this->tablename, $this->getID());
         }
     }
 

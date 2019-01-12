@@ -233,14 +233,12 @@ if (! $fatal_error) {
 
                 if (isset($_FILES['footprint_file']) && strlen($_FILES['footprint_file']['name']) > 0) {
                     $new_filename = uploadFile($_FILES['footprint_file'], $filepath);
-                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
-                    if (isURL($new_filename)) {
-                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
-                        if ($downloaded_file_name !== '') {
-                            $new_filename = $downloaded_file_name;
-                        } else {
-                            $messages[] = array('text' => _('Die Datei konnte nicht heruntergeladen werden!'), 'strong' => true, 'color' => 'red');
-                        }
+                } else if (isURL($new_filename)) {
+                    $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                    if ($downloaded_file_name !== '') {
+                        $new_filename = $downloaded_file_name;
+                    } else {
+                        $messages[] = array('text' => _('Die Datei konnte nicht heruntergeladen werden!'), 'strong' => true, 'color' => 'red');
                     }
                 }
 

@@ -62,7 +62,7 @@ class GroupPermission extends StructuralPermission
                 || $operation == static::CREATE
             || $operation == static::EDIT_PERMISSIONS)
             && $new_value == static::ALLOW) {
-            return $this->writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

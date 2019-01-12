@@ -69,7 +69,7 @@ class StructuralPermission extends BasePermission
                 || $operation == static::MOVE
                 || $operation == static::CREATE)
             && $new_value == static::ALLOW) {
-            return $this->writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

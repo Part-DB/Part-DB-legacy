@@ -52,7 +52,7 @@ class PartAttributePermission extends BasePermission
     {
         //Set read permission, too, when you get edit permissions.
         if ($operation == static::EDIT && $new_value == static::ALLOW) {
-            return $this->writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

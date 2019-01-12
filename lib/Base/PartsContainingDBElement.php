@@ -280,8 +280,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
             $vals[] = $element->getID();
         }
 
-        $query = $query.
-            ' ORDER BY name, description';
+        $query .= ' ORDER BY name, description';
 
         $query_data = $this->database->query($query, $vals);
 

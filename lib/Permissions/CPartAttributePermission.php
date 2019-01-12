@@ -63,7 +63,7 @@ class CPartAttributePermission extends BasePermission
                 || $operation == static::DELETE
                 || $operation == static::CREATE)
             && $new_value == static::ALLOW) {
-            return $this->writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

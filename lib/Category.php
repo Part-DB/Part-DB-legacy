@@ -412,7 +412,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountForRowName('id_category', $recursive);
+        return $this->getPartsCountForRowName('id_category', $recursive);
     }
 
 

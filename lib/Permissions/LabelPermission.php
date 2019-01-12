@@ -63,7 +63,7 @@ class LabelPermission extends BasePermission
                 || $operation == static::DELETE_PROFILES
                 || $operation == static::EDIT_OPTIONS)
             && $new_value == static::ALLOW) {
-            return $this->writeBitPair($data, static::opToBitN(static::CREATE_LABELS), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::CREATE_LABELS), static::ALLOW);
         }
 
         return $data;
