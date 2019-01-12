@@ -452,7 +452,7 @@ class DevicePart extends Base\DBElement
                 $quantity = $existing_devicepart->getMountQuantity() + $quantity;
 
                 $old_mountnames = $existing_devicepart->getMountNames();
-                if (\strlen($mountnames) > 0) {
+                if ($mountnames !== '') {
                     if (\strlen($old_mountnames) > 0) {
                         $mountnames = $old_mountnames . ', ' . $mountnames;
                     }

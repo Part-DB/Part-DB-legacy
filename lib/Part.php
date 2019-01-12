@@ -399,7 +399,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @return integer       count of parts which must be in stock at least
      */
-    public function getMinInstock() : int
+    public function getMinInstock()
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::READ)) {
             return '-1';
@@ -607,7 +607,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      */
     public function getManufacturerProductUrl(bool $no_auto_url = false) : string
     {
-        if ($no_auto_url || \strlen($this->db_data['manufacturer_product_url']) > 0) {
+        if ($no_auto_url || $this->db_data['manufacturer_product_url'] != '') {
             return $this->db_data['manufacturer_product_url'];
         } elseif (\is_object($this->getManufacturer())) {
             return $this->getManufacturer()->getAutoProductUrl($this->db_data['name']);
@@ -1437,7 +1437,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      * @throws Exception if the new ID is not valid
      * @throws Exception if there was an error
      */
-    public function setMasterPictureAttachementID(int $new_master_picture_attachement_id)
+    public function setMasterPictureAttachementID($new_master_picture_attachement_id)
     {
         $this->setAttributes(array('id_master_picture_attachement' => $new_master_picture_attachement_id));
     }
@@ -2783,7 +2783,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         //When searchstring begins and ends with a backslash, treat the input as regex query
         if ($keyword[0] === '\\' &&  substr($keyword, -1) === '\\'
-            || substr($keyword, 0, 1) === '/' &&  substr($keyword, -1) === '/') {
+            || strpos($keyword, '/') === 0 &&  substr($keyword, -1) === '/') {
             $regex_search = true;
             $keyword = mb_substr($keyword, 1, -1); //Remove the backslashes
         }

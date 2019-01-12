@@ -51,7 +51,7 @@ use geertw\IpAnonymizer\IpAnonymizer;
  */
 function isOdd(int $number) : bool
 {
-    return ($number & 1) ? true : false; // false = even, true = odd
+    return (bool)($number & 1); // false = even, true = odd
 }
 
 /**
@@ -211,7 +211,7 @@ function sendFile(string $filename, $mimetype = null)
 {
     $mtime = ($mtime = filemtime($filename)) ? $mtime : time();
 
-    if (false !== strpos($_SERVER["HTTP_USER_AGENT"], "MSIE")) {
+    if (strpos($_SERVER["HTTP_USER_AGENT"], "MSIE") !== false) {
         header('Content-Disposition: attachment; filename=' .urlencode(basename($filename)). '; modification-date=' .date('r', $mtime). ';');
     } else {
         header('Content-Disposition: attachment; filename="' .basename($filename). '"; modification-date="' .date('r', $mtime). '";');
@@ -246,7 +246,7 @@ function sendString(string $content, string $filename, string $mimetype)
 {
     $mtime = time();
 
-    if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') != false) {
+    if (false !== strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
         header('Content-Disposition: attachment; filename=' .urlencode($filename). '; modification-date=' .date('r', $mtime). ';');
     } else {
         header('Content-Disposition: attachment; filename="' .$filename. '"; modification-date="' .date('r', $mtime). '";');
@@ -276,7 +276,7 @@ function sendString(string $content, string $filename, string $mimetype)
  */
 function uploadFile(array $file_array, string $destination_directory, $destination_filename = null) : string
 {
-    if (! isset($file_array['name']) || ! isset($file_array['tmp_name']) || ! isset($file_array['error'])) {
+    if (!isset($file_array['name'], $file_array['tmp_name']) || !isset($file_array['error'])) {
         throw new Exception(_('Ungültiges Array übergeben!'));
     }
 
@@ -471,7 +471,7 @@ function floatToMoneyString($number, string $language = '') : string
 
     global $config;
 
-    if (strlen($language) == 0) {
+    if ($language === '') {
         $language = $config['language'];
     }
 
@@ -719,11 +719,7 @@ function isPathabsoluteAndUnix(string $path, bool $accept_protocols = true) : bo
     if (DIRECTORY_SEPARATOR == '/') {
         // for UNIX/Linux
 
-        if (mb_strpos($path, '/') !== 0) { // $path does not begin with a slash
-            return false;
-        } else {
-            return true;
-        } // we are not sure; maybe $path is absolute, maybe not...
+        return !(mb_strpos($path, '/') !== 0); // we are not sure; maybe $path is absolute, maybe not...
     } else {
         // for Windows
 
@@ -834,7 +830,7 @@ function regexAllowUmlauts(string $pattern) : string
  */
 function regexStripSlashes(string $pattern, bool $mb = true) : string
 {
-    if (mb_substr($pattern, 0, 1) === '/' &&  $pattern[strlen($pattern) - 1] === '/') {
+    if (mb_strpos($pattern, '/') === 0 &&  $pattern[strlen($pattern) - 1] === '/') {
         return mb_substr($pattern, 1, -1);
     } else {
         return $pattern;
@@ -1359,7 +1355,6 @@ function formatTimestamp(int $timestamp) : string
             IntlDateFormatter::MEDIUM,
             $timezone
         );
-        $formatter = $formatter;
 
         return $formatter->format($timestamp);
     } else {

@@ -101,7 +101,7 @@ class SystemVersion
      */
     public function __construct(string $version_string)
     {
-        $version = str_replace(' ', '.', trim(strtolower($version_string)));
+        $version = str_replace(' ', '.', strtolower(trim($version_string)));
 
         $dev_version = false;
         if (strpos($version, 'dev')) {

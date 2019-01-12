@@ -173,7 +173,7 @@ abstract class AttachmentsContainingDBElement extends NamedDBElement
      */
     public function getAttachmentTypes() : array
     {
-        if (! is_array($this->attachmentTypes)) {
+        if (! \is_array($this->attachmentTypes)) {
             $this->attachmentTypes = array();
 
             $query = 'SELECT attachement_types.* FROM attachements '.

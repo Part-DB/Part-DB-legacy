@@ -42,7 +42,7 @@ if (! function_exists('money_format')) {
         //if (setlocale(LC_MONETARY, 0) == 'C') { setlocale(LC_MONETARY, ''); }
         $locale = localeconv();
 
-        if (strpos(strtoupper(setlocale(LC_MONETARY, 0)), 'UTF') === false) { // charset is NOT UTF-8
+        if (stripos(setlocale(LC_MONETARY, 0), 'UTF') === false) { // charset is NOT UTF-8
             // convert $locale to UTF-8
             foreach ($locale as $key => $value) {
                 if (! is_array($value)) {

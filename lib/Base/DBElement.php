@@ -454,7 +454,7 @@ abstract class DBElement
     ) {
         // YOU HAVE TO IMPLEMENT THIS METHOD IN YOUR SUBCLASSES IF YOU WANT TO CHECK NEW VALUES !!
 
-        if ((! $is_new) && (! is_object($element))) {
+        if ((! $is_new) && (! \is_object($element))) {
             throw new \InvalidArgumentException(_('$element ist kein Objekt!'));
         }
     }

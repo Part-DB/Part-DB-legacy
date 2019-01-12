@@ -71,7 +71,7 @@ abstract class BaseLabel
             throw new \InvalidArgumentException(_('Der gewählte Labeltyp wird von dem aktuellem Labelgenerator nicht unterstützt!'));
         }
 
-        if ($size != 'custom' &&  !in_array($size, static::getSupportedSizes())) {
+        if ($size != 'custom' &&  !\in_array($size, static::getSupportedSizes())) {
             throw new \InvalidArgumentException(_('Die gewählte Labelgröße wird von dem aktuellem Labelgenerator nicht unterstützt!'));
         }
 

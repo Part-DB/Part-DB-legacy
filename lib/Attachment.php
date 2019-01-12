@@ -35,6 +35,7 @@ use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Part;
+use PartDB\Device;
 
 /**
  * @file Attachement.php
@@ -135,7 +136,7 @@ class Attachment extends Base\NamedDBElement
 
             if ((count($attachements) <= 1) && file_exists($filename)) {
                 // check if there are enought permissions to delete the file
-                if (! is_writable(dirname($filename))) {
+                if (! is_writable(\dirname($filename))) {
                     throw new Exception(sprintf(_('Die Datei "%s" kann nicht gelöscht werden, '.
                         'da im übergeordneten Ordner keine Schreibrechte vorhanden sind!'), $filename));
                 }
@@ -425,8 +426,8 @@ class Attachment extends Base\NamedDBElement
         }
 
         // check "class_name"
-        $supported_classes = array("PartDB\Part",
-            "PartDB\Device"); // to be continued (step by step)...
+        $supported_classes = array(Part::class,
+            Device::class); // to be continued (step by step)...
 
         if (! in_array($values['class_name'], $supported_classes)) {
             throw new InvalidElementValueException(sprintf(_('Ungültiger Klassenname: "%s"'), $values['class_name']));

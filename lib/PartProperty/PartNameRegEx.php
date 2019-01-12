@@ -126,7 +126,7 @@ class PartNameRegEx
 
         $properties = array();
 
-        for ($n=0, $nMax = count($this->capture_names); $n< $nMax; $n++) {
+        foreach ($this->capture_names as $n => $nValue) {
             if (empty($tmp[$n + 1])) { //Ignore empty values
                 continue;
             }
@@ -147,11 +147,7 @@ class PartNameRegEx
             return true;
         }
 
-        if (mb_eregi($this->getRegex(true), $name) !== false) {
-            return true;
-        } else {
-            return false;
-        }
+        return mb_eregi($this->getRegex(true), $name) !== false;
     }
 
     /**

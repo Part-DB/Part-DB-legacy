@@ -269,7 +269,7 @@ function checkIfConfigIsValid()
 {
     global $config_defaults;
 
-    if (isset($config_defaults['system']) && isset($config_defaults['system']['version'])) {
+    if (isset($config_defaults['system']['version'])) {
         // it seems that the user has copied the config_defaults.php to the config.php, this is not good!
         return  _('Es scheint, als hätten Sie die Datei "config_defaults.php" als Vorlage für Ihre "config.php" verwendet.<br>'.
             'Das ist aber nicht so vorgesehen und darf nicht so gemacht werden, da dies Probleme verursachen wird!<br><br>'.

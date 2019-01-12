@@ -126,7 +126,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
 
         //Perms are only set, if no error happened before, so dont throw an exception!!
         if (!empty($arr)) {
-            $this->setAttributesNoCheck($arr, $edit_message = null);
+            $this->setAttributesNoCheck($arr, $edit_message);
         }
     }
 

@@ -124,9 +124,6 @@ class DatabaseUpdatedEntry extends BaseEntry
      */
     public static function add(Database &$database, User &$current_user, Log &$log, int $old_version, int $new_version, bool $successful = true)
     {
-        $old_version = $old_version;
-        $new_version = $new_version;
-
         $extra_array = array();
         $extra_array['o'] = $old_version; //Old version
         $extra_array['n'] = $new_version; //New version

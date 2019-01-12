@@ -105,13 +105,13 @@ if (! $fatal_error) {
 
         case 'show_others':
             $directories = findAllDirectories(BASE.'/img/footprints/');
-            if (array_search(BASE.'/img/footprints/Aktiv', $directories) !== false) {
+            if (in_array(BASE.'/img/footprints/Aktiv', $directories)) {
                 unset($directories[array_search(BASE.'/img/footprints/Aktiv', $directories)]);
             }
-            if (array_search(BASE.'/img/footprints/Passiv', $directories) !== false) {
+            if (in_array(BASE . '/img/footprints/Passiv', $directories)) {
                 unset($directories[array_search(BASE.'/img/footprints/Passiv', $directories)]);
             }
-            if (array_search(BASE.'/img/footprints/Elektromechanik', $directories) !== false) {
+            if (in_array(BASE.'/img/footprints/Elektromechanik', $directories)) {
                 unset($directories[array_search(BASE.'/img/footprints/Elektromechanik', $directories)]);
             }
             foreach ($directories as $key => $value) {

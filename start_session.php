@@ -94,9 +94,9 @@ if (isset($config['DOCUMENT_ROOT'])) {
     define('DOCUMENT_ROOT', $config['DOCUMENT_ROOT']);
 } elseif (isset($_SERVER['DOCUMENT_ROOT'])) {
     define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), '/'));
-} elseif (isset($_SERVER['SCRIPT_FILENAME']) && isset($_SERVER['PHP_SELF'])) {
+} elseif (isset($_SERVER['SCRIPT_FILENAME'], $_SERVER['PHP_SELF'])) {
     define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF'])))));
-} elseif (isset($_SERVER['PATH_TRANSLATED']) && isset($_SERVER['PHP_SELF'])) {
+} elseif (isset($_SERVER['PATH_TRANSLATED'], $_SERVER['PHP_SELF'])) {
     define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0-strlen($_SERVER['PHP_SELF'])))));
 } else {
     $messages = _('Die Konstante "DOCUMENT_ROOT" konnte auf Ihrem Server nicht ermittelt werden.<br>'.

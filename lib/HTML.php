@@ -360,7 +360,7 @@ class HTML
 
 
 
-        if (\strlen($this->meta['custom_css']) > 0) {
+        if ($this->meta['custom_css'] != '') {
             $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
         }
 

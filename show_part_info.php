@@ -74,7 +74,6 @@ if (isset($_REQUEST['barcode'])) {
         $part_id = (int) $barcode;
     } else {
         $messages[] = array('text' => nl2br(_("Label input is not valid!")), 'strong' => true, 'color' => 'red');
-        $messages[] = $messages[];
         $fatal_error = true;
     }
 }

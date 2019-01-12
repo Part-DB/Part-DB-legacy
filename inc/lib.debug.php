@@ -321,6 +321,4 @@ function setDebugEnable($new_enable)
         $config['debug']['enable'] = false;
         throw $e;
     }
-
-    return;
 }

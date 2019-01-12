@@ -243,7 +243,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getSupplierProductUrl(bool $no_automatic_url = false) : string
     {
-        if ($no_automatic_url || \strlen($this->db_data['supplier_product_url']) > 0) {
+        if ($no_automatic_url || $this->db_data['supplier_product_url'] != '') {
             return $this->db_data['supplier_product_url'];
         } else {
             return $this->getSupplier()->getAutoProductUrl($this->db_data['supplierpartnr']);
