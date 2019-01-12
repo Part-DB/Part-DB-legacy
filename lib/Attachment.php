@@ -34,6 +34,7 @@ use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PermissionManager;
+use PartDB\Part;
 
 /**
  * @file Attachement.php
@@ -420,7 +421,7 @@ class Attachment extends Base\NamedDBElement
 
         //Namespace migration for old non-Namespace parts
         if ($values['class_name'] == 'Part') {
-            $values['class_name'] = "PartDB\Part";
+            $values['class_name'] = Part::class;
         }
 
         // check "class_name"

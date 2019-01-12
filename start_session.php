@@ -33,7 +33,7 @@
 // set HTTP charset to UTF-8
 header('Content-type: text/html; charset=utf-8');
 
-$BASE_tmp = str_replace('\\', '/', dirname(__FILE__)); // temporary base path of Part-DB, without slash at the end
+$BASE_tmp = str_replace('\\', '/', __DIR__); // temporary base path of Part-DB, without slash at the end
 
 include_once $BASE_tmp.'/inc/lib.start_session.php';
 

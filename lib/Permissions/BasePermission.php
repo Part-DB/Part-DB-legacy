@@ -236,7 +236,7 @@ abstract class BasePermission
      * @param $n int The number of the lower bit (of the pair) that should be read. Starting from zero.
      * @return int The value of the bit pair.
      */
-    final protected static function readBitPair(int $data, int $n)
+    final protected static function readBitPair(int $data, int $n): int
     {
         if (!\is_int($data) || !\is_int($n)) {
             throw new \InvalidArgumentException(_('Die Parameter müssen alles gültige Integervariablen sein!'));

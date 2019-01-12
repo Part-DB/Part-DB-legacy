@@ -404,7 +404,7 @@ abstract class DBElement
      */
     final public static function getTablename() : string
     {
-        $c = \get_called_class();
+        $c = static::class;
         $tablename = $c::TABLE_NAME;
         //Check if the tablename was really set!
         if ($tablename == '') {

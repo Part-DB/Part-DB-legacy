@@ -396,7 +396,7 @@ function setTempAdminPassword(string $new_password_1, string $new_password_2, bo
  */
 function saveConfig()
 {
-    if (file_exists(BASE.'/data/config.php') && (! is_writeable(BASE.'/data/config.php'))) {
+    if (file_exists(BASE.'/data/config.php') && (! is_writable(BASE.'/data/config.php'))) {
         throw new Exception(_('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!'));
     }
 
@@ -599,7 +599,7 @@ function downloadFile(string $url, string $path, string $filename = '', bool $do
 
     createPath($path);
 
-    $ret = file_put_contents($path . $filename, fopen($url, 'r'));
+    $ret = file_put_contents($path . $filename, fopen($url, 'rb'));
     if ($ret !== false) { //If download was successful
         return $path . $filename;
     }
@@ -890,7 +890,7 @@ function strcontains(string $haystack, string $needle) : bool
  */
 function convertAPIModelArray(array $array, bool $verbose = false)
 {
-    if (is_null($array)) {
+    if ($array === null) {
         return null;
     }
 

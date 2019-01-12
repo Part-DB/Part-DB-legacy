@@ -643,19 +643,19 @@ if (! $fatal_error) {
             break;
 
         case 'search_category':
-            $classname = 'PartDB\Category';
+            $classname = Category::class;
             $search_name = $search_category_name;
             break;
         case 'search_footprint':
-            $classname = 'PartDB\Footprint';
+            $classname = Footprint::class;
             $search_name = $search_footprint_name;
             break;
         case 'search_storelocation':
-            $classname = 'PartDB\Storelocation';
+            $classname = Storelocation::class;
             $search_name = $search_storelocation_name;
             break;
         case 'search_manufacturer':
-            $classname = 'PartDB\Manufacturer';
+            $classname = Manufacturer::class;
             $search_name = $search_manufacturer_name;
             break;
     }

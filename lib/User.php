@@ -873,7 +873,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         $loggedin_ID    = self::getLoggedInID();
 
-        if (\is_null($database) || \is_null($log)) {
+        if ($database === null || $log === null) {
             $database = new Database();
             $log = new Log($database);
         }

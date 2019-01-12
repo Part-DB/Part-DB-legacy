@@ -303,7 +303,7 @@ try {
     $html->setVariable('startup_banner', $config['startup']['custom_banner'], 'string');
 
     // server
-    $html->setVariable('php_version', phpversion(), 'string');
+    $html->setVariable('php_version', PHP_VERSION, 'string');
     $html->setVariable('htaccess_works', getenv('htaccessWorking') == 'true', 'boolean');
     $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
     $html->setVariable('using_https', isUsingHTTPS(), 'boolean');
