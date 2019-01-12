@@ -222,7 +222,7 @@ class Database
             throw new DatabaseException(_('Eintrag "dbVersion" existiert nicht in der Tabelle "internal"!'));
         }
 
-        $tmp = \intval($query_data[0]['keyValue']);
+        $tmp = (int)$query_data[0]['keyValue'];
         static::$current_version = $tmp;
 
         return $tmp;

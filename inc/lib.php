@@ -1445,7 +1445,7 @@ function parsePartsSelection(&$database, &$current_user, &$log, $selection, $act
                 throw new Exception(_('Bitte wählen sie ein Ziel zum Verschieben aus.'));
             }
             $type = substr($target, 0, 1);
-            $target_id = intval(substr($target, 1));
+            $target_id = (int)substr($target, 1);
             //Check if target ID is valid.
             if ($target_id < 1) {
                 throw new Exception(_('Ungültige ID'));

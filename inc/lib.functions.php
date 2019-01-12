@@ -53,7 +53,7 @@ if (! function_exists('money_format')) {
 
         preg_match_all($regex, $format, $matches, PREG_SET_ORDER);
         foreach ($matches as $fmatch) {
-            $value = floatval($number);
+            $value = (float)$number;
             $flags = array(
                 'fillchar'  => preg_match('/\=(.)/', $fmatch[1], $match) ? $match[1] : ' ',
                 'nogroup'   => preg_match('/\^/', $fmatch[1]) > 0,

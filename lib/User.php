@@ -702,7 +702,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getPermissionRaw(string $permsission_name) : int
     {
-        return \intval($this->db_data['perms_' . $permsission_name]);
+        return (int)$this->db_data['perms_' . $permsission_name];
     }
 
     /**
