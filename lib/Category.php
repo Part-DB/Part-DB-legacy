@@ -528,9 +528,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
-        settype($values['disable_footprints'], 'boolean');
-        settype($values['disable_manufacturers'], 'boolean');
-        settype($values['disable_autodatasheets'], 'boolean');
+        $values['disable_footprints'] = (bool)$values['disable_footprints'];
+        $values['disable_manufacturers'] = (bool)$values['disable_manufacturers'];
+        $values['disable_autodatasheets'] = (bool)$values['disable_autodatasheets'];
     }
 
     /**

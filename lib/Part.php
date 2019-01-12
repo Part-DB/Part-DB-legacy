@@ -224,7 +224,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         switch ($barcode_type) {
             case "EAN8":
                 $code = (string) $this->getID();
-                while (strlen($code) < 7) {
+                while (\strlen($code) < 7) {
                     $code = '0' . $code;
                 }
                 return $code;
@@ -289,16 +289,16 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $string = str_replace("%AVGPRICE%", $this->getAveragePrice(), $string);       //average price
 
         //Category infos
-        $string = str_replace("%CAT%", is_object($this->getCategory()) ? $this->getCategory()->getName() : "", $string);
-        $string = str_replace("%CAT_FULL%", is_object($this->getCategory()) ? $this->getCategory()->getFullPath() : "", $string);
+        $string = str_replace("%CAT%", \is_object($this->getCategory()) ? $this->getCategory()->getName() : "", $string);
+        $string = str_replace("%CAT_FULL%", \is_object($this->getCategory()) ? $this->getCategory()->getFullPath() : "", $string);
 
         //Footprint info
-        $string = str_replace("%FOOT%", is_object($this->getFootprint()) ? $this->getFootprint()->getName() : "", $string);
-        $string = str_replace("%FOOT_FULL%", is_object($this->getFootprint()) ? $this->getFootprint()->getFullPath() : "", $string);
+        $string = str_replace("%FOOT%", \is_object($this->getFootprint()) ? $this->getFootprint()->getName() : "", $string);
+        $string = str_replace("%FOOT_FULL%", \is_object($this->getFootprint()) ? $this->getFootprint()->getFullPath() : "", $string);
 
         //Manufacturer info
-        $string = str_replace("%MANUFACT%", is_object($this->getManufacturer()) ? $this->getManufacturer()->getName() : "", $string);
-        $string = str_replace("%MANUFACT_FULL%", is_object($this->getManufacturer()) ? $this->getManufacturer()->getFullPath() : "", $string);
+        $string = str_replace("%MANUFACT%", \is_object($this->getManufacturer()) ? $this->getManufacturer()->getName() : "", $string);
+        $string = str_replace("%MANUFACT_FULL%", \is_object($this->getManufacturer()) ? $this->getManufacturer()->getFullPath() : "", $string);
 
         //Order infos
         $all_orderdetails   = $this->getOrderdetails();
@@ -309,8 +309,8 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         //Store location
         /* @var Storelocation $storelocation */
         $storelocation      = $this->getStorelocation();
-        $string = str_replace("%STORELOC%", is_object($storelocation) ? $storelocation->getName() : '', $string);
-        $string = str_replace("%STORELOC_FULL%", is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
+        $string = str_replace("%STORELOC%", \is_object($storelocation) ? $storelocation->getName() : '', $string);
+        $string = str_replace("%STORELOC_FULL%", \is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
 
         //Remove single '-' without other infos
         if (trim($string) == "-") {
@@ -349,7 +349,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         $val = htmlspecialchars($this->db_data['description']);
 
-        if ($short_output > 0 && strlen($val) > $short_output) {
+        if ($short_output > 0 && \strlen($val) > $short_output) {
             $val = substr($val, 0, $short_output);
             $val = $val . "...";
             $val = '<span class="text-muted">' . $val . '</span class="text-muted">';
@@ -502,7 +502,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             return null;
         }
 
-        if ((! is_object($this->order_orderdetails)) && ($this->db_data['order_orderdetails_id'] != null)) {
+        if ((! \is_object($this->order_orderdetails)) && ($this->db_data['order_orderdetails_id'] != null)) {
             $this->order_orderdetails = Orderdetails::getInstance(
                 $this->database,
                 $this->current_user,
@@ -607,9 +607,9 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      */
     public function getManufacturerProductUrl(bool $no_auto_url = false) : string
     {
-        if ($no_auto_url || strlen($this->db_data['manufacturer_product_url']) > 0) {
+        if ($no_auto_url || \strlen($this->db_data['manufacturer_product_url']) > 0) {
             return $this->db_data['manufacturer_product_url'];
-        } elseif (is_object($this->getManufacturer())) {
+        } elseif (\is_object($this->getManufacturer())) {
             return $this->getManufacturer()->getAutoProductUrl($this->db_data['name']);
         } else {
             return '';
@@ -664,7 +664,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             );
         }
 
-        if (! is_object($this->category)) {
+        if (! \is_object($this->category)) {
             $this->category = Category::getInstance(
                 $this->database,
                 $this->current_user,
@@ -690,7 +690,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             return null;
         }
 
-        if ((! is_object($this->footprint)) && ($this->db_data['id_footprint'] != null)) {
+        if ((! \is_object($this->footprint)) && ($this->db_data['id_footprint'] != null)) {
             $this->footprint = Footprint::getInstance(
                 $this->database,
                 $this->current_user,
@@ -716,7 +716,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             return null;
         }
 
-        if ((! is_object($this->storelocation)) && ($this->db_data['id_storelocation'] != null)) {
+        if ((! \is_object($this->storelocation)) && ($this->db_data['id_storelocation'] != null)) {
             $this->storelocation = Storelocation::getInstance(
                 $this->database,
                 $this->current_user,
@@ -742,7 +742,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             return null;
         }
 
-        if ((! is_object($this->manufacturer)) && ($this->db_data['id_manufacturer'] != null)) {
+        if ((! \is_object($this->manufacturer)) && ($this->db_data['id_manufacturer'] != null)) {
             $this->manufacturer = Manufacturer::getInstance(
                 $this->database,
                 $this->current_user,
@@ -769,7 +769,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             return null;
         }
 
-        if ((! is_object($this->master_picture_attachement)) && ($this->db_data['id_master_picture_attachement'] != null)) {
+        if ((! \is_object($this->master_picture_attachement)) && ($this->db_data['id_master_picture_attachement'] != null)) {
             $this->master_picture_attachement = Attachment::getInstance(
                 $this->database,
                 $this->current_user,
@@ -799,7 +799,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             return array();
         }
 
-        if (! is_array($this->orderdetails)) {
+        if (! \is_array($this->orderdetails)) {
             $this->orderdetails = array();
 
             $query = 'SELECT orderdetails.* FROM orderdetails '.
@@ -838,7 +838,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      */
     public function getDevices() : array
     {
-        if (! is_array($this->devices)) {
+        if (! \is_array($this->devices)) {
             $this->devices = array();
 
             $query = 'SELECT devices.* FROM device_parts '.
@@ -910,7 +910,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 }
             }
 
-            if (is_string($delimeter)) {
+            if (\is_string($delimeter)) {
                 return implode($delimeter, $supplier_names);
             } else {
                 return $supplier_names;
@@ -945,7 +945,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             $supplierpartnrs[] = $details->getSupplierPartNr();
         }
 
-        if (is_string($delimeter)) {
+        if (\is_string($delimeter)) {
             return implode($delimeter, $supplierpartnrs);
         } else {
             return $supplierpartnrs;
@@ -990,7 +990,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             $prices[] = $details->getPrice((! $float_array), $quantity, $multiplier);
         }
 
-        if (is_string($delimeter)) {
+        if (\is_string($delimeter)) {
             return implode($delimeter, $prices);
         } else {
             return $prices;
@@ -1067,13 +1067,13 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         $master_picture = $this->getMasterPictureAttachement(); // returns an Attachement-object
 
-        if (is_object($master_picture)) {
+        if (\is_object($master_picture)) {
             return $master_picture->getFilename();
         }
 
         if ($use_footprint_filename) {
             $footprint = $this->getFootprint();
-            if (is_object($footprint)) {
+            if (\is_object($footprint)) {
                 return $footprint->getFilename();
             }
         }
@@ -1503,7 +1503,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         if ($this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT)
             || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE)
             || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::DELETE)) {
-            if (array_key_exists('id_master_picture_attachement', $new_values)) {
+            if (\array_key_exists('id_master_picture_attachement', $new_values)) {
                 $arr['id_master_picture_attachement'] = $new_values['id_master_picture_attachement'];
             }
         }
@@ -1587,9 +1587,9 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                     if ($this->getMasterPictureAttachement() != null && !$this->getMasterPictureAttachement()->isFileExisting()) { //When filename is invalid then dont show picture.
                         $picture_filename = "";
                     }
-                    $row_field['picture_name']  = strlen($picture_filename) ? basename($picture_filename) : '';
-                    $row_field['small_picture'] = strlen($picture_filename) ? $picture_filename : '';
-                    $row_field['hover_picture'] = strlen($picture_filename) ? $picture_filename : '';
+                    $row_field['picture_name']  = \strlen($picture_filename) ? basename($picture_filename) : '';
+                    $row_field['small_picture'] = \strlen($picture_filename) ? $picture_filename : '';
+                    $row_field['hover_picture'] = \strlen($picture_filename) ? $picture_filename : '';
                     break;
 
                 case 'name':
@@ -1620,7 +1620,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
                 case 'footprint':
                     $footprint = $this->getFootprint();
-                    if (is_object($footprint)) {
+                    if (\is_object($footprint)) {
                         $row_field['footprint_name'] = $footprint->getName();
                         $row_field['footprint_path'] = $footprint->getFullPath();
                         $row_field['footprint_id'] = $footprint->getID();
@@ -1630,7 +1630,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
                 case 'manufacturer':
                     $manufacturer = $this->getManufacturer();
-                    if (is_object($manufacturer)) {
+                    if (\is_object($manufacturer)) {
                         $row_field['manufacturer_name'] = $manufacturer->getName();
                         $row_field['manufacturer_path'] = $manufacturer->getFullPath();
                         $row_field['manufacturer_id'] = $manufacturer->getID();
@@ -1640,7 +1640,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
                 case 'storelocation':
                     $storelocation = $this->getStorelocation();
-                    if (is_object($storelocation)) {
+                    if (\is_object($storelocation)) {
                         $row_field['storelocation_name'] = $storelocation->getName();
                         $row_field['storelocation_path'] = $storelocation->getFullPath();
                         $row_field['storelocation_id'] = $storelocation->getID();
@@ -1663,7 +1663,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
                 case 'suppliers_radiobuttons':
                     if ($table_type == 'order_parts') {
-                        if (is_object($this->getOrderOrderdetails())) {
+                        if (\is_object($this->getOrderOrderdetails())) {
                             $order_orderdetails_id = $this->getOrderOrderdetails()->getID();
                         } else {
                             $order_orderdetails_id = 0;
@@ -1813,7 +1813,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             }
 
             // maybe there are any additional values to add...
-            if (array_key_exists($caption, $additional_values)) {
+            if (\array_key_exists($caption, $additional_values)) {
                 foreach ($additional_values[$caption] as $key => $value) {
                     $row_field[$key] = $additional_values[$caption][$key];
                 }
@@ -1961,11 +1961,11 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the datetype of the boolean attributes
-        settype($values['visible'], 'boolean');
-        settype($values['manual_order'], 'boolean');
+        $values['visible'] = (bool)$values['visible'];
+        $values['manual_order'] = (bool)$values['manual_order'];
 
         // check "instock"
-        if ((! is_int($values['instock'])) && (! is_numeric($values['instock']))) {
+        if ((! \is_int($values['instock'])) && (! is_numeric($values['instock']))) {
             throw new InvalidElementValueException(_('Der neue Lagerbestand ist ungültig!'));
         } elseif ($values['instock'] < 0 && $values['instock'] != static::INSTOCK_UNKNOWN) {
             throw new InvalidElementValueException(sprintf(_('Der neue Lagerbestand von "%s" wäre negativ und kann deshalb nicht gespeichert werden!'), $values['name']));
@@ -1996,7 +1996,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         }
 
         // check "order_quantity"
-        if (((! is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
+        if (((! \is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
             || ($values['order_quantity'] < 1)) {
             debug('error', 'order_quantity = "'.$values['order_quantity'].'"', __FILE__, __LINE__, __METHOD__);
             throw new InvalidElementValueException(_('Die Bestellmenge ist ungültig!'));
@@ -2012,7 +2012,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         }
 
         // check "mininstock"
-        if (((! is_int($values['mininstock'])) && (! ctype_digit($values['mininstock'])))
+        if (((! \is_int($values['mininstock'])) && (! ctype_digit($values['mininstock'])))
             || ($values['mininstock'] < 0)) {
             throw new InvalidElementValueException(_('Der neue Mindestlagerbestand ist ungültig!'));
         }
@@ -2093,7 +2093,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         $query_data = $database->query('SELECT sum(instock) as sum FROM parts WHERE instock > 0');
 
-        return intval($query_data[0]['sum']);
+        return \intval($query_data[0]['sum']);
     }
 
     /**
@@ -2801,13 +2801,13 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             && $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, PartAttributePermission::READ);
 
         //When searchstring begins and ends with a backslash, treat the input as regex query
-        if (substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\'
+        if ($keyword[0] === '\\' &&  substr($keyword, -1) === '\\'
             || substr($keyword, 0, 1) === '/' &&  substr($keyword, -1) === '/') {
             $regex_search = true;
             $keyword = mb_substr($keyword, 1, -1); //Remove the backslashes
         }
 
-        if (strlen($keyword) == 0) {
+        if (\strlen($keyword) == 0) {
             return array();
         }
 

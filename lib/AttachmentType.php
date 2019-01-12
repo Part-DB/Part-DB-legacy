@@ -85,7 +85,7 @@ class AttachmentType extends Base\StructuralDBElement implements Interfaces\IAPI
     public function getAttachementsForType() : array
     {
         // the attribute $this->attachements is used from class "AttachementsContainingDBELement"
-        if (! is_array($this->attachments)) {
+        if (! \is_array($this->attachments)) {
             $this->attachments = array();
 
             $query = 'SELECT * FROM attachements ' .

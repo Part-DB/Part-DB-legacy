@@ -140,7 +140,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
 
             // Check if this Orderdetails is the Part's selected Orderdetails for ordering and delete this reference if neccessary
             $order_orderdetails = $this->getPart()->getOrderOrderdetails();
-            if (is_object($order_orderdetails) && ($order_orderdetails->getID() == $this->getID())) {
+            if (\is_object($order_orderdetails) && ($order_orderdetails->getID() == $this->getID())) {
                 $this->getPart()->setOrderOrderdetailsID(null);
             } else {
                 $this->getPart()->setAttributes(array());
@@ -175,7 +175,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getPart() : Part
     {
-        if (! is_object($this->part)) {
+        if (! \is_object($this->part)) {
             $this->part = Part::getInstance(
                 $this->database,
                 $this->current_user,
@@ -196,7 +196,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getSupplier() : Supplier
     {
-        if (! is_object($this->supplier)) {
+        if (! \is_object($this->supplier)) {
             $this->supplier = Supplier::getInstance(
                 $this->database,
                 $this->current_user,
@@ -243,7 +243,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getSupplierProductUrl(bool $no_automatic_url = false) : string
     {
-        if ($no_automatic_url || strlen($this->db_data['supplier_product_url']) > 0) {
+        if ($no_automatic_url || \strlen($this->db_data['supplier_product_url']) > 0) {
             return $this->db_data['supplier_product_url'];
         } else {
             return $this->getSupplier()->getAutoProductUrl($this->db_data['supplierpartnr']);
@@ -264,7 +264,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             return array();
         }
 
-        if (! is_array($this->pricedetails)) {
+        if (! \is_array($this->pricedetails)) {
             $this->pricedetails = array();
 
             $query = 'SELECT * FROM pricedetails '.
@@ -330,7 +330,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             $correct_pricedetails = $pricedetails;
         }
 
-        if ((! isset($correct_pricedetails)) || (! is_object($correct_pricedetails))) {
+        if ((! isset($correct_pricedetails)) || (! \is_object($correct_pricedetails))) {
             throw new Exception(_('Es sind keine Preisinformationen für die angegebene Bestellmenge vorhanden!'));
         }
 
@@ -424,7 +424,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the datetype of the boolean attributes
-        settype($values['obsolete'], 'boolean');
+        $values['obsolete'] = (bool)$values['obsolete'];
 
         // check "part_id"
         try {

@@ -88,7 +88,7 @@ class Supplier extends Base\Company implements ISearchable
      */
     public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        if (! is_array($this->parts)) {
+        if (! \is_array($this->parts)) {
             $this->parts = array();
             $query =    'SELECT part_id FROM orderdetails '.
                 'LEFT JOIN parts ON parts.id=orderdetails.part_id '.

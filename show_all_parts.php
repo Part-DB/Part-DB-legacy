@@ -135,7 +135,7 @@ if (! $fatal_error) {
         case "multi_action":
             try {
                 if (isset($_REQUEST['action']) && $_REQUEST['action'] == "delete") {
-                    $n = count(explode(",", $_REQUEST['selected_ids']));
+                    $n = substr_count($_REQUEST['selected_ids'], ",") + 1;
                     $messages[] = array('text' => sprintf(_('Sollen die %d gewählten Bauteile wirklich unwiederruflich gelöscht werden?'), $n),
                         'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);

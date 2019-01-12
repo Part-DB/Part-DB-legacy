@@ -67,7 +67,7 @@ abstract class BaseLabel
      */
     public function __construct(ILabel $element, int $type, string $size, string $preset, $options = null)
     {
-        if (!in_array($type, static::getSupportedTypes())) {
+        if (!\in_array($type, static::getSupportedTypes())) {
             throw new \InvalidArgumentException(_('Der gewählte Labeltyp wird von dem aktuellem Labelgenerator nicht unterstützt!'));
         }
 

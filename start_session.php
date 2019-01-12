@@ -290,7 +290,7 @@ if (($config['debug']['enable']) && (! $config['debug']['template_debugging_enab
     //Dont show errors because of function override in php7
     if (PHP_MAJOR_VERSION >= 7) {
         set_error_handler(function ($errno, $errstr) {
-            return strpos($errstr, 'Declaration of') === 0;
+            return strncmp($errstr, 'Declaration of', 14) === 0;
         }, E_WARNING);
     }
 } else {

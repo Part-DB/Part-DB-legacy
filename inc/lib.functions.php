@@ -213,7 +213,7 @@ function getMimetype(string $filename) : string
 function rmdirRecursive(string $dir)
 {
     if (is_dir($dir)) {
-        $objects = scandir($dir);
+        $objects = scandir($dir, SCANDIR_SORT_NONE);
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
                 if (filetype($dir."/".$object) == "dir") {

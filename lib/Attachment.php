@@ -128,7 +128,7 @@ class Attachment extends Base\NamedDBElement
         $filename = $this->getFilename();
         $must_file_delete = false;
 
-        if (($delete_from_hdd) && (strlen($filename) > 0)) {
+        if (($delete_from_hdd) && (\strlen($filename) !== "")) {
             // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
             $attachements = Attachment::getAttachementsByFilename($this->database, $this->current_user, $this->log, $filename);
 
@@ -406,7 +406,7 @@ class Attachment extends Base\NamedDBElement
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set boolean attributes
-        settype($values['show_in_table'], 'boolean');
+        $values['show_in_table'] = (bool)$values['show_in_table'];
 
         // check "type_id"
         try {

@@ -100,16 +100,16 @@ class HTML
     public function __construct(string $theme, string $custom_css_file = '', string $page_title = '', int $autorefresh = 0)
     {
         // specify the variable type
-        settype($this->meta, 'array');
-        settype($this->javascript_files, 'array');
-        settype($this->body_onload, 'string');
-        settype($this->variables, 'array');
+        $this->meta = (array)$this->meta;
+        $this->javascript_files = (array)$this->javascript_files;
+        $this->body_onload = (string)$this->body_onload;
+        $this->variables = (array)$this->variables;
 
         // specify the variable type of array $this->meta
-        settype($this->meta['theme'], 'string');
-        settype($this->meta['title'], 'string');
-        settype($this->meta['custom_css'], 'string');
-        settype($this->meta['autorefresh'], 'integer');
+        $this->meta['theme'] = (string)$this->meta['theme'];
+        $this->meta['title'] = (string)$this->meta['title'];
+        $this->meta['custom_css'] = (string)$this->meta['custom_css'];
+        $this->meta['autorefresh'] = (int)$this->meta['autorefresh'];
 
         // check passed parameters
         if (($theme != 'nextgen') && (! is_readable(BASE.'/templates/'.$theme."/info.json"))) {
@@ -117,13 +117,13 @@ class HTML
                 'Use "nextgen" template instead...', __FILE__, __LINE__, __METHOD__);
             $theme = 'nextgen';
         }
-        if ((! is_string($custom_css_file))
+        if ((! \is_string($custom_css_file))
             || (($custom_css_file != '') && (! is_readable(BASE.'/templates/custom_css/'.$custom_css_file)))) {
             debug('warning', 'Custom CSS file "'.$custom_css_file.'" could not be found! '.
                 'Use standard instead...', __FILE__, __LINE__, __METHOD__);
             $custom_css_file = '';
         }
-        if (! is_string($page_title)) {
+        if (! \is_string($page_title)) {
             debug('warning', 'Page title "'.$page_title.'" is no string!', __FILE__, __LINE__, __METHOD__);
             $page_title = '';
         }
@@ -164,7 +164,7 @@ class HTML
      */
     public function setMeta(array $meta = array())
     {
-        if (! is_array($meta)) {
+        if (! \is_array($meta)) {
             debug('error', '$meta='.print_r($meta, true), __FILE__, __LINE__, __METHOD__);
             throw new TemplateSystemException(_('$meta ist kein Array!'));
         }
@@ -194,7 +194,7 @@ class HTML
      */
     public function redirect(string $url, bool $instant = false)
     {
-        if (!is_string($url)) {
+        if (!\is_string($url)) {
             throw new \InvalidArgumentException(_('$url must be a valid a string'));
         }
 
@@ -226,7 +226,7 @@ class HTML
     public function useJavascript(array $filenames = array(), string $body_onload = '')
     {
         foreach ($filenames as $filename) {
-            if (! in_array($filename, $this->javascript_files)) {
+            if (! \in_array($filename, $this->javascript_files)) {
                 $full_filename = BASE.'/javascript/'.$filename.'.js';
                 if (! is_readable($full_filename)) {
                     throw new TemplateSystemException(sprintf(_('Die JavaScript-Datei "%s" existiert nicht!'), $full_filename));
@@ -236,7 +236,7 @@ class HTML
             }
         }
 
-        settype($body_onload, 'string');
+        $body_onload = (string)$body_onload;
         $this->body_onload .= $body_onload;
     }
 
@@ -258,7 +258,7 @@ class HTML
         }
 
         if (!empty($type)) {
-            if (! in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', "double", 'string', "array", "object"))) {
+            if (! \in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', "double", 'string', "array", "object"))) {
                 debug('error', '$type='.print_r($type, true), __FILE__, __LINE__, __METHOD__);
                 throw new TemplateSystemException(_('$type hat einen ungültigen Inhalt!'));
             }
@@ -322,7 +322,7 @@ class HTML
 
         global $config;
 
-        if ((! is_array($this->meta)) || (count($this->meta) == 0) || (empty($this->meta['theme']))) {
+        if ((! \is_array($this->meta)) || (count($this->meta) == 0) || (empty($this->meta['theme']))) {
             debug('warning', 'Meta not set!', __FILE__, __LINE__, __METHOD__);
         }
         $smarty_head = BASE.'/templates/'.$this->meta['theme'].'/smarty_head.tpl';
@@ -366,7 +366,7 @@ class HTML
 
 
 
-        if (strlen($this->meta['custom_css']) > 0) {
+        if (\strlen($this->meta['custom_css']) > 0) {
             $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
         }
 
@@ -401,9 +401,9 @@ class HTML
         $tmpl->assign("debugging_activated", $config['debug']['enable']);
 
         // messages
-        if ((is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable'])) {
+        if ((\is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable'])) {
             if ($config['debug']['request_debugging_enable']) {
-                if ((is_array($messages) && (count($messages) > 0))) {
+                if ((\is_array($messages) && (count($messages) > 0))) {
                     $messages[] = array('text' => '');
                 }
                 $messages[] = array('text' => '$_REQUEST:', 'strong' => true, 'color' => 'darkblue');
@@ -438,8 +438,8 @@ class HTML
     {
         global $config;
 
-        settype($template, 'string');
-        settype($use_scriptname, 'boolean');
+        $template = (string)$template;
+        $use_scriptname = (bool)$use_scriptname;
 
         if ($use_scriptname) {
             $smarty_template =    BASE.'/templates/'.$this->meta['theme'].'/'.
@@ -508,7 +508,7 @@ class HTML
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
         // messages
-        if ((is_array($messages) && (count($messages) > 0))) {
+        if ((\is_array($messages) && (count($messages) > 0))) {
             $tmpl->assign('messages', $messages);
             $tmpl->assign('messages_div_title', $messages_div_title);
         }

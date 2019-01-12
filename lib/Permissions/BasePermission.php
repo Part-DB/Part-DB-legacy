@@ -185,7 +185,7 @@ abstract class BasePermission
             }
         } */
 
-        if (!is_int($operations[$op]["n"])) {
+        if (!\is_int($operations[$op]["n"])) {
             throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
         }
 
@@ -238,7 +238,7 @@ abstract class BasePermission
      */
     final protected static function readBitPair(int $data, int $n)
     {
-        if (!is_int($data) || !is_int($n)) {
+        if (!\is_int($data) || !\is_int($n)) {
             throw new \InvalidArgumentException(_("Die Parameter müssen alles gültige Integervariablen sein!"));
         }
         if ($n > 31) {
@@ -258,7 +258,7 @@ abstract class BasePermission
      */
     final protected static function writeBitPair(int $data, int $n, int $new) : int
     {
-        if (!is_int($data) || !is_int($n) || !is_int($new)) {
+        if (!\is_int($data) || !\is_int($n) || !\is_int($new)) {
             throw new \InvalidArgumentException(_("Die Parameter müssen alles gültige Integervariablen sein!"));
         }
         if ($n > 31) {

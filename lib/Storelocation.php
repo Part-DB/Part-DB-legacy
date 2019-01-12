@@ -161,7 +161,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the datetype of the boolean attributes
-        settype($values['is_full'], 'boolean');
+        $values['is_full'] = (bool)$values['is_full'];
     }
 
     /**
@@ -237,7 +237,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
         switch ($barcode_type) {
             case "C39":
                 $code = (string) $this->getID();
-                while (strlen($code) < 5) {
+                while (\strlen($code) < 5) {
                     $code = '0' . $code;
                 }
                 return '$L' . $code;

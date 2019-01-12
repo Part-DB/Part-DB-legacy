@@ -151,7 +151,7 @@ function findAllFiles(string $directory, bool $recursive = false, string $search
         throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $directory));
     }
 
-    $dirfiles = scandir($directory);
+    $dirfiles = scandir($directory, SCANDIR_SORT_ASCENDING);
     foreach ($dirfiles as $file) {
         if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && ($file != ".gitignore") && ($file != ".htaccess")) {
             if (is_dir($directory.$file)) {
@@ -185,7 +185,7 @@ function findAllDirectories(string $directory, bool $recursive = false) : array
         throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $directory));
     }
 
-    $dirfiles = scandir($directory);
+    $dirfiles = scandir($directory, SCANDIR_SORT_ASCENDING);
     foreach ($dirfiles as $file) {
         if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && (is_dir($directory.$file))) {
             $directories[] = $directory.$file;
@@ -211,7 +211,7 @@ function sendFile(string $filename, $mimetype = null)
 {
     $mtime = ($mtime = filemtime($filename)) ? $mtime : time();
 
-    if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") != false) {
+    if (false !== strpos($_SERVER["HTTP_USER_AGENT"], "MSIE")) {
         header("Content-Disposition: attachment; filename=".urlencode(basename($filename))."; modification-date=".date('r', $mtime).";");
     } else {
         header("Content-Disposition: attachment; filename=\"".basename($filename)."\"; modification-date=\"".date('r', $mtime)."\";");
@@ -370,9 +370,6 @@ function setTempAdminPassword(string $new_password_1, string $new_password_2, bo
 {
     global $config;
 
-    settype($old_password, 'string');
-    settype($new_password_1, 'string');
-    settype($new_password_2, 'string');
     $new_password_1 = trim($new_password_1);
     $new_password_2 = trim($new_password_2);
 
@@ -842,7 +839,7 @@ function regexAllowUmlauts(string $pattern) : string
  */
 function regexStripSlashes(string $pattern, bool $mb = true) : string
 {
-    if (mb_substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/") {
+    if (mb_substr($pattern, 0, 1) === "/" &&  $pattern[strlen($pattern) - 1] === "/") {
         return mb_substr($pattern, 1, -1);
     } else {
         return $pattern;

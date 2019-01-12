@@ -181,7 +181,7 @@ abstract class AttachmentsContainingDBElement extends NamedDBElement
                 'WHERE (class_name=? OR class_name=?) AND element_id=? '.
                 'GROUP BY type_id '.
                 'ORDER BY attachement_types.name ASC';
-            $query_data = $this->database->query($query, array(get_class($this),getClassShort($this), $this->getID()));
+            $query_data = $this->database->query($query, array(\get_class($this),getClassShort($this), $this->getID()));
 
             //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
             foreach ($query_data as $row) {

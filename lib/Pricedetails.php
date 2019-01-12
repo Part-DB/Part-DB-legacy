@@ -158,7 +158,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getOrderdetails() : Orderdetails
     {
-        if (! is_object($this->orderdetails)) {
+        if (! \is_object($this->orderdetails)) {
             $this->orderdetails = Orderdetails::getInstance(
                 $this->database,
                 $this->current_user,
@@ -306,7 +306,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the type of the boolean attributes
-        settype($values['manual_input'], 'boolean');
+        $values['manual_input'] = (bool)$values['manual_input'];
 
         // check "orderdetails_id"
         try {
@@ -324,13 +324,13 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
         }
 
         // check "price_related_quantity"
-        if (((! is_int($values['price_related_quantity'])) && (! ctype_digit($values['price_related_quantity'])))
+        if (((! \is_int($values['price_related_quantity'])) && (! ctype_digit($values['price_related_quantity'])))
             || ($values['price_related_quantity'] < 1)) {
             throw new InvalidElementValueException(_('Die Preisbezogene Menge ist ungültig!'));
         }
 
         // check "min_discount_quantity"
-        if (((! is_int($values['min_discount_quantity'])) && (! ctype_digit($values['min_discount_quantity'])))
+        if (((! \is_int($values['min_discount_quantity'])) && (! ctype_digit($values['min_discount_quantity'])))
             || ($values['min_discount_quantity'] < 1)) {
             throw new InvalidElementValueException(_('Die Mengenrabatt-Menge ist ungültig!'));
         }

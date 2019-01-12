@@ -173,7 +173,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function getUsers(bool $recursive = false) : array
     {
-        if (! is_array($this->users)) {
+        if (! \is_array($this->users)) {
             $this->users = array();
 
             $query =    'SELECT * FROM users ' .

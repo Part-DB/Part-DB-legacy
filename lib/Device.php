@@ -312,7 +312,7 @@ class Device extends Base\PartsContainingDBElement
      */
     protected function getPartsWithoutPermCheck(bool $recursive = false, bool $hide_obsolet_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        if (! is_array($this->parts)) {
+        if (! \is_array($this->parts)) {
             $this->parts = array();
 
             $query =    'SELECT device_parts.* FROM device_parts '.
@@ -464,10 +464,10 @@ class Device extends Base\PartsContainingDBElement
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the datetype of the boolean attributes
-        settype($values['order_only_missing_parts'], 'boolean');
+        $values['order_only_missing_parts'] = (bool)$values['order_only_missing_parts'];
 
         // check "order_quantity"
-        if (((! is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
+        if (((! \is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
             || ($values['order_quantity'] < 0)) {
             debug('error', 'order_quantity = "'.$values['order_quantity'].'"', __FILE__, __LINE__, __METHOD__);
             throw new Exception(_('Die Bestellmenge ist ungültig!'));

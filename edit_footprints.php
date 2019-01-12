@@ -333,7 +333,7 @@ if (! $fatal_error) {
             // read the PHP constant "max_input_vars"
             $max_input_vars = ((ini_get('max_input_vars') !== false) ? (int)ini_get('max_input_vars') : 999999);
 
-            for ($i=0; $i < count($broken_filename_footprints); $i++) {
+            for ($i=0, $iMax = count($broken_filename_footprints); $i < $iMax; $i++) {
                 // avoid too many post variables
                 if ($i*10 >= $max_input_vars) {
                     break;

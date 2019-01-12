@@ -126,7 +126,7 @@ class PartNameRegEx
 
         $properties = array();
 
-        for ($n=0; $n<count($this->capture_names); $n++) {
+        for ($n=0, $nMax = count($this->capture_names); $n< $nMax; $n++) {
             if (empty($tmp[$n + 1])) { //Ignore empty values
                 continue;
             }

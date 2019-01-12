@@ -93,7 +93,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     protected function __construct(Database &$database, &$current_user, Log &$log, int $id, $data = null)
     {
-        if (! is_object($current_user)) {     // this is that you can create an User-instance for first time
+        if (! \is_object($current_user)) {     // this is that you can create an User-instance for first time
             $current_user = $this;
         }           // --> which one was first: the egg or the chicken? :-)
 
@@ -135,7 +135,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             return null;
         }
 
-        if (! is_object($this->group)) {
+        if (! \is_object($this->group)) {
             $this->group = Group::getInstance(
                 $this->database,
                 $this->current_user,
@@ -417,7 +417,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function setPassword(string $new_password, bool $need_to_change_pw = false, bool $check_pw_length = true)
     {
-        if ($check_pw_length && strlen($new_password) < 6) {
+        if ($check_pw_length && \strlen($new_password) < 6) {
             throw new Exception(sprintf(_("Das neue Password muss mindestens %d Zeichen lang sein"), 6));
         }
         if ($this->getID() == static::ID_ANONYMOUS) {
@@ -498,11 +498,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function setDefaultInstockChangeComment($withdrawal_message = null, $addition_message = null)
     {
-        if (is_string($withdrawal_message)) {
+        if (\is_string($withdrawal_message)) {
             $this->setAttributes(array('config_instock_comment_w' => $withdrawal_message));
         }
 
-        if (is_string($addition_message)) {
+        if (\is_string($addition_message)) {
             $this->setAttributes(array('config_instock_comment_a' => $addition_message));
         }
     }
@@ -704,7 +704,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getPermissionRaw(string $permsission_name) : int
     {
-        return intval($this->db_data["perms_" . $permsission_name]);
+        return \intval($this->db_data["perms_" . $permsission_name]);
     }
 
     /**
@@ -875,11 +875,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         $loggedin_ID    = self::getLoggedInID();
 
-        if (is_null($database) || is_null($log)) {
+        if (\is_null($database) || \is_null($log)) {
             $database = new Database();
             $log = new Log($database);
         }
-        if (!is_object(static::$loggedin_user)) {
+        if (!\is_object(static::$loggedin_user)) {
             if ($database->doesTableExist('users')) {
                 $var = null;
                 static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);

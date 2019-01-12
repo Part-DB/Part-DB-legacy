@@ -118,10 +118,10 @@ class SystemVersion
         $array = explode('.', $version);
 
         if ((count($array) != 4)
-            || ((! is_int($array[0])) && (! ctype_digit($array[0])))
-            || ((! is_int($array[1])) && (! ctype_digit($array[1])))
-            || ((! is_int($array[2])) && (! ctype_digit($array[2])))
-            || ((! is_int($array[3])) && (! ctype_digit($array[3])))) {
+            || ((! \is_int($array[0])) && (! ctype_digit($array[0])))
+            || ((! \is_int($array[1])) && (! ctype_digit($array[1])))
+            || ((! \is_int($array[2])) && (! ctype_digit($array[2])))
+            || ((! \is_int($array[3])) && (! ctype_digit($array[3])))) {
             debug('error', sprintf(_('Fehlerhafte Version: "%s"', $version)), __FILE__, __LINE__, __METHOD__);
             throw new Exception(_('Es gab ein Fehler bei der Auswertung des Version-Strings!'));
         }
@@ -303,8 +303,8 @@ class SystemVersion
      */
     public static function getLatestVersion(string $type) : SystemVersion
     {
-        if ((($type == 'stable') && (! is_object(SystemVersion::$latest_stable_version)))
-            || (($type == 'unstable') && (! is_object(SystemVersion::$latest_unstable_version)))) {
+        if ((($type == 'stable') && (! \is_object(SystemVersion::$latest_stable_version)))
+            || (($type == 'unstable') && (! \is_object(SystemVersion::$latest_unstable_version)))) {
             $ini = curlGetData('http://kami89.myparts.info/updates/latest.ini');
             $ini_array = parse_ini_string($ini, true);
 

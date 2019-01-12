@@ -667,7 +667,7 @@ if (! $fatal_error) {
         $search_name = trim($search_name);
 
         try {
-            if (strpos($search_name, '__ID__=') === 0) {
+            if (strncmp($search_name, '__ID__=', 7) === 0) {
                 $searched_element = $classname::getInstance($database, $current_user, $log, (int)str_replace('__ID__=', '', $search_name));
             } else {
                 /** @var \PartDB\Interfaces\ISearchable $classname */

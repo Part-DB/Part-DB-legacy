@@ -113,7 +113,7 @@ class DevicePart extends Base\DBElement
      */
     public function getDevice() : Device
     {
-        if (! is_object($this->device)) {
+        if (! \is_object($this->device)) {
             $this->device = Device::getInstance(
                 $this->database,
                 $this->current_user,
@@ -134,7 +134,7 @@ class DevicePart extends Base\DBElement
      */
     public function getPart() : Part
     {
-        if (! is_object($this->part)) {
+        if (! \is_object($this->part)) {
             $this->part = Part::getInstance(
                 $this->database,
                 $this->current_user,
@@ -306,7 +306,7 @@ class DevicePart extends Base\DBElement
         }
 
         // check "quantity"
-        if (((! is_int($values['quantity'])) && (! ctype_digit($values['quantity'])))
+        if (((! \is_int($values['quantity'])) && (! ctype_digit($values['quantity'])))
             || ($values['quantity'] < 0)) {
             throw new InvalidElementValueException(
                 sprintf(_('Die Bestückungs-Anzahl "%d" ist ungültig!'), (int) $values['quantity'])
@@ -443,17 +443,17 @@ class DevicePart extends Base\DBElement
         $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE);
 
         $existing_devicepart = DevicePart::getDevicePart($database, $current_user, $log, $device_id, $part_id);
-        if (is_object($existing_devicepart)) {
+        if (\is_object($existing_devicepart)) {
             if ($increase_if_exist) {
-                if (((! is_int($quantity)) && (! ctype_digit($quantity))) || ($quantity < 0)) {
+                if (((! \is_int($quantity)) && (! ctype_digit($quantity))) || ($quantity < 0)) {
                     throw new Exception(_('Die Bestückungs-Anzahl ist ungültig!'));
                 }
 
                 $quantity = $existing_devicepart->getMountQuantity() + $quantity;
 
                 $old_mountnames = $existing_devicepart->getMountNames();
-                if (strlen($mountnames) > 0) {
-                    if (strlen($old_mountnames) > 0) {
+                if (\strlen($mountnames) > 0) {
+                    if (\strlen($old_mountnames) > 0) {
                         $mountnames = $old_mountnames . ', ' . $mountnames;
                     }
                 } else {

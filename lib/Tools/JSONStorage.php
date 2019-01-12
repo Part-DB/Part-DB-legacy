@@ -79,7 +79,7 @@ class JSONStorage
     public function write()
     {
         //Do some simple checks to $database.
-        if (!is_array($this->database)) {
+        if (!\is_array($this->database)) {
             throw new \RuntimeException(_("Interner Datenbankfehler!"));
         }
 
@@ -99,7 +99,7 @@ class JSONStorage
             $data = json_decode($text, true);
 
             //Do some simple checks to $data:
-            if (!(is_array($data) || is_object($data))) {
+            if (!(\is_array($data) || \is_object($data))) {
                 throw new \RuntimeException(_("Die JSON-Datei enthält fehlerhafte Daten!"));
             }
 
@@ -127,7 +127,7 @@ class JSONStorage
      */
     public function itemExists(string $key) : bool
     {
-        return array_key_exists($key, $this->database);
+        return \array_key_exists($key, $this->database);
     }
 
     /**

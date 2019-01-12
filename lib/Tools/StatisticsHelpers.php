@@ -62,7 +62,7 @@ class StatisticsHelpers
      */
     public function getMostUsedCategories(int $limit = 25) : array
     {
-        if (!is_int($limit)) {
+        if (!\is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -75,7 +75,7 @@ class StatisticsHelpers
 
     public function getMostUsedLocations(int $limit = 25) : array
     {
-        if (!is_int($limit)) {
+        if (!\is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -88,7 +88,7 @@ class StatisticsHelpers
 
     public function getMostUsedFootprints(int $limit = 25) : array
     {
-        if (!is_int($limit)) {
+        if (!\is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -101,7 +101,7 @@ class StatisticsHelpers
 
     public function getMostUsedManufacturers(int $limit = 25) : array
     {
-        if (!is_int($limit)) {
+        if (!\is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 

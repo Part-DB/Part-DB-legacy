@@ -225,7 +225,7 @@ class Database
             throw new DatabaseException(_('Eintrag "dbVersion" existiert nicht in der Tabelle "internal"!'));
         }
 
-        $tmp = intval($query_data[0]['keyValue']);
+        $tmp = \intval($query_data[0]['keyValue']);
         static::$current_version = $tmp;
 
         return $tmp;
@@ -241,7 +241,7 @@ class Database
      */
     public function getLatestVersion() : int
     {
-        if (! defined('LATEST_DB_VERSION')) {
+        if (! \defined('LATEST_DB_VERSION')) {
             throw new DatabaseException(_('Konstante "LATEST_DB_VERSION" ist nicht definiert!'));
         }
 
@@ -357,7 +357,7 @@ class Database
         debug('hint', 'Update von Datenbankversion "'.$current.'" auf Version "'.$latest.'" wird gestartet...');
         $add_log('Ihre Datenbank wird von der Version '. $current .' auf die Version '. $latest .' aktualisiert:');
 
-        if (! in_array($config['db']['type'], array('sqlite', 'sqlite2'))) { // @todo: Can we also lock/unlock a SQLite Database?
+        if (! \in_array($config['db']['type'], array('sqlite', 'sqlite2'))) { // @todo: Can we also lock/unlock a SQLite Database?
             // Lock Database
             try {
                 $add_log('Datenbank wird gesperrt...');
@@ -492,7 +492,7 @@ class Database
         }
 
         // Release Database
-        if (! in_array($config['db']['type'], array('sqlite', 'sqlite2'))) {
+        if (! \in_array($config['db']['type'], array('sqlite', 'sqlite2'))) {
             try {
                 $add_log(_('Datenbank wird freigegeben...'));
                 $query_data = $this->query("SELECT RELEASE_LOCK('UpdatePartDB')");
@@ -677,11 +677,11 @@ class Database
      */
     public function execute(string $query, array $values = array()) : int
     {
-        if (! is_array($values)) {
+        if (! \is_array($values)) {
             throw new \InvalidArgumentException(_('$values ist kein Array!'));
         }
 
-        if (stripos($query, 'INSERT') === 0) {
+        if (strncasecmp($query, 'INSERT', 6) === 0) {
             $is_insert_statement = true;
         } else {
             $is_insert_statement = false;
@@ -798,7 +798,7 @@ class Database
             $data = array();
         } // an empty array is better than NULL...
 
-        if (! is_array($data)) {
+        if (! \is_array($data)) {
             throw new DatabaseException(_('PDO Ergebnis ist kein Array!'));
         }
 
@@ -834,7 +834,7 @@ class Database
         global $config;
 
         //Only allow check if database, installation is complete... Else this lead to problems, when starting with a fresh database.
-        if (!$forcecheck && $config['installation_complete']['database'] && in_array($tablename, static::$table_cache)) {
+        if (!$forcecheck && $config['installation_complete']['database'] && \in_array($tablename, static::$table_cache)) {
             return true;
         }
 
@@ -951,7 +951,7 @@ class Database
      */
     public function setDataFields(string $tablename, int $id, array $values)
     {
-        if ((! is_array($values)) || (count($values) < 1)) {
+        if ((! \is_array($values)) || (count($values) < 1)) {
             debug('error', '$values="'.print_r($values, true).'"', __FILE__, __LINE__, __METHOD__);
             throw new \InvalidArgumentException(_('$values ist kein gültiges Array!'));
         }

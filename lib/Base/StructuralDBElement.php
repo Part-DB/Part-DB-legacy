@@ -246,10 +246,10 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
      */
     public function isChildOf(StructuralDBElement $another_element)
     {
-        $class_name = get_class($this);
+        $class_name = \get_class($this);
 
         //Check if both elements compared, are from the same type:
-        if ($class_name != get_class($another_element)) {
+        if ($class_name != \get_class($another_element)) {
             throw new \InvalidArgumentException(_('isChildOf() funktioniert nur mit Elementen des gleichen Typs!'));
         }
 
@@ -431,7 +431,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
             return "???";
         }
 
-        if (! is_array($this->full_path_strings)) {
+        if (! \is_array($this->full_path_strings)) {
             $this->full_path_strings = array();
             $this->full_path_strings[] = static::getName();
             $parent_id = static::getParentID();
@@ -462,7 +462,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
             return array();
         }
 
-        if (! is_array($this->subelements)) {
+        if (! \is_array($this->subelements)) {
             $this->subelements = array();
 
             if ($this->db_data["id"] == 0) {

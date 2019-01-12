@@ -145,7 +145,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      */
     public function getAutoProductUrl($partnr = null) : string
     {
-        if (is_string($partnr)) {
+        if (\is_string($partnr)) {
             return str_replace('%PARTNUMBER%', $partnr, $this->db_data['auto_product_url']);
         } else {
             return $this->db_data['auto_product_url'];
