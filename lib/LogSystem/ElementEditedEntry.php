@@ -111,8 +111,8 @@ class ElementEditedEntry extends BaseEntry
         $user_id = $current_user->getID();
 
         //When a part change only changes the instock value, then dont create a own entry, because an Instock Change entry was already created.
-        if ($element_id = LOG::TARGET_TYPE_PART
-            && count($new_values) == 1
+        if ($element_id === LOG::TARGET_TYPE_PART
+            && count($new_values) === 1
             && isset($new_values['instock'])) {
             return null;
         }
