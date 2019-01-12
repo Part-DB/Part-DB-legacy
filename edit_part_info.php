@@ -48,7 +48,7 @@ use PartDB\User;
  * because this way we don't have to create another, quite similar site.
  */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
@@ -68,7 +68,7 @@ $part_id                    = isset($_REQUEST['pid'])                       ? (i
 $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
 $new_description            = isset($_POST['description'])               ? (string)$_POST['description']               : '';
 $new_instock                = isset($_POST['instock'])                   ? (int)$_POST['instock']                  : 0;
-$new_instock                = isset($_POST['instock_unknown'])           ? (int) Part::INSTOCK_UNKNOWN                : $new_instock;
+$new_instock                = isset($_POST['instock_unknown'])           ? Part::INSTOCK_UNKNOWN : $new_instock;
 $new_mininstock             = isset($_POST['mininstock'])                ? (int)$_POST['mininstock']               : 0;
 //The category ID is given as a GET param, so we need REQUEST here.
 $new_category_id            = isset($_REQUEST['category_id'])               ? (int)$_REQUEST['category_id']        : 0;
@@ -77,7 +77,7 @@ $new_footprint_id           = isset($_REQUEST['footprint_id'])              ? (i
 $new_manufacturer_id        = isset($_REQUEST['manufacturer_id'])           ? (int)$_REQUEST['manufacturer_id']       : 0;
 $new_visible                = isset($_POST['visible']);
 $new_comment                = isset($_POST['comment'])                   ? (string)$_POST['comment']                   : '';
-$new_manufacturer_url       = isset($_POST["manufacturer_url"])          ? (string)$_POST['manufacturer_url']          : '';
+$new_manufacturer_url       = isset($_POST['manufacturer_url'])          ? (string)$_POST['manufacturer_url']          : '';
 
 $change_comment             = isset($_POST['change_comment'])    ? (string)$_POST['change_comment']   : null;
 
@@ -112,71 +112,71 @@ if (isset($_POST['create_new_part'])) {
     $action = 'create_new_part';
 }
 
-if (isset($_POST["apply_attributes"])) {
+if (isset($_POST['apply_attributes'])) {
     $action = 'apply_attributes';
 }
 
-if (isset($_POST["orderdetails_add"])) {
+if (isset($_POST['orderdetails_add'])) {
     $action = 'orderdetails_add';
-    $orderdetails_id = $_POST["orderdetails_add"];
+    $orderdetails_id = $_POST['orderdetails_add'];
 }
-if (isset($_POST["orderdetails_apply"])) {
+if (isset($_POST['orderdetails_apply'])) {
     $action = 'orderdetails_apply';
-    $orderdetails_id = $_POST["orderdetails_apply"];
+    $orderdetails_id = $_POST['orderdetails_apply'];
 }
-if (isset($_POST["orderdetails_delete"])) {
+if (isset($_POST['orderdetails_delete'])) {
     $action = 'orderdetails_delete';
-    $orderdetails_id = $_POST["orderdetails_delete"];
+    $orderdetails_id = $_POST['orderdetails_delete'];
 }
 
-if (isset($_POST["pricedetails_add"])) {
+if (isset($_POST['pricedetails_add'])) {
     $action = 'pricedetails_add';
-    $pricedetails_id = "new";
-    $orderdetails_id = $_POST["pricedetails_add"];
+    $pricedetails_id = 'new';
+    $orderdetails_id = $_POST['pricedetails_add'];
 }
-if (isset($_POST["pricedetails_apply"])) {
+if (isset($_POST['pricedetails_apply'])) {
     $action = 'pricedetails_apply';
-    $pricedetails_id = $_POST["pricedetails_apply"];
+    $pricedetails_id = $_POST['pricedetails_apply'];
 }
-if (isset($_POST["pricedetails_delete"])) {
+if (isset($_POST['pricedetails_delete'])) {
     $action = 'pricedetails_delete';
-    $pricedetails_id = $_POST["pricedetails_delete"];
+    $pricedetails_id = $_POST['pricedetails_delete'];
 }
 
-if (isset($_POST["attachement_add"])) {
+if (isset($_POST['attachement_add'])) {
     $action = 'attachement_add';
 }
-if (isset($_POST["attachement_apply"])) {
+if (isset($_POST['attachement_apply'])) {
     $action = 'attachement_apply';
 }
-if (isset($_POST["attachement_delete"])) {
+if (isset($_POST['attachement_delete'])) {
     $action = 'attachement_delete';
 }
 
-if (isset($_POST["delete_part"])) {
+if (isset($_POST['delete_part'])) {
     $action = 'delete_part';
 }
-if (isset($_POST["delete_part_confirmed"])) {
+if (isset($_POST['delete_part_confirmed'])) {
     $action = 'delete_part_confirmed';
 }
 
-if (isset($_REQUEST["search_category"])) {
+if (isset($_REQUEST['search_category'])) {
     $action = 'search_category';
 }
-if (isset($_REQUEST["search_footprint"])) {
+if (isset($_REQUEST['search_footprint'])) {
     $action = 'search_footprint';
 }
-if (isset($_REQUEST["search_storelocation"])) {
+if (isset($_REQUEST['search_storelocation'])) {
     $action = 'search_storelocation';
 }
-if (isset($_REQUEST["search_manufacturer"])) {
+if (isset($_REQUEST['search_manufacturer'])) {
     $action = 'search_manufacturer';
 }
 
-if (isset($_POST["apply_name_save"])) {
+if (isset($_POST['apply_name_save'])) {
     $action = 'apply_name_confirmed';
 }
-if (isset($_POST["create_name_save"])) {
+if (isset($_POST['create_name_save'])) {
     $action = 'create_new_part';
 }
 
@@ -186,14 +186,14 @@ if (isset($orderdetails_id)) {
     $new_supplier_id = isset($_POST['supplier_id_'.$orderdetails_id]) ? (int)$_POST['supplier_id_'.$orderdetails_id] : 0;
     $new_supplierpartnr = isset($_POST['supplierpartnr_'.$orderdetails_id]) ? (string)$_POST['supplierpartnr_'.$orderdetails_id] : '';
     $new_obsolete = isset($_POST['obsolete_'.$orderdetails_id]);
-    $new_supplier_url = isset($_POST["supplierurl_".$orderdetails_id]) ? (string)$_POST['supplierurl_'.$orderdetails_id] : '';
+    $new_supplier_url = isset($_POST['supplierurl_' .$orderdetails_id]) ? (string)$_POST['supplierurl_'.$orderdetails_id] : '';
 }
 // section: pricedetails
 if (isset($pricedetails_id)) {
     if (isset($orderdetails_id)) {
-        $new_price = isset($_POST['price_' . $orderdetails_id . "_" . $pricedetails_id]) ? (float)str_replace(',', '.', $_POST['price_' . $orderdetails_id . "_" . $pricedetails_id]) : 0;
-        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id]) ? (int)$_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id] : 1;
-        $new_price_related_quantity = isset($_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id]) ? (int)$_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id] : 1;
+        $new_price = isset($_POST['price_' . $orderdetails_id . '_' . $pricedetails_id]) ? (float)str_replace(',', '.', $_POST['price_' . $orderdetails_id . '_' . $pricedetails_id]) : 0;
+        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' . $orderdetails_id . '_' .  $pricedetails_id]) ? (int)$_POST['min_discount_quantity_' . $orderdetails_id . '_' .  $pricedetails_id] : 1;
+        $new_price_related_quantity = isset($_POST['price_related_quantity_' . $orderdetails_id . '_' . $pricedetails_id]) ? (int)$_POST['price_related_quantity_' . $orderdetails_id . '_' . $pricedetails_id] : 1;
     } else {
         $new_price = isset($_POST['price_' . $pricedetails_id]) ? (float)str_replace(',', '.', $_POST['price_'  . $pricedetails_id]) : 0;
         $new_min_discount_quantity = isset($_POST['min_discount_quantity_' .  $pricedetails_id]) ? (int)$_POST['min_discount_quantity_'  .  $pricedetails_id] : 1;
@@ -247,7 +247,7 @@ try {
     }
 
     //Default text for instock changes via this page.
-    $default_instock_comment = _("Bauteil bearbeitet");
+    $default_instock_comment = _('Bauteil bearbeitet');
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -289,9 +289,9 @@ if (! $fatal_error) {
 
                     global $config;
                     if ($config['edit_parts']['created_go_to_info'] xor $rightclicked) {
-                        $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
+                        $html->redirect('show_part_info.php?pid=' . $part->getID(), true);
                     } else {
-                        $html->redirect("edit_part_info.php?pid=" . $part->getID(), true);
+                        $html->redirect('edit_part_info.php?pid=' . $part->getID(), true);
                     }
                 } else {
                     $partname_hint = $category->getPartnameHint(true, false);
@@ -309,26 +309,26 @@ if (! $fatal_error) {
 
 
                     $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
-                    $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $category->getPartnameRegex(true) . "</b>");
+                    $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . '<b>' . $category->getPartnameRegex(true) . '</b>');
                     if (!$category->getPartnameRegexObj()->isEnforced()) {
                         $messages[] = array('html' => _('Möchten sie wirklich fortfahren?<br>'));
-                        $messages[] = array('html' => generateButton("", _('Nein, Name überarbeiten')), 'no_linebreak' => true);
-                        $messages[] = array('html' => generateButtonRed("create_name_save", _('Ja, Name speichern')));
+                        $messages[] = array('html' => generateButton('', _('Nein, Name überarbeiten')), 'no_linebreak' => true);
+                        $messages[] = array('html' => generateButtonRed('create_name_save', _('Ja, Name speichern')));
                     } else {
                         $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
                         $messages[] = array('html' => '<button class="btn btn-secondary" type="submit" name="" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
                     }
 
-                    $messages[] = array('html' => generateInputHidden("name", $new_name), 'no_linebreak' => true);
-                    $messages[] = array('html' => generateInputHidden("category_id", $new_category_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generateInputHidden("description", $new_description), 'no_linebreak' => true);
-                    $messages[] = array('html' => generateInputHidden("instock", $new_instock), 'no_linebreak' => true);
-                    $messages[] = array('html' => generateInputHidden("mininstock", $new_mininstock), 'no_linebreak' => true);
-                    $messages[] = array('html' => generateInputHidden("storelocation_id", $new_storelocation_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generateInputHidden("manufacturer_id", $new_manufacturer_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generateInputHidden("footprint_id", $new_footprint_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generateInputHidden("comment", $new_comment), 'no_linebreak' => 'true');
-                    $messages[] = array('html' => generateInputHidden("visible", $new_visible), 'no_linebreak' => 'true');
+                    $messages[] = array('html' => generateInputHidden('name', $new_name), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden('category_id', $new_category_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden('description', $new_description), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden('instock', $new_instock), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden('mininstock', $new_mininstock), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden('storelocation_id', $new_storelocation_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden('manufacturer_id', $new_manufacturer_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden('footprint_id', $new_footprint_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden('comment', $new_comment), 'no_linebreak' => 'true');
+                    $messages[] = array('html' => generateInputHidden('visible', $new_visible), 'no_linebreak' => 'true');
 
                     $partname_invalid = true;
                 }
@@ -356,7 +356,7 @@ if (! $fatal_error) {
                     'comment'           => $new_comment,
                     'manufacturer_product_url' => $new_manufacturer_url);
 
-                $part->setInstock($new_instock, $change_comment == null ?  _("Bauteil bearbeitet") : $change_comment);
+                $part->setInstock($new_instock, $change_comment == null ?  _('Bauteil bearbeitet') : $change_comment);
 
                 // do not overwrite (remove!) the footprint or manufacturer if they are disabled (global or in the part's category)
                 if (isset($_POST['footprint_id'])) {
@@ -371,7 +371,7 @@ if (! $fatal_error) {
                     $part->setAttributes($new_attributes, $change_comment);
                     global $config;
                     if ($config['edit_parts']['saved_go_to_info'] xor $rightclicked) {
-                        $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
+                        $html->redirect('show_part_info.php?pid=' . $part->getID(), true);
                     }
                 } else {
                     $part->setAttributes($new_attributes, $change_comment);
@@ -389,7 +389,7 @@ if (! $fatal_error) {
                     }
 
                     $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
-                    $messages[] = array('html' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->getCategory()->getPartnameRegex(true) . "</b>");
+                    $messages[] = array('html' => _('Der Name muss folgendem Format entsprechen: ') . '<b>' . $part->getCategory()->getPartnameRegex(true) . '</b>');
                     if ($part->getCategory()->getPartnameRegexObj()->isEnforced()) {
                         $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
                         $messages[] = array('html' => '<button class="btn btn-secondary" type="submit" name="name_edit" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
@@ -504,18 +504,16 @@ if (! $fatal_error) {
                     throw new Exception(_('Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen wählen!'));
                 }
 
-                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/", $part->getCategory()) : BASE.'/data/media/';
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE. '/data/media/', $part->getCategory()) : BASE.'/data/media/';
 
                 if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
                     $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
-                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
-                    if (isURL($new_filename) && $download_file) {
-                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
-                        if ($downloaded_file_name !== "") {
-                            $new_filename = $downloaded_file_name;
-                        } else {
-                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
-                        }
+                } else if (isURL($new_filename) && $download_file) {
+                    $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                    if ($downloaded_file_name !== "") {
+                        $new_filename = $downloaded_file_name;
+                    } else {
+                        $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
                     }
                 }
 
@@ -544,17 +542,17 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Dateianhang ausgewählt!'));
                 }
 
-                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/", $part->getCategory()) : BASE.'/data/media/';
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE. '/data/media/', $part->getCategory()) : BASE.'/data/media/';
 
                 if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
                     $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
                 } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
                     if (isURL($new_filename) && $download_file) {
                         $downloaded_file_name =  downloadFile($new_filename, $filepath);
-                        if ($downloaded_file_name !== "") {
+                        if ($downloaded_file_name !== '') {
                             $new_filename = $downloaded_file_name;
                         } else {
-                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                            $messages[] = array('text' => _('Die Datei konnte nicht heruntergeladen werden!'), 'strong' => true, 'color' => 'red');
                         }
                     }
                 }
@@ -635,7 +633,7 @@ if (! $fatal_error) {
                 $part->delete($delete_files_from_hdd);
                 $part = null;
                 $messages[] = array('text' => _('Das Bauteil wurde erfolgreich gelöscht!'), 'strong' => true, 'color' => 'darkgreen');
-                $close_url = !empty($_SESSION["part_delete_last_link"]) ? $_SESSION["part_delete_last_link"] : "startup.php";
+                $close_url = !empty($_SESSION['part_delete_last_link']) ? $_SESSION['part_delete_last_link'] : 'startup.php';
                 $messages[] = array('html' => '<br><a class="btn btn-primary" href="' . $close_url .'">'._('Fenster schliessen').'</a>');
                 $messages[] = array('html' => '<a class="btn link" href="startup.php">'._('Startseite aufrufen').'</a>');
                 $fatal_error = true; // there is no error, but we cannot display the part infos because the part exists no longer :-)
@@ -695,7 +693,7 @@ if (! $fatal_error) {
 if (! $fatal_error) {
     try {
         // special
-        $html->setVariable('is_new_part', ($is_new_part || $add_one_more_part), 'boolean');
+        $html->setVariable('is_new_part', $is_new_part || $add_one_more_part, 'boolean');
 
         // part attributes
         if (isset($part) && is_object($part)) {
@@ -713,9 +711,9 @@ if (! $fatal_error) {
             $html->setVariable('comment', $part->getComment(false), 'string');
             $html->setVariable('format_hint', $part->getCategory()->getPartnameHint(true, false), 'string');
 
-            $html->setVariable('default_change_comment', $default_instock_comment, "string");
+            $html->setVariable('default_change_comment', $default_instock_comment, 'string');
 
-            $html->setVariable("manufacturer_url", $part->getManufacturerProductUrl(true), "string");
+            $html->setVariable('manufacturer_url', $part->getManufacturerProductUrl(true), 'string');
 
             // dropdown lists -> get IDs
             $category_id        = (is_object($part->getCategory())         ?   $part->getCategory()->getID()      : 0);
@@ -731,14 +729,14 @@ if (! $fatal_error) {
                 $pricedetails_loop = array();
                 foreach ($orderdetails->getPricedetails() as $pricedetails) {
                     //HTML5 wants a float number with a dot as a decimal point. The browser should change its display correspondingly to HTML locale.
-                    $price = str_replace(",", ".", $pricedetails->getPrice(false, $pricedetails->getPriceRelatedQuantity()));
+                    $price = str_replace(',', '.', $pricedetails->getPrice(false, $pricedetails->getPriceRelatedQuantity()));
 
                     $pricedetails_loop[] = array(   'row_odd'                   => ! $row_odd,
                         'orderdetails_id'           => $orderdetails->getID(),
                         'pricedetails_id'           => $pricedetails->getID(),
                         'min_discount_quantity'     => $pricedetails->getMinDiscountQuantity(),
                         'price'                     => $price,
-                        'price_related_quantity'    => $pricedetails->getPriceRelatedQuantity(),);
+                        'price_related_quantity'    => $pricedetails->getPriceRelatedQuantity());
                 }
 
                 if (count($pricedetails_loop) > 0) {
@@ -759,7 +757,7 @@ if (! $fatal_error) {
                     'supplierpartnr'            => $orderdetails->getSupplierPartNr(),
                     'obsolete'                  => $orderdetails->getObsolete(),
                     'pricedetails'              => $pricedetails_loop,
-                    "supplier_url"              => $orderdetails->getSupplierProductUrl());
+                    'supplier_url' => $orderdetails->getSupplierProductUrl());
                 $row_odd = ! $row_odd;
             }
 
@@ -787,10 +785,10 @@ if (! $fatal_error) {
                     'name'                      => $attachement->getName(),
                     'show_in_table'             => $attachement->getShowInTable(),
                     'is_picture'                => $attachement->isPicture(),
-                    'is_master_picture'         => ($attachement->getID() == $master_picture_id),
+                    'is_master_picture'         => $attachement->getID() == $master_picture_id,
                     'filename'                  => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
                     'filename_base_relative'    => str_replace(BASE.'/', '', $attachement->getFilename()),
-                    'picture_filename'          => ($attachement->isPicture() ? str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()) : ''),
+                    'picture_filename'          => $attachement->isPicture() ? str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()) : '',
                     'download_file'             => $config['attachements']['download_default'] && isURL($attachement->getFilename()));
                 $row_odd = ! $row_odd;
             }
@@ -812,7 +810,7 @@ if (! $fatal_error) {
             $html->setVariable('attachements_loop', $attachements_loop);
         }
 
-        if (($print_unsaved_values) || (! isset($part)) || (! is_object($part))) {
+        if ($print_unsaved_values || ! isset($part) || (! is_object($part))) {
             if (isset($new_category_id)) {
                 $cat = Category::getInstance($database, $current_user, $log, $new_category_id);
                 if (empty($new_description)) {
@@ -829,7 +827,7 @@ if (! $fatal_error) {
             $html->setVariable('mininstock', $new_mininstock, 'integer');
             $html->setVariable('visible', $new_visible, 'boolean');
             $html->setVariable('comment', $new_comment, 'string');
-            $html->setVariable("manufacturer_url", $new_manufacturer_url, "string");
+            $html->setVariable('manufacturer_url', $new_manufacturer_url, 'string');
 
             $category_id        = $new_category_id;
             $footprint_id       = $new_footprint_id;
@@ -871,14 +869,14 @@ if (! $fatal_error) {
 
         // global/category stuff
         $category = Category::getInstance($database, $current_user, $log, $category_id);
-        $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
-        $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
+        $html->setVariable('disable_footprints', $config['footprints']['disable'] || $category->getDisableFootprints(true), 'boolean');
+        $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'] || $category->getDisableManufacturers(true), 'boolean');
         $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
-        $html->setVariable('downloads_enable', $config['allow_server_downloads'], "boolean");
+        $html->setVariable('downloads_enable', $config['allow_server_downloads'], 'boolean');
 
-        $html->setVariable("currency_symbol", getCurrencySymbol(), "string");
+        $html->setVariable('currency_symbol', getCurrencySymbol(), 'string');
 
-        $html->setVariable("back_link", $_SESSION["part_delete_last_link"], "string");
+        $html->setVariable('back_link', $_SESSION['part_delete_last_link'], 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -887,31 +885,31 @@ if (! $fatal_error) {
 
 try {
     //Set permissions
-    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
-    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
-    $html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
-    $html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE));
-    $html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ));
-    $html->setVariable("can_name", $current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::EDIT));
-    $html->setVariable("can_description", $current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::EDIT));
-    $html->setVariable("can_comment", $current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::EDIT));
-    $html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT));
-    $html->setVariable("can_mininstock", $current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::EDIT));
-    $html->setVariable("can_storelocation", $current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::EDIT));
-    $html->setVariable("can_footprint", $current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT));
-    $html->setVariable("can_manufacturer", $current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT));
+    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
+    $html->setVariable('can_move', $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE));
+    $html->setVariable('can_read', $current_user->canDo(PermissionManager::PARTS, PartPermission::READ));
+    $html->setVariable('can_name', $current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::EDIT));
+    $html->setVariable('can_description', $current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::EDIT));
+    $html->setVariable('can_comment', $current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::EDIT));
+    $html->setVariable('can_instock', $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT));
+    $html->setVariable('can_mininstock', $current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::EDIT));
+    $html->setVariable('can_storelocation', $current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::EDIT));
+    $html->setVariable('can_footprint', $current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT));
+    $html->setVariable('can_manufacturer', $current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT));
 
-    $html->setVariable("can_attachement_edit", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT));
-    $html->setVariable("can_attachement_delete", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::DELETE));
-    $html->setVariable("can_attachement_create", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE));
+    $html->setVariable('can_attachement_edit', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT));
+    $html->setVariable('can_attachement_delete', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::DELETE));
+    $html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE));
 
-    $html->setVariable("can_orderdetails_edit", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::EDIT));
-    $html->setVariable("can_orderdetails_delete", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::DELETE));
-    $html->setVariable("can_orderdetails_create", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE));
+    $html->setVariable('can_orderdetails_edit', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::EDIT));
+    $html->setVariable('can_orderdetails_delete', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::DELETE));
+    $html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE));
 
-    $html->setVariable("can_prices_edit", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::EDIT));
-    $html->setVariable("can_prices_delete", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::DELETE));
-    $html->setVariable("can_prices_create", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::CREATE));
+    $html->setVariable('can_prices_edit', $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::EDIT));
+    $html->setVariable('can_prices_delete', $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::DELETE));
+    $html->setVariable('can_prices_create', $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::CREATE));
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -925,8 +923,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 // an empty string in "$reload_link" means that the reload-button won't be visible

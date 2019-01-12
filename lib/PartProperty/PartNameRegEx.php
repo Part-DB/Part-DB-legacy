@@ -29,9 +29,9 @@ class PartNameRegEx
     private static $pattern = '/^(\/.+\/)(?:@([fn]+))?(?:\$(.+))*$/';
 
     /** @var string  */
-    private $regex = "";
+    private $regex = '';
     /** @var string  */
-    private $flags_str = "";
+    private $flags_str = '';
     /** @var string[] */
     private $capture_names = array();
 
@@ -44,7 +44,7 @@ class PartNameRegEx
     {
         if (!empty($partname_regex)) {
             if (!self::isValid($partname_regex)) {
-                throw new Exception("The PartNameRegex string (" . $partname_regex . ") is not valid!");
+                throw new Exception('The PartNameRegex string (' . $partname_regex . ') is not valid!');
             }
 
             $this->parse($partname_regex);
@@ -59,7 +59,7 @@ class PartNameRegEx
         $this->regex = $matches[1];
         $this->flags_str = $matches[2];
 
-        $this->capture_names = explode("$", $matches[3]);
+        $this->capture_names = explode('$', $matches[3]);
     }
 
 
@@ -88,7 +88,7 @@ class PartNameRegEx
      */
     public function isEnforced()
     {
-        return strcontains($this->flags_str, "f");
+        return strcontains($this->flags_str, 'f');
     }
 
     /**
@@ -97,7 +97,7 @@ class PartNameRegEx
      */
     public function isNofilter() : bool
     {
-        return strcontains($this->flags_str, "n");
+        return strcontains($this->flags_str, 'n');
     }
 
     /**
@@ -130,7 +130,7 @@ class PartNameRegEx
             if (empty($tmp[$n + 1])) { //Ignore empty values
                 continue;
             }
-            $properties[] = new PartProperty("", $this->capture_names[$n], $tmp[$n + 1]);
+            $properties[] = new PartProperty('', $this->capture_names[$n], $tmp[$n + 1]);
         }
 
         return $properties;

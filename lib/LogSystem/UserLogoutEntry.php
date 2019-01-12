@@ -52,11 +52,11 @@ class UserLogoutEntry extends BaseEntry
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_USERLOGOUT) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
 
         $arr = $this->deserializeExtra();
-        $this->ip_address = $arr["i"];
+        $this->ip_address = $arr['i'];
     }
 
 
@@ -72,9 +72,9 @@ class UserLogoutEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, User $user, string $ip_address = "")
+    public static function add(Database &$database, User &$current_user, Log &$log, User $user, string $ip_address = '')
     {
-        $arr = array("i" => $ip_address);
+        $arr = array('i' => $ip_address);
 
         return static::addEntry(
             $database,
@@ -99,7 +99,7 @@ class UserLogoutEntry extends BaseEntry
             $user = User::getInstance($this->database, $this->current_user, $this->log, $this->getTargetID());
             return $user->getName();
         } catch (Exception $ex) {
-            return "ERROR!";
+            return 'ERROR!';
         }
     }
 
@@ -109,7 +109,7 @@ class UserLogoutEntry extends BaseEntry
      */
     public function getTargetLink() : string
     {
-        return BASE_RELATIVE . "user_info?uid=" . $this->getTargetID();
+        return BASE_RELATIVE . 'user_info?uid=' . $this->getTargetID();
     }
 
     /**
@@ -119,6 +119,6 @@ class UserLogoutEntry extends BaseEntry
      */
     public function getExtra(bool $html = false) : string
     {
-        return _("Von IP: ") . $this->ip_address;
+        return _('Von IP: ') . $this->ip_address;
     }
 }

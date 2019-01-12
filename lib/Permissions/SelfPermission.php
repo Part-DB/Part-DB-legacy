@@ -23,10 +23,10 @@ namespace PartDB\Permissions;
 
 class SelfPermission extends BasePermission
 {
-    const EDIT_USERNAME  = "edit_username";
-    const EDIT_INFOS     = "edit_infos";
-    const SHOW_PERMISSIONS = "show_perms";
-    const SHOW_LOGS   = "show_logs";
+    const EDIT_USERNAME  = 'edit_username';
+    const EDIT_INFOS     = 'edit_infos';
+    const SHOW_PERMISSIONS = 'show_perms';
+    const SHOW_LOGS   = 'show_logs';
 
     protected static $operation_cache = null;
 
@@ -42,10 +42,10 @@ class SelfPermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[static::EDIT_INFOS] = static::buildOperationArray(0, static::EDIT_INFOS, _("Informationen ändern"));
-            $operations[static::EDIT_USERNAME] = static::buildOperationArray(2, static::EDIT_USERNAME, _("Benutzername ändern"));
-            $operations[static::SHOW_PERMISSIONS] = static::buildOperationArray(4, static::SHOW_PERMISSIONS, _("Berechtigungen auflisten"));
-            $operations[static::SHOW_LOGS] = static::buildOperationArray(6, static::SHOW_LOGS, _("Eigene Aktionen im Log anzeigen"));
+            $operations[static::EDIT_INFOS] = static::buildOperationArray(0, static::EDIT_INFOS, _('Informationen ändern'));
+            $operations[static::EDIT_USERNAME] = static::buildOperationArray(2, static::EDIT_USERNAME, _('Benutzername ändern'));
+            $operations[static::SHOW_PERMISSIONS] = static::buildOperationArray(4, static::SHOW_PERMISSIONS, _('Berechtigungen auflisten'));
+            $operations[static::SHOW_LOGS] = static::buildOperationArray(6, static::SHOW_LOGS, _('Eigene Aktionen im Log anzeigen'));
 
             static::$operation_cache = $operations;
         }

@@ -128,7 +128,7 @@ $config['is_online_demo']                               = false; // disables som
 $config['developer_mode']                               = false; // enables the "Debug-Tools" menu
 $config['page_title']                                   = _('Part-DB Elektronische Bauteile-Datenbank'); //Dont use this anymore, use partdb_title instead
 $config['partdb_title']                                 = 'Part-DB';
-$config['tracking_code']                                = "";   //Allows to inject some HTML on the footer (e.g. for usage of google analytics)
+$config['tracking_code']                                = '';   //Allows to inject some HTML on the footer (e.g. for usage of google analytics)
 $config['allow_server_downloads']                       = false; //Allow the user to download files via the server. Caution: This maybe could be used, to access internal servers.
 
 // Settings for design
@@ -143,7 +143,7 @@ $config['appearance']['use_old_datasheet_icons']    = false;
 $config['appearance']['short_description_length']   = 200;
 $config['appearance']['short_description']          = true;
 $config['other_panel']['collapsed']                 = false;
-$config['other_panel']['position']                  = "top";
+$config['other_panel']['position']                  = 'top';
 
 //part info settings
 $config['part_info']['hide_actions']                = false;    //Hide actions panel
@@ -179,13 +179,13 @@ $config['user']['gc_maxlifetime']               = 5400;      //5400 sec = 90min
 
 //Cookie consent info
 $config['cookie_consent']['enable']             = false;     //Set to true to activate cookie consent dialog
-$config['cookie_consent']['message']            = "This website uses cookies to ensure you get the best experience on our website.";
-$config['cookie_consent']['link_text']          = "Learn more";
-$config['cookie_consent']['button_text']        = "Got it!";
-$config['cookie_consent']['link_href']          = "https://cookiesandyou.com/";
+$config['cookie_consent']['message']            = 'This website uses cookies to ensure you get the best experience on our website.';
+$config['cookie_consent']['link_text']          = 'Learn more';
+$config['cookie_consent']['button_text']        = 'Got it!';
+$config['cookie_consent']['link_href']          = 'https://cookiesandyou.com/';
 
-$config['logging_system']['ip_anonymize_mask_ipv4']  = "255.255.255.0";  //The mask that should be used to anonymize ip addresses. Set to "" to log the complete IP address (this is not GPDR compliant)
-$config['logging_system']['ip_anonymize_mask_ipv6']  = "ffff:ffff:ffff:ffff:0000:0000:0000:0000";
+$config['logging_system']['ip_anonymize_mask_ipv4']  = '255.255.255.0';  //The mask that should be used to anonymize ip addresses. Set to "" to log the complete IP address (this is not GPDR compliant)
+$config['logging_system']['ip_anonymize_mask_ipv6']  = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000';
 $config['logging_system']['min_level']               = 7;           //Set the minimum level of events which should be logged. 7 = DEBUG, all things are logged, Set to -1 to disable logging completly.
 
 /********************************************************************************

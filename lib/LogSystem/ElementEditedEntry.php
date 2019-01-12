@@ -32,7 +32,7 @@ use PartDB\User;
 
 class ElementEditedEntry extends BaseEntry
 {
-    protected $message = "";
+    protected $message = '';
 
     /**
      * @var $element NamedDBElement
@@ -58,7 +58,7 @@ class ElementEditedEntry extends BaseEntry
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_ELEMENTEDITED) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
 
         try {
@@ -139,7 +139,7 @@ class ElementEditedEntry extends BaseEntry
             $level = Log::LEVEL_INFO;
         }
 
-        $arr = array("m" => $edit_message);
+        $arr = array('m' => $edit_message);
 
         return static::addEntry(
             $database,
@@ -162,9 +162,9 @@ class ElementEditedEntry extends BaseEntry
     {
         try {
             $part_name = ($this->element != null) ? $this->element->getName() : $this->getTargetID();
-            return Log::targetTypeIDToString($this->getTargetType()) . ": " . $part_name;
+            return Log::targetTypeIDToString($this->getTargetType()) . ': ' . $part_name;
         } catch (Exception $ex) {
-            return "ERROR!";
+            return 'ERROR!';
         }
     }
 

@@ -125,7 +125,7 @@ class Log
         $this->current_user = User::getLoggedInUser($this->database, $this);
     }
 
-    public function userLogsIn(User $user, string $ip_address = "")
+    public function userLogsIn(User $user, string $ip_address = '')
     {
         try {
             UserLoginEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user, $ip_address);
@@ -133,7 +133,7 @@ class Log
         }
     }
 
-    public function userLogsOut($user, $ip_address = "")
+    public function userLogsOut($user, $ip_address = '')
     {
         try {
             UserLogoutEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user, $ip_address);
@@ -190,12 +190,12 @@ class Log
         $target_id = $element->getID();
         $target_type = static::elementToTargetTypeID($element);
 
-        $query = "SELECT id_user FROM `log` WHERE (type = 6 OR type = 7)";  // Choose element created or element edited entry types.
-        $query .= " AND target_id = ?";
+        $query = 'SELECT id_user FROM `log` WHERE (type = 6 OR type = 7)';  // Choose element created or element edited entry types.
+        $query .= ' AND target_id = ?';
         $data[] = $target_id;
-        $query .= " AND target_type = ?";
+        $query .= ' AND target_type = ?';
         $data[] = $target_type;
-        $query .= " ORDER BY log.datetime DESC";
+        $query .= ' ORDER BY log.datetime DESC';
 
         $results = $database->query($query, $data);
         if (count($results) > 0) {
@@ -221,12 +221,12 @@ class Log
         $target_id = $element->getID();
         $target_type = static::elementToTargetTypeID($element);
 
-        $query = "SELECT id_user FROM `log` WHERE (type = 6)";  // Choose element created or element edited entry types.
-        $query .= " AND target_id = ?";
+        $query = 'SELECT id_user FROM `log` WHERE (type = 6)';  // Choose element created or element edited entry types.
+        $query .= ' AND target_id = ?';
         $data[] = $target_id;
-        $query .= " AND target_type = ?";
+        $query .= ' AND target_type = ?';
         $data[] = $target_type;
-        $query .= " ORDER BY log.datetime DESC";
+        $query .= ' ORDER BY log.datetime DESC';
 
         $results = $database->query($query, $data);
         if (count($results) > 0) {
@@ -247,24 +247,24 @@ class Log
     public static function getHistoryForPart(Database &$database, User &$current_user, Log &$log, Part &$part, int $limit = 50, int $page = 1) : array
     {
         if (!$part instanceof Part) {
-            throw new \RuntimeException(_("getInstockHistoryForPart() funktioniert nur für Bauteile!"));
+            throw new \RuntimeException(_('getInstockHistoryForPart() funktioniert nur für Bauteile!'));
         }
 
         $part_id = $part->getID();
 
-        $query = "SELECT * FROM `log` WHERE target_id = ?";
+        $query = 'SELECT * FROM `log` WHERE target_id = ?';
         $data[] = $part_id; //Only parts with the given ID
-        $query .= " AND target_type = ?";
+        $query .= ' AND target_type = ?';
         $data[] = Log::TARGET_TYPE_PART;    //Only parts as a target
-        $query .= " AND (type = 5"; //ElementDeleted
-        $query .= " OR type = 6"; //ElementCreated
-        $query .= " OR type = 7";  //ElementEdited
-        $query .= " OR type = 9)";  //InstockChanged
+        $query .= ' AND (type = 5'; //ElementDeleted
+        $query .= ' OR type = 6'; //ElementCreated
+        $query .= ' OR type = 7';  //ElementEdited
+        $query .= ' OR type = 9)';  //InstockChanged
 
-        $query .= " ORDER BY log.datetime DESC";
+        $query .= ' ORDER BY log.datetime DESC';
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+            $query .= ' LIMIT ' . (($page - 1) * $limit) . ", $limit";
         }
 
         $results = $database->query($query, $data);
@@ -281,7 +281,7 @@ class Log
             $tmp['user_name'] = $entry->getUser()->getFullName(true);
             $tmp['user_id'] = $entry->getUser()->getID();
             if ($current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-                $tmp['user_link'] = "user_info.php?uid=" . $tmp['user_id'];
+                $tmp['user_link'] = 'user_info.php?uid=' . $tmp['user_id'];
             }
             $tmp['type_id'] = $entry->getTypeID();
             $tmp['type_text'] = static::typeIDToString($entry->getTypeID());
@@ -295,7 +295,7 @@ class Log
             } elseif ($entry instanceof InstockChangedEntry) {
                 /** @var InstockChangedEntry $entry */
                 $tmp['instock'] = $entry->getNewInstock();
-                $tmp['difference'] = $entry->getDifference() < 0 ? $entry->getDifference() : "+". $entry->getDifference() ;
+                $tmp['difference'] = $entry->getDifference() < 0 ? $entry->getDifference() : '+' . $entry->getDifference() ;
                 $tmp['old_instock'] = $entry->getOldInstock();
                 $tmp['message'] = $entry->getComment();
                 $tmp['price'] = $entry->getPrice(true);
@@ -309,54 +309,54 @@ class Log
 
     public static function historyToGraph(array $history_entries) : string
     {
-        $dataset = array("label" => _("Vorhandene Bauteile"));
-        $dataset["backgroundColor"] = StatisticsHelpers::COLOR_BLUE;
-        $dataset["steppedLine"] = "after";
+        $dataset = array('label' => _('Vorhandene Bauteile'));
+        $dataset['backgroundColor'] = StatisticsHelpers::COLOR_BLUE;
+        $dataset['steppedLine'] = 'after';
         $data = array();
         $instock = 0;
         foreach ($history_entries as $entry) {
             if (isset($entry['instock'])) {
                 $instock = $entry['instock'];
             }
-            $tmp = array('t' => $entry["timestamp"],
-                'y' => $instock,);
+            $tmp = array('t' => $entry['timestamp'],
+                'y' => $instock);
 
-            $tmp["type"] = $entry["type_text"];
-            $tmp["user_name"] = $entry["user_name"];
+            $tmp['type'] = $entry['type_text'];
+            $tmp['user_name'] = $entry['user_name'];
 
-            if (isset($entry["difference"])) {
-                $tmp["difference"] = _("Veränderung: ") . $entry["difference"] . "; " . _("Preis: ") . $entry["price_string"];
+            if (isset($entry['difference'])) {
+                $tmp['difference'] = _('Veränderung: ') . $entry['difference'] . '; ' . _('Preis: ') . $entry['price_string'];
             }
-            if (!empty($entry["message"])) {
-                $tmp["message"] = _("Kommentar: ") . mb_substr($entry["message"], 0, 100);
+            if (!empty($entry['message'])) {
+                $tmp['message'] = _('Kommentar: ') . mb_substr($entry['message'], 0, 100);
             }
 
             $data[] = $tmp;
         }
-        $dataset["data"] = $data;
+        $dataset['data'] = $data;
 
-        return json_encode(array("datasets" => array($dataset)));
+        return json_encode(array('datasets' => array($dataset)));
         //return "[{x: 10, y: 20}, {x: 15, y: 10}]";
     }
 
     public static function getHistoryForPartCount(Database &$database, User &$current_user, Log &$log, Part &$part) : int
     {
         if (!$part instanceof Part) {
-            throw new \RuntimeException(_("getInstockHistoryForPart() funktioniert nur für Bauteile!"));
+            throw new \RuntimeException(_('getInstockHistoryForPart() funktioniert nur für Bauteile!'));
         }
 
         $part_id = $part->getID();
 
-        $query = "SELECT count(id) AS `count` FROM `log` WHERE target_id = ?";
+        $query = 'SELECT count(id) AS `count` FROM `log` WHERE target_id = ?';
         $data[] = $part_id; //Only parts with the given ID
-        $query .= " AND target_type = ?";
+        $query .= ' AND target_type = ?';
         $data[] = Log::TARGET_TYPE_PART;    //Only parts as a target
-        $query .= " AND (type = 5"; //ElementDeleted
-        $query .= " OR type = 6"; //ElementCreated
-        $query .= " OR type = 7";  //ElementEdited
-        $query .= " OR type = 9)";  //InstockChanged
+        $query .= ' AND (type = 5'; //ElementDeleted
+        $query .= ' OR type = 6'; //ElementCreated
+        $query .= ' OR type = 7';  //ElementEdited
+        $query .= ' OR type = 9)';  //InstockChanged
 
-        $query .= " ORDER BY log.datetime DESC";
+        $query .= ' ORDER BY log.datetime DESC';
 
         $results = $database->query($query, $data);
         return $results[0]['count'];
@@ -372,27 +372,27 @@ class Log
     {
         switch ($id) {
             case static::TYPE_USERLOGIN:
-                return _("Nutzer eingeloggt");
+                return _('Nutzer eingeloggt');
             case static::TYPE_USERLOGOUT:
-                return _("Nutzer ausgeloggt");
+                return _('Nutzer ausgeloggt');
             case static::TYPE_USERNOTALLOWED:
-                return _("Unerlaubter Zugriffsversuch");
+                return _('Unerlaubter Zugriffsversuch');
             case static::TYPE_EXCEPTION:
-                return _("Unbehandelte Exception");
+                return _('Unbehandelte Exception');
             case static::TYPE_ELEMENTDELETED:
-                return _("Element gelöscht");
+                return _('Element gelöscht');
             case static::TYPE_ELEMENTCREATED:
-                return _("Element angelegt");
+                return _('Element angelegt');
             case static::TYPE_ELEMENTEDITED:
-                return _("Element bearbeitet");
+                return _('Element bearbeitet');
             case static::TYPE_CONFIGCHANGED:
-                return _("Systemeinstellungen geändert");
+                return _('Systemeinstellungen geändert');
             case static::TYPE_INSTOCKCHANGE:
-                return _("Bauteile Entnahme/Zugabe");
+                return _('Bauteile Entnahme/Zugabe');
             case static::TYPE_DATABASEUPDATE:
-                return _("Datenbank Update");
+                return _('Datenbank Update');
             default:
-                return _("Unbekannter Typ");
+                return _('Unbekannter Typ');
         }
     }
 
@@ -427,7 +427,7 @@ class Log
         } elseif ($element instanceof  Supplier) {
             return static::TARGET_TYPE_SUPPLIER;
         } else {
-            throw new \RuntimeException(_("Kein Target Typ für diese Klasse gefunden!"));
+            throw new \RuntimeException(_('Kein Target Typ für diese Klasse gefunden!'));
         }
     }
 
@@ -464,7 +464,7 @@ class Log
             case static::TARGET_TYPE_SUPPLIER:
                 return Supplier::class;
             default:
-                throw new \RuntimeException(_("Unbekannter Target Typ"));
+                throw new \RuntimeException(_('Unbekannter Target Typ'));
         }
     }
 
@@ -476,46 +476,46 @@ class Log
      */
     public static function generateLinkForTarget(int $target_type, int $target_id) : string
     {
-        $url = BASE_RELATIVE . "/";
+        $url = BASE_RELATIVE . '/';
         switch ($target_type) {
             case static::TARGET_TYPE_ATTACHEMENT:
                 //Attachements dont have a info page yet.
-                return "";
+                return '';
             case static::TARGET_TYPE_ATTACHEMENTTYPE:
-                $url.= "edit_attachment_types.php?selected_id=";
+                $url.= 'edit_attachment_types.php?selected_id=';
                 break;
             case static::TARGET_TYPE_CATEGORY:
-                $url.= "edit_categories.php?selected_id=";
+                $url.= 'edit_categories.php?selected_id=';
                 break;
             case static::TARGET_TYPE_DEVICE:
-                $url.= "edit_devices.php?selected_id=";
+                $url.= 'edit_devices.php?selected_id=';
                 break;
             case static::TARGET_TYPE_DEVICEPART:
                 //We dont have a real info page for that too...
-                return "";
+                return '';
             case static::TARGET_TYPE_FOOTPRINT:
-                $url .= "edit_footprints.php?selected_id=";
+                $url .= 'edit_footprints.php?selected_id=';
                 break;
             case static::TARGET_TYPE_GROUP:
-                $url .= "edit_groups.php?selected_id=";
+                $url .= 'edit_groups.php?selected_id=';
                 break;
             case static::TARGET_TYPE_MANUFACTURER:
-                $url .= "edit_manufacturer?selected_id=";
+                $url .= 'edit_manufacturer?selected_id=';
                 break;
             case static::TARGET_TYPE_PART:
-                $url .= "show_part_info.php?pid=";
+                $url .= 'show_part_info.php?pid=';
                 break;
             case static::TARGET_TYPE_STORELOCATION:
-                $url .= "edit_storelocations.php?selected_id=";
+                $url .= 'edit_storelocations.php?selected_id=';
                 break;
             case static::TARGET_TYPE_SUPPLIER:
-                $url .= "edit_suppliers.php?selected_id=";
+                $url .= 'edit_suppliers.php?selected_id=';
                 break;
             case static::TARGET_TYPE_USER:
-                $url .= "edit_users.php?selected_id=";
+                $url .= 'edit_users.php?selected_id=';
                 break;
             default:
-                return "";
+                return '';
         }
 
         return $url . $target_id;
@@ -530,29 +530,29 @@ class Log
     {
         switch ($target_id) {
             case static::TARGET_TYPE_ATTACHEMENT:
-                return _("Anhang");
+                return _('Anhang');
             case static::TARGET_TYPE_ATTACHEMENTTYPE:
-                return _("Dateityp");
+                return _('Dateityp');
             case static::TARGET_TYPE_USER:
-                return _("Benutzer");
+                return _('Benutzer');
             case static::TARGET_TYPE_CATEGORY:
-                return _("Kategorie");
+                return _('Kategorie');
             case static::TARGET_TYPE_DEVICE:
-                return _("Baugruppe");
+                return _('Baugruppe');
             case static::TARGET_TYPE_FOOTPRINT:
-                return _("Footprint");
+                return _('Footprint');
             case static::TARGET_TYPE_GROUP:
-                return _("Gruppe");
+                return _('Gruppe');
             case static::TARGET_TYPE_MANUFACTURER:
-                return _("Hersteller");
+                return _('Hersteller');
             case static::TARGET_TYPE_PART:
-                return _("Bauteil");
+                return _('Bauteil');
             case static::TARGET_TYPE_STORELOCATION:
-                return _("Lagerort");
+                return _('Lagerort');
             case static::TARGET_TYPE_SUPPLIER:
-                return _("Hersteller");
+                return _('Hersteller');
             default:
-                return _("Unbekannter Target Typ");
+                return _('Unbekannter Target Typ');
         }
     }
 
@@ -564,10 +564,10 @@ class Log
         while (true) {
             $text = static::typeIDToString($n);
             //TODO: Thats a bit dirty... Find a better way to do this...
-            if (strcontains($text, _("Unbekannt"))) {
+            if (strcontains($text, _('Unbekannt'))) {
                 break;
             }
-            $data[] = array("id" => $n, "text" => $text);
+            $data[] = array('id' => $n, 'text' => $text);
             $n++;
         }
 
@@ -585,18 +585,18 @@ class Log
         /** @var BaseEntry $entry */
         foreach ($entries as $entry) {
             $data = array(
-                "id" => $entry->getID(),
-                "timestamp" => $entry->getTimestamp(true),
-                "type" => $this->typeIDToString($entry->getTypeID()),
-                "user" => $entry->getUser()->getFullName(true),
-                "user_id" => $entry->getUser()->getID(),
-                "comment" => $entry->getExtra(),
-                "level" => $entry->getLevel(),
-                "level_id" => $entry->getLevelID(),
-                "target_text" => $entry->getTargetText(),
-                "target_link" => $entry->getTargetLink(),
-                "target_id" => $entry->getTargetID(),
-                "row_index" => $row_index
+                'id' => $entry->getID(),
+                'timestamp' => $entry->getTimestamp(true),
+                'type' => self::typeIDToString($entry->getTypeID()),
+                'user' => $entry->getUser()->getFullName(true),
+                'user_id' => $entry->getUser()->getID(),
+                'comment' => $entry->getExtra(),
+                'level' => $entry->getLevel(),
+                'level_id' => $entry->getLevelID(),
+                'target_text' => $entry->getTargetText(),
+                'target_link' => $entry->getTargetLink(),
+                'target_id' => $entry->getTargetID(),
+                'row_index' => $row_index
             );
 
             $rows[] = $data;
@@ -622,68 +622,68 @@ class Log
         int $min_level = self::LEVEL_DEBUG,
         int $user_id = -1,
         int $type_id = -1,
-        string $search_str = "",
+        string $search_str = '',
         int $target_type = -1,
         int $target_id = -1,
-        string $min_date = "",
-        string $max_date = "",
+        string $min_date = '',
+        string $max_date = '',
         int $limit = 50,
         int $page = 1
     ) {
-        $search_str = "%" . $search_str . "%";
+        $search_str = '%' . $search_str . '%';
 
         $data = array();
 
         $query =    'SELECT * from log ';
 
-        $query .= " WHERE level <= ?";
+        $query .= ' WHERE level <= ?';
         $data[] = $min_level;
 
         //Filter for user
         if ($user_id >= 0) {
-            $query .= " AND (id_user = ?)";
+            $query .= ' AND (id_user = ?)';
             $data[] = $user_id;
         }
 
         //Filter for type
         if ($type_id > 0) {
-            $query .= " AND (type = ?)";
+            $query .= ' AND (type = ?)';
             $data[] = $type_id;
         }
 
-        if ($search_str != "") {
-            $query .= " AND (extra LIKE ?)";
+        if ($search_str != '') {
+            $query .= ' AND (extra LIKE ?)';
             $data[] = $search_str;
         }
 
         //Filter for target_type
         if ($target_type > 0) {
-            $query .= " AND (target_type = ?)";
+            $query .= ' AND (target_type = ?)';
             $data[] = $target_type;
         }
 
         //Filter for target_type
         if ($target_id > 0) {
-            $query .= " AND (target_id = ?)";
+            $query .= ' AND (target_id = ?)';
             $data[] = $target_id;
         }
 
         //Filter for dates
-        if ($max_date != "") {
-            $query .= " AND (datetime <= ?)";
+        if ($max_date != '') {
+            $query .= ' AND (datetime <= ?)';
             $data[] = $max_date;
         }
-        if ($min_date != "") {
-            $query .= " AND (datetime >= ?)";
+        if ($min_date != '') {
+            $query .= ' AND (datetime >= ?)';
             $data[] = $min_date;
         }
 
-        $sorting = ($newest_first) ? "DESC" : "ASC";
+        $sorting = $newest_first ? 'DESC' : 'ASC';
 
         $query .=   ' ORDER BY log.datetime ' . $sorting;
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+            $query .= ' LIMIT ' . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $this->database->query($query, $data);
@@ -704,55 +704,55 @@ class Log
         int $min_level = self::LEVEL_DEBUG,
         int $user_id = -1,
         int $type_id = -1,
-        string $search_str = "",
+        string $search_str = '',
         int $target_type = -1,
         int $target_id = -1,
-        string $min_date = "",
-        string $max_date = ""
+        string $min_date = '',
+        string $max_date = ''
     ) {
         $data = array();
 
         $query =    'SELECT COUNT(id) AS count from log ';
 
-        $query .= "WHERE level <= ?";
+        $query .= 'WHERE level <= ?';
         $data[] = $min_level;
 
         //Filter for user
         if ($user_id >= 0) {
-            $query .= " AND (id_user = ?)";
+            $query .= ' AND (id_user = ?)';
             $data[] = $user_id;
         }
 
         //Filter for type
         if ($type_id > 0) {
-            $query .= " AND (type = ?)";
+            $query .= ' AND (type = ?)';
             $data[] = $type_id;
         }
 
-        if ($search_str != "") {
-            $query .= " AND (extra LIKE ?)";
+        if ($search_str != '') {
+            $query .= ' AND (extra LIKE ?)';
             $data[] = $search_str;
         }
 
         //Filter for target_type
         if ($target_type > 0) {
-            $query .= " AND (target_type = ?)";
+            $query .= ' AND (target_type = ?)';
             $data[] = $target_type;
         }
 
         //Filter for target_type
         if ($target_id > 0) {
-            $query .= " AND (target_id = ?)";
+            $query .= ' AND (target_id = ?)';
             $data[] = $target_id;
         }
 
         //Filter for dates
-        if ($max_date != "") {
-            $query .= " AND (datetime <= ?)";
+        if ($max_date != '') {
+            $query .= ' AND (datetime <= ?)';
             $data[] = $max_date;
         }
-        if ($min_date != "") {
-            $query .= " AND (datetime >= ?)";
+        if ($min_date != '') {
+            $query .= ' AND (datetime >= ?)';
             $data[] = $min_date;
         }
 
@@ -784,7 +784,7 @@ class Log
 
     public function deleteSelected(string $select_string)
     {
-        $ids = explode(",", $select_string);
+        $ids = explode(',', $select_string);
 
         foreach ($ids as $id) {
             //We dont now for sure which ids the entries have, but UnknownTypeEntry should work always.

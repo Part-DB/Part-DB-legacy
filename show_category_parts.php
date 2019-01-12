@@ -23,9 +23,9 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 /** @noinspection PhpIncludeInspection */
-include_once(BASE.'/inc/lib.export.php');
+include_once BASE.'/inc/lib.export.php';
 
 use PartDB\Category;
 use PartDB\Database;
@@ -64,8 +64,8 @@ if (isset($_REQUEST['subcat_button'])) {
     $action = 'change_subcat_state';
 } elseif (isset($_REQUEST['export'])) {
     $action = 'export';
-} elseif (isset($_POST["multi_action"])) {
-    $action = "multi_action";
+} elseif (isset($_POST['multi_action'])) {
+    $action = 'multi_action';
 }
 
 $selected_part_id = 0;
@@ -112,7 +112,7 @@ try {
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
-    $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
+    $_SESSION['part_delete_last_link'] = $_SERVER['REQUEST_URI'];
     session_write_close();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -158,9 +158,9 @@ if (! $fatal_error) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
             break;
-        case "multi_action":
+        case 'multi_action':
             try {
-                if (isset($_REQUEST['action']) && $_REQUEST['action'] == "delete") {
+                if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete') {
                     $n = substr_count($_REQUEST['selected_ids'], ",") + 1;
                     $messages[] = array('text' => sprintf(_('Sollen die %d gewählten Bauteile wirklich unwiederruflich gelöscht werden?'), $n),
                         'strong' => true, 'color' => 'red');
@@ -199,16 +199,17 @@ if (! $fatal_error) {
         $table_loop = Part::buildTemplateTableArray($parts, 'category_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setVariable('table', $table_loop);
-        $html->setVariable("pagination", generatePagination("show_category_parts.php?cid=$category_id", $page, $limit, $category->getPartsCount($with_subcategories)));
-        $html->setVariable("page", $page);
+        $html->setVariable('pagination', generatePagination("show_category_parts.php?cid=$category_id", $page, $limit, $category->getPartsCount($with_subcategories)));
+        $html->setVariable('page', $page);
         $html->setVariable('limit', $limit);
 
-        $html->setVariable('breadcrumb', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", true, _("Kategorien")));
+        $html->setVariable('breadcrumb', $category->buildBreadcrumbLoop('show_category_parts.php', 'cid', true, _('Kategorien')));
 
         //Export Parts
-        if ($action == "export") {
+        if ($action == 'export') {
             //When export then get all parts.
-            $export_parts = $parts = $category->getParts($with_subcategories, true, 0, 0);
+            $parts = $category->getParts($with_subcategories, true, 0, 0);
+            $export_parts = $parts;
             $export_string = exportParts($export_parts, 'showparts', $export_format_id, true, 'category_parts');
         }
     } catch (Exception $e) {
@@ -231,28 +232,28 @@ if (! $fatal_error) {
         $html->setVariable('with_subcategories', $with_subcategories, 'boolean');
         $html->setVariable('cid', $category->getID(), 'integer');
         $html->setVariable('category_name', $category->getName(), 'string');
-        $html->setVariable('category_fullpath', $category->getFullPath(" / "), 'string');
-        $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
-        $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
-        $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable'] || $category->getDisableAutodatasheets(true)), 'boolean');
+        $html->setVariable('category_fullpath', $category->getFullPath(' / '), 'string');
+        $html->setVariable('disable_footprints', $config['footprints']['disable'] || $category->getDisableFootprints(true), 'boolean');
+        $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'] || $category->getDisableManufacturers(true), 'boolean');
+        $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'] || $category->getDisableAutodatasheets(true), 'boolean');
 
         $html->setVariable('export_formats', buildExportFormatsLoop('showparts'));
 
         if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
             $root_category = Category::getInstance($database, $current_user, $log, 0);
-            $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
+            $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, '', 'c'));
         }
         if ($current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
             $root_footprint = Footprint::getInstance($database, $current_user, $log, 0);
-            $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
+            $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, '', 'f'));
         }
         if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
             $root_manufacturer = Manufacturer::getInstance($database, $current_user, $log, 0);
-            $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
+            $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, '', 'm'));
         }
         if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
             $root_location = Storelocation::getInstance($database, $current_user, $log, 0);
-            $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
+            $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, '', 's'));
         }
 
         $html->setVariable('can_edit', $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
@@ -260,8 +261,8 @@ if (! $fatal_error) {
         $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
         $html->setVariable('can_favor', $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
 
-        $html->setVariable("other_panel_collapse", $config['other_panel']['collapsed'], "boolean");
-        $html->setVariable("other_panel_position", $config['other_panel']['position'], "string");
+        $html->setVariable('other_panel_collapse', $config['other_panel']['collapsed'], 'boolean');
+        $html->setVariable('other_panel_position', $config['other_panel']['position'], 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -276,8 +277,8 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 
@@ -292,13 +293,13 @@ if (! $fatal_error) {
 
 // If debugging is enabled, print some debug informations
 $debug_messages = array();
-if ((! $fatal_error) && ($config['debug']['enable'])) {
+if ((! $fatal_error) && $config['debug']['enable']) {
     $endtime = microtime(true);
-    $lifetime = (int)(1000*($endtime - $starttime));
-    $php_lifetime = (int)(1000*($php_endtime - $starttime));
-    $html_lifetime = (int)(1000*($endtime - $php_endtime));
+    $lifetime = (1000*($endtime - $starttime));
+    $php_lifetime = (1000*($php_endtime - $starttime));
+    $html_lifetime = (1000*($endtime - $php_endtime));
     $debug_messages[] = array('text' => 'Debug-Meldungen: ', 'strong' => true, 'color' => 'darkblue');
-    $debug_messages[] = array('text' => 'Anzahl Teile in dieser Kategorie: '.(count($parts)), 'color' => 'darkblue');
+    $debug_messages[] = array('text' => 'Anzahl Teile in dieser Kategorie: '. count($parts), 'color' => 'darkblue');
     $debug_messages[] = array('text' => 'Gesamte Laufzeit: '.$lifetime.'ms', 'color' => 'darkblue');
     $debug_messages[] = array('text' => 'PHP Laufzeit: '.$php_lifetime.'ms', 'color' => 'darkblue');
     $debug_messages[] = array('text' => 'HTML Laufzeit: '.$html_lifetime.'ms', 'color' => 'darkblue');

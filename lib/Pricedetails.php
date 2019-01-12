@@ -49,7 +49,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
 {
-    const TABLE_NAME = "pricedetails";
+    const TABLE_NAME = 'pricedetails';
 
     /********************************************************************************
      *
@@ -429,10 +429,10 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getAPIArray(bool $verbose = false) : array
     {
-        $json =  array( "id" => $this->getID(),
-            "quantity" => $this->getPriceRelatedQuantity(),
-            "price" => $this->getPrice(),
-            "minDiscountQuantity" => $this->getMinDiscountQuantity()
+        $json =  array( 'id' => $this->getID(),
+            'quantity' => $this->getPriceRelatedQuantity(),
+            'price' => $this->getPrice(),
+            'minDiscountQuantity' => $this->getMinDiscountQuantity()
         );
         return $json;
     }
@@ -444,6 +444,6 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getIDString(): string
     {
-        return "PD" . sprintf("%06d", $this->getID());
+        return 'PD' . sprintf('%06d', $this->getID());
     }
 }

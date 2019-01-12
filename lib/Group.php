@@ -39,7 +39,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissions
 {
-    const TABLE_NAME = "groups";
+    const TABLE_NAME = 'groups';
 
     /********************************************************************************
      *
@@ -105,11 +105,8 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
     {
         $arr = array();
 
-        if ($this->current_user->canDo(static::getPermissionName(), GroupPermission::MOVE)) {
-            //Make an exception for $parent_id
-            if (isset($new_values['parent_id'])) {
-                $arr['parent_id'] = $new_values['parent_id'];
-            }
+        if ($this->current_user->canDo(static::getPermissionName(), GroupPermission::MOVE) && isset($new_values['parent_id'])) {
+            $arr['parent_id'] = $new_values['parent_id'];
         }
         if ($this->current_user->canDo(static::getPermissionName(), GroupPermission::EDIT)) {
             if (isset($new_values['name'])) {
@@ -121,7 +118,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
         }
         if ($this->current_user->canDo(static::getPermissionName(), GroupPermission::EDIT_PERMISSIONS)) {
             foreach ($new_values as $key => $content) {
-                if (strpos($key, "perms_") !== false) {
+                if (strpos($key, 'perms_') !== false) {
                     $arr[$key] = $content;
                 }
             }
@@ -129,7 +126,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
 
         //Perms are only set, if no error happened before, so dont throw an exception!!
         if (!empty($arr)) {
-            parent::setAttributesNoCheck($arr, $edit_message = null);
+            $this->setAttributesNoCheck($arr, $edit_message = null);
         }
     }
 
@@ -207,7 +204,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
     public function getComment(bool $parse_bbcode = true) : string
     {
         if (!$this->current_user->canDo(PermissionManager::GROUPS, GroupPermission::READ)) {
-            return "???";
+            return '???';
         }
         return $this->db_data['comment'];
     }
@@ -238,7 +235,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function getPermissionRaw(string $permsission_name) : int
     {
-        return (int) ($this->db_data["perms_" . $permsission_name]);
+        return (int)$this->db_data['perms_' . $permsission_name];
     }
 
     /**
@@ -248,7 +245,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function setPermissionRaw(string $permission_name, int $value)
     {
-        $this->setAttributes(array("perms_" . $permission_name => $value));
+        $this->setAttributes(array('perms_' . $permission_name => $value));
     }
 
     /**
@@ -330,6 +327,6 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function getIDString(): string
     {
-        return "G" . sprintf("%06d", $this->getID());
+        return 'G' . sprintf('%06d', $this->getID());
     }
 }

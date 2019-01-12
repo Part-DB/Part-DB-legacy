@@ -50,7 +50,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
 {
-    const TABLE_NAME = "orderdetails";
+    const TABLE_NAME = 'orderdetails';
 
     /********************************************************************************
      *
@@ -156,7 +156,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception(_("Die Einkaufsinformationen konnten nicht gelöscht werden!\n") . _("Grund: ") . $e->getMessage());
+            throw new Exception(_("Die Einkaufsinformationen konnten nicht gelöscht werden!\n") . _('Grund: ') . $e->getMessage());
         }
     }
 
@@ -330,7 +330,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             $correct_pricedetails = $pricedetails;
         }
 
-        if ((! isset($correct_pricedetails)) || (! \is_object($correct_pricedetails))) {
+        if (! isset($correct_pricedetails) || (! \is_object($correct_pricedetails))) {
             throw new Exception(_('Es sind keine Preisinformationen für die angegebene Bestellmenge vorhanden!'));
         }
 
@@ -392,7 +392,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function setSupplierProductUrl(string $new_url)
     {
-        $this->setAttributes(array("supplier_product_url" => $new_url));
+        $this->setAttributes(array('supplier_product_url' => $new_url));
     }
 
     /**
@@ -402,7 +402,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getIDString(): string
     {
-        return "O" . sprintf("%06d", $this->getID());
+        return 'O' . sprintf('%06d', $this->getID());
     }
 
     /********************************************************************************
@@ -472,7 +472,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         int $supplier_id,
         string $supplierpartnr = '',
         bool $obsolete = false,
-        string $supplier_product_url = ""
+        string $supplier_product_url = ''
     ) : Orderdetails {
         $current_user->tryDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE);
 
@@ -496,15 +496,15 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getAPIArray(bool $verbose = false) : array
     {
-        $json =  array( "id" => $this->getID(),
-            "supplierpartnr" => $this->getSupplierPartNr()
+        $json =  array( 'id' => $this->getID(),
+            'supplierpartnr' => $this->getSupplierPartNr()
         );
 
         if ($verbose == true) {
-            $ver = array("supplier" => $this->getSupplier()->getAPIArray(),
-                "obsolete" => $this->getObsolete() == true,
-                "supplier_product_url" => $this->getSupplierProductUrl(),
-                "pricedetails" => convertAPIModelArray($this->getPricedetails(), true));
+            $ver = array('supplier' => $this->getSupplier()->getAPIArray(),
+                'obsolete' => $this->getObsolete() == true,
+                'supplier_product_url' => $this->getSupplierProductUrl(),
+                'pricedetails' => convertAPIModelArray($this->getPricedetails(), true));
             return array_merge($json, $ver);
         }
         return $json;

@@ -23,7 +23,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -60,8 +60,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

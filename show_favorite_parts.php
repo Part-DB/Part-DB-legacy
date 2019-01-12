@@ -19,7 +19,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -52,7 +52,7 @@ try {
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
-    $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
+    $_SESSION['part_delete_last_link'] = $_SERVER['REQUEST_URI'];
     session_write_close();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -72,13 +72,13 @@ if (! $fatal_error) {
         $html->setVariable('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
 
-        $html->setVariable("pagination", generatePagination(
-            "show_favorite_parts.php?",
+        $html->setVariable('pagination', generatePagination(
+            'show_favorite_parts.php?',
             $page,
             $limit,
             Part::getFavoritePartsCount($database, $current_user, $log)
         ));
-        $html->setVariable("page", $page);
+        $html->setVariable('page', $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -108,8 +108,8 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

@@ -38,7 +38,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ISearchable
 {
-    const TABLE_NAME = "footprints";
+    const TABLE_NAME = 'footprints';
 
     /********************************************************************************
      *
@@ -68,7 +68,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     {
         $tmp = parent::getVirtualData($virtual_id);
         if ($virtual_id == parent::ID_ROOT_ELEMENT) {
-            $tmp['filename'] = "";
+            $tmp['filename'] = '';
         }
 
         return $tmp;
@@ -131,7 +131,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        return parent::getPartsForRowName('id_footprint', $recursive, $hide_obsolete_and_zero, $limit, $page);
+        return $this->getPartsForRowName('id_footprint', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
     /**
      * Return the number of all parts in this PartsContainingDBElement
@@ -346,7 +346,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @see DBElement::add()
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $filename = '', string $filename_3d = '', string $comment = "")
+    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $filename = '', string $filename_3d = '', string $comment = '')
     {
         return parent::addByArray(
             $database,
@@ -355,8 +355,8 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
             array(  'name'      => $name,
                 'parent_id' => $parent_id,
                 'filename'  => $filename,
-                "filename_3d" => $filename_3d,
-                "comment" => $comment)
+                'filename_3d' => $filename_3d,
+                'comment' => $comment)
         );
     }
 
@@ -368,18 +368,18 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public function getAPIArray(bool $verbose = false) : array
     {
-        $json =  array( "id" => $this->getID(),
-            "name" => $this->getName(),
-            "fullpath" => $this->getFullPath("/"),
-            "parentid" => $this->getParentID(),
-            "level" => $this->getLevel()
+        $json =  array( 'id' => $this->getID(),
+            'name' => $this->getName(),
+            'fullpath' => $this->getFullPath('/'),
+            'parentid' => $this->getParentID(),
+            'level' => $this->getLevel()
         );
 
         if ($verbose == true) {
-            $ver = array("filename" => $this->getFilename(false),
-                "filename_valid" => $this->isFilenameValid(),
-                "filename3d" => $this->get3dFilename(),
-                "filename3d_valid" => $this->is3dFilenameValid());
+            $ver = array('filename' => $this->getFilename(false),
+                'filename_valid' => $this->isFilenameValid(),
+                'filename3d' => $this->get3dFilename(),
+                'filename3d_valid' => $this->is3dFilenameValid());
             return array_merge($json, $ver);
         }
         return $json;
@@ -401,6 +401,6 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public function getIDString(): string
     {
-        return "F" . sprintf("%06d", $this->getID());
+        return 'F' . sprintf('%06d', $this->getID());
     }
 }

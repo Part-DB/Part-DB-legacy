@@ -20,7 +20,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -102,13 +102,13 @@ switch ($action) {
 
 if (! $fatal_error) {
     try {
-        $html->setVariable("username", $selected_user->getName(), "string");
-        $html->setVariable("firstname", $selected_user->getFirstName(), "string");
-        $html->setVariable("lastname", $selected_user->getLastName(), "string");
-        $html->setVariable("email", $selected_user->getEmail(), "string");
-        $html->setVariable("department", $selected_user->getDepartment(), "string");
-        $html->setVariable("group", $selected_user->getGroup()->getFullPath(), "string");
-        $html->setVariable('avatar_url', $selected_user->getAvatar(), "string");
+        $html->setVariable('username', $selected_user->getName(), 'string');
+        $html->setVariable('firstname', $selected_user->getFirstName(), 'string');
+        $html->setVariable('lastname', $selected_user->getLastName(), 'string');
+        $html->setVariable('email', $selected_user->getEmail(), 'string');
+        $html->setVariable('department', $selected_user->getDepartment(), 'string');
+        $html->setVariable('group', $selected_user->getGroup()->getFullPath(), 'string');
+        $html->setVariable('avatar_url', $selected_user->getAvatar(), 'string');
 
         $html->setVariable('perm_loop', $selected_user->getPermissionManager()->generatePermissionsLoop(true, true));
     } catch (Exception $e) {
@@ -125,12 +125,12 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 
-$reload_link = $fatal_error ? 'user_info.php' : "";  // an empty string means that the...
+$reload_link = $fatal_error ? 'user_info.php' : '';  // an empty string means that the...
 $html->printHeader($messages, $reload_link);                           // ...reload-button won't be visible
 
 

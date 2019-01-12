@@ -40,7 +40,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class AttachmentType extends Base\StructuralDBElement implements Interfaces\IAPIModel
 {
-    const TABLE_NAME = "attachement_types";
+    const TABLE_NAME = 'attachement_types';
 
     /********************************************************************************
      *
@@ -129,7 +129,7 @@ class AttachmentType extends Base\StructuralDBElement implements Interfaces\IAPI
      *
      * @see DBElement::add()
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $comment = "")
+    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $comment = '')
     {
         return parent::addByArray(
             $database,
@@ -137,7 +137,7 @@ class AttachmentType extends Base\StructuralDBElement implements Interfaces\IAPI
             $log,
             array(  'name'              => $name,
                 'parent_id'         => $parent_id,
-                "comment"   => $comment)
+                'comment' => $comment)
         );
     }
 
@@ -148,7 +148,7 @@ class AttachmentType extends Base\StructuralDBElement implements Interfaces\IAPI
      */
     public function getIDString(): string
     {
-        return "AT" . sprintf("%09d", $this->getID());
+        return 'AT' . sprintf('%09d', $this->getID());
     }
 
 
@@ -160,11 +160,11 @@ class AttachmentType extends Base\StructuralDBElement implements Interfaces\IAPI
      */
     public function getAPIArray(bool $verbose = false) : array
     {
-        return array("id" => $this->getID(),
-            "name" => $this->getName(),
-            "fullpath" => $this->getFullPath("/"),
-            "parentid" => $this->getParentID(),
-            "level" => $this->getLevel());
+        return array('id' => $this->getID(),
+            'name' => $this->getName(),
+            'fullpath' => $this->getFullPath('/'),
+            'parentid' => $this->getParentID(),
+            'level' => $this->getLevel());
     }
 
     public static function getPermissionName() : string

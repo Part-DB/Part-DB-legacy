@@ -23,8 +23,8 @@ namespace PartDB\Permissions;
 
 class PartAttributePermission extends BasePermission
 {
-    const READ  = "read";
-    const EDIT  = "edit";
+    const READ  = 'read';
+    const EDIT  = 'edit';
 
     protected static $operation_cache = null;
 
@@ -40,8 +40,8 @@ class PartAttributePermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[static::READ] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
-            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
+            $operations[static::READ] = static::buildOperationArray(0, static::READ, _('Anzeigen'));
+            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _('Bearbeiten'));
 
             static::$operation_cache = $operations;
         }
@@ -52,7 +52,7 @@ class PartAttributePermission extends BasePermission
     {
         //Set read permission, too, when you get edit permissions.
         if ($operation == static::EDIT && $new_value == static::ALLOW) {
-            return parent::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return $this->writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

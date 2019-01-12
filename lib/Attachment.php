@@ -65,7 +65,7 @@ class Attachment extends Base\NamedDBElement
      *
      *********************************************************************************/
 
-    const TABLE_NAME = "attachements";
+    const TABLE_NAME = 'attachements';
 
     /**
      * Constructor
@@ -128,11 +128,11 @@ class Attachment extends Base\NamedDBElement
         $filename = $this->getFilename();
         $must_file_delete = false;
 
-        if (($delete_from_hdd) && (\strlen($filename) !== "")) {
+        if ($delete_from_hdd && (\strlen($filename) !== "")) {
             // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
             $attachements = Attachment::getAttachementsByFilename($this->database, $this->current_user, $this->log, $filename);
 
-            if ((count($attachements) <= 1) && (file_exists($filename))) {
+            if ((count($attachements) <= 1) && file_exists($filename)) {
                 // check if there are enought permissions to delete the file
                 if (! is_writable(dirname($filename))) {
                     throw new Exception(sprintf(_('Die Datei "%s" kann nicht gelöscht werden, '.
@@ -167,11 +167,9 @@ class Attachment extends Base\NamedDBElement
             parent::delete();
 
             // now delete the file (if desired)
-            if ($must_file_delete) {
-                if (! unlink($filename)) {
-                    throw new Exception(sprintf(_('Die Datei "%s" kann nicht von der Festplatte gelöscht '.
-                        "werden! \nÜberprüfen Sie, ob die nötigen Rechte vorhanden sind."), $filename));
-                }
+            if ($must_file_delete && !unlink($filename)) {
+                throw new Exception(sprintf(_('Die Datei "%s" kann nicht von der Festplatte gelöscht '.
+                    "werden! \nÜberprüfen Sie, ob die nötigen Rechte vorhanden sind."), $filename));
             }
 
             $this->database->commit($transaction_id); // commit transaction
@@ -421,7 +419,7 @@ class Attachment extends Base\NamedDBElement
         }
 
         //Namespace migration for old non-Namespace parts
-        if ($values['class_name'] == "Part") {
+        if ($values['class_name'] == 'Part') {
             $values['class_name'] = "PartDB\Part";
         }
 
@@ -508,7 +506,7 @@ class Attachment extends Base\NamedDBElement
 
 
         if (! $element instanceof DBElement) {
-            throw new \InvalidArgumentException((_('$element ist kein gültiges DBElement!')));
+            throw new \InvalidArgumentException(_('$element ist kein gültiges DBElement!'));
         }
 
         return parent::addByArray(
@@ -531,6 +529,6 @@ class Attachment extends Base\NamedDBElement
      */
     public function getIDString(): string
     {
-        return "A" . sprintf("%09d", $this->getID());
+        return 'A' . sprintf('%09d', $this->getID());
     }
 }

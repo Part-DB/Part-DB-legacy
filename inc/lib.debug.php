@@ -77,19 +77,19 @@ function debug($type, $text, $file = '', $line = '', $method = '', $silent = tru
         $debugbar = PDBDebugBar::getInstance()->getDebugBar();
         $type = strtolower($type);
         switch ($type) {
-            case "error":
+            case 'error':
                 $level = Psr\Log\LogLevel::ERROR;
                 break;
-            case "warning":
+            case 'warning':
                 $level = Psr\Log\LogLevel::WARNING;
                 break;
-            case "hint":
+            case 'hint':
                 $level = Psr\Log\LogLevel::NOTICE;
                 break;
-            case "temp":
+            case 'temp':
                 $level = Psr\Log\LogLevel::DEBUG;
                 break;
-            case "success":
+            case 'success':
                 $level = Psr\Log\LogLevel::INFO;
         }
 

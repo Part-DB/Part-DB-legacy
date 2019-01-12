@@ -23,7 +23,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -57,7 +57,7 @@ try {
     $current_user->tryDo(\PartDB\Permissions\PermissionManager::TOOLS, \PartDB\Permissions\ToolsPermission::FOOTPRINTS);
 
     if (!$config['foot3d']['active']) {
-        throw new Exception(_("3D Footprints müssen aktiviert sein, um diese Funktion zu nutzen."));
+        throw new Exception(_('3D Footprints müssen aktiviert sein, um diese Funktion zu nutzen.'));
     }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -81,8 +81,8 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

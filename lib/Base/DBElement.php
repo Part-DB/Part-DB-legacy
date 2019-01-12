@@ -127,15 +127,13 @@ abstract class DBElement
 
         $this->tablename = static::getTablename();
 
-        if ($db_data == null) { //Dont check for table exist, if we already have db_data
-            if (! $this->database->doesTableExist($this->tablename)) {
-                throw new TableNotExistingException(
-                    sprintf(
-                        _('Die Tabelle "%s" existiert nicht in der Datenbank!'),
-                        $this->tablename
-                    )
-                );
-            }
+        if (($db_data == null) && !$this->database->doesTableExist($this->tablename)) {
+            throw new TableNotExistingException(
+                sprintf(
+                    _('Die Tabelle "%s" existiert nicht in der Datenbank!'),
+                    $this->tablename
+                )
+            );
         }
 
         //We have to distinguish between real elements (positive ID) and virtual IDs.
@@ -151,7 +149,7 @@ abstract class DBElement
             }
             //Otherwise we eventually can get virtual data from the getVirtualData() function
             $virtual_data = $this->getVirtualData($id);
-            $this->db_data = array("id" => $id);
+            $this->db_data = array('id' => $id);
             $this->db_data = array_replace_recursive($this->db_data, $virtual_data);
             //Mark this object as virtual
             $this->is_virtual_element = true;
@@ -164,7 +162,7 @@ abstract class DBElement
                 //the database!
                 if ($this->allowsVirtualElements()) {
                     $virtual_data = $this->getVirtualData($id);
-                    $this->db_data = array("id" => $id);
+                    $this->db_data = array('id' => $id);
                     $this->db_data = array_replace_recursive($this->db_data, $virtual_data);
                     $this->is_virtual_element = true;
                 } else {
@@ -337,7 +335,7 @@ abstract class DBElement
      */
     protected function getVirtualData(int $virtual_id) : array
     {
-        throw new ElementNotExistingException(sprintf(_("Es existiert kein Element mit der ID %d"), $virtual_id));
+        throw new ElementNotExistingException(sprintf(_('Es existiert kein Element mit der ID %d'), $virtual_id));
     }
 
     /**

@@ -23,8 +23,8 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
-include_once(BASE.'/inc/lib.import.php');
+include_once 'start_session.php';
+include_once BASE.'/inc/lib.import.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -52,16 +52,16 @@ $file_content   = isset($_POST['file_content'])      ? (string)$_POST['file_cont
 $new_part_ids   = isset($_POST['new_part_ids'])      ? (string)$_POST['new_part_ids']     : '';
 
 $action = 'default';
-if (isset($_POST["show_imported_parts"])) {
+if (isset($_POST['show_imported_parts'])) {
     $action = 'show_imported_parts';
 }
-if (isset($_POST["upload_file"])) {
+if (isset($_POST['upload_file'])) {
     $action = 'upload_file';
 }
-if (isset($_POST["check_data"])) {
+if (isset($_POST['check_data'])) {
     $action = 'check_data';
 }
-if (isset($_POST["import_data"])) {
+if (isset($_POST['import_data'])) {
     $action = 'import_data';
 }
 
@@ -200,7 +200,7 @@ if (! $fatal_error) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         }
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
@@ -213,8 +213,8 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

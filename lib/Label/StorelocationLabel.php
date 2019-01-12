@@ -43,35 +43,35 @@ class StorelocationLabel extends BaseLabel
         //Preset A: format like label generator from F. Thiessen
         //Link: http://fthiessen.de/part-db-etiketten-drucken/
         $lines = array();
-        $lines[] = "<h3>%NAME%</h3>";
-        $lines[] = "%PARENT_FULL_PATH%";
-        $lines[] = "%COMMENT%";
-        $presets[] = array("name" => "Preset A", "lines" => $lines);
+        $lines[] = '<h3>%NAME%</h3>';
+        $lines[] = '%PARENT_FULL_PATH%';
+        $lines[] = '%COMMENT%';
+        $presets[] = array('name' => 'Preset A', 'lines' => $lines);
 
         //Preset B: Like A, full storelocation path
         $lines = array();
-        $lines[] = "<h3>%NAME%</h3>";
-        $lines[] = "%PARENT_FULL_PATH%";
-        $lines[] = "%COMMENT%";
-        $lines[] = "Voll: %IS_FULL%";
-        $presets[] = array("name" => "Preset B", "lines" => $lines);
+        $lines[] = '<h3>%NAME%</h3>';
+        $lines[] = '%PARENT_FULL_PATH%';
+        $lines[] = '%COMMENT%';
+        $lines[] = 'Voll: %IS_FULL%';
+        $presets[] = array('name' => 'Preset B', 'lines' => $lines);
 
 
         //Presets C: With labels
         $lines = array();
-        $lines[] = "NAME : %NAME%";
-        $lines[] = "PFAD   : %PARENT_FULL_PATH%";
-        $lines[] = "KOMMENTAR : %COMMENT%";
-        $lines[] = "VOLL : %IS_FULL%";
-        $presets[] = array("name" => "Preset C", "lines" => $lines);
+        $lines[] = 'NAME : %NAME%';
+        $lines[] = 'PFAD   : %PARENT_FULL_PATH%';
+        $lines[] = 'KOMMENTAR : %COMMENT%';
+        $lines[] = 'VOLL : %IS_FULL%';
+        $presets[] = array('name' => 'Preset C', 'lines' => $lines);
 
         //Presets C: With labels
         $lines = array();
-        $lines[] = "NAME : %NAME%";
-        $lines[] = "PFAD   : %PARENT_FULL_PATH%";
-        $lines[] = "ANZAHL TEILE : %PARTS_COUNT%";
-        $lines[] = "VOLL : %IS_FULL%";
-        $presets[] = array("name" => "Preset D", "lines" => $lines);
+        $lines[] = 'NAME : %NAME%';
+        $lines[] = 'PFAD   : %PARENT_FULL_PATH%';
+        $lines[] = 'ANZAHL TEILE : %PARTS_COUNT%';
+        $lines[] = 'VOLL : %IS_FULL%';
+        $presets[] = array('name' => 'Preset D', 'lines' => $lines);
 
         return $presets;
     }

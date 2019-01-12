@@ -64,7 +64,7 @@ class PartProperty implements IAPIModel
     public function getName($with_colon = true)
     {
         if ($with_colon === true) {
-            return $this->name . ":";
+            return $this->name . ':';
         } else {
             return $this->name;
         }

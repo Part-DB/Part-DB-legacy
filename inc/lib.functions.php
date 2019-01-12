@@ -185,7 +185,7 @@ function getMimetype(string $filename) : string
 
         // open office
         'odt' => 'application/vnd.oasis.opendocument.text',
-        'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+        'ods' => 'application/vnd.oasis.opendocument.spreadsheet'
     );
 
     $ext = strtolower(array_pop(explode('.', $filename)));
@@ -215,11 +215,11 @@ function rmdirRecursive(string $dir)
     if (is_dir($dir)) {
         $objects = scandir($dir, SCANDIR_SORT_NONE);
         foreach ($objects as $object) {
-            if ($object != "." && $object != "..") {
-                if (filetype($dir."/".$object) == "dir") {
-                    rmdirRecursive($dir."/".$object);
+            if ($object != '.' && $object != '..') {
+                if (filetype($dir. '/' .$object) == 'dir') {
+                    rmdirRecursive($dir. '/' .$object);
                 } else {
-                    unlink($dir."/".$object);
+                    unlink($dir. '/' .$object);
                 }
             }
         }

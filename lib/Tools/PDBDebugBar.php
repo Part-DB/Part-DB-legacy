@@ -35,7 +35,7 @@ class PDBDebugBar
     private function __construct()
     {
         $this->debugbar = new StandardDebugBar();
-        $baseURL = BASE_RELATIVE . "/vendor/maximebf/debugbar/src/DebugBar/Resources";
+        $baseURL = BASE_RELATIVE . '/vendor/maximebf/debugbar/src/DebugBar/Resources';
         $this->renderer = $this->debugbar->getJavascriptRenderer($baseURL);
         global $config;
         $this->debugbar->addCollector(new ConfigCollector($config));
@@ -57,7 +57,7 @@ class PDBDebugBar
         //Check if database Debugging is active.
         if ($config['debug']['debugbar_db']) {
             try {
-                if (!$this->debugbar->hasCollector("Database")) {
+                if (!$this->debugbar->hasCollector('Database')) {
                     $this->debugbar->addCollector(new PDOCollector($pdo));
                 }
             } catch (DebugBarException $ex) {

@@ -104,8 +104,8 @@ class SystemVersion
         $version = str_replace(' ', '.', trim(strtolower($version_string)));
 
         $dev_version = false;
-        if (strpos($version, "dev")) {
-            $version =  str_replace("dev", "rc0", $version);
+        if (strpos($version, 'dev')) {
+            $version =  str_replace('dev', 'rc0', $version);
             $dev_version = true;
         }
 
@@ -138,7 +138,7 @@ class SystemVersion
         }
 
         if ($dev_version) {
-            $this->type = "development";
+            $this->type = 'development';
         }
     }
 
@@ -170,14 +170,14 @@ class SystemVersion
                 $string .= '.RC'.$this->release_candidate;
             }
 
-            if ($this->type == "development") {
+            if ($this->type == 'development') {
                 $string .= '.dev';
             }
 
             return $string;
         } else {
-            if ($this->type == "development") {
-                $string .="-dev";
+            if ($this->type == 'development') {
+                $string .= '-dev';
             }
 
             if (($this->release_candidate > 0) && (! $hide_rc)) {
@@ -218,15 +218,15 @@ class SystemVersion
 
         // both versions have the same major, minor and update version!
 
-        if (($this->type == "development") && ($version_2->type != "development")) {
+        if (($this->type == 'development') && ($version_2->type != 'development')) {
             return false;
         } //Version two is unstable, or stable, this is development
 
-        if (($this->type != "development") && ($version_2->type == "development")) {
+        if (($this->type != 'development') && ($version_2->type == 'development')) {
             return true;
         } //Version two is development, this is stable.
 
-        if (($this->type == "development") && ($version_2->type == "development")) {
+        if (($this->type == 'development') && ($version_2->type == 'development')) {
             return false;
         } //Both versions are dev. We can not really compare this (yet).
 

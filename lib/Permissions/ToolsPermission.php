@@ -23,12 +23,12 @@ namespace PartDB\Permissions;
 
 class ToolsPermission extends BasePermission
 {
-    const IMPORT        = "import";
-    const LABELS        = "labels";
-    const CALCULATOR    = "calculator";
-    const FOOTPRINTS    = "footprints";
-    const IC_LOGOS      = "ic_logos";
-    const STATISTICS    = "statistics";
+    const IMPORT        = 'import';
+    const LABELS        = 'labels';
+    const CALCULATOR    = 'calculator';
+    const FOOTPRINTS    = 'footprints';
+    const IC_LOGOS      = 'ic_logos';
+    const STATISTICS    = 'statistics';
 
     protected static $operation_cache = null;
 
@@ -44,12 +44,12 @@ class ToolsPermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[static::IMPORT] = static::buildOperationArray(0, static::IMPORT, _("Import"));
-            $operations[static::LABELS] = static::buildOperationArray(2, static::LABELS, _("Labels"));
-            $operations[static::CALCULATOR] = static::buildOperationArray(4, static::CALCULATOR, _("Widerstandsrechner"));
-            $operations[static::FOOTPRINTS] = static::buildOperationArray(6, static::FOOTPRINTS, _("Footprints"));
-            $operations[static::IC_LOGOS] = static::buildOperationArray(8, static::IC_LOGOS, _("IC-Logos"));
-            $operations[static::STATISTICS] = static::buildOperationArray(10, static::STATISTICS, _("Statistik"));
+            $operations[static::IMPORT] = static::buildOperationArray(0, static::IMPORT, _('Import'));
+            $operations[static::LABELS] = static::buildOperationArray(2, static::LABELS, _('Labels'));
+            $operations[static::CALCULATOR] = static::buildOperationArray(4, static::CALCULATOR, _('Widerstandsrechner'));
+            $operations[static::FOOTPRINTS] = static::buildOperationArray(6, static::FOOTPRINTS, _('Footprints'));
+            $operations[static::IC_LOGOS] = static::buildOperationArray(8, static::IC_LOGOS, _('IC-Logos'));
+            $operations[static::STATISTICS] = static::buildOperationArray(10, static::STATISTICS, _('Statistik'));
 
             static::$operation_cache = $operations;
         }

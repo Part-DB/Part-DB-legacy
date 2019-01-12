@@ -31,7 +31,7 @@
  *  If you make changes in one of them, please check if you should change the other files too.
  */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -65,19 +65,19 @@ $new_email_address    = isset($_POST['email_address'])    ? (string)$_POST['emai
 $new_website          = isset($_POST['website'])          ? (string)$_POST['website']          : '';
 $new_auto_product_url = isset($_POST['auto_product_url']) ? (string)$_POST['auto_product_url'] : '';
 $add_more             = isset($_POST['add_more']);
-$new_comment          = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
+$new_comment          = isset($_POST['comment'])       ? (string)$_POST['comment']      : '';
 
 $action = 'default';
-if (isset($_POST["add"])) {
+if (isset($_POST['add'])) {
     $action = 'add';
 }
-if (isset($_POST["delete"])) {
+if (isset($_POST['delete'])) {
     $action = 'delete';
 }
-if (isset($_POST["delete_confirmed"])) {
+if (isset($_POST['delete_confirmed'])) {
     $action = 'delete_confirmed';
 }
-if (isset($_POST["apply"])) {
+if (isset($_POST['apply'])) {
     $action = 'apply';
 }
 
@@ -198,7 +198,7 @@ if (! $fatal_error) {
                     'email_address'    => $new_email_address,
                     'website'          => $new_website,
                     'auto_product_url' => $new_auto_product_url,
-                    "comment"          => $new_comment));
+                    'comment' => $new_comment));
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -233,42 +233,42 @@ if (! $fatal_error) {
             $last_modified_user = $selected_manufacturer->getLastModifiedUser();
             $creation_user = $selected_manufacturer->getCreationUser();
             if ($last_modified_user != null) {
-                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
-                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), 'string');
+                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), 'int');
             }
             if ($creation_user != null) {
-                $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
-                $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+                $html->setVariable('creation_user', $creation_user->getFullName(true), 'string');
+                $html->setVariable('creation_user_id', $creation_user->getID(), 'int');
             }
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $comment = $new_comment;
         } else {
             $parent_id = 0;
-            $comment = "";
+            $comment = '';
         }
 
         $manufacturer_list = $root_manufacturer->buildHtmlTree($selected_id, true, false);
         $html->setVariable('manufacturer_list', $manufacturer_list, 'string');
-        $html->setVariable('comment', $comment, "string");
+        $html->setVariable('comment', $comment, 'string');
 
         $parent_manufacturer_list = $root_manufacturer->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_manufacturer_list', $parent_manufacturer_list, 'string');
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
 
 try {
-    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::DELETE));
-    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::EDIT));
-    $html->setVariable("can_create", $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::CREATE));
-    $html->setVariable("can_move", $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::MOVE));
-    $html->setVariable("can_read", $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ));
+    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::DELETE));
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::EDIT));
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::CREATE));
+    $html->setVariable('can_move', $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::MOVE));
+    $html->setVariable('can_read', $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ));
     $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 } catch (Exception $e) {
-    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
 /********************************************************************************
@@ -279,8 +279,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $reload_link = $fatal_error ? 'edit_manufacturers.php' : '';    // an empty string means that the...

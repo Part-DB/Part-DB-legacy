@@ -249,7 +249,7 @@ class Supplier extends Base\Company implements ISearchable
         string $email_address = '',
         string $website = '',
         string $auto_product_url = '',
-        string $comment = ""
+        string $comment = ''
     ) {
         return parent::addByArray(
             $database,
@@ -263,7 +263,7 @@ class Supplier extends Base\Company implements ISearchable
                 'email_address'     => $email_address,
                 'website'           => $website,
                 'auto_product_url'  => $auto_product_url,
-                "comment"           => $comment)
+                'comment' => $comment)
         );
     }
 
@@ -283,6 +283,6 @@ class Supplier extends Base\Company implements ISearchable
      */
     public function getIDString(): string
     {
-        return "L" . sprintf("%06d", $this->getID());
+        return 'L' . sprintf('%06d', $this->getID());
     }
 }

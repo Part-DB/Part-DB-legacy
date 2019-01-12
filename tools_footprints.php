@@ -23,7 +23,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -130,7 +130,7 @@ if (! $fatal_error) {
 }
 
 //Give action to Template, so we can mark the active button
-$html->setVariable("action", $action, "string");
+$html->setVariable('action', $action, 'string');
 
 /********************************************************************************
  *
@@ -171,8 +171,8 @@ if (!$fatal_error && count($directories) > 0) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

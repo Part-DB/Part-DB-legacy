@@ -119,23 +119,23 @@ abstract class BaseEntry extends DBElement
     {
         switch ($this->getLevelID()) {
             case Log::LEVEL_EMERGENCY:
-                return "emergency";
+                return 'emergency';
             case Log::LEVEL_ALERT:
-                return "alert";
+                return 'alert';
             case Log::LEVEL_CRITICAL:
-                return "critical";
+                return 'critical';
             case Log::LEVEL_ERROR:
-                return "error";
+                return 'error';
             case Log::LEVEL_WARNING:
-                return "warning";
+                return 'warning';
             case Log::LEVEL_NOTICE:
-                return "notice";
+                return 'notice';
             case Log::LEVEL_INFO:
-                return "info";
+                return 'info';
             case Log::LEVEL_DEBUG:
-                return "debug";
+                return 'debug';
         }
-        throw new \RuntimeException(_("Die verwendetete Level-ID wird nicht unterstützt!"));
+        throw new \RuntimeException(_('Die verwendetete Level-ID wird nicht unterstützt!'));
     }
 
     /**
@@ -226,18 +226,18 @@ abstract class BaseEntry extends DBElement
         }
 
         $data = array(
-            "type" => $type,
-            "id_user" => $user_id,
-            "target_type" => $target_type,
-            "target_id" => $target_id,
-            "extra" => static::serializeExtra($extra_obj),
-            "level" => $level
+            'type' => $type,
+            'id_user' => $user_id,
+            'target_type' => $target_type,
+            'target_id' => $target_id,
+            'extra' => static::serializeExtra($extra_obj),
+            'level' => $level
         );
         return static::addByArray($database, $current_user, $log, $data);
     }
 
     public function getIDString(): string
     {
-        return "LE" . sprintf("%06d", $this->getID());
+        return 'LE' . sprintf('%06d', $this->getID());
     }
 }

@@ -23,7 +23,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\HTML;
 
@@ -52,7 +52,7 @@ $html = new HTML($config['html']['theme'], $user_config['theme'], $config['page_
 $html->setVariable('title', $config['page_title'], 'string');
 
 header('Location: startup.php');
-$html->redirect("startup.php");
+$html->redirect('startup.php');
 
 /********************************************************************************
  *

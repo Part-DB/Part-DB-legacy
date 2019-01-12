@@ -51,7 +51,7 @@ class ConfigChangedEntry extends BaseEntry
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_CONFIGCHANGED) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
     }
 
@@ -77,7 +77,7 @@ class ConfigChangedEntry extends BaseEntry
             $current_user->getID(),
             0,
             0,
-            ""
+            ''
         );
     }
 
@@ -87,7 +87,7 @@ class ConfigChangedEntry extends BaseEntry
      */
     public function getTargetText() : string
     {
-        return "";
+        return '';
     }
 
     /**
@@ -96,7 +96,7 @@ class ConfigChangedEntry extends BaseEntry
      */
     public function getTargetLink() : string
     {
-        return "";
+        return '';
     }
 
     /**
@@ -104,6 +104,6 @@ class ConfigChangedEntry extends BaseEntry
      */
     public function getExtra(bool $html = false) : string
     {
-        return "";
+        return '';
     }
 }

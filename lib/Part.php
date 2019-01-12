@@ -59,7 +59,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 {
     const INSTOCK_UNKNOWN   = -2;
 
-    const TABLE_NAME = "parts";
+    const TABLE_NAME = 'parts';
 
     /********************************************************************************
      *
@@ -183,7 +183,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                     foreach ($devices as $device) {
                         foreach ($device->getParts() as $device_part) {
                             /** @var $device_part DevicePart */
-                            if ($device_part->getPart()->getId() == $this->getID()) {
+                            if ($device_part->getPart()->getID() == $this->getID()) {
                                 $device_part->delete();
                             }
                         }
@@ -209,7 +209,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception(sprintf(_("Das Bauteil \"%s\" konnte nicht gelöscht werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
+            throw new Exception(sprintf(_("Das Bauteil \"%s\" konnte nicht gelöscht werden!\n"), $this->getName()) . _('Grund: ').$e->getMessage());
         }
     }
 
@@ -219,21 +219,21 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      * @return string
      * @throws Exception An Exception is thrown if you selected a unknown barcode type.
      */
-    public function getBarcodeContent(string $barcode_type = "EAN8") : string
+    public function getBarcodeContent(string $barcode_type = 'EAN8') : string
     {
         switch ($barcode_type) {
-            case "EAN8":
+            case 'EAN8':
                 $code = (string) $this->getID();
                 while (\strlen($code) < 7) {
                     $code = '0' . $code;
                 }
                 return $code;
 
-            case "QR":
-                return "Part-DB; Part: " . $this->getID();
+            case 'QR':
+                return 'Part-DB; Part: ' . $this->getID();
 
             default:
-                throw new Exception(_("Unbekannter Labeltyp: ").$barcode_type);
+                throw new Exception(_('Unbekannter Labeltyp: ').$barcode_type);
         }
     }
 
@@ -280,41 +280,41 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function replacePlaceholderWithInfos(string $string) : string
     {
         //General infos
-        $string = str_replace("%ID%", $this->getID(), $string);                        //part id
+        $string = str_replace('%ID%', $this->getID(), $string);                        //part id
         $string = str_replace("%NAME%", $this->getName(), $string);                    //Name of the part
         $string = str_replace("%DESC%", $this->getDescription(), $string);             //description of the part
-        $string = str_replace("%COMMENT%", $this->getComment(), $string);              //comment of the part
-        $string = str_replace("%MININSTOCK%", $this->getMinInstock(), $string);        //minimum in stock
-        $string = str_replace("%INSTOCK%", $this->getInstock(), $string);              //current in stock
-        $string = str_replace("%AVGPRICE%", $this->getAveragePrice(), $string);       //average price
+        $string = str_replace('%COMMENT%', $this->getComment(), $string);              //comment of the part
+        $string = str_replace('%MININSTOCK%', $this->getMinInstock(), $string);        //minimum in stock
+        $string = str_replace('%INSTOCK%', $this->getInstock(), $string);              //current in stock
+        $string = str_replace('%AVGPRICE%', $this->getAveragePrice(), $string);       //average price
 
         //Category infos
-        $string = str_replace("%CAT%", \is_object($this->getCategory()) ? $this->getCategory()->getName() : "", $string);
-        $string = str_replace("%CAT_FULL%", \is_object($this->getCategory()) ? $this->getCategory()->getFullPath() : "", $string);
+        $string = str_replace('%CAT%', \is_object($this->getCategory()) ? $this->getCategory()->getName() : '', $string);
+        $string = str_replace('%CAT_FULL%', \is_object($this->getCategory()) ? $this->getCategory()->getFullPath() : '', $string);
 
         //Footprint info
-        $string = str_replace("%FOOT%", \is_object($this->getFootprint()) ? $this->getFootprint()->getName() : "", $string);
-        $string = str_replace("%FOOT_FULL%", \is_object($this->getFootprint()) ? $this->getFootprint()->getFullPath() : "", $string);
+        $string = str_replace('%FOOT%', \is_object($this->getFootprint()) ? $this->getFootprint()->getName() : '', $string);
+        $string = str_replace('%FOOT_FULL%', \is_object($this->getFootprint()) ? $this->getFootprint()->getFullPath() : '', $string);
 
         //Manufacturer info
-        $string = str_replace("%MANUFACT%", \is_object($this->getManufacturer()) ? $this->getManufacturer()->getName() : "", $string);
-        $string = str_replace("%MANUFACT_FULL%", \is_object($this->getManufacturer()) ? $this->getManufacturer()->getFullPath() : "", $string);
+        $string = str_replace('%MANUFACT%', \is_object($this->getManufacturer()) ? $this->getManufacturer()->getName() : '', $string);
+        $string = str_replace('%MANUFACT_FULL%', \is_object($this->getManufacturer()) ? $this->getManufacturer()->getFullPath() : '', $string);
 
         //Order infos
         $all_orderdetails   = $this->getOrderdetails();
-        $string = str_replace("%SUPPLIER%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
-        $string = str_replace("%SUPPLIER_FULL%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getFullPath() : "", $string);
-        $string = str_replace("%ORDER_NR%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
+        $string = str_replace('%SUPPLIER%', (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : '', $string);
+        $string = str_replace('%SUPPLIER_FULL%', (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getFullPath() : '', $string);
+        $string = str_replace('%ORDER_NR%', (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : '', $string);
 
         //Store location
         /* @var Storelocation $storelocation */
         $storelocation      = $this->getStorelocation();
-        $string = str_replace("%STORELOC%", \is_object($storelocation) ? $storelocation->getName() : '', $string);
-        $string = str_replace("%STORELOC_FULL%", \is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
+        $string = str_replace('%STORELOC%', \is_object($storelocation) ? $storelocation->getName() : '', $string);
+        $string = str_replace('%STORELOC_FULL%', \is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
 
         //Remove single '-' without other infos
-        if (trim($string) == "-") {
-            $string = "";
+        if (trim($string) == '-') {
+            $string = '';
         }
 
         return $string;
@@ -329,7 +329,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function getName() : string
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::READ)) {
-            return "???";
+            return '???';
         }
         return parent::getName();
     }
@@ -344,20 +344,20 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function getDescription($bbcode_parse_level = BBCodeParsingLevel::PARSE, int  $short_output = 0) : string
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::READ)) {
-            return "???";
+            return '???';
         }
 
         $val = htmlspecialchars($this->db_data['description']);
 
         if ($short_output > 0 && \strlen($val) > $short_output) {
             $val = substr($val, 0, $short_output);
-            $val = $val . "...";
+            $val .= '...';
             $val = '<span class="text-muted">' . $val . '</span class="text-muted">';
         }
 
         if ($bbcode_parse_level === BBCodeParsingLevel::PARSE) {
             $bbcode = new BBCodeParser();
-            $val = $bbcode->only("bold", "italic", "underline", "linethrough")->parse($val);
+            $val = $bbcode->only('bold', 'italic', 'underline', 'linethrough')->parse($val);
         } elseif ($bbcode_parse_level === BBCodeParsingLevel::STRIP) {
             $bbcode = new BBCodeParser();
             $val = $bbcode->stripBBCodeTags($val);
@@ -375,11 +375,11 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function getInstock(bool $with_unknown = false)
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::READ)) {
-            return "-1";
+            return '-1';
         }
 
         if ($with_unknown && $this->isInstockUnknown()) {
-            return _("[Unbekannt]");
+            return _('[Unbekannt]');
         }
 
         return $this->db_data['instock'];
@@ -402,7 +402,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function getMinInstock() : int
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::READ)) {
-            return "-1";
+            return '-1';
         }
 
         return (int) $this->db_data['mininstock'];
@@ -417,19 +417,19 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function getComment($bbcode_parsing_level = BBCodeParsingLevel::PARSE) : string
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::READ)) {
-            return "???";
+            return '???';
         }
 
         $val = htmlspecialchars($this->db_data['comment']);
         if ($bbcode_parsing_level === BBCodeParsingLevel::PARSE) {
             $bbcode = new BBCodeParser();
-            $bbcode->setParser('brLinebreak', "/\[br\]/s", "<br/>", "");
+            $bbcode->setParser('brLinebreak', "/\[br\]/s", '<br/>', '');
             $bbcode->setParser('namedlink', '/\[url\=(.*?)\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$2</a>', '$2');
             $bbcode->setParser('link', '/\[url\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$1</a>', '$1');
             $val = $bbcode->parse($val);
         } elseif ($bbcode_parsing_level === BBCodeParsingLevel::STRIP) {
             $bbcode = new BBCodeParser();
-            $val = str_replace("\n", " ", $val);
+            $val = str_replace("\n", ' ', $val);
             $val = $bbcode->stripBBCodeTags($val);
         }
 
@@ -625,7 +625,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function getLastModified(bool $formatted = true) : string
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
-            return "???";
+            return '???';
         }
         return parent::getLastModified($formatted);
     }
@@ -639,7 +639,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function getDatetimeAdded(bool $formatted = true) : string
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
-            return "???";
+            return '???';
         }
         return parent::getDatetimeAdded(true);
     }
@@ -987,7 +987,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $prices = array();
 
         foreach ($this->getOrderdetails($hide_obsolete) as $details) {
-            $prices[] = $details->getPrice((! $float_array), $quantity, $multiplier);
+            $prices[] = $details->getPrice(! $float_array, $quantity, $multiplier);
         }
 
         if (\is_string($delimeter)) {
@@ -1228,10 +1228,10 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function withdrawalParts(int $count, $comment = null)
     {
         if ($count <= 0) {
-            throw new Exception(_("Zahl der entnommenen Bauteile muss größer 0 sein!"));
+            throw new Exception(_('Zahl der entnommenen Bauteile muss größer 0 sein!'));
         }
         if ($count > $this->getInstock()) {
-            throw new Exception(_("Es können nicht mehr Bauteile entnommen werden, als vorhanden sind!"));
+            throw new Exception(_('Es können nicht mehr Bauteile entnommen werden, als vorhanden sind!'));
         }
 
         $old_instock = (int) $this->getInstock();
@@ -1259,7 +1259,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function addParts(int $count, string $comment = null)
     {
         if ($count <= 0) {
-            throw new Exception(_("Zahl der entnommenen Bauteile muss größer 0 sein!"));
+            throw new Exception(_('Zahl der entnommenen Bauteile muss größer 0 sein!'));
         }
 
         $old_instock = (int) $this->getInstock();
@@ -1446,57 +1446,38 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     {
         //Override this function, so we can check if user has the needed permissions.
         $arr = array();
-        if ($this->current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
-            //Make an exception for $parent_id
-            if (isset($new_values['id_category'])) {
-                $arr['id_category'] = $new_values['id_category'];
-            }
+        if ($this->current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE) && isset($new_values['id_category'])) {
+            $arr['id_category'] = $new_values['id_category'];
         }
-        if ($this->current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT)) {
-            if (isset($new_values['visible'])) {
-                $arr['visible'] = $new_values['visible'];
-            }
+        if ($this->current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT) && isset($new_values['visible'])) {
+            $arr['visible'] = $new_values['visible'];
         }
-        if ($this->current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::EDIT)) {
-            if (isset($new_values['name'])) {
-                $arr['name'] = $new_values['name'];
-            }
+        if ($this->current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::EDIT) && isset($new_values['name'])) {
+            $arr['name'] = $new_values['name'];
         }
-        if ($this->current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::EDIT)) {
-            if (isset($new_values['description'])) {
-                $arr['description'] = $new_values['description'];
-            }
+        if ($this->current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::EDIT) && isset($new_values['description'])) {
+            $arr['description'] = $new_values['description'];
         }
-        if ($this->current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::EDIT)) {
-            if (isset($new_values['comment'])) {
-                $arr['comment'] = $new_values['comment'];
-            }
+        if ($this->current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::EDIT) && isset($new_values['comment'])) {
+            $arr['comment'] = $new_values['comment'];
         }
-        if ($this->current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::EDIT)) {
-            if (isset($new_values['mininstock'])) {
-                $arr['mininstock'] = $new_values['mininstock'];
-            }
+        if ($this->current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::EDIT) && isset($new_values['mininstock'])) {
+            $arr['mininstock'] = $new_values['mininstock'];
         }
-        if ($this->current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT)) {
-            if (isset($new_values['instock'])) {
-                $arr['instock'] = $new_values['instock'];
-            }
+        if ($this->current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT) && isset($new_values['instock'])) {
+            $arr['instock'] = $new_values['instock'];
         }
-        if ($this->current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
-            if (isset($new_values['id_footprint'])) {
-                $arr['id_footprint'] = $new_values['id_footprint'];
-            }
+        if ($this->current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT) && isset($new_values['id_footprint'])) {
+            $arr['id_footprint'] = $new_values['id_footprint'];
         }
-        if ($this->current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::EDIT)) {
-            if (isset($new_values['id_storelocation'])) {
-                $arr['id_storelocation'] = $new_values['id_storelocation'];
-            }
+        if ($this->current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::EDIT) && isset($new_values['id_storelocation'])) {
+            $arr['id_storelocation'] = $new_values['id_storelocation'];
         }
         if ($this->current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
             if (isset($new_values['id_manufacturer'])) {
                 $arr['id_manufacturer'] = $new_values['id_manufacturer'];
             }
-            if (isset($new_values["manufacturer_product_url"])) {
+            if (isset($new_values['manufacturer_product_url'])) {
                 $arr['manufacturer_product_url'] = $new_values['manufacturer_product_url'];
             }
         }
@@ -1570,9 +1551,9 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $table_row['id']            = $this->getID();
         $table_row['row_fields']    = array();
         $table_row['favorite']      = $this->getFavorite();
-        $table_row["show_full_paths"] = $config['table']['full_paths'];
-        $table_row["instock_warning_full_row"] =
-                $config['table']['instock_warning_full_row_color'] && ($this->getAutoOrder());
+        $table_row['show_full_paths'] = $config['table']['full_paths'];
+        $table_row['instock_warning_full_row'] =
+                $config['table']['instock_warning_full_row_color'] && $this->getAutoOrder();
 
         foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
             $row_field = array();
@@ -1585,7 +1566,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 case 'hover_picture':
                     $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->getMasterPictureFilename(true));
                     if ($this->getMasterPictureAttachement() != null && !$this->getMasterPictureAttachement()->isFileExisting()) { //When filename is invalid then dont show picture.
-                        $picture_filename = "";
+                        $picture_filename = '';
                     }
                     $row_field['picture_name']  = \strlen($picture_filename) ? basename($picture_filename) : '';
                     $row_field['small_picture'] = \strlen($picture_filename) ? $picture_filename : '';
@@ -1607,7 +1588,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 case 'instock_edit_buttons':
                     $row_field['instock']               = $this->getInstock(true);
                     $row_field['mininstock']            = $this->getMinInstock();
-                    $row_field['not_enough_instock']   = ($this->getAutoOrder());
+                    $row_field['not_enough_instock']   = $this->getAutoOrder();
                     break;
 
                 case 'category':
@@ -1615,7 +1596,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                     $row_field['category_name'] = $category->getName();
                     $row_field['category_path'] = $category->getFullPath();
                     $row_field['category_id'] = $category->getID();
-                    $row_field['category_loop'] = $category->buildBreadcrumbLoop("show_category_parts.php", "cid", false, null, true);
+                    $row_field['category_loop'] = $category->buildBreadcrumbLoop('show_category_parts.php', 'cid', false, null, true);
                     break;
 
                 case 'footprint':
@@ -1624,7 +1605,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                         $row_field['footprint_name'] = $footprint->getName();
                         $row_field['footprint_path'] = $footprint->getFullPath();
                         $row_field['footprint_id'] = $footprint->getID();
-                        $row_field['footprint_loop'] = $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", false, null, true);
+                        $row_field['footprint_loop'] = $footprint->buildBreadcrumbLoop('show_footprint_parts.php', 'fid', false, null, true);
                     }
                     break;
 
@@ -1634,7 +1615,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                         $row_field['manufacturer_name'] = $manufacturer->getName();
                         $row_field['manufacturer_path'] = $manufacturer->getFullPath();
                         $row_field['manufacturer_id'] = $manufacturer->getID();
-                        $row_field['manufacturer_loop'] = $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", false, null, true);
+                        $row_field['manufacturer_loop'] = $manufacturer->buildBreadcrumbLoop('show_manufacturer_parts.php', 'mid', false, null, true);
                     }
                     break;
 
@@ -1644,7 +1625,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                         $row_field['storelocation_name'] = $storelocation->getName();
                         $row_field['storelocation_path'] = $storelocation->getFullPath();
                         $row_field['storelocation_id'] = $storelocation->getID();
-                        $row_field['storelocation_loop'] = $storelocation->buildBreadcrumbLoop("show_location_parts.php", "lid", false, null, true);
+                        $row_field['storelocation_loop'] = $storelocation->buildBreadcrumbLoop('show_location_parts.php', 'lid', false, null, true);
                     }
                     break;
 
@@ -1674,12 +1655,12 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                             $suppliers_loop[] = array(  'row_index'         => $row_index,
                                 'orderdetails_id'   => $orderdetails->getID(),
                                 'supplier_name'     => $orderdetails->getSupplier()->getFullPath(),
-                                'selected'          => ($order_orderdetails_id == $orderdetails->getID()));
+                                'selected'          => $order_orderdetails_id == $orderdetails->getID());
                         }
                         $suppliers_loop[] = array(      'row_index'         => $row_index,
                             'orderdetails_id'   => 0,
                             'supplier_name'     => _('Noch nicht bestellen'),
-                            'selected'          => ($order_orderdetails_id == 0));
+                            'selected'          => $order_orderdetails_id == 0);
 
                         $row_field['suppliers_radiobuttons'] = $suppliers_loop;
                     }
@@ -1763,7 +1744,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 case 'order_options':
                     if ($table_type == 'order_parts') {
                         $suppliers_loop = array();
-                        $row_field['enable_remove'] = (!$this->getAutoOrder()) && ($this->getManualOrder());
+                        $row_field['enable_remove'] = (!$this->getAutoOrder()) && $this->getManualOrder();
                     }
                     break;
 
@@ -1800,10 +1781,10 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 case 'mountnames_edit': // for DevicePart Objects
                     // nothing to do, only to avoid the Exception in the default-case
                     break;
-                case "last_modified":
+                case 'last_modified':
                     $row_field['last_modified'] = $this->getLastModified(true);
                     break;
-                case "created":
+                case 'created':
                     $row_field['created'] = $this->getDatetimeAdded(true);
                     break;
 
@@ -1978,7 +1959,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             }
 
             if ((! $is_new) && ($values['order_orderdetails_id'] == null)
-                && (($values['instock'] < $values['mininstock']) || ($values['manual_order']))
+                && (($values['instock'] < $values['mininstock']) || $values['manual_order'])
                 && (($element->getInstock() >= $element->getMinInstock()) && (! $element->getManualOrder()))) {
                 // if this part will be added now to the list of parts to order (instock is now less than mininstock, or manual_order is now true),
                 // and this part has only one orderdetails, we will set that orderdetails as orderdetails to order from (attribute "order_orderdetails_id").
@@ -2003,7 +1984,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         }
 
         // check if we have to reset the order attributes ("instock" is now less than "mininstock")
-        if (($values['instock'] < $values['mininstock']) && (($is_new) || ($element->getInstock() >= $element->getMininstock()))) {
+        if (($values['instock'] < $values['mininstock']) && ($is_new || ($element->getInstock() >= $element->getMininstock()))) {
             if (! $values['manual_order']) {
                 $values['order_quantity'] = $values['mininstock'] - $values['instock'];
             }
@@ -2019,7 +2000,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
 
         // id_category == NULL means "no category", and this is not allowed!
-        if ($values['id_category'] == null || $values["id_category"] == 0) {
+        if ($values['id_category'] == null || $values['id_category'] == 0) {
             throw new InvalidElementValueException(_('Ein Bauteil muss eine Kategorie haben!'));
         }
 
@@ -2203,7 +2184,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         foreach ($query_data as $row) {
             $part = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
-            if (($part->getManualOrder()) || ($part->getMinOrderQuantity() > 0)) {
+            if ($part->getManualOrder() || ($part->getMinOrderQuantity() > 0)) {
                 $parts[] = $part;
             }
         }
@@ -2244,7 +2225,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             'ORDER BY parts.name ASC';
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+            $query .= ' LIMIT ' . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2321,7 +2302,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             'WHERE favorite = 1';
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+            $query .= ' LIMIT ' . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2396,7 +2377,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             'ORDER BY parts.name ASC';
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+            $query .= ' LIMIT ' . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2466,7 +2447,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-        $sorting = $newest_first ? "DESC" : "ASC";
+        $sorting = $newest_first ? 'DESC' : 'ASC';
 
         $parts = array();
 
@@ -2475,7 +2456,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             'ORDER BY parts.last_modified ' . $sorting;
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+            $query .= ' LIMIT ' . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2509,7 +2490,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-        $sorting = $newest_first ? "DESC" : "ASC";
+        $sorting = $newest_first ? 'DESC' : 'ASC';
 
         $parts = array();
 
@@ -2549,7 +2530,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-        $sorting = $newest_first ? "DESC" : "ASC";
+        $sorting = $newest_first ? 'DESC' : 'ASC';
 
         $parts = array();
 
@@ -2558,7 +2539,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             'ORDER BY parts.datetime_added ' . $sorting;
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+            $query .= ' LIMIT ' . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2595,7 +2576,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-        $sorting = $newest_first ? "DESC" : "ASC";
+        $sorting = $newest_first ? 'DESC' : 'ASC';
 
         $parts = array();
 
@@ -2660,7 +2641,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         }
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+            $query .= ' LIMIT ' . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2815,19 +2796,19 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         //Select the correct LIKE operator, for Regex or normal search
         if ($regex_search == false) {
-            $like = "LIKE";
+            $like = 'LIKE';
             /*
             $keyword = str_replace('*', '%', $keyword);
             $keyword = '%'.$keyword.'%'; */
 
             foreach ($keywords as &$k) {
-                if ($k !== "") {
+                if ($k !== '') {
                     $k = str_replace('*', '%', $k);
                     $k = '%' . $k . '%';
                 }
             }
         } else {
-            $like = "RLIKE";
+            $like = 'RLIKE';
         }
 
         $groups = array();
@@ -2855,47 +2836,47 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         $query .= ' WHERE FALSE';
 
-        if ($part_name && $keywords['name']!=="") {
+        if ($part_name && $keywords['name']!== '') {
             $query .= " OR (parts.name $like ?)";
             $values[] = $keywords['name'];
         }
 
-        if ($part_description && $keywords['description']!=="") {
+        if ($part_description && $keywords['description']!== '') {
             $query .= " OR (parts.description $like ?)";
             $values[] = $keywords['description'];
         }
 
-        if ($part_comment && $keywords['comment']!=="") {
+        if ($part_comment && $keywords['comment']!== '') {
             $query .= " OR (parts.comment $like ?)";
             $values[] = $keywords['comment'];
         }
 
-        if ($footprint_name && $keywords['footprint']!=="") {
+        if ($footprint_name && $keywords['footprint']!== '') {
             $query .= " OR (footprints.name $like ?)";
             $values[] = $keywords['footprint'];
         }
 
-        if ($category_name && $keywords['category']!=="") {
+        if ($category_name && $keywords['category']!== '') {
             $query .= " OR (categories.name $like ?)";
             $values[] = $keywords['category'];
         }
 
-        if ($storelocation_name && $keywords['storelocation']!=="") {
+        if ($storelocation_name && $keywords['storelocation']!== '') {
             $query .= " OR (storelocations.name $like ?)";
             $values[] = $keywords['storelocation'];
         }
 
-        if ($supplier_name && $keywords['suppliername']!=="") {
+        if ($supplier_name && $keywords['suppliername']!== '') {
             $query .= " OR (suppliers.name $like ?)";
             $values[] = $keywords['suppliername'];
         }
 
-        if ($supplierpartnr && $keywords['partnr']!=="") {
+        if ($supplierpartnr && $keywords['partnr']!== '') {
             $query .= " OR (orderdetails.supplierpartnr $like ?)";
             $values[] = $keywords['partnr'];
         }
 
-        if ($manufacturer_name && $keywords['manufacturername']!=="") {
+        if ($manufacturer_name && $keywords['manufacturername']!== '') {
             $query .= " OR (manufacturers.name $like ?)";
             $values[] = $keywords['manufacturername'];
         }
@@ -2954,13 +2935,13 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @return array    The template loop
      */
-    public static function buildSearchGroupByLoop($selected_val = "") : array
+    public static function buildSearchGroupByLoop($selected_val = '') : array
     {
         $loop = array();
 
 
-        $loop[] = array('value' => "", 'text' => _("Keine"), 'selected' => ($selected_val === ""));
-        $loop[] = array('value' => "categories", 'text' => _("Kategorien"), 'selected' => ($selected_val === "categories"));
+        $loop[] = array('value' => '', 'text' => _('Keine'), 'selected' => $selected_val === '');
+        $loop[] = array('value' => 'categories', 'text' => _('Kategorien'), 'selected' => $selected_val === 'categories');
 
 
         return $loop;
@@ -2998,7 +2979,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query = 'SELECT * FROM parts';
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+            $query .= ' LIMIT ' . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -3064,7 +3045,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $footprint_id = null,
         string $comment = '',
         bool $visible = false,
-        string $manufacturer_url = ""
+        string $manufacturer_url = ''
     ) {
         $current_user->tryDo(PermissionManager::PARTS, PartPermission::CREATE);
 
@@ -3086,7 +3067,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 'manual_order'                  => false,
                 'order_orderdetails_id'         => null,
                 'order_quantity'                => 1,
-                "manufacturer_product_url" => $manufacturer_url)
+                'manufacturer_product_url' => $manufacturer_url)
         );
         // the column "datetime_added" will be automatically filled by MySQL
         // the column "last_modified" will be filled in the function check_values_validity()
@@ -3110,7 +3091,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      */
     public function getIDString(): string
     {
-        return "P" . sprintf("%06d", $this->getID());
+        return 'P' . sprintf('%06d', $this->getID());
     }
 
     /**
@@ -3121,32 +3102,32 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      */
     public function getAPIArray(bool $verbose = false) : array
     {
-        $json =  array( "id" => $this->getID(),
-            "name" => $this->getName(),
-            "description" => $this->getDescription(true),
-            "description_raw" => $this->getDescription(false),
-            "comment" => $this->getComment(true),
-            "comment_raw" => $this->getComment(false),
-            "instock" => $this->getInstock(),
-            "mininstock" => $this->getMinInstock(),
-            "category" => $this->getCategory()->getAPIArray(false),
-            "footprint" => tryToGetAPIModelArray($this->getFootprint(), false),
-            "storelocation" => tryToGetAPIModelArray($this->getStorelocation(), false),
-            "manufacturer" => tryToGetAPIModelArray($this->getManufacturer(), false),
-            "orderdetails" => convertAPIModelArray($this->getOrderdetails(), false),
+        $json =  array( 'id' => $this->getID(),
+            'name' => $this->getName(),
+            'description' => $this->getDescription(true),
+            'description_raw' => $this->getDescription(false),
+            'comment' => $this->getComment(true),
+            'comment_raw' => $this->getComment(false),
+            'instock' => $this->getInstock(),
+            'mininstock' => $this->getMinInstock(),
+            'category' => $this->getCategory()->getAPIArray(false),
+            'footprint' => tryToGetAPIModelArray($this->getFootprint(), false),
+            'storelocation' => tryToGetAPIModelArray($this->getStorelocation(), false),
+            'manufacturer' => tryToGetAPIModelArray($this->getManufacturer(), false),
+            'orderdetails' => convertAPIModelArray($this->getOrderdetails(), false)
         );
 
         if ($verbose == true) {
             $ver = array(
-                "obsolete" => $this->getObsolete() == true,
-                "visible" => $this->getVisible() == true,
-                "orderquantity" => $this->getOrderQuantity(),
-                "minorderquantity" => $this->getMinOrderQuantity(),
-                "manualorder" => $this->getManualOrder(),
-                "lastmodified" => $this->getLastModified(),
-                "datetime_added" => $this->getDatetimeAdded(),
-                "avgprice" => $this->getAveragePrice(),
-                "properties" => convertAPIModelArray($this->getProperties(), false));
+                'obsolete' => $this->getObsolete() == true,
+                'visible' => $this->getVisible() == true,
+                'orderquantity' => $this->getOrderQuantity(),
+                'minorderquantity' => $this->getMinOrderQuantity(),
+                'manualorder' => $this->getManualOrder(),
+                'lastmodified' => $this->getLastModified(),
+                'datetime_added' => $this->getDatetimeAdded(),
+                'avgprice' => $this->getAveragePrice(),
+                'properties' => convertAPIModelArray($this->getProperties(), false));
             return array_merge($json, $ver);
         }
         return $json;

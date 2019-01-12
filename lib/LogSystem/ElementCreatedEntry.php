@@ -60,7 +60,7 @@ class ElementCreatedEntry extends BaseEntry
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_ELEMENTCREATED) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
 
         try {
@@ -142,9 +142,9 @@ class ElementCreatedEntry extends BaseEntry
     {
         try {
             $part_name = ($this->element != null) ? $this->element->getName() : $this->getTargetID();
-            return Log::targetTypeIDToString($this->getTargetType()) . ": " . $part_name;
+            return Log::targetTypeIDToString($this->getTargetType()) . ': ' . $part_name;
         } catch (Exception $ex) {
-            return "ERROR!";
+            return 'ERROR!';
         }
     }
 
@@ -166,9 +166,9 @@ class ElementCreatedEntry extends BaseEntry
     public function getExtra(bool $html = false) : string
     {
         if ($this->hasCreationInstockValue()) {
-            return _("Anzahl: ") . $this->getCreationInstockValue();
+            return _('Anzahl: ') . $this->getCreationInstockValue();
         }
 
-        return "";
+        return '';
     }
 }

@@ -113,7 +113,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
             $timestamp = strtotime($time_str);
             //strtotime returns false in the case of an error
             if ($timestamp === false) {
-                return "";
+                return '';
             }
             return formatTimestamp($timestamp);
         }
@@ -133,7 +133,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
             $timestamp = strtotime($time_str);
             //strtotime returns false in the case of an error
             if ($timestamp === false) {
-                return "";
+                return '';
             }
             return formatTimestamp($timestamp);
         }
@@ -289,7 +289,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
         }
 
         $query = 'SELECT * FROM ' . $tablename .
-            ' WHERE name' . (($exact_match) ? '=' : ' LIKE ') . '? ORDER BY name ASC';
+            ' WHERE name' . ($exact_match ? '=' : ' LIKE ') . '? ORDER BY name ASC';
 
         $query_data = $database->query($query, array($keyword));
 

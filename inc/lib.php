@@ -64,8 +64,8 @@ function isOdd(int $number) : bool
 function getGitBranchName()
 {
     if (file_exists(BASE.'/.git/HEAD')) {
-        $git = File(BASE.'/.git/HEAD');
-        $head = explode("/", $git[0], 3);
+        $git = file(BASE.'/.git/HEAD');
+        $head = explode('/', $git[0], 3);
         $branch = trim($head[2]);
         return $branch;
     }
@@ -153,7 +153,7 @@ function findAllFiles(string $directory, bool $recursive = false, string $search
 
     $dirfiles = scandir($directory, SCANDIR_SORT_ASCENDING);
     foreach ($dirfiles as $file) {
-        if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && ($file != ".gitignore") && ($file != ".htaccess")) {
+        if (($file != '.') && ($file != '..') && ($file != '.svn') && ($file != '.git') && ($file != '.gitignore') && ($file != '.htaccess')) {
             if (is_dir($directory.$file)) {
                 if ($recursive) {
                     $files = array_merge($files, findAllFiles($directory.$file.'/', true, $search_string));
@@ -187,7 +187,7 @@ function findAllDirectories(string $directory, bool $recursive = false) : array
 
     $dirfiles = scandir($directory, SCANDIR_SORT_ASCENDING);
     foreach ($dirfiles as $file) {
-        if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && (is_dir($directory.$file))) {
+        if (($file != '.') && ($file != '..') && ($file != '.svn') && ($file != '.git') && is_dir($directory.$file)) {
             $directories[] = $directory.$file;
             if ($recursive) {
                 $directories = array_merge($directories, findAllDirectories($directory.$file.'/', true));
@@ -212,19 +212,19 @@ function sendFile(string $filename, $mimetype = null)
     $mtime = ($mtime = filemtime($filename)) ? $mtime : time();
 
     if (false !== strpos($_SERVER["HTTP_USER_AGENT"], "MSIE")) {
-        header("Content-Disposition: attachment; filename=".urlencode(basename($filename))."; modification-date=".date('r', $mtime).";");
+        header('Content-Disposition: attachment; filename=' .urlencode(basename($filename)). '; modification-date=' .date('r', $mtime). ';');
     } else {
-        header("Content-Disposition: attachment; filename=\"".basename($filename)."\"; modification-date=\"".date('r', $mtime)."\";");
+        header('Content-Disposition: attachment; filename="' .basename($filename). '"; modification-date="' .date('r', $mtime). '";');
     }
 
     if ($mimetype == null) {
         $mimetype = getMimetype($filename);
     } // lib.functions.php
 
-    header("Content-Type: ".$mimetype);
-    header("Content-Length:". filesize($filename));
+    header('Content-Type: ' .$mimetype);
+    header('Content-Length:' . filesize($filename));
 
-    if (function_exists("apache_get_modules") && in_array('mod_xsendfile', apache_get_modules())) {
+    if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
         header('X-Sendfile: '.$filename);
     } else {
         readfile($filename);
@@ -246,14 +246,14 @@ function sendString(string $content, string $filename, string $mimetype)
 {
     $mtime = time();
 
-    if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") != false) {
-        header("Content-Disposition: attachment; filename=".urlencode($filename)."; modification-date=".date('r', $mtime).";");
+    if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') != false) {
+        header('Content-Disposition: attachment; filename=' .urlencode($filename). '; modification-date=' .date('r', $mtime). ';');
     } else {
-        header("Content-Disposition: attachment; filename=\"".$filename."\"; modification-date=\"".date('r', $mtime)."\";");
+        header('Content-Disposition: attachment; filename="' .$filename. '"; modification-date="' .date('r', $mtime). '";');
     }
 
-    header("Content-Type: ".$mimetype);
-    header("Content-Length:". strlen($content));
+    header('Content-Type: ' .$mimetype);
+    header('Content-Length:' . strlen($content));
 
     echo $content;
     exit;
@@ -276,14 +276,14 @@ function sendString(string $content, string $filename, string $mimetype)
  */
 function uploadFile(array $file_array, string $destination_directory, $destination_filename = null) : string
 {
-    if ((! isset($file_array['name'])) || (! isset($file_array['tmp_name'])) || (! isset($file_array['error']))) {
+    if (! isset($file_array['name']) || ! isset($file_array['tmp_name']) || ! isset($file_array['error'])) {
         throw new Exception(_('Ungültiges Array übergeben!'));
     }
 
     //Dont allow to upload a PHP file.
-    if (strpos($file_array['name'], ".php") != false
-        || strpos($destination_filename, ".php") != false) {
-        throw new \Exception(_("Es ist nicht erlaubt PHP Dateien hochzuladen!"));
+    if (strpos($file_array['name'], '.php') != false
+        || strpos($destination_filename, '.php') != false) {
+        throw new \Exception(_('Es ist nicht erlaubt PHP Dateien hochzuladen!'));
     }
 
     if ($destination_filename == null) {
@@ -299,7 +299,7 @@ function uploadFile(array $file_array, string $destination_directory, $destinati
     try {
         createPath($destination_directory);
     } catch (Exception $ex) {
-        throw new Exception(_("Das Verzeichniss konnte nicht angelegt werden!"));
+        throw new Exception(_('Das Verzeichniss konnte nicht angelegt werden!'));
     }
 
     if (! is_writable($destination_directory)) {
@@ -324,7 +324,7 @@ function uploadFile(array $file_array, string $destination_directory, $destinati
             break;
         case UPLOAD_ERR_INI_SIZE:
             throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! ').
-                '<a target="_blank" href="'._("https://github.com/Part-DB/Part-DB/wiki/Anforderungen").'>'._("Hilfe").'</a>');
+                '<a target="_blank" href="'._('https://github.com/Part-DB/Part-DB/wiki/Anforderungen').'>'._('Hilfe').'</a>');
         case UPLOAD_ERR_FORM_SIZE:
             throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!'));
         case UPLOAD_ERR_PARTIAL:
@@ -396,7 +396,7 @@ function setTempAdminPassword(string $new_password_1, string $new_password_2, bo
  */
 function saveConfig()
 {
-    if ((file_exists(BASE.'/data/config.php')) && (! is_writeable(BASE.'/data/config.php'))) {
+    if (file_exists(BASE.'/data/config.php') && (! is_writeable(BASE.'/data/config.php'))) {
         throw new Exception(_('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!'));
     }
 
@@ -440,12 +440,10 @@ function arrayToPhpLines(&$array_defaults, &$array, $path, $ignore_defaults)
             $full_path = $path.'['.var_export($key, true).']';
             if (is_array($value)) {
                 $lines .= arrayToPhpLines($array_defaults[$key], $array[$key], $full_path, $ignore_defaults);
-            } else {
-                if (($array[$key] !== $array_defaults[$key]) || (! $ignore_defaults)) {
-                    $space_count = max(60-mb_strlen($full_path), 0);
-                    $spaces = str_repeat(' ', $space_count);
-                    $lines .= $full_path.$spaces.' = '.var_export($array[$key], true).";\n";
-                }
+            } else if (($array[$key] !== $array_defaults[$key]) || (! $ignore_defaults)) {
+                $space_count = max(60-mb_strlen($full_path), 0);
+                $spaces = str_repeat(' ', $space_count);
+                $lines .= $full_path.$spaces.' = '.var_export($array[$key], true).";\n";
             }
         }
     }
@@ -500,7 +498,7 @@ function floatToMoneyString($number, string $language = '') : string
 
         if ($number_digits > $local_digits) {
             $n = $number_digits > 5 ? 5 : $number_digits;
-            $format = "%." . $n . $format_type;
+            $format = '%.' . $n . $format_type;
         } else {
             $format = '%' . $format_type;
         }
@@ -574,11 +572,11 @@ function curlGetData(string $url) : string
  * @throws Exception Throws an exception if an error happened, or file could not be downloaded.
  * @return string|boolean The path of the created file, when the file was successful downloaded. False, when an error happened.
  */
-function downloadFile(string $url, string $path, string $filename = "", bool $download_override = false)
+function downloadFile(string $url, string $path, string $filename = '', bool $download_override = false)
 {
     global $config;
     if ($config['allow_server_downloads'] == false && $download_override == false) {
-        throw new Exception(_("Das Herunterladen von Dateien über den Server ist deaktiviert!"));
+        throw new Exception(_('Das Herunterladen von Dateien über den Server ist deaktiviert!'));
     }
 
     if (!isPathabsoluteAndUnix($path)) {
@@ -587,14 +585,14 @@ function downloadFile(string $url, string $path, string $filename = "", bool $do
     if (!isURL($url)) {
         throw new Exception(_('$url ist keine gültige URL'));
     }
-    if ($filename == "") {
+    if ($filename == '') {
         $parts = parse_url($url);
         $filename = basename($parts['path']);
     }
 
     //Dont allow to upload a PHP file.
-    if (strpos($filename, ".php") != false) {
-        throw new \Exception(_("Es ist nicht erlaubt PHP Dateien herunterzuladen!"));
+    if (strpos($filename, '.php') != false) {
+        throw new \Exception(_('Es ist nicht erlaubt PHP Dateien herunterzuladen!'));
     }
 
     set_time_limit(30);
@@ -673,7 +671,7 @@ function arrayToTemplateLoop($array, $selected_value = null) : array
 {
     $loop = array();
     foreach ($array as $key => $value) {
-        $loop[] = array('value' => $key, 'text' => $value, 'selected' => ($key == $selected_value));
+        $loop[] = array('value' => $key, 'text' => $value, 'selected' => $key == $selected_value);
     }
     return $loop;
 }
@@ -717,7 +715,7 @@ function isPathabsoluteAndUnix(string $path, bool $accept_protocols = true) : bo
         return false;
     }
 
-    if ((mb_strpos($path, '://') !== false) && ($accept_protocols)) { // there is a protocol in $path, like http://, ftp://, ...
+    if ((mb_strpos($path, '://') !== false) && $accept_protocols) { // there is a protocol in $path, like http://, ftp://, ...
         return true;
     }
 
@@ -755,32 +753,32 @@ function isPathabsoluteAndUnix(string $path, bool $accept_protocols = true) : bo
 function searchStringToArray(string $search_str) : array
 {
     $arr = array();
-    $arr['name'] = getKeywordAfterModifier($search_str, "inname:");
+    $arr['name'] = getKeywordAfterModifier($search_str, 'inname:');
 
-    $arr['description'] = getKeywordAfterModifier($search_str, "indescription:");
-    $arr['description'] = getKeywordAfterModifier($search_str, "indesc:");
+    $arr['description'] = getKeywordAfterModifier($search_str, 'indescription:');
+    $arr['description'] = getKeywordAfterModifier($search_str, 'indesc:');
 
-    $arr['comment'] = getKeywordAfterModifier($search_str, "incomment:");
+    $arr['comment'] = getKeywordAfterModifier($search_str, 'incomment:');
 
-    $arr['footprint'] = getKeywordAfterModifier($search_str, "infootprint:");
-    $arr['footprint'] = getKeywordAfterModifier($search_str, "infoot:");
+    $arr['footprint'] = getKeywordAfterModifier($search_str, 'infootprint:');
+    $arr['footprint'] = getKeywordAfterModifier($search_str, 'infoot:');
 
-    $arr['category'] = getKeywordAfterModifier($search_str, "incategory:");
-    $arr['category'] = getKeywordAfterModifier($search_str, "incat:");
+    $arr['category'] = getKeywordAfterModifier($search_str, 'incategory:');
+    $arr['category'] = getKeywordAfterModifier($search_str, 'incat:');
 
-    $arr['storelocation'] = getKeywordAfterModifier($search_str, "inlocation:");
-    $arr['storelocation'] = getKeywordAfterModifier($search_str, "inloc:");
+    $arr['storelocation'] = getKeywordAfterModifier($search_str, 'inlocation:');
+    $arr['storelocation'] = getKeywordAfterModifier($search_str, 'inloc:');
 
-    $arr['suppliername'] = getKeywordAfterModifier($search_str, "insupplier:");
+    $arr['suppliername'] = getKeywordAfterModifier($search_str, 'insupplier:');
 
-    $arr['partnr'] = getKeywordAfterModifier($search_str, "inpartnr:");
+    $arr['partnr'] = getKeywordAfterModifier($search_str, 'inpartnr:');
 
-    $arr['manufacturername'] = getKeywordAfterModifier($search_str, "inmanufacturer:");
+    $arr['manufacturername'] = getKeywordAfterModifier($search_str, 'inmanufacturer:');
 
     //Check if all array entries are "", which means $search_str contains no modifier
     $no_modifier = true;
     foreach ($arr as $n) {
-        if ($n !== "") {
+        if ($n !== '') {
             $no_modifier = false;
         }
     }
@@ -804,14 +802,14 @@ function getKeywordAfterModifier(string $search_str, string $modifier) : string
 {
     $pos = strpos($search_str, $modifier);
     if ($pos === false) {   //This modifier was not found in the search_str, so return "".
-        return "";
+        return '';
     } else { //Modifier was found in the search string
         $start = $pos + strlen($modifier);
-        if ($search_str[$start] == "\"" || $search_str[$start] == "\'") { //When a quote mark is detected, then treat the text up to the next quote as one literal
+        if ($search_str[$start] == '"' || $search_str[$start] == "\'") { //When a quote mark is detected, then treat the text up to the next quote as one literal
             $end = strpos($search_str, $search_str[$start], $start + 1);
             return substr($search_str, $start + 1, $end - $start - 1);
         } else { //Go only to the next space
-            $end = strpos($search_str, " ", $start);
+            $end = strpos($search_str, ' ', $start);
             if ($end === false) { //The modifier was the last part of the query, so we dont need an end.
                 return substr($search_str, $start);
             } else {
@@ -839,7 +837,7 @@ function regexAllowUmlauts(string $pattern) : string
  */
 function regexStripSlashes(string $pattern, bool $mb = true) : string
 {
-    if (mb_substr($pattern, 0, 1) === "/" &&  $pattern[strlen($pattern) - 1] === "/") {
+    if (mb_substr($pattern, 0, 1) === '/' &&  $pattern[strlen($pattern) - 1] === '/') {
         return mb_substr($pattern, 1, -1);
     } else {
         return $pattern;
@@ -853,17 +851,17 @@ function regexStripSlashes(string $pattern, bool $mb = true) : string
  * @param $value string The "value" attribute of the <input> element
  * @return string The HTML string.
  */
-function generateInputHidden(string $name, string $value = "") : string
+function generateInputHidden(string $name, string $value = '') : string
 {
     return '<input type="hidden" name="' . $name . '" value="' . $value . '">';
 }
 
-function generateButton(string $name, string $text, string $theme = "btn-secondary", string $val = "") : string
+function generateButton(string $name, string $text, string $theme = 'btn-secondary', string $val = '') : string
 {
     return "<button type='submit' class='btn $theme' name='$name' value='$val'>$text</button>";
 }
 
-function generateButtonRed(string $name, string $text, string $theme = "btn-danger", string $val = "") : string
+function generateButtonRed(string $name, string $text, string $theme = 'btn-danger', string $val = '') : string
 {
     return generateButton($name, $text, $theme, $val);
 }
@@ -899,7 +897,7 @@ function convertAPIModelArray(array $array, bool $verbose = false)
     $json = array();
     foreach ($array as $element) {
         if (! $element instanceof IAPIModel) {
-            throw new Exception("The given array, contains objects that dont implement IAPIModel!");
+            throw new Exception('The given array, contains objects that dont implement IAPIModel!');
         }
         $json[] = $element->getAPIArray($verbose);
     }
@@ -955,45 +953,45 @@ function buildToolsTree($params) : array
     //Tools nodes
     $tools_nodes = array();
     if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IMPORT)) {
-        $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
+        $tools_nodes[] = treeviewNode(_('Import'), BASE_RELATIVE . '/tools_import.php');
     }
     if (!$disable_labels && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::LABELS)) {
-        $tools_nodes[] = treeviewNode(_("SMD Labels"), BASE_RELATIVE . "/tools_labels.php");
+        $tools_nodes[] = treeviewNode(_('SMD Labels'), BASE_RELATIVE . '/tools_labels.php');
     }
     if (!$disable_calculator && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::CALCULATOR)) {
-        $tools_nodes[] = treeviewNode(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
+        $tools_nodes[] = treeviewNode(_('Widerstandsrechner'), BASE_RELATIVE . '/tools_calculator.php');
     }
     if (!$disable_tools_footprints && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
-        $tools_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
+        $tools_nodes[] = treeviewNode(_('Footprints'), BASE_RELATIVE . '/tools_footprints.php');
     }
     if ($footprint_3d_active && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
-        $tools_nodes[] = treeviewNode(_("3D Footprints"), BASE_RELATIVE . "/tools_3d_footprints.php");
+        $tools_nodes[] = treeviewNode(_('3D Footprints'), BASE_RELATIVE . '/tools_3d_footprints.php');
     }
     if (!$disable_labels && $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS)) {
-        $tools_nodes[] = treeviewNode(_("Labelgenerator"), BASE_RELATIVE . "/show_part_label.php");
+        $tools_nodes[] = treeviewNode(_('Labelgenerator'), BASE_RELATIVE . '/show_part_label.php');
     }
     if (!$disable_iclogos && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IC_LOGOS)) {
-        $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
+        $tools_nodes[] = treeviewNode(_('IC-Logos'), BASE_RELATIVE . '/tools_iclogos.php');
     }
 
     $system_nodes = array();
     if ($current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ)) {
-        $system_nodes[] = treeviewNode(_("Benutzer"), BASE_RELATIVE . "/edit_users.php");
+        $system_nodes[] = treeviewNode(_('Benutzer'), BASE_RELATIVE . '/edit_users.php');
     }
     if ($current_user->canDo(PermissionManager::GROUPS, \PartDB\Permissions\GroupPermission::READ)) {
-        $system_nodes[] = treeviewNode(_("Gruppen"), BASE_RELATIVE . "/edit_groups.php");
+        $system_nodes[] = treeviewNode(_('Gruppen'), BASE_RELATIVE . '/edit_groups.php');
     }
     if ($current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::READ_CONFIG)
         || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::SERVER_INFO)) {
-        $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
+        $system_nodes[] = treeviewNode(_('Konfiguration'), BASE_RELATIVE . '/system_config.php');
     }
     if ($current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::SEE_STATUS)
         || $current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::READ_DB_SETTINGS)) {
-        $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+        $system_nodes[] = treeviewNode(_('Datenbank'), BASE_RELATIVE . '/system_database.php');
     }
     if ($current_user->canDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::SHOW_LOGS)
             || $current_user->canDo(PermissionManager::SELF, \PartDB\Permissions\SelfPermission::SHOW_LOGS)) {
-        $system_nodes[] = treeviewNode(_("Eventlog"), BASE_RELATIVE . "/system_log.php");
+        $system_nodes[] = treeviewNode(_('Eventlog'), BASE_RELATIVE . '/system_log.php');
     }
 
 
@@ -1001,86 +999,86 @@ function buildToolsTree($params) : array
     //Show nodes
     $show_nodes = array();
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ORDER_PARTS)) {
-        $show_nodes[] = treeviewNode(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
+        $show_nodes[] = treeviewNode(_('Zu bestellende Teile'), BASE_RELATIVE . '/show_order_parts.php');
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
-        $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
+        $show_nodes[] = treeviewNode(_('Teile ohne Preis'), BASE_RELATIVE . '/show_noprice_parts.php');
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
-        $show_nodes[] = treeviewNode(_("Obsolete Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
+        $show_nodes[] = treeviewNode(_('Obsolete Bauteile'), BASE_RELATIVE . '/show_obsolete_parts.php');
     }
     if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::STATISTICS)) {
-        $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
+        $show_nodes[] = treeviewNode(_('Statistik'), BASE_RELATIVE . '/statistics.php');
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ALL_PARTS)) {
-        $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+        $show_nodes[] = treeviewNode(_('Alle Teile'), BASE_RELATIVE . '/show_all_parts.php');
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
-        $show_nodes[] = treeviewNode(_("Teile mit unbekanntem Lagerbestand"), BASE_RELATIVE . "/show_unknown_instock_parts.php");
+        $show_nodes[] = treeviewNode(_('Teile mit unbekanntem Lagerbestand'), BASE_RELATIVE . '/show_unknown_instock_parts.php');
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
-        $show_nodes[] = treeviewNode(_('Favorisierte Bauteile'), BASE_RELATIVE . "/show_favorite_parts.php");
+        $show_nodes[] = treeviewNode(_('Favorisierte Bauteile'), BASE_RELATIVE . '/show_favorite_parts.php');
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
-        $show_nodes[] = treeviewNode(_('Zuletzt bearbeitete Bauteile'), BASE_RELATIVE . "/show_last_modified_parts.php");
+        $show_nodes[] = treeviewNode(_('Zuletzt bearbeitete Bauteile'), BASE_RELATIVE . '/show_last_modified_parts.php');
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
-        $show_nodes[] = treeviewNode(_('Zuletzt hinzugefügte Bauteile'), BASE_RELATIVE . "/show_last_modified_parts.php?mode=last_created");
+        $show_nodes[] = treeviewNode(_('Zuletzt hinzugefügte Bauteile'), BASE_RELATIVE . '/show_last_modified_parts.php?mode=last_created');
     }
 
     //Edit nodes
     $edit_nodes = array();
     if (!$disable_devices && $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ)) {
-        $edit_nodes[] = treeviewNode(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
+        $edit_nodes[] = treeviewNode(_('Baugruppen'), BASE_RELATIVE . '/edit_devices.php');
     }
     if ($current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::READ)) {
-        $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
+        $edit_nodes[] = treeviewNode(_('Lagerorte'), BASE_RELATIVE . '/edit_storelocations.php');
     }
     if (!$disable_footprint && $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::READ)) {
-        $edit_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
+        $edit_nodes[] = treeviewNode(_('Footprints'), BASE_RELATIVE . '/edit_footprints.php');
     }
     if ($current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)) {
-        $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
+        $edit_nodes[] = treeviewNode(_('Kategorien'), BASE_RELATIVE . '/edit_categories.php');
     }
     if (!$disable_suppliers && $current_user->canDo(PermissionManager::SUPPLIERS, StructuralPermission::READ)) {
-        $edit_nodes[] = treeviewNode(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
+        $edit_nodes[] = treeviewNode(_('Lieferanten'), BASE_RELATIVE . '/edit_suppliers.php');
     }
     if (!$disable_manufactur && $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ)) {
-        $edit_nodes[] = treeviewNode(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
+        $edit_nodes[] = treeviewNode(_('Hersteller'), BASE_RELATIVE . '/edit_manufacturers.php');
     }
     if ($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
-        $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachment_types.php");
+        $edit_nodes[] = treeviewNode(_('Dateitypen'), BASE_RELATIVE . '/edit_attachment_types.php');
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE)) {
-        $edit_nodes[] = treeviewNode(_("Bauteil anlegen"), BASE_RELATIVE . "/edit_part_info.php");
+        $edit_nodes[] = treeviewNode(_('Bauteil anlegen'), BASE_RELATIVE . '/edit_part_info.php');
     }
 
     //Developer nodes
     $dev_nodes = array();
-    $dev_nodes[] = treeviewNode(_("Werkzeuge"), BASE_RELATIVE . "/development/developer_tools.php");
-    $dev_nodes[] = treeviewNode(_("Debugging"), BASE_RELATIVE . "/system_debug.php");
-    $dev_nodes[] = treeviewNode(_("Sandkasten"), BASE_RELATIVE . "/development/sandbox.php");
-    $dev_nodes[] = treeviewNode(_("Quellcode-Doku"), BASE_RELATIVE . "/development/phpdoc/html/index.html");
+    $dev_nodes[] = treeviewNode(_('Werkzeuge'), BASE_RELATIVE . '/development/developer_tools.php');
+    $dev_nodes[] = treeviewNode(_('Debugging'), BASE_RELATIVE . '/system_debug.php');
+    $dev_nodes[] = treeviewNode(_('Sandkasten'), BASE_RELATIVE . '/development/sandbox.php');
+    $dev_nodes[] = treeviewNode(_('Quellcode-Doku'), BASE_RELATIVE . '/development/phpdoc/html/index.html');
 
     //Add nodes to root
     $tree = array();
     if (!empty($tools_nodes)) {
-        $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
+        $tree[] = treeviewNode(_('Tools'), null, $tools_nodes);
     }
     if (!empty($edit_nodes)) {
-        $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
+        $tree[] = treeviewNode(_('Bearbeiten'), null, $edit_nodes);
     }
     if (!empty($show_nodes)) {
-        $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
+        $tree[] = treeviewNode(_('Zeige'), null, $show_nodes);
     }
     if (!$disable_config && !empty($system_nodes)) {
-        $tree[] = treeviewNode(_("System"), null, $system_nodes);
+        $tree[] = treeviewNode(_('System'), null, $system_nodes);
     }
     if ($developer_mode && $current_user->canDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::USE_DEBUG)) {
-        $tree[] = treeviewNode(_("Entwickler-Werkzeuge"), null, $dev_nodes);
+        $tree[] = treeviewNode(_('Entwickler-Werkzeuge'), null, $dev_nodes);
     }
     if (!$disable_help) {
-        $tree[] = treeviewNode(_("Hilfe"), "https://github.com/jbtronics/Part-DB/wiki", null);
+        $tree[] = treeviewNode(_('Hilfe'), 'https://github.com/jbtronics/Part-DB/wiki', null);
     }
 
 
@@ -1120,13 +1118,13 @@ function isUsingHTTPS() : bool
 function generateAttachementPath(string $base_dir, \PartDB\Base\StructuralDBElement $element) : string
 {
     //Split full path into different categories
-    $categories = explode("@@", $element->getFullPath("@@"));
+    $categories = explode('@@', $element->getFullPath('@@'));
     //Sanatize each category path
     foreach ($categories as &$category) {
         $category = filter_filename($category, true);
     }
 
-    return $base_dir . "" . implode("/", $categories). "/";
+    return $base_dir . '' . implode('/', $categories). '/';
 }
 
 /**
@@ -1169,8 +1167,8 @@ function filter_filename(string $filename, bool $beautify = true) : string
 function beautify_filename(string $filename) : string
 {
     //Spaces becomes _
-    $filename = preg_replace(array('/ +/'), "_", $filename);
-    $filename = preg_replace(array('/_+/'), "_", $filename);
+    $filename = preg_replace(array('/ +/'), '_', $filename);
+    $filename = preg_replace(array('/_+/'), '_', $filename);
     // reduce consecutive characters
     $filename = preg_replace(array(
         // "file---name.zip" becomes "file-name.zip"
@@ -1216,7 +1214,7 @@ function isURL(string $string, bool $path_required = true, bool $only_http = tru
 {
     if ($only_http) {   //Check if scheme is HTTPS or HTTP
         $scheme = parse_url($string, PHP_URL_SCHEME);
-        if ($scheme !== "http" && $scheme !== "https") {
+        if ($scheme !== 'http' && $scheme !== 'https') {
             return false;   //All other schemes are not valid.
         }
     }
@@ -1235,74 +1233,74 @@ function isURL(string $string, bool $path_required = true, bool $only_http = tru
  * @param $size string The size of the icon as an FA size class (e.g. fa-lg)
  * @return string The resulted HTML code or the fa-class.
  */
-function extToFAIcon(string $path, bool $with_html = true, string $size = "fa-lg") : string
+function extToFAIcon(string $path, bool $with_html = true, string $size = 'fa-lg') : string
 {
     $ext = pathinfo($path, PATHINFO_EXTENSION);
-    $fa_class = "";
+    $fa_class = '';
     switch ($ext) {
-        case "pdf":
-            $fa_class = "fa-file-pdf";
+        case 'pdf':
+            $fa_class = 'fa-file-pdf';
             break;
-        case "txt":
-        case "csv":
-        case "md":
-        case "rtf":
-            $fa_class = "fa-file-alt";
+        case 'txt':
+        case 'csv':
+        case 'md':
+        case 'rtf':
+            $fa_class = 'fa-file-alt';
             break;
-        case "jpg":
-        case "jpeg":
-        case "gif":
-        case "png":
-        case "svg":
-        case "tif":
-        case "tiff":
-            $fa_class = "fa-file-image";
+        case 'jpg':
+        case 'jpeg':
+        case 'gif':
+        case 'png':
+        case 'svg':
+        case 'tif':
+        case 'tiff':
+            $fa_class = 'fa-file-image';
             break;
-        case "zip":
-        case "rar":
-        case "bz2":
-        case "tar":
-        case "7z":
-            $fa_class = "fa-file-archive";
+        case 'zip':
+        case 'rar':
+        case 'bz2':
+        case 'tar':
+        case '7z':
+            $fa_class = 'fa-file-archive';
             break;
-        case "mp3":
-        case "wav":
-        case "aac":
-        case "m4a":
-        case "wma":
-            $fa_class = "fa-file-audio";
+        case 'mp3':
+        case 'wav':
+        case 'aac':
+        case 'm4a':
+        case 'wma':
+            $fa_class = 'fa-file-audio';
             break;
-        case "mp4":
-        case "mkv":
-        case "wmv":
-            $fa_class = "fa-file-video";
+        case 'mp4':
+        case 'mkv':
+        case 'wmv':
+            $fa_class = 'fa-file-video';
             break;
-        case "ppt":
-        case "pptx":
-        case "odp":
-            $fa_class = "fa-file-powerpoint";
+        case 'ppt':
+        case 'pptx':
+        case 'odp':
+            $fa_class = 'fa-file-powerpoint';
             break;
-        case "doc":
-        case "docx":
-        case "odt":
-            $fa_class = "fa-file-word";
+        case 'doc':
+        case 'docx':
+        case 'odt':
+            $fa_class = 'fa-file-word';
             break;
-        case "xls":
-        case "xlsx":
-        case "ods":
-            $fa_class = "fa-file-excel";
+        case 'xls':
+        case 'xlsx':
+        case 'ods':
+            $fa_class = 'fa-file-excel';
             break;
-        case "php":
-        case "xml":
-        case "html":
-        case "js":
-        case "ts":
-        case "htm":
-            $fa_class = "fa-file-code";
+        case 'php':
+        case 'xml':
+        case 'html':
+        case 'js':
+        case 'ts':
+        case 'htm':
+            $fa_class = 'fa-file-code';
             break;
 
         default: //Use generic file icon
-            $fa_class = "fa-file";
+            $fa_class = 'fa-file';
             break;
     }
 
@@ -1310,7 +1308,7 @@ function extToFAIcon(string $path, bool $with_html = true, string $size = "fa-lg
         return $fa_class;
     }
 
-    $fa_class = $fa_class . " " . $size;
+    $fa_class = $fa_class . ' ' . $size;
 
     //Build HTML
     return '<i class="far ' . $fa_class . '" aria-hidden="true"></i>';
@@ -1324,15 +1322,15 @@ function extToFAIcon(string $path, bool $with_html = true, string $size = "fa-lg
 function parseTristateCheckbox(string $tristate_data) : int
 {
     switch ($tristate_data) {
-        case "true":
+        case 'true':
             return 1;
-        case "false":
+        case 'false':
             return 2;
-        case "indeterminate":
+        case 'indeterminate':
             return 0;
     }
 
-    throw new InvalidArgumentException(_("Der gegebene Wert konnte keinem Tristatewert zugeordnet werden!"));
+    throw new InvalidArgumentException(_('Der gegebene Wert konnte keinem Tristatewert zugeordnet werden!'));
 }
 
 /**
@@ -1358,12 +1356,13 @@ function formatTimestamp(int $timestamp) : string
 
     //Check if user has intl extension installed.
     if (class_exists("\IntlDateFormatter")) {
-        $formatter = $formatter = new \IntlDateFormatter(
+        $formatter = new \IntlDateFormatter(
             $language,
             IntlDateFormatter::MEDIUM,
             IntlDateFormatter::MEDIUM,
             $timezone
         );
+        $formatter = $formatter;
 
         return $formatter->format($timestamp);
     } else {
@@ -1376,21 +1375,21 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries, $g
 {
     $links = array();
 
-    $get_string = "";
-    $prefix = "";
+    $get_string = '';
+    $prefix = '';
     //We only need the &, if the page_link does not end with ? (this is e.g. on show_all_parts.php the case)
-    if (substr($page_link, -1) != "?") {
-        $prefix = "&";
+    if (substr($page_link, -1) != '?') {
+        $prefix = '&';
     }
     if (!empty($get_params)) {
         $get_string = $prefix . http_build_query($get_params);
     }
 
     //Back to first page
-    $links[] = array("label" => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
-        "href" => $page_link . $prefix . "page=1&limit=$limit" . $get_string,
-        "disabled" => $selected_page == 1,
-        "hint" => _("Springe zur ersten Seite"));
+    $links[] = array('label' => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
+        'href' => $page_link . $prefix . "page=1&limit=$limit" . $get_string,
+        'disabled' => $selected_page == 1,
+        'hint' => _('Springe zur ersten Seite'));
 
     $max_page = ceil($max_entries / $limit);
     $max_page = $max_page > 0 ? $max_page : 1;
@@ -1404,22 +1403,22 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries, $g
     }
 
     for ($n=$min_number; $n <= $max_number; $n++) {
-        $links[] = array("label" => $n,
-            "href" => $page_link . $prefix. "page=" . ($n). "&limit=$limit" . $get_string,
-            "active" => $n == $selected_page);
+        $links[] = array('label' => $n,
+            'href' => $page_link . $prefix. 'page=' . $n . "&limit=$limit" . $get_string,
+            'active' => $n == $selected_page);
     }
 
     //Jump to last page.
-    $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
-        "href" => $page_link . $prefix . "page=$max_page&limit=$limit" . $get_string,
-        "disabled" => $selected_page == $max_page,
-        "hint" => _("Springe zur letzten Seite"));
+    $links[] = array('label' => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+        'href' => $page_link . $prefix . "page=$max_page&limit=$limit" . $get_string,
+        'disabled' => $selected_page == $max_page,
+        'hint' => _('Springe zur letzten Seite'));
 
     //Show all results
-    $links[] = array("label" => '<i class="fa fa-bars" aria-hidden="true"></i>',
-        "href" => $page_link . $prefix . "page=0" . $get_string,
-        "active" => $selected_page == 0,
-        "hint" => _("Alle anzeigen"));
+    $links[] = array('label' => '<i class="fa fa-bars" aria-hidden="true"></i>',
+        'href' => $page_link . $prefix . 'page=0' . $get_string,
+        'active' => $selected_page == 0,
+        'hint' => _('Alle anzeigen'));
 
     $upper_results = ($selected_page * $limit + 1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit : $max_entries;
     if ($upper_results == 0) {
@@ -1428,51 +1427,51 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries, $g
         $lower_results = $selected_page > 0 ? ($selected_page - 1) * $limit + 1 : 1;
     }
 
-    return array("lower_result" =>  $lower_results,
-        "upper_result" => $upper_results,
-        "max_entries" => $max_entries,
-        "entries" => $links);
+    return array('lower_result' =>  $lower_results,
+        'upper_result' => $upper_results,
+        'max_entries' => $max_entries,
+        'entries' => $links);
 }
 
 function parsePartsSelection(&$database, &$current_user, &$log, $selection, $action, $target)
 {
-    $ids = explode(",", $selection);
+    $ids = explode(',', $selection);
     foreach ($ids as $id) {
         $part = Part::getInstance($database, $current_user, $log, $id);
-        if ($action=="delete_confirmed") {
+        if ($action== 'delete_confirmed') {
             $part->delete();
-        } elseif ($action=="move") {
-            if ($target == "") {
-                throw new Exception(_("Bitte wählen sie ein Ziel zum Verschieben aus."));
+        } elseif ($action== 'move') {
+            if ($target == '') {
+                throw new Exception(_('Bitte wählen sie ein Ziel zum Verschieben aus.'));
             }
             $type = substr($target, 0, 1);
             $target_id = intval(substr($target, 1));
             //Check if target ID is valid.
             if ($target_id < 1) {
-                throw new Exception(_("Ungültige ID"));
+                throw new Exception(_('Ungültige ID'));
             }
             switch ($type) {
-                case "c": //Category
+                case 'c': //Category
                     $part->setCategoryID($target_id);
                     break;
-                case "f": //Footptint
+                case 'f': //Footptint
                     $part->setFootprintID($target_id);
                     break;
-                case "m": //Manufacturer
+                case 'm': //Manufacturer
                     $part->setManufacturerID($target_id);
                     break;
-                case "s": //Storelocation
+                case 's': //Storelocation
                     $part->setStorelocationID($target_id);
                     break;
             }
-        } elseif ($action=="favor") {
+        } elseif ($action== 'favor') {
             $part->setFavorite(true);
-        } elseif ($action=="defavor") {
+        } elseif ($action== 'defavor') {
             $part->setFavorite(false);
-        } elseif ($action == "") {
-            throw new Exception(_("Bitte wählen sie eine Aktion aus."));
+        } elseif ($action == '') {
+            throw new Exception(_('Bitte wählen sie eine Aktion aus.'));
         } else {
-            throw new Exception(_("Unbekannte Aktion"));
+            throw new Exception(_('Unbekannte Aktion'));
         }
     }
 }
@@ -1486,13 +1485,13 @@ function build_custom_css_loop($selected = null, $include_default_theme = false)
 
     $loop = array();
     if ($include_default_theme) {
-        $loop[] = array("value" => "@@", "text" => _("Standardmäßiges Theme"), "selected" => ($selected == "@@"));
+        $loop[] = array('value' => '@@', 'text' => _('Standardmäßiges Theme'), 'selected' => $selected == '@@');
     }
     $files = findAllFiles(BASE.'/templates/custom_css/', true, '.css');
 
     foreach ($files as $file) {
         $name = str_ireplace(BASE.'/templates/custom_css/', '', $file);
-        $loop[] = array('value' => $name, 'text' => $name, 'selected' => ($name == $selected));
+        $loop[] = array('value' => $name, 'text' => $name, 'selected' => $name == $selected);
     }
 
     return $loop;
@@ -1506,13 +1505,13 @@ function build_custom_css_loop($selected = null, $include_default_theme = false)
  */
 function buildLabelProfilesDropdown($generator, $include_default = false)
 {
-    $json_storage = new JSONStorage(BASE_DATA . "/label_profiles.json");
+    $json_storage = new JSONStorage(BASE_DATA . '/label_profiles.json');
 
-    $data =  $json_storage->getKeyList($generator . "@");
+    $data =  $json_storage->getKeyList($generator . '@');
 
     foreach ($data as $key => &$item) {
-        $item = str_replace($generator . "@", "", $item);
-        if (!$include_default && $item == "default") {
+        $item = str_replace($generator . '@', '', $item);
+        if (!$include_default && $item == 'default') {
             unset($data[$key]);
         }
     }
@@ -1548,7 +1547,7 @@ function getConnectionIPAddress($mask_override_ipv4 = false, $mask_override_ipv6
         $mask_ipv6 = $mask_override_ipv6;
     }
 
-    if ($mask_ipv4 === "") {
+    if ($mask_ipv4 === '') {
         //Return IP address without any anonymization
         return $raw_ip;
     }

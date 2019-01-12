@@ -31,7 +31,7 @@
  *  If you make changes in one of them, please check if you should change the other files too.
  */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\Device;
@@ -59,19 +59,19 @@ $selected_id                = isset($_REQUEST['selected_id'])   ? (int)$_REQUEST
 $new_name                   = isset($_POST['name'])          ? (string)$_POST['name']         : '';
 $new_parent_id              = isset($_POST['parent_id'])     ? (int)$_POST['parent_id']   : 0;
 $add_more                   = isset($_POST['add_more']);
-$new_comment                = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
+$new_comment                = isset($_POST['comment'])       ? (string)$_POST['comment']      : '';
 
 $action = 'default';
-if (isset($_POST["add"])) {
+if (isset($_POST['add'])) {
     $action = 'add';
 }
-if (isset($_POST["delete"])) {
+if (isset($_POST['delete'])) {
     $action = 'delete';
 }
-if (isset($_POST["delete_confirmed"])) {
+if (isset($_POST['delete_confirmed'])) {
     $action = 'delete_confirmed';
 }
-if (isset($_POST["apply"])) {
+if (isset($_POST['apply'])) {
     $action = 'apply';
 }
 
@@ -144,7 +144,7 @@ if (! $fatal_error) {
                 }
                 $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet diese Baugruppe noch Unterbaugruppen, dann werden diese eine Ebene nach oben verschoben.'));
                 $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_device->getID().'">');
-                $messages[] = array('html' => '<input type="submit" class="btn btn-secondary" name="" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
+                $messages[] = array('html' => '<input type="submit" class="btn btn-secondary" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                 $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Baugruppe löschen').'">');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
@@ -176,7 +176,7 @@ if (! $fatal_error) {
 
                 $selected_device->setAttributes(array( 'name'                  => $new_name,
                     'parent_id'             => $new_parent_id,
-                    "comment"               => $new_comment));
+                    'comment' => $new_comment));
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
@@ -208,12 +208,12 @@ if (! $fatal_error) {
             $last_modified_user = $selected_device->getLastModifiedUser();
             $creation_user = $selected_device->getCreationUser();
             if ($last_modified_user != null) {
-                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
-                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), 'string');
+                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), 'int');
             }
             if ($creation_user != null) {
-                $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
-                $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+                $html->setVariable('creation_user', $creation_user->getFullName(true), 'string');
+                $html->setVariable('creation_user_id', $creation_user->getID(), 'int');
             }
             $name = $selected_device->getName();
         } elseif ($action == 'add') {
@@ -223,7 +223,7 @@ if (! $fatal_error) {
         } else {
             $parent_id = 0;
             $name = '';
-            $comment = "";
+            $comment = '';
         }
 
         $html->setVariable('name', $name, 'string');
@@ -235,17 +235,17 @@ if (! $fatal_error) {
         $parent_device_list = $root_device->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_device_list', $parent_device_list, 'string');
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
 
 try {
-    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::DELETE));
-    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::EDIT));
-    $html->setVariable("can_create", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::CREATE));
-    $html->setVariable("can_move", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::MOVE));
-    $html->setVariable("can_read", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
+    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::DELETE));
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::EDIT));
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::CREATE));
+    $html->setVariable('can_move', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::MOVE));
+    $html->setVariable('can_read', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
     $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
@@ -260,8 +260,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $reload_link = $fatal_error ? 'edit_devices.php' : '';    // an empty string means that the...

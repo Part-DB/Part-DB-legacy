@@ -52,21 +52,21 @@ class UserLoginEntry extends BaseEntry
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_USERLOGIN) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
 
         if ($this->getTargetType() != Log::TARGET_TYPE_USER) {
-            throw new \RuntimeException(_("Falscher Targettyp!"));
+            throw new \RuntimeException(_('Falscher Targettyp!'));
         }
 
         $arr = $this->deserializeExtra();
-        $this->ip_address = $arr["i"];
+        $this->ip_address = $arr['i'];
     }
 
 
     public function getExtra(bool $html = false) : string
     {
-        return _("Von IP: ") . $this->ip_address;
+        return _('Von IP: ') . $this->ip_address;
     }
 
     /**
@@ -81,9 +81,9 @@ class UserLoginEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, User $user, string $ip_address = "")
+    public static function add(Database &$database, User &$current_user, Log &$log, User $user, string $ip_address = '')
     {
-        $arr = array("i" => $ip_address);
+        $arr = array('i' => $ip_address);
 
         return static::addEntry(
             $database,
@@ -108,7 +108,7 @@ class UserLoginEntry extends BaseEntry
             $user = User::getInstance($this->database, $this->current_user, $this->log, $this->getTargetID());
             return $user->getName();
         } catch (Exception $ex) {
-            return "ERROR!";
+            return 'ERROR!';
         }
     }
 
@@ -118,6 +118,6 @@ class UserLoginEntry extends BaseEntry
      */
     public function getTargetLink() : string
     {
-        return BASE_RELATIVE . "user_info?uid=" . $this->getTargetID();
+        return BASE_RELATIVE . 'user_info?uid=' . $this->getTargetID();
     }
 }

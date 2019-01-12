@@ -46,7 +46,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class DevicePart extends Base\DBElement
 {
-    const TABLE_NAME = "device_parts";
+    const TABLE_NAME = 'device_parts';
 
     /********************************************************************************
      *
@@ -170,7 +170,7 @@ class DevicePart extends Base\DBElement
     public function getMountNames() : string
     {
         if (!$this->current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)) {
-            return "???";
+            return '???';
         }
 
         return $this->db_data['mountnames'];
@@ -309,7 +309,7 @@ class DevicePart extends Base\DBElement
         if (((! \is_int($values['quantity'])) && (! ctype_digit($values['quantity'])))
             || ($values['quantity'] < 0)) {
             throw new InvalidElementValueException(
-                sprintf(_('Die Bestückungs-Anzahl "%d" ist ungültig!'), (int) $values['quantity'])
+                sprintf(_('Die Bestückungs-Anzahl "%d" ist ungültig!'), $values['quantity'])
             );
         }
     }
@@ -400,7 +400,7 @@ class DevicePart extends Base\DBElement
      */
     public function getIDString(): string
     {
-        return "DP" . sprintf("%06d", $this->getID());
+        return 'DP' . sprintf('%06d', $this->getID());
     }
 
     /**

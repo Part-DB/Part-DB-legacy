@@ -50,11 +50,11 @@ class UserNotAllowedEntry extends BaseEntry
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_USERNOTALLOWED) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
 
         if ($this->getTargetType() != Log::TARGET_TYPE_USER) {
-            throw new \RuntimeException(_("Falscher Targettyp!"));
+            throw new \RuntimeException(_('Falscher Targettyp!'));
         }
     }
 
@@ -73,7 +73,7 @@ class UserNotAllowedEntry extends BaseEntry
      */
     public static function add(Database &$database, User &$current_user, Log &$log, string $permission_string)
     {
-        $arr = array("p" => $permission_string);
+        $arr = array('p' => $permission_string);
 
         return static::addEntry(
             $database,
@@ -98,7 +98,7 @@ class UserNotAllowedEntry extends BaseEntry
             $user = User::getInstance($this->database, $this->current_user, $this->log, $this->getTargetID());
             return $user->getFullName();
         } catch (Exception $ex) {
-            return "ERROR!";
+            return 'ERROR!';
         }
     }
 
@@ -108,7 +108,7 @@ class UserNotAllowedEntry extends BaseEntry
      */
     public function getTargetLink() : string
     {
-        return BASE_RELATIVE . "user_info?uid=" . $this->getTargetID();
+        return BASE_RELATIVE . 'user_info?uid=' . $this->getTargetID();
     }
 
     /**
@@ -118,6 +118,6 @@ class UserNotAllowedEntry extends BaseEntry
      */
     public function getExtra(bool $html = false) : string
     {
-        return $this->deserializeExtra()["p"] ?? "";
+        return $this->deserializeExtra()['p'] ?? '';
     }
 }

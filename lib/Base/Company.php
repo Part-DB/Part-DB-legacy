@@ -267,19 +267,19 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      */
     public function getAPIArray(bool $verbose = false) : array
     {
-        $json =  array( "id" => $this->getID(),
-            "name" => $this->getName(),
-            "fullpath" => $this->getFullPath("/"),
-            "parentid" => $this->getParentID(),
-            "level" => $this->getLevel()
+        $json =  array( 'id' => $this->getID(),
+            'name' => $this->getName(),
+            'fullpath' => $this->getFullPath('/'),
+            'parentid' => $this->getParentID(),
+            'level' => $this->getLevel()
         );
 
         if ($verbose == true) {
-            $ver = array("address" => $this->getAddress(),
-                "phone_number" => $this->getPhoneNumber(),
-                "fax_number" => $this->getFaxNumber(),
-                "website" => $this->getWebsite(),
-                "auto_url" => $this->getAutoProductUrl());
+            $ver = array('address' => $this->getAddress(),
+                'phone_number' => $this->getPhoneNumber(),
+                'fax_number' => $this->getFaxNumber(),
+                'website' => $this->getWebsite(),
+                'auto_url' => $this->getAutoProductUrl());
             return array_merge($json, $ver);
         }
         return $json;

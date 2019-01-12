@@ -57,7 +57,7 @@ class ElementDeletedEntry extends BaseEntry
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_ELEMENTDELETED) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
 
         $extra = $this->deserializeExtra();
@@ -71,8 +71,8 @@ class ElementDeletedEntry extends BaseEntry
 
     public function getExtra(bool $html = false) : string
     {
-        $old_name =  $this->deserializeExtra()["n"];
-        return _("Alter Name: ") . $old_name;
+        $old_name =  $this->deserializeExtra()['n'];
+        return _('Alter Name: ') . $old_name;
     }
 
     /**
@@ -98,7 +98,7 @@ class ElementDeletedEntry extends BaseEntry
             $level = Log::LEVEL_INFO;
         }
 
-        $arr = array("n" => $name);
+        $arr = array('n' => $name);
 
         return static::addEntry(
             $database,
@@ -120,9 +120,9 @@ class ElementDeletedEntry extends BaseEntry
     public function getTargetText() : string
     {
         try {
-            return Log::targetTypeIDToString($this->getTargetType()) . ": " . $this->getTargetID();
+            return Log::targetTypeIDToString($this->getTargetType()) . ': ' . $this->getTargetID();
         } catch (Exception $ex) {
-            return "ERROR!";
+            return 'ERROR!';
         }
     }
 
@@ -133,6 +133,6 @@ class ElementDeletedEntry extends BaseEntry
     public function getTargetLink() : string
     {
         //We can not link to a part, that dont exists any more...
-        return "";
+        return '';
     }
 }

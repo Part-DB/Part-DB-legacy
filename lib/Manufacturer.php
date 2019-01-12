@@ -39,7 +39,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class Manufacturer extends Base\Company implements ISearchable
 {
-    const TABLE_NAME = "manufacturers";
+    const TABLE_NAME = 'manufacturers';
 
     /********************************************************************************
      *
@@ -87,7 +87,7 @@ class Manufacturer extends Base\Company implements ISearchable
      */
     public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        return parent::getPartsForRowName('id_manufacturer', $recursive, $hide_obsolete_and_zero, $limit, $page);
+        return $this->getPartsForRowName('id_manufacturer', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
     /**
      * Return the number of all parts in this PartsContainingDBElement
@@ -140,7 +140,7 @@ class Manufacturer extends Base\Company implements ISearchable
         string $email_address = '',
         string $website = '',
         string $auto_product_url = '',
-        string $comment = ""
+        string $comment = ''
     ) : Manufacturer {
         return parent::addByArray(
             $database,
@@ -154,7 +154,7 @@ class Manufacturer extends Base\Company implements ISearchable
                 'email_address'     => $email_address,
                 'website'           => $website,
                 'auto_product_url'  => $auto_product_url,
-                "comment"           => $comment)
+                'comment' => $comment)
         );
     }
 
@@ -166,7 +166,7 @@ class Manufacturer extends Base\Company implements ISearchable
      */
     public function getIDString(): string
     {
-        return "M" . sprintf("%06d", $this->getID());
+        return 'M' . sprintf('%06d', $this->getID());
     }
 
     /**

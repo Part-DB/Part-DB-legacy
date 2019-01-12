@@ -55,7 +55,7 @@ class InstockChangedEntry extends BaseEntry
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_INSTOCKCHANGE) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
 
         try {
@@ -90,7 +90,7 @@ class InstockChangedEntry extends BaseEntry
     public function getOldInstockString()
     {
         if ($this->getOldInstock() == Part::INSTOCK_UNKNOWN) {
-            return _("[Unbekannt]");
+            return _('[Unbekannt]');
         } else {
             return (string) $this->getOldInstock();
         }
@@ -112,7 +112,7 @@ class InstockChangedEntry extends BaseEntry
     public function getNewInstockString()
     {
         if ($this->getNewInstock() == Part::INSTOCK_UNKNOWN) {
-            return _("[Unbekannt]");
+            return _('[Unbekannt]');
         } else {
             return (string) $this->getNewInstock();
         }
@@ -131,19 +131,19 @@ class InstockChangedEntry extends BaseEntry
     {
         $difference = $this->getDifference();
         if ($difference > 0) {
-            $difference = "+".$difference;
+            $difference = '+' .$difference;
         }
 
         //Dont show the difference string, if one of the stock is unknown.
-        $difference_str = "";
+        $difference_str = '';
         if ($difference != 0) {
-            $difference_str = " (" . $difference . ")";
+            $difference_str = ' (' . $difference . ')';
         }
 
-        return $this->getTypeString(). "; Alter Wert: " . $this->getOldInstockString() .
-            "; Neuer Wert: ". $this->getNewInstockString() . $difference_str .
-            "; Preis: " . $this->getPriceMoneyString(true) .
-            "; Kommentar: " . $this->getComment();
+        return $this->getTypeString(). '; Alter Wert: ' . $this->getOldInstockString() .
+            '; Neuer Wert: ' . $this->getNewInstockString() . $difference_str .
+            '; Preis: ' . $this->getPriceMoneyString(true) .
+            '; Kommentar: ' . $this->getComment();
     }
 
     /**
@@ -205,9 +205,9 @@ class InstockChangedEntry extends BaseEntry
     public function getTypeString() : string
     {
         if ($this->isWithdrawal()) {
-            return _("Entnahme");
+            return _('Entnahme');
         } else {
-            return _("Zugabe");
+            return _('Zugabe');
         }
     }
 
@@ -218,7 +218,7 @@ class InstockChangedEntry extends BaseEntry
     public function getTargetText() : string
     {
         $part_name = ($this->element != null) ? $this->element->getName() : $this->getTargetID();
-        return Log::targetTypeIDToString($this->getTargetType()) . ": " . $part_name;
+        return Log::targetTypeIDToString($this->getTargetType()) . ': ' . $part_name;
     }
 
     /**

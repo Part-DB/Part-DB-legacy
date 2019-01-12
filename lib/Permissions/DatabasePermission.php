@@ -23,10 +23,10 @@ namespace PartDB\Permissions;
 
 class DatabasePermission extends BasePermission
 {
-    const SEE_STATUS    = "see_status";
-    const UPDATE_DB     = "update_db";
-    const READ_DB_SETTINGS = "read_db_settings";
-    const WRITE_DB_SETTINGS = "write_db_settings";
+    const SEE_STATUS    = 'see_status';
+    const UPDATE_DB     = 'update_db';
+    const READ_DB_SETTINGS = 'read_db_settings';
+    const WRITE_DB_SETTINGS = 'write_db_settings';
 
     protected static $operation_cache = null;
 
@@ -42,10 +42,10 @@ class DatabasePermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[static::SEE_STATUS] = static::buildOperationArray(0, static::SEE_STATUS, _("Status anzeigen"));
-            $operations[static::UPDATE_DB] = static::buildOperationArray(2, static::UPDATE_DB, _("Datenbank aktualisieren"));
-            $operations[static::READ_DB_SETTINGS] = static::buildOperationArray(4, static::READ_DB_SETTINGS, _("Datenbankeinstellungen anzeigen"));
-            $operations[static::WRITE_DB_SETTINGS] = static::buildOperationArray(2, static::WRITE_DB_SETTINGS, _("Datenbankeinstellungen ändern"));
+            $operations[static::SEE_STATUS] = static::buildOperationArray(0, static::SEE_STATUS, _('Status anzeigen'));
+            $operations[static::UPDATE_DB] = static::buildOperationArray(2, static::UPDATE_DB, _('Datenbank aktualisieren'));
+            $operations[static::READ_DB_SETTINGS] = static::buildOperationArray(4, static::READ_DB_SETTINGS, _('Datenbankeinstellungen anzeigen'));
+            $operations[static::WRITE_DB_SETTINGS] = static::buildOperationArray(2, static::WRITE_DB_SETTINGS, _('Datenbankeinstellungen ändern'));
 
             static::$operation_cache = $operations;
         }
@@ -56,7 +56,7 @@ class DatabasePermission extends BasePermission
     {
         //Set read permission, too, when you get edit permissions.
         if ($operation == static::UPDATE_DB && $new_value == static::ALLOW) {
-            return parent::writeBitPair($data, static::opToBitN(static::SEE_STATUS), static::ALLOW);
+            return $this->writeBitPair($data, static::opToBitN(static::SEE_STATUS), static::ALLOW);
         }
 
         //Set read permission, too, when you get edit permissions.

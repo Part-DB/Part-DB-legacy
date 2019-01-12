@@ -19,36 +19,36 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\User;
 
-$user_name = isset($_POST['username']) ? $_POST['username'] : "";
-$password = isset($_POST['password']) ? $_POST['password']: "";
+$user_name = isset($_POST['username']) ? $_POST['username'] : '';
+$password = isset($_POST['password']) ? $_POST['password']: '';
 $logout   = isset($_REQUEST['logout']);
 
-$redirect_url = isset($_REQUEST['redirect']) ? $_REQUEST['redirect'] : "";
+$redirect_url = isset($_REQUEST['redirect']) ? $_REQUEST['redirect'] : '';
 
 $messages = array();
 $fatal_error = false;
 
-$action = "default";
-if (!User::isLoggedIn() && $user_name != "") {
-    $action = "login";
+$action = 'default';
+if (!User::isLoggedIn() && $user_name != '') {
+    $action = 'login';
 }
 
-if ($logout == true && User::isLoggedIn() && $user_name == "") {
-    $action = "logout";
+if ($logout == true && User::isLoggedIn() && $user_name == '') {
+    $action = 'logout';
 }
 
 if (User::isLoggedIn() && $logout == false) {
-    $action = "redirect";
+    $action = 'redirect';
 }
 
-$html = new HTML($config['html']['theme'], $user_config['theme'], $config['partdb_title'] . " - " . _('Login'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], $config['partdb_title'] . ' - ' . _('Login'));
 
 try {
     $database           = new Database();
@@ -62,12 +62,12 @@ try {
 
 if (!$fatal_error) {
     switch ($action) {
-        case "logout":
+        case 'logout':
             User::logout();
-            $html->setVariable("refresh_navigation_frame", true, "boolean");
+            $html->setVariable('refresh_navigation_frame', true, 'boolean');
             $html->setVariable('loggedout', true);
             break;
-        case "login":
+        case 'login':
             try {
                 $user               = User::getUserByName($database, $log, $user_name);
                 $pw_valid           = User::login($user, $password);
@@ -75,22 +75,22 @@ if (!$fatal_error) {
                 $pw_valid = false;
             }
 
-            $html->setVariable("pw_valid", $pw_valid, "boolean");
+            $html->setVariable('pw_valid', $pw_valid, 'boolean');
             if (User::isLoggedIn()) {
-                $html->setVariable("refresh_navigation_frame", true, "boolean");
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
             }
             break;
-        case "redirect":
-            if ($redirect_url != "") {
+        case 'redirect':
+            if ($redirect_url != '') {
                 //We need to remove Part-DB/ part, because PHP_URI_REQUEST contains it...
-                $html->redirect(str_replace(BASE_RELATIVE . "/", "", $redirect_url));
+                $html->redirect(str_replace(BASE_RELATIVE . '/', '', $redirect_url));
             } elseif (User::getLoggedInUser()->getNeedPasswordChange()) { //Redirect to user settings, when user needs to change password.
-                $html->redirect("user_settings.php");
+                $html->redirect('user_settings.php');
             } else { //Else redirect to start page.
-                $html->redirect("startup.php");
+                $html->redirect('startup.php');
             }
             break;
-        case "default":
+        case 'default':
             break;
     }
 }
@@ -102,10 +102,10 @@ if (!$fatal_error) {
 
 if (User::isLoggedIn()) {
     $user = User::getLoggedInUser($database, $log);
-    $html->setVariable("loggedin", true, "boolean");
+    $html->setVariable('loggedin', true, 'boolean');
 }
 
-$html->setVariable("username", $user_name, "string");
+$html->setVariable('username', $user_name, 'string');
 
 //$html->set_variable("refresh_navigation_frame", true, "boolean");
 

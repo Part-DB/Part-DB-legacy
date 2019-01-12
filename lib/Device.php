@@ -141,7 +141,7 @@ class Device extends Base\PartsContainingDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception(sprintf(_('Die Baugruppe "%s" konnte nicht gelöscht werden!\n'), $this->getName()) . _("Grund: ").$e->getMessage());
+            throw new Exception(sprintf(_('Die Baugruppe "%s" konnte nicht gelöscht werden!\n'), $this->getName()) . _('Grund: ').$e->getMessage());
         }
     }
 
@@ -157,11 +157,11 @@ class Device extends Base\PartsContainingDBElement
     public function copy(string $name, int $parent_id, bool $with_subdevices = false)
     {
         try {
-            if (($with_subdevices) && ($parent_id > 0)) { // the root node (ID 0 or -1) is always allowed as the parent object
+            if ($with_subdevices && ($parent_id > 0)) { // the root node (ID 0 or -1) is always allowed as the parent object
                 // check if $parent_id is NOT a child of this device
                 $parent_device = Device::getInstance($this->database, $this->current_user, $this->log, $parent_id);
 
-                if (($parent_device->getID() == $this->getID()) || ($parent_device->isChildOf($this))) {
+                if (($parent_device->getID() == $this->getID()) || $parent_device->isChildOf($this)) {
                     throw new Exception(_('Eine Baugruppe kann nicht in sich selber kopiert werden!'));
                 }
             }
@@ -195,7 +195,7 @@ class Device extends Base\PartsContainingDBElement
         } catch (Exception $e) {
             $this->database->rollback(); // rollback transaction
 
-            throw new Exception(sprintf(_("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
+            throw new Exception(sprintf(_("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _('Grund: ').$e->getMessage());
         }
     }
 
@@ -227,16 +227,16 @@ class Device extends Base\PartsContainingDBElement
                 }
             }
 
-            $comment = sprintf(_("Baugruppe: %s"), $this->getName());
+            $comment = sprintf(_('Baugruppe: %s'), $this->getName());
 
             // OK there are enough parts in stock, we will book them
             foreach ($device_parts as $part) {
                 /** @var DevicePart $part  */
                 //$part->getPart()->setInstock($part->getPart()->getInstock() - ($part->getMountQuantity() * $book_multiplier));
                 if ($book_multiplier > 0) {
-                    $part->getPart()->withdrawalParts(($part->getMountQuantity() * abs($book_multiplier)), $comment);
+                    $part->getPart()->withdrawalParts($part->getMountQuantity() * abs($book_multiplier), $comment);
                 } else {
-                    $part->getPart()->addParts(($part->getMountQuantity() * abs($book_multiplier)), $comment);
+                    $part->getPart()->addParts($part->getMountQuantity() * abs($book_multiplier), $comment);
                 }
             }
 
@@ -247,7 +247,7 @@ class Device extends Base\PartsContainingDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception(_("Die Teile konnten nicht abgefasst werden!\n") . _("Grund: ").$e->getMessage());
+            throw new Exception(_("Die Teile konnten nicht abgefasst werden!\n") . _('Grund: ').$e->getMessage());
         }
     }
 
@@ -540,7 +540,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getIDString(): string
     {
-        return "D" . sprintf("%09d", $this->getID());
+        return 'D' . sprintf('%09d', $this->getID());
     }
 
     /**
@@ -560,7 +560,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @see DBElement::add()
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $comment = "") : Device
+    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $comment = '') : Device
     {
         return parent::addByArray(
             $database,
@@ -570,7 +570,7 @@ class Device extends Base\PartsContainingDBElement
                 'parent_id'                 => $parent_id,
                 'order_quantity'            => 0,
                 'order_only_missing_parts'  => false,
-                "comment"                   => $comment)
+                'comment' => $comment)
         );
     }
 

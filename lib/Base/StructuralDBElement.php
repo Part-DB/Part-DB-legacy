@@ -163,7 +163,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
     public function delete(bool $delete_recursive = false, bool $delete_files_from_hdd = false)
     {
         //Check permission.
-        $this->current_user->tryDo($this->getPermissionName(), StructuralPermission::DELETE);
+        $this->current_user->tryDo(static::getPermissionName(), StructuralPermission::DELETE);
         if ($this->getID() == null) {
             throw new Exception(_('Die Oberste Ebene kann nicht gelöscht werden!'));
         }
@@ -205,20 +205,17 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
     {
         $arr = array();
 
-        if ($this->current_user->canDo(static::getPermissionName(), StructuralPermission::MOVE)) {
-            //Make an exception for $parent_id
-            if (isset($new_values['parent_id'])) {
-                $arr['parent_id'] = $new_values['parent_id'];
-            }
+        if ($this->current_user->canDo(static::getPermissionName(), StructuralPermission::MOVE) && isset($new_values['parent_id'])) {
+            $arr['parent_id'] = $new_values['parent_id'];
         }
         if ($this->current_user->canDo(static::getPermissionName(), StructuralPermission::EDIT)) {
             //Copy everything except parent_id
             unset($new_values['parent_id']);
-            $arr = $arr + $new_values;
+            $arr += $new_values;
         }
 
         if (empty($arr)) {
-            throw new UserNotAllowedException(_("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!"));
+            throw new UserNotAllowedException(_('Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!'));
         }
 
         parent::setAttributes($arr, $edit_message);
@@ -267,7 +264,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
 
             //If this' parents element, is $another_element, then we are finished
             return (($parent_element->getID() == $another_element->getID())
-                || ($parent_element->isChildOf($another_element))); //Otherwise, check recursivley
+                || $parent_element->isChildOf($another_element)); //Otherwise, check recursivley
         }
     }
 
@@ -280,7 +277,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
     public function getName() : string
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
-            return "???";
+            return '???';
         }
         return parent::getName();
     }
@@ -309,7 +306,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
     public function getLastModified(bool $formatted = true) : string
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
-            return "???";
+            return '???';
         }
         return parent::getLastModified($formatted);
     }
@@ -323,7 +320,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
     public function getDatetimeAdded(bool $formatted = true) : string
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
-            return "???";
+            return '???';
         }
         return parent::getDatetimeAdded(true);
     }
@@ -337,10 +334,10 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
     public function getComment(bool $parse_bbcode = true) : string
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
-            return "???";
+            return '???';
         }
 
-        $val = htmlspecialchars($this->db_data['comment'] ?? "");
+        $val = htmlspecialchars($this->db_data['comment'] ?? '');
         if ($parse_bbcode) {
             $bbcode = new BBCodeParser();
             $val = $bbcode->parse($val);
@@ -428,12 +425,12 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
     public function getFullPath(string $delimeter = self::PATH_DELIMITER_ARROW)
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
-            return "???";
+            return '???';
         }
 
         if (! \is_array($this->full_path_strings)) {
             $this->full_path_strings = array();
-            $this->full_path_strings[] = static::getName();
+            $this->full_path_strings[] = $this->getName();
             $parent_id = static::getParentID();
             while ($parent_id > 0) {
                 /** @var StructuralDBElement $element */
@@ -465,10 +462,10 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         if (! \is_array($this->subelements)) {
             $this->subelements = array();
 
-            if ($this->db_data["id"] == 0) {
+            if ($this->db_data['id'] == 0) {
                 $id = null;
             } else {
-                $id = $this->db_data["id"];
+                $id = $this->db_data['id'];
             }
 
             $query_data = $this->database->query('SELECT * FROM ' . $this->tablename .
@@ -580,7 +577,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
 
             $html[] = '<option ' . $selected . ' value="' . $value_prefix . $element->getID() . '">';
             for ($i = 0; $i < $level; $i++) {
-                $html[] = "&nbsp;&nbsp;&nbsp;";
+                $html[] = '&nbsp;&nbsp;&nbsp;';
             }
             $html[] = htmlspecialchars($element->getName()) . '</option>';
         }
@@ -612,8 +609,8 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         if ($this->getParentID() == -1) {
             if ($show_root) {
                 $tree = array(
-                    array('text' => ($use_db_root_name) ? htmlspecialchars($this->getName()) : $root_name ,
-                        'href' => $page . "?". $parameter . "=" . $this->getID(),
+                    array('text' => $use_db_root_name ? htmlspecialchars($this->getName()) : $root_name ,
+                        'href' => $page . '?' . $parameter . '=' . $this->getID(),
                         'nodes' => $nodes)
                 );
             } else { //Dont show root node
@@ -622,12 +619,12 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         } else {
             if (!empty($nodes)) {
                 $tree = array('text' => htmlspecialchars($this->getName()),
-                    'href' => $page . "?" . $parameter . "=" . $this->getID(),
+                    'href' => $page . '?' . $parameter . '=' . $this->getID(),
                     'nodes' => $nodes
                 );
             } else {
                 $tree = array('text' => htmlspecialchars($this->getName()),
-                    'href' => $page . "?" . $parameter . "=".  $this->getID()
+                    'href' => $page . '?' . $parameter . '=' .  $this->getID()
                 );
             }
         }
@@ -644,7 +641,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
      * @param string $root_name The label which should be used for the root breadcrumb.
      * @return array An Loop containing multiple arrays, which contains href and caption for the breadcrumb.
      */
-    public function buildBreadcrumbLoop(string $page, string $parameter, bool $show_root = false, $root_name = "$$", bool $element_is_link = false) : array
+    public function buildBreadcrumbLoop(string $page, string $parameter, bool $show_root = false, $root_name = '$$', bool $element_is_link = false) : array
     {
         $breadcrumb = array();
 
@@ -653,21 +650,21 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         }
 
         if ($show_root) {
-            $breadcrumb[] = array("label" => $root_name,
-                "disabled" => true);
+            $breadcrumb[] = array('label' => $root_name,
+                'disabled' => true);
         }
 
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
-            return array("label" =>  "???",
-                "disabled" => true);
+            return array('label' => '???',
+                'disabled' => true);
         }
 
         $tmp = array();
 
         if ($element_is_link) {
-            $tmp[] = array("label" => static::getName(), 'href' => $page . "?". $parameter . "=".$this->getID(), "selected" => true);
+            $tmp[] = array('label' => static::getName(), 'href' => $page . '?' . $parameter . '=' .$this->getID(), 'selected' => true);
         } else {
-            $tmp[] = array("label" => static::getName(), "selected" => true);
+            $tmp[] = array('label' => static::getName(), 'selected' => true);
         }
 
         $parent_id = static::getParentID();
@@ -675,7 +672,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
             /** @var StructuralDBElement $element */
             $element = static::getInstance($this->database, $this->current_user, $this->log, $parent_id);
             $parent_id = $element->getParentID();
-            $tmp[] = array("label" => $element->getName(), 'href' => $page . "?" . $parameter . "=" . $element->getID());
+            $tmp[] = array('label' => $element->getName(), 'href' => $page . '?' . $parameter . '=' . $element->getID());
         }
         $tmp = array_reverse($tmp);
 
@@ -756,7 +753,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         // check "name" + "parent_id" (the first check of "name" was already done by
         // "parent::check_values_validity", here we check only the combination of "parent_id" and "name")
         // we search for an element with the same name and parent ID, there shouldn't be one!
-        $id = ($is_new) ? -1 : $values['id'];
+        $id = $is_new ? -1 : $values['id'];
         $query_data = $database->query(
             'SELECT * FROM ' . $parent_element->getTablename() .
             ' WHERE name=? AND parent_id <=> ? AND id<>?',
@@ -780,6 +777,6 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
      */
     protected static function getPermissionName()
     {
-        throw new NotImplementedException(_("getPermissionName() wurde nicht implementiert!"));
+        throw new NotImplementedException(_('getPermissionName() wurde nicht implementiert!'));
     }
 }

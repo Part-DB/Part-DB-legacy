@@ -37,7 +37,7 @@ use PDO;
 use PDOException;
 
 /** @noinspection PhpIncludeInspection */
-include_once(BASE.'/updates/db_update_steps.php');
+include_once BASE.'/updates/db_update_steps.php';
 
 /**
  * @file Database.php
@@ -124,7 +124,7 @@ class Database
 
                     if ($host == null || $port == null) {
                         $host = $config['db']['host'];
-                        $port = "3306";
+                        $port = '3306';
                     }
 
                     //If a unix socket is given in $dbo
@@ -136,25 +136,22 @@ class Database
                             array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
                                 PDO::ATTR_PERSISTENT            => false)
                         );
-                    } else {
-                        //Check if a space fix is activated.
-                        if ($config['db']['space_fix'] == false) {
-                            $this->pdo = new PDO(
-                                'mysql:host='.$host.';port='.$port.';dbname='.$config['db']['name'].';charset=utf8',
-                                $config['db']['user'],
-                                $config['db']['password'],
-                                array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
-                                    PDO::ATTR_PERSISTENT            => false)
-                            );
-                        } else { //Include space between mysql and host in dsn string.
-                            $this->pdo = new PDO(
-                                'mysql: host='.$host.';port='.$port.';dbname='.$config['db']['name'].';charset=utf8',
-                                $config['db']['user'],
-                                $config['db']['password'],
-                                array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
-                                    PDO::ATTR_PERSISTENT            => false)
-                            );
-                        }
+                    } else if ($config['db']['space_fix'] == false) {
+                        $this->pdo = new PDO(
+                            'mysql:host='.$host.';port='.$port.';dbname='.$config['db']['name'].';charset=utf8',
+                            $config['db']['user'],
+                            $config['db']['password'],
+                            array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
+                                PDO::ATTR_PERSISTENT            => false)
+                        );
+                    } else { //Include space between mysql and host in dsn string.
+                        $this->pdo = new PDO(
+                            'mysql: host='.$host.';port='.$port.';dbname='.$config['db']['name'].';charset=utf8',
+                            $config['db']['user'],
+                            $config['db']['password'],
+                            array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
+                                PDO::ATTR_PERSISTENT            => false)
+                        );
                     }
 
                     break;
@@ -183,7 +180,7 @@ class Database
 
             throw new DatabaseException(_("Es konnte nicht mit der Datenbank verbunden werden! \n".
                     'Überprüfen Sie, ob die Zugangsdaten korrekt sind.') . "\n\n".
-                _("Details: ") . $e->getMessage());
+                _('Details: ') . $e->getMessage());
         }
 
         if (PDBDebugBar::isActivated()) {
@@ -398,7 +395,7 @@ class Database
                 $start_position = 0;
             } // no error, start with the first update step
 
-            for ($steps_pos = $start_position; (($steps_pos < count($steps)) && (! $error)); $steps_pos++) {
+            for ($steps_pos = $start_position; ($steps_pos < count($steps)) && (! $error); $steps_pos++) {
                 $query = $this->convertMysqlQuery($steps[$steps_pos]);
 
                 if ($query === null) { // for "dummys" (steps which are removed afterwards)
@@ -416,7 +413,7 @@ class Database
                     } catch (PDOException $e2) {
                     } // rollback last query, ignore exceptions
                     //Ignore "Column already exists:" errors
-                    if (!strcontains($e->getMessage(), "Column already exists:")) {
+                    if (!strcontains($e->getMessage(), 'Column already exists:')) {
                         debug('error', '$query="' . $query . '"', __FILE__, __LINE__, __METHOD__);
                         debug('error', _('Fehlermeldung: "') . $e->getMessage() . '"', __FILE__, __LINE__, __METHOD__);
                         $add_log(sprintf(_('Schritt: %s ...FEHLER!'), $query), true);
@@ -828,8 +825,8 @@ class Database
     {
         //A whitelist of tables, we know that exists, so we dont need to check with a DB Request
         //Dont include "internal" here, because otherwise it leads to problems, when starting with a fresh database.
-        $whitelist = array("parts", "categories", "footprints", "storelocations", "suppliers", "pricedetails",
-            "orderdetails", "manufacturers", "attachements", "attachement_types", "devices", "device_parts", "users", "groups", "log");
+        $whitelist = array('parts', 'categories', 'footprints', 'storelocations', 'suppliers', 'pricedetails',
+            'orderdetails', 'manufacturers', 'attachements', 'attachement_types', 'devices', 'device_parts', 'users', 'groups', 'log');
 
         global $config;
 
@@ -839,7 +836,7 @@ class Database
         }
 
         //does not work with SQLite!
-        $query_data = $this->query("SHOW TABLES LIKE ?", array($tablename));
+        $query_data = $this->query('SHOW TABLES LIKE ?', array($tablename));
 
         if (count($query_data) >= 1) {
             // We now know that this table exists.
@@ -974,8 +971,8 @@ class Database
     {
         global $config;
 
-        if ($config['db']['type'] != "mysql") {
-            throw new \Exception(_("Datenbankgröße kann nur für MySQL Datenbanken ermittelt werden!"));
+        if ($config['db']['type'] != 'mysql') {
+            throw new \Exception(_('Datenbankgröße kann nur für MySQL Datenbanken ermittelt werden!'));
         }
 
         $query = 'SELECT '
@@ -988,6 +985,6 @@ class Database
 
         $data = $this->query($query, $values);
 
-        return (float) $data[0]["size"];
+        return (float) $data[0]['size'];
     }
 }

@@ -35,7 +35,7 @@ header('Content-type: text/html; charset=utf-8');
 
 $BASE_tmp = str_replace('\\', '/', dirname(__FILE__)); // temporary base path of Part-DB, without slash at the end
 
-include_once($BASE_tmp.'/inc/lib.start_session.php');
+include_once $BASE_tmp.'/inc/lib.start_session.php';
 
 /********************************************************************************
  *
@@ -51,10 +51,10 @@ set_exception_handler('exception_handler');
  *
  *********************************************************************************/
 
-include_once($BASE_tmp.'/inc/config_defaults.php'); // first, we load all default values of the $config array...
+include_once $BASE_tmp.'/inc/config_defaults.php'; // first, we load all default values of the $config array...
 
 if (file_exists($BASE_tmp.'/data/config.php') && is_readable($BASE_tmp.'/data/config.php')) {
-    include_once($BASE_tmp.'/data/config.php');
+    include_once $BASE_tmp.'/data/config.php';
 } // ...and then we overwrite them with the user settings, if they exist
 
 if (!empty($manual_config)) { // $manual_config is defined in "config_defaults.php" and can be filled in "config.php"
@@ -125,7 +125,7 @@ else {
 /**
  * @const BASE_DATA The location of the data folder, where Part-DB can write data (without slash)
  */
-define('BASE_DATA', BASE . "/data");
+define('BASE_DATA', BASE . '/data');
 
 /** @const BASE_RELATIVE Server-directory without slash at the end
 * Example (UNIX/Linux):    "/part-db"
@@ -147,7 +147,7 @@ date_default_timezone_set($config['timezone']);
 ownSetlocale(LC_ALL, $config['language']);
 
 //Set gettext locale for PHP
-$domain = "php";
+$domain = 'php';
 bindtextdomain($domain, BASE . '/locale');
 textdomain($domain);
 
@@ -163,7 +163,7 @@ if (count($messages) > 0) {
         'Part-DB',
         _('Mindestanforderungen von Part-DB nicht erfüllt!'),
         '<span><strong>&bull;' .implode('<br>&bull;', $messages). '</strong></span><br><br>' .
-        sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _("https://github.com/jbtronics/Part-DB/wiki/Anforderungen"))
+        sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _('https://github.com/jbtronics/Part-DB/wiki/Anforderungen'))
     );
     exit;
 }
@@ -175,7 +175,7 @@ if (count($messages) > 0) {
         $message .= '&bull;'.$msg.'<br>';
     }
     $message .= '</span></strong><br><br>';
-    $message .= sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _("https://github.com/jbtronics/Part-DB/wiki/Installation"));
+    $message .= sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _('https://github.com/jbtronics/Part-DB/wiki/Installation'));
     $message .= '<br><br>';
     $message .= _('<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>');
 
@@ -191,7 +191,7 @@ if (is_string($message)) {
     printMessagesWithoutTemplate(
         'Part-DB',
         _('Ihre config.php ist fehlerhaft!'),
-        sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _("https://github.com/jbtronics/Part-DB/wiki/Installation")).
+        sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _('https://github.com/jbtronics/Part-DB/wiki/Installation')).
         _('<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>')
     );
     exit;
@@ -200,20 +200,20 @@ if (is_string($message)) {
 $messages = checkComposerFolder();
 if (count($messages) > 0) {
     $message = _("<b>Part-DB benutzt den PHP Abhängikeitsmanager <a href='https://getcomposer.org/' target='_blank'>Composer</a>" .
-        " um benötigte Bibliotheken bereitzustellen.<br> Bevor sie Part-DB nutzen können müssen sie diese" .
-        " Bibliotheken mit <code>php composer.phar install</code> im Hauptverzeichnis von Part-DB" .
-        " installiert werden. <br> Sollten sie keine Möglichkeit haben, auf ihrem Server Konsolenbefehle" .
-        " auszuführen, dann benutzen kopieren sie den vendor/ Ordner, aus einem mit composer eingerichteten ".
-        " Part-DB oder ein speziellen Release benutzen, der die Abhängikeiten mitliefert.</b><br>");
+        ' um benötigte Bibliotheken bereitzustellen.<br> Bevor sie Part-DB nutzen können müssen sie diese' .
+        ' Bibliotheken mit <code>php composer.phar install</code> im Hauptverzeichnis von Part-DB' .
+        ' installiert werden. <br> Sollten sie keine Möglichkeit haben, auf ihrem Server Konsolenbefehle' .
+        ' auszuführen, dann benutzen kopieren sie den vendor/ Ordner, aus einem mit composer eingerichteten ' .
+        ' Part-DB oder ein speziellen Release benutzen, der die Abhängikeiten mitliefert.</b><br>');
 
-    $message .= sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _("https://github.com/jbtronics/Part-DB/wiki/Installation"));
-    $message .= "<br><ul>";
+    $message .= sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _('https://github.com/jbtronics/Part-DB/wiki/Installation'));
+    $message .= '<br><ul>';
 
     foreach ($messages as $msg) {
         $message .= '<li>'.$msg.'</li>';
     }
 
-    $message .= "</ul>";
+    $message .= '</ul>';
 
     //$message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_blank" href="' .
     //    'https://github.com/jbtronics/Part-DB/wiki/Installation">Dokumentation</a>.<br><br>';
@@ -233,9 +233,9 @@ if (count($messages) > 0) {
  *********************************************************************************/
 
 if (($config['system']['current_config_version'] < $config['system']['latest_config_version'])
-    && (file_exists(BASE.'/data/config.php')) && (is_readable(BASE.'/data/config.php'))
+    && file_exists(BASE.'/data/config.php') && is_readable(BASE.'/data/config.php')
     && (filesize(BASE.'/data/config.php') > 0)) {
-    include_once(BASE.'/updates/config_update_steps.php');
+    include_once BASE.'/updates/config_update_steps.php';
 
     try {
         $update_messages = update_users_config_php();
@@ -270,7 +270,7 @@ $config['html']['http_charset'] = 'utf-8'; ///< @todo remove this later; see con
  *********************************************************************************/
 
 if (isset($config['user']['gc_maxlifetime']) && $config['user']['gc_maxlifetime'] > 0) {
-    @ini_set("session.gc_maxlifetime", $config['user']['gc_maxlifetime']);
+    @ini_set('session.gc_maxlifetime', $config['user']['gc_maxlifetime']);
 }
 
 session_name('Part-DB');
@@ -283,9 +283,9 @@ session_write_close();
  *
  *********************************************************************************/
 
-if (($config['debug']['enable']) && (! $config['debug']['template_debugging_enable'])) { // template debugging produces a lot of warnings!
+if ($config['debug']['enable'] && (! $config['debug']['template_debugging_enable'])) { // template debugging produces a lot of warnings!
     error_reporting(E_ALL & ~E_STRICT);
-    @ini_set("display_errors", 1);
+    @ini_set('display_errors', 1);
 
     //Dont show errors because of function override in php7
     if (PHP_MAJOR_VERSION >= 7) {
@@ -294,7 +294,7 @@ if (($config['debug']['enable']) && (! $config['debug']['template_debugging_enab
         }, E_WARNING);
     }
 } else {
-    @ini_set("display_errors", 0);
+    @ini_set('display_errors', 0);
 }
 
 /********************************************************************************
@@ -303,9 +303,9 @@ if (($config['debug']['enable']) && (! $config['debug']['template_debugging_enab
  *
  *********************************************************************************/
 
-include_once(BASE.'/inc/lib.functions.php');
-include_once(BASE.'/inc/lib.debug.php');
-include_once(BASE.'/inc/lib.php');
+include_once BASE.'/inc/lib.functions.php';
+include_once BASE.'/inc/lib.debug.php';
+include_once BASE.'/inc/lib.php';
 
 /********************************************************************************
  *

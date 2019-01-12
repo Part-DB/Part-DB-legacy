@@ -219,22 +219,22 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
                 $parent_id = $category->getParentID();
 
                 if (!empty($category->getDefaultDescription())) {
-                    if ($category->getDefaultDescription() == "@@") {
+                    if ($category->getDefaultDescription() == '@@') {
                         break;
                     }
                     return $category->getDefaultDescription();
                 }
             }
 
-            return "";
+            return '';
         } else {
             if (isset($this->db_data['default_description'])) {
-                if ($show_escape || $this->db_data['default_description'] !== "@@") {
+                if ($show_escape || $this->db_data['default_description'] !== '@@') {
                     return $this->db_data['default_description'];
                 }
             }
 
-            return "";
+            return '';
         }
     }
 
@@ -251,7 +251,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getDefaultComment(bool $including_parents = false, bool $show_escape = true) : string
     {
-        if ($including_parents && empty($this->getDefaultComment()) && $this->getDefaultComment() != "@@") {
+        if ($including_parents && empty($this->getDefaultComment()) && $this->getDefaultComment() != '@@') {
             $parent_id = $this->getID();
 
             while ($parent_id > 0) {
@@ -259,18 +259,18 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
                 $parent_id = $category->getParentID();
 
                 if (!empty($category->getDefaultComment())) {
-                    if ($category->getDefaultComment() == "@@") {
+                    if ($category->getDefaultComment() == '@@') {
                         break;
                     }
                     return $category->getDefaultComment();
                 }
             }
 
-            return "";
-        } elseif ($show_escape || $this->db_data['default_comment'] !== "@@") {
-            return $this->db_data['default_comment'] ?? "";
+            return '';
+        } elseif ($show_escape || $this->db_data['default_comment'] !== '@@') {
+            return $this->db_data['default_comment'] ?? '';
         } else {
-            return "";
+            return '';
         }
     }
 
@@ -294,25 +294,23 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
                 $parent_id = $category->getParentID();
 
                 if (!empty($category->getPartnameHint())) {
-                    if ($category->getPartnameHint() == "@@") {
+                    if ($category->getPartnameHint() == '@@') {
                         break;
                     }
                     return $category->getPartnameHint();
                 }
             }
 
-            return "";
-        } else {
-            if ($show_escape || $this->db_data['partname_hint'] !== "@@") {
-                if (isset($db_data['partname_hint'])) {
-                    return $this->db_data['partname_hint'];
-                }
-            } else {
-                return "";
+            return '';
+        } else if ($show_escape || $this->db_data['partname_hint'] !== "@@") {
+            if (isset($db_data['partname_hint'])) {
+                return $this->db_data['partname_hint'];
             }
+        } else {
+            return "";
         }
 
-        return "";
+        return '';
     }
 
     /**
@@ -335,21 +333,21 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
                 $parent_id = $category->getParentID();
 
                 if (!empty($category->getPartnameRegexRaw())) {
-                    if ($category->getPartnameRegexRaw() == "@@") {
+                    if ($category->getPartnameRegexRaw() == '@@') {
                         break;
                     }
                     return $category->getPartnameRegexRaw();
                 }
             }
 
-            return "";
+            return '';
         } else {
-            if ($show_escape || $this->db_data['partname_regex'] !== "@@") {
+            if ($show_escape || $this->db_data['partname_regex'] !== '@@') {
                 if (isset($this->db_data['partname_regex'])) {
                     return $this->db_data['partname_regex'];
                 }
             }
-            return "";
+            return '';
         }
     }
 
@@ -405,7 +403,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        return parent::getPartsForRowName('id_category', $recursive, $hide_obsolete_and_zero, $limit, $page);
+        return $this->getPartsForRowName('id_category', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
     /**
      * Return the number of all parts in this PartsContainingDBElement
@@ -565,9 +563,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         bool $disable_manufacturers = false,
         bool $disable_autodatasheets = false,
         bool $disable_properties = false,
-        string $default_description = "",
-        string $default_comment = "",
-        string $comment = ""
+        string $default_description = '',
+        string $default_comment = '',
+        string $comment = ''
     ) {
         return parent::addByArray(
             $database,
@@ -581,7 +579,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
                 'disable_properties'        => $disable_properties,
                 'default_description'       => $default_description,
                 'default_comment'           => $default_comment,
-                "comment"                   => $comment)
+                'comment' => $comment)
         );
     }
 
@@ -592,7 +590,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getIDString(): string
     {
-        return "C" . sprintf("%09d", $this->getID());
+        return 'C' . sprintf('%09d', $this->getID());
     }
 
     /**
@@ -604,20 +602,20 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getAPIArray(bool $verbose = false) : array
     {
-        $values = array( "id" => $this->getID(),
-            "name" => $this->getName(),
-            "fullpath" => $this->getFullPath("/"),
-            "parentid" => $this->getParentID(),
-            "level" => $this->getLevel()
+        $values = array( 'id' => $this->getID(),
+            'name' => $this->getName(),
+            'fullpath' => $this->getFullPath('/'),
+            'parentid' => $this->getParentID(),
+            'level' => $this->getLevel()
         );
 
         if ($verbose == true) {
-            $ver = array("disable_footprints" => $this->getDisableFootprints() == true,
-                "disable_manufacturers" => $this->getDisableManufacturers() == true,
-                "disable_autodatasheets" => $this->getDisableAutodatasheets() == true,
-                "disable_properties" => $this->getDisableProperties() == true,
-                "default_description" => $this->getDefaultDescription(),
-                "default_comment" => $this->getDefaultComment());
+            $ver = array('disable_footprints' => $this->getDisableFootprints() == true,
+                'disable_manufacturers' => $this->getDisableManufacturers() == true,
+                'disable_autodatasheets' => $this->getDisableAutodatasheets() == true,
+                'disable_properties' => $this->getDisableProperties() == true,
+                'default_description' => $this->getDefaultDescription(),
+                'default_comment' => $this->getDefaultComment());
             $values = array_merge($values, $ver);
         }
 

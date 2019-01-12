@@ -34,7 +34,7 @@
  *
  */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -217,7 +217,7 @@ if (! $fatal_error) {
             $html->setVariable('db_host', $config['db']['host'], 'string');
             $html->setVariable('db_name', $config['db']['name'], 'string');
             $html->setVariable('db_user', $config['db']['user'], 'string');
-            $html->setVariable("space_fix", $config['db']['space_fix'], 'boolean');
+            $html->setVariable('space_fix', $config['db']['space_fix'], 'boolean');
         } /* elseif (!$config['installation_complete']['db_backup_path']) {
             // step "set_db_backup_path"
             $tmpl_site_to_show = 'set_db_backup_path';
@@ -243,7 +243,7 @@ $reload_link = $fatal_error ? 'install.php' : '';   // an empty string means tha
 //$html->print_header($messages, $reload_link);       // ...reload-button won't be visible
 
 if (!empty($messages)) {
-    $html->setVariable("messages", $messages);
+    $html->setVariable('messages', $messages);
 }
 
 $html->printTemplate('header');

@@ -68,7 +68,7 @@ class HTML
     /** @var array variables (and which was called loops before => arrays) for the HTML template */
     private $variables          = array();
     /** @var string  */
-    private $redirect_url       = "";
+    private $redirect_url       = '';
 
     /**
      * @var Smarty The shared Smarty object.
@@ -112,7 +112,7 @@ class HTML
         $this->meta['autorefresh'] = (int)$this->meta['autorefresh'];
 
         // check passed parameters
-        if (($theme != 'nextgen') && (! is_readable(BASE.'/templates/'.$theme."/info.json"))) {
+        if (($theme != 'nextgen') && (! is_readable(BASE.'/templates/'.$theme. '/info.json'))) {
             debug('warning', 'Template "'.$theme.'" could not be found! '.
                 'Use "nextgen" template instead...', __FILE__, __LINE__, __METHOD__);
             $theme = 'nextgen';
@@ -258,7 +258,7 @@ class HTML
         }
 
         if (!empty($type)) {
-            if (! \in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', "double", 'string', "array", "object"))) {
+            if (! \in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', 'double', 'string', 'array', 'object'))) {
                 debug('error', '$type='.print_r($type, true), __FILE__, __LINE__, __METHOD__);
                 throw new TemplateSystemException(_('$type hat einen ungültigen Inhalt!'));
             }
@@ -322,7 +322,7 @@ class HTML
 
         global $config;
 
-        if ((! \is_array($this->meta)) || (count($this->meta) == 0) || (empty($this->meta['theme']))) {
+        if ((! \is_array($this->meta)) || (count($this->meta) == 0) || empty($this->meta['theme'])) {
             debug('warning', 'Meta not set!', __FILE__, __LINE__, __METHOD__);
         }
         $smarty_head = BASE.'/templates/'.$this->meta['theme'].'/smarty_head.tpl';
@@ -337,7 +337,7 @@ class HTML
 
 
         //Unix locales (de_DE) are other than the HTML lang (de), so edit them
-        $lang = explode("_", $config['language'])[0];
+        $lang = explode('_', $config['language'])[0];
 
         // header stuff
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
@@ -350,12 +350,12 @@ class HTML
         $tmpl->assign('partdb_title', $config['partdb_title']);
 
         //Informations about User
-        $tmpl->assign("loggedin", User::isLoggedIn());
+        $tmpl->assign('loggedin', User::isLoggedIn());
         try {
             $user = User::getLoggedInUser();
-            $tmpl->assign("username", $user->getName());
-            $tmpl->assign("firstname", $user->getFirstName());
-            $tmpl->assign("lastname", $user->getLastName());
+            $tmpl->assign('username', $user->getName());
+            $tmpl->assign('firstname', $user->getFirstName());
+            $tmpl->assign('lastname', $user->getLastName());
             $tmpl->assign('can_search', $user->canDo(PermissionManager::PARTS, PartPermission::SEARCH));
             $tmpl->assign('can_category', $user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)
                 && $user->canDo(PermissionManager::CATEGORIES, PartContainingPermission::LIST_PARTS));
@@ -371,7 +371,7 @@ class HTML
         }
 
         if (isset($this->variables['ajax_request'])) {
-            $tmpl->assign("ajax_request", $this->variables['ajax_request']);
+            $tmpl->assign('ajax_request', $this->variables['ajax_request']);
         }
 
         $tmpl->assign('devices_disabled', $config['devices']['disable']);
@@ -395,15 +395,15 @@ class HTML
 
         if (PDBDebugBar::isActivated()) {
             $renderer = PDBDebugBar::getInstance()->getRenderer();
-            $tmpl->assign("debugbar_head", $renderer->renderHead());
+            $tmpl->assign('debugbar_head', $renderer->renderHead());
         }
 
-        $tmpl->assign("debugging_activated", $config['debug']['enable']);
+        $tmpl->assign('debugging_activated', $config['debug']['enable']);
 
         // messages
-        if ((\is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable'])) {
+        if ((\is_array($messages) && (count($messages) > 0)) || $config['debug']['request_debugging_enable']) {
             if ($config['debug']['request_debugging_enable']) {
-                if ((\is_array($messages) && (count($messages) > 0))) {
+                if (\is_array($messages) && (count($messages) > 0)) {
                     $messages[] = array('text' => '');
                 }
                 $messages[] = array('text' => '$_REQUEST:', 'strong' => true, 'color' => 'darkblue');
@@ -465,14 +465,14 @@ class HTML
 
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
-        $tmpl->assign("debugging_activated", $config['debug']['enable']);
+        $tmpl->assign('debugging_activated', $config['debug']['enable']);
 
         foreach ($this->variables as $key => $value) {
             //debug('temp', $key.' => '.$value);
             $tmpl->assign($key, $value);
         }
 
-        if ($this->redirect_url == "") { //Dont print template, if the page should be redirected.
+        if ($this->redirect_url == '') { //Dont print template, if the page should be redirected.
             $tmpl->display($smarty_template);
         }
     }
@@ -502,34 +502,34 @@ class HTML
         $tmpl->clearAllAssign();
 
         if (isset($this->variables['ajax_request'])) {
-            $tmpl->assign("ajax_request", $this->variables['ajax_request']);
+            $tmpl->assign('ajax_request', $this->variables['ajax_request']);
         }
 
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
         // messages
-        if ((\is_array($messages) && (count($messages) > 0))) {
+        if (\is_array($messages) && (count($messages) > 0)) {
             $tmpl->assign('messages', $messages);
             $tmpl->assign('messages_div_title', $messages_div_title);
         }
 
-        $tmpl->assign("tracking_code", $config['tracking_code']);
+        $tmpl->assign('tracking_code', $config['tracking_code']);
         $tmpl->assign('auto_sort', $config['table']['autosort']);
-        $tmpl->assign("autorefresh", $this->meta['autorefresh']);
+        $tmpl->assign('autorefresh', $this->meta['autorefresh']);
 
         if (PDBDebugBar::isActivated()) {
             $renderer = PDBDebugBar::getInstance()->getRenderer();
-            $tmpl->assign("debugbar_body", $renderer->render(!isset($_REQUEST['ajax_request'])));
+            $tmpl->assign('debugbar_body', $renderer->render(!isset($_REQUEST['ajax_request'])));
         }
 
-        $tmpl->assign("redirect_url", $this->redirect_url);
+        $tmpl->assign('redirect_url', $this->redirect_url);
 
-        $tmpl->assign("cookie_consent_active", $config['cookie_consent']['enable']);
+        $tmpl->assign('cookie_consent_active', $config['cookie_consent']['enable']);
         if ($config['cookie_consent']['enable']) {
-            $tmpl->assign("cookie_consent_config", $config['cookie_consent']);
+            $tmpl->assign('cookie_consent_config', $config['cookie_consent']);
         }
 
-        $tmpl->assign("debugging_activated", $config['debug']['enable']);
+        $tmpl->assign('debugging_activated', $config['debug']['enable']);
 
         $tmpl->display($smarty_foot);
     }

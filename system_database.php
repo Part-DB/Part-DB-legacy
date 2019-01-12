@@ -23,7 +23,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -48,16 +48,16 @@ $db_password                = isset($_POST['db_password'])    ? trim((string)$_P
 $automatic_updates_enabled  = isset($_POST['automatic_updates_enabled']);
 
 $action = 'default';
-if (isset($_POST["apply_connection_settings"])) {
+if (isset($_POST['apply_connection_settings'])) {
     $action = 'apply_connection_settings';
 }
-if (isset($_POST["apply_auto_updates"])) {
+if (isset($_POST['apply_auto_updates'])) {
     $action = 'apply_auto_updates';
 }
-if (isset($_POST["make_update"])) {
+if (isset($_POST['make_update'])) {
     $action = 'make_update';
 }
-if (isset($_POST["make_new_update"])) {
+if (isset($_POST['make_new_update'])) {
     $action = 'make_new_update';
 }
 
@@ -142,7 +142,7 @@ if (true) { //Allow to save connection settings, even when a error happened.
                 $database_update_executed = true;
                 $update_log = $database->update();
                 foreach ($update_log as $message) {
-                    $messages[] = array('text' => nl2br($message['text']), 'color' => ($message['error'] == true ? 'red' : 'black'));
+                    $messages[] = array('text' => nl2br($message['text']), 'color' => $message['error'] == true ? 'red' : 'black');
                 }
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
@@ -166,7 +166,7 @@ try {
     $html->setVariable('db_name', $config['db']['name'], 'string');
     $html->setVariable('db_user', $config['db']['user'], 'string');
     $html->setVariable('automatic_updates_enabled', $config['db']['auto_update'], 'boolean');
-    $html->setVariable('refresh_navigation_frame', (isset($database_update_executed) && $database_update_executed), 'boolean');
+    $html->setVariable('refresh_navigation_frame', isset($database_update_executed) && $database_update_executed, 'boolean');
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -177,8 +177,8 @@ if (! $fatal_error) {
         $latest = $database->getLatestVersion();
         $html->setVariable('current_version', $current, 'integer');
         $html->setVariable('latest_version', $latest, 'integer');
-        $html->setVariable('update_required', ($latest > $current), 'boolean');
-        $html->setVariable('last_update_failed', ($config['db']['update_error']['version'] == $current), 'boolean');
+        $html->setVariable('update_required', $latest > $current, 'boolean');
+        $html->setVariable('last_update_failed', $config['db']['update_error']['version'] == $current, 'boolean');
 
         if (($current > 0) && ($current < 13) && ($latest >= 13)) { // v12 to v13 was a huge update! show warning!
             $messages[] = array('text' =>   _('Achtung!<br><br>'.
@@ -187,13 +187,13 @@ if (! $fatal_error) {
                 'damit diese im Fehlerfall wiederhergestellt, und so ein Datenverlust verhindert werden kann.<br>'.
                 'Die Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden, die durch fehlgeschlagene Updates, '.
                 'Fehler in der Software oder durch andere Ursachen hervorgerufen werden.'),
-                'strong' => true, 'color' => 'red', );
+                'strong' => true, 'color' => 'red');
         } elseif (($current > 0) && ($latest > $current)) { // normal update...we will show a hint
             $messages[] = array('text' =>   _('Hinweis:<br>'.
                 'Es wird dringend empfohlen, vor jedem Datenbankupdate eine Sicherung der Datenbank anzulegen.<br>'.
                 'Die Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden, die durch fehlgeschlagene Updates, '.
                 'Fehler in der Software oder durch andere Ursachen hervorgerufen werden.'),
-                'strong' => true, 'color' => 'red', );
+                'strong' => true, 'color' => 'red');
         }
 
         if (!$current_user->canDo(PermissionManager::DATABASE, DatabasePermission::READ_DB_SETTINGS)
@@ -202,7 +202,7 @@ if (! $fatal_error) {
             $current_user->tryDo(PermissionManager::DATABASE, DatabasePermission::SEE_STATUS);
         }
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
@@ -210,9 +210,9 @@ if (! $fatal_error) {
 if (!$fatal_error) {
     try {
         $size = $database->getDatabaseSize();
-        $html->setVariable("db_size", $size);
+        $html->setVariable('db_size', $size);
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     }
 }
 
@@ -243,8 +243,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 // an empty $reload_link means that the reload-button won't be visible

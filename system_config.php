@@ -23,7 +23,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once 'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -50,7 +50,7 @@ function build_theme_loop()
     foreach ($directories as $directory) {
         $name = str_ireplace(BASE.'/templates/', '', $directory);
         if ($name != 'custom_css' && $name != 'fonts') {
-            $loop[] = array('value' => $name, 'text' => $name, 'selected' => ($name == $config['html']['theme']));
+            $loop[] = array('value' => $name, 'text' => $name, 'selected' => $name == $config['html']['theme']);
         }
     }
 
@@ -93,7 +93,7 @@ $downloads_enable           = isset($_POST['downloads_enable']);
 $use_old_datasheet_icons    = isset($_POST['use_old_datasheet_icons']);
 $short_description          = isset($_POST['short_description']);
 $others_panel_collapse      = isset($_POST['others_panel_collapse']);
-$others_panel_postion       = isset($_POST['others_panel_position']) ? (string)$_POST['others_panel_position'] : "top";
+$others_panel_postion       = isset($_POST['others_panel_position']) ? (string)$_POST['others_panel_position'] : 'top';
 
 // section "3d footprints"
 $foot3d_active              = isset($_POST['foot3d_active']);
@@ -136,7 +136,7 @@ $max_sessiontime                = isset($_POST['max_sessiontime']) ? $_POST['max
 $min_log_level                  = isset($_POST['min_log_level']) ? (int)$_POST['min_log_level'] : 7;
 
 $action = 'default';
-if (isset($_POST["apply"])) {
+if (isset($_POST['apply'])) {
     $action = 'apply';
 }
 
@@ -304,12 +304,12 @@ try {
 
     // server
     $html->setVariable('php_version', phpversion(), 'string');
-    $html->setVariable('htaccess_works', (getenv('htaccessWorking') == 'true'), 'boolean');
+    $html->setVariable('htaccess_works', getenv('htaccessWorking') == 'true', 'boolean');
     $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
     $html->setVariable('using_https', isUsingHTTPS(), 'boolean');
     $html->setVariable('max_input_vars', ini_get('max_input_vars'), 'string');
     $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
-    $html->setVariable('session_cookie_lifetime', ini_get('session.cookie_lifetime') > 0 ? ini_get('session.cookie_lifetime') . "s" : _("Bis zum Schließen des Browsers"), 'string');
+    $html->setVariable('session_cookie_lifetime', ini_get('session.cookie_lifetime') > 0 ? ini_get('session.cookie_lifetime') . 's' : _('Bis zum Schließen des Browsers'), 'string');
     $html->setVariable('session_gc_maxlifetime', ini_get('session.gc_maxlifetime'), 'string');
     $html->setVariable('current_server_datetime', formatTimestamp(time()));
 
@@ -321,24 +321,24 @@ try {
     $html->setVariable('foot3d_show_info', $config['foot3d']['show_info'], 'boolean');
 
     // Edit Dialog settings
-    $html->setVariable("created_redirect", $config['edit_parts']['created_go_to_info'], "boolean");
-    $html->setVariable("saved_redirect", $config['edit_parts']['saved_go_to_info'], "boolean");
+    $html->setVariable('created_redirect', $config['edit_parts']['created_go_to_info'], 'boolean');
+    $html->setVariable('saved_redirect', $config['edit_parts']['saved_go_to_info'], 'boolean');
 
     // Appearance
     $html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');
-    $html->setVariable('others_panel_collapse', $config['other_panel']['collapsed'], "boolean");
-    $html->setVariable('others_panel_position', $config['other_panel']['position'], "string");
+    $html->setVariable('others_panel_collapse', $config['other_panel']['collapsed'], 'boolean');
+    $html->setVariable('others_panel_position', $config['other_panel']['position'], 'string');
 
     //Table
     $html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
     $html->setVariable('default_subcat', $config['table']['default_show_subcategories'], 'boolean');
-    $html->setVariable('default_limit', $config['table']['default_limit'], "int");
-    $html->setVariable('show_full_paths', $config['table']['full_paths'], "boolean");
-    $html->setVariable("instock_warning_full_row", $config['table']['instock_warning_full_row_color'], "boolean");
+    $html->setVariable('default_limit', $config['table']['default_limit'], 'int');
+    $html->setVariable('show_full_paths', $config['table']['full_paths'], 'boolean');
+    $html->setVariable('instock_warning_full_row', $config['table']['instock_warning_full_row_color'], 'boolean');
 
 
     //Attachements
-    $html->setVariable("attachements_structure", $config['attachements']['folder_structure'], 'boolean');
+    $html->setVariable('attachements_structure', $config['attachements']['folder_structure'], 'boolean');
     $html->setVariable('attachements_download', $config['attachements']['download_default'], 'boolean');
     $html->setVariable('attachements_show_name', $config['attachements']['show_name'], 'boolean');
     $html->setVariable('disable_suppliers', $config['suppliers']['disable'], 'boolean');
@@ -349,7 +349,7 @@ try {
     $html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_empty_attachements'], 'boolean');
 
     //Misc
-    $html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
+    $html->setVariable('downloads_enable', $config['allow_server_downloads'], 'boolean');
 
     //Users
     $html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar'], 'boolean');
@@ -357,7 +357,7 @@ try {
     $html->setVariable('gc_lifetime', $config['user']['gc_maxlifetime'], 'int');
 
     //Logging system
-    $html->setVariable('min_log_level', $config['logging_system']['min_level'], "int");
+    $html->setVariable('min_log_level', $config['logging_system']['min_level'], 'int');
 
     //Search
     $html->setVariable('livesearch_active', $config['search']['livesearch']);
@@ -366,8 +366,8 @@ try {
     // check if the server supports the selected language and print a warning if not
     if (!ownSetlocale(LC_ALL, $config['language'])) {
         $messages[] = array('text' => _('Achtung:'), 'strong' => true, 'color' => 'red');
-        $messages[] = array('text' => sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'), $config['language']), 'color' => 'red',);
-        $messages[] = array('text' => _('Bitte installieren Sie diese Sprache oder wählen Sie eine andere.'), 'color' => 'red',);
+        $messages[] = array('text' => sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'), $config['language']), 'color' => 'red');
+        $messages[] = array('text' => _('Bitte installieren Sie diese Sprache oder wählen Sie eine andere.'), 'color' => 'red');
     }
 
     //Permission variables
@@ -375,7 +375,7 @@ try {
     $html->setVariable('can_edit', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::EDIT_CONFIG));
     $html->setVariable('can_read', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::READ_CONFIG));
 } catch (Exception $e) {
-    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
 /********************************************************************************
@@ -386,8 +386,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);
