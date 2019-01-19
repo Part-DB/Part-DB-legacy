@@ -42,9 +42,11 @@ body {
 
         /*noinspection W3CssValidation*/
         -webkit-overflow-scrolling: touch;
+
+        /** Hide scrollbar in old Firefox and Edge **/
+        -ms-overflow-style: none;
+        overflow: -moz-scrollbars-none;
     }
-
-
 }
 
 /*noinspection W3CssValidation*/
@@ -65,6 +67,10 @@ body {
         opacity: 0.97;
         padding: 7px 15px 50px;
         margin-top: -10px;
+
+        /** Hide scrollbar in Firefox and Edge **/
+        -ms-overflow-style: none;
+        overflow: -moz-scrollbars-none;
     }
 
     .sidebar-container {
