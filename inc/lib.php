@@ -66,8 +66,7 @@ function getGitBranchName()
     if (file_exists(BASE.'/.git/HEAD')) {
         $git = file(BASE.'/.git/HEAD');
         $head = explode('/', $git[0], 3);
-        $branch = trim($head[2]);
-        return $branch;
+        return trim($head[2]);
     }
 
     return null; // this is not a Git installation
@@ -520,11 +519,7 @@ function getCurrencySymbol() : string
     $language = $config['language'];
 
     //User can override the currency symbol in config, we need to respect that...
-    if (isset($config['money_format'][$language])) {
-        return $config['money_format'][$language];
-    }
-
-    return localeconv()['currency_symbol'];
+    return $config['money_format'][$language] ?? localeconv()['currency_symbol'];
 }
 
 /**
@@ -863,11 +858,7 @@ function generateButtonRed(string $name, string $text, string $theme = 'btn-dang
  */
 function strcontains(string $haystack, string $needle) : bool
 {
-    if (strpos($haystack, $needle) !== false) {
-        return true;
-    } else {
-        return false;
-    }
+    return strpos($haystack, $needle) !== false;
 }
 
 /**
@@ -902,7 +893,7 @@ function convertAPIModelArray(array $array, bool $verbose = false)
  */
 function tryToGetAPIModelArray(IAPIModel $object, bool $verbose = false) : array
 {
-    if (is_null($object)) {
+    if ($object === null) {
         return null;
     } else {
         return $object->getAPIArray($verbose);

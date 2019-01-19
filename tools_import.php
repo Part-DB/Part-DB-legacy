@@ -130,8 +130,7 @@ if (! $fatal_error) {
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 $messages[] = array('text' => _('Die Daten wurden erfolgreich importiert!'), 'strong' => true, 'color' => 'darkgreen');
-                unset($import_data);
-                unset($table_loop);
+                unset($import_data, $table_loop);
                 $file_content = '';
 
                 $new_part_ids = '';

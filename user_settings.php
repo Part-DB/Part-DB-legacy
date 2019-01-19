@@ -37,22 +37,22 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *   Evaluate $_REQUEST
  *
  *********************************************************************************/
-$pw_old             = isset($_POST['pw_old'])            ? $_POST['pw_old']                   : '';
-$pw_1               = isset($_POST['pw_1'])              ? $_POST['pw_1']                   : '';
-$pw_2               = isset($_POST['pw_2'])              ? $_POST['pw_2']                   : '';
+$pw_old             = $_POST['pw_old'] ?? '';
+$pw_1               = $_POST['pw_1'] ?? '';
+$pw_2               = $_POST['pw_2'] ?? '';
 
-$new_username       = isset($_POST['username'])          ? $_POST['username']                 : '';
-$new_firstname      = isset($_POST['firstname'])         ? $_POST['firstname']                : '';
-$new_lastname       = isset($_POST['lastname'])          ? $_POST['lastname']                 : '';
-$new_email          = isset($_POST['email'])             ? $_POST['email']                    : '';
-$new_department     = isset($_POST['department'])        ? $_POST['department']               : '';
+$new_username       = $_POST['username'] ?? '';
+$new_firstname      = $_POST['firstname'] ?? '';
+$new_lastname       = $_POST['lastname'] ?? '';
+$new_email          = $_POST['email'] ?? '';
+$new_department     = $_POST['department'] ?? '';
 
-$new_theme          = isset($_POST['custom_css'])        ? $_POST['custom_css']               : '';
-$new_timezone       = isset($_POST['timezone'])          ? $_POST['timezone']                 : '';
-$new_language       = isset($_POST['language'])          ? $_POST['language']                 : '';
+$new_theme          = $_POST['custom_css'] ?? '';
+$new_timezone       = $_POST['timezone'] ?? '';
+$new_language       = $_POST['language'] ?? '';
 
-$new_comment_withdrawal = isset($_POST['default_comment_withdrawal']) ? $_POST['default_comment_withdrawal'] : null;
-$new_comment_addition = isset($_POST['default_comment_addition']) ? $_POST['default_comment_addition'] : null;
+$new_comment_withdrawal = $_POST['default_comment_withdrawal'] ?? null;
+$new_comment_addition = $_POST['default_comment_addition'] ?? null;
 
 $action = 'default';
 if (isset($_POST['change_pw'])) {

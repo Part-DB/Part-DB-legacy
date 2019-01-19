@@ -71,7 +71,7 @@ $new_password_2             = isset($_POST['password_2'])    ? (string)$_POST['p
 $must_change_pw             = isset($_POST['must_change_pw']);
 
 //Tab configuration
-$new_theme          = isset($_POST['custom_css'])        ? $_POST['custom_css']               : '';
+$new_theme          = $_POST['custom_css'] ?? '';
 $new_timezone       = isset($_POST['timezone'])          ? $_POST['timezone']                 : '';
 $new_language       = isset($_POST['language'])          ? $_POST['language']                 : '';
 $new_comment_withdrawal = isset($_POST['default_comment_withdrawal']) ? $_POST['default_comment_withdrawal'] : null;

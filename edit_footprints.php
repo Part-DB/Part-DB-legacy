@@ -258,7 +258,7 @@ if (! $fatal_error) {
         case 'save_proposed_filenames':
             $errors = array();
             for ($i=0; $i < $broken_footprints_count; $i++) {
-                $spf_footprint_id   = isset($_POST['broken_footprint_id_'.$i])  ? $_POST['broken_footprint_id_'.$i] : -1; // -1 will produce an error
+                $spf_footprint_id   = $_POST['broken_footprint_id_' . $i] ?? -1; // -1 will produce an error
                 $spf_new_filename   = isset($_POST['proposed_filename_'.$i])    ? toUnixPath($_POST['proposed_filename_'.$i])   : null;
                 $spf_checked        = isset($_POST['filename_checkbox_'.$i])     || $save_all_proposed_filenames;
 
@@ -396,7 +396,7 @@ if (! $fatal_error) {
             // read the PHP constant "max_input_vars"
             $max_input_vars = ((ini_get('max_input_vars') !== false) ? (int)ini_get('max_input_vars') : 999999);
 
-            for ($i=0, $iMax = count($broken_filename_footprints); $i < $iMax; $i++) {
+            foreach ($broken_filename_footprints as $i => $iValue) {
                 // avoid too many post variables
                 if ($i*10 >= $max_input_vars) {
                     break;
@@ -407,7 +407,7 @@ if (! $fatal_error) {
                     break;
                 }
 
-                $footprint = $broken_filename_footprints[$i];
+                $footprint = $iValue;
                 $proposed_filenames_loop = array();
                 $proposed_filenames = getProposedFilenames($footprint->get3dFilename(), $available_proposed_files);
 

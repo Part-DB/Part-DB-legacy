@@ -53,7 +53,7 @@ $selected_supplier_id       = isset($_REQUEST['selected_supplier_id'])  ? (int)$
 $device_id                  = isset($_REQUEST['device_id'])             ? (int)$_REQUEST['device_id']               : 0;
 
 // section "export"
-$export_format_id           = isset($_REQUEST['export_format'])         ? $_REQUEST['export_format']                    : 0;
+$export_format_id           = $_REQUEST['export_format'] ?? 0;
 
 $action = 'default';
 if (isset($_POST['apply_changes'])) {

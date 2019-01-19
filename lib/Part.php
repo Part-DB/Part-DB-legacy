@@ -1114,9 +1114,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
                 $comm = PartProperty::parseDescription($this->getComment(false));
             }
 
-            $arr = array_merge($name, $desc, $comm);
-
-            return $arr;
+            return array_merge($name, $desc, $comm);
         } else {
             return array();
         }

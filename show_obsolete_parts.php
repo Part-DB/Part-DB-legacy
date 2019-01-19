@@ -47,7 +47,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$show_no_orderdetails_parts = isset($_REQUEST['show_no_orderdetails_parts']) ? $_REQUEST['show_no_orderdetails_parts'] : false;
+$show_no_orderdetails_parts = $_REQUEST['show_no_orderdetails_parts'] ?? false;
 
 $page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
 $limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : $config['table']['default_limit'];

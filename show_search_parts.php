@@ -292,7 +292,7 @@ if (! $fatal_error) {
 if (! $fatal_error) {
     try {
         $html->setVariable('keyword', $keyword, 'string');
-        $html->setVariable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
+        $html->setVariable('hits_count', ($hits_count ?? 0), 'integer');
         $html->setVariable('search_name', $search_name, 'boolean');
         $html->setVariable('search_category', $search_category, 'boolean');
         $html->setVariable('search_description', $search_description, 'boolean');

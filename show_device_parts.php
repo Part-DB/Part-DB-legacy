@@ -355,8 +355,7 @@ if (! $fatal_error) {
                 if (! $only_check_data) {
                     // clear import variables, so the import table is no longer visible in the HTML output
                     $import_file_content = '';
-                    unset($import_data);
-                    unset($import_loop);
+                    unset($import_data, $import_loop);
                 }
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -616,7 +615,7 @@ if (! $fatal_error) {
     }
 
     if ($device_id > 0) {
-        $html->setVariable('table', (isset($searched_parts_loop) ? $searched_parts_loop : array()));
+        $html->setVariable('table', ($searched_parts_loop ?? array()));
         $html->printTemplate('add_parts');
 
         $html->setVariable('table', $device_parts_loop);

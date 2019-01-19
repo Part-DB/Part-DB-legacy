@@ -284,9 +284,7 @@ class SystemVersion
     {
         global $config;
 
-        $version = new SystemVersion($config['system']['version']);
-
-        return $version;
+        return new SystemVersion($config['system']['version']);
     }
 
     /**

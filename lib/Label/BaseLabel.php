@@ -123,10 +123,7 @@ abstract class BaseLabel
             $text_style .= 'u';
         }
 
-        $text_size = 8;
-        if (isset($this->options['text_size'])) {
-            $text_size = $this->options['text_size'];
-        }
+        $text_size = $this->options['text_size'] ?? 8;
 
         $this->pdf->SetFont('dejavusansmono', $text_style, $text_size);
 

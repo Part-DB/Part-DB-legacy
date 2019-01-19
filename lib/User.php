@@ -567,8 +567,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
         //User can not change its own User and Group permissions.
         if ($this->isLoggedInUser()) {
-            unset($new_values['perms_users']);
-            unset($new_values['perms_groups']);
+            unset($new_values['perms_users'], $new_values['perms_groups']);
         }
 
         //Override this function, so we can check if user has the needed permissions.

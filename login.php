@@ -26,11 +26,11 @@ use PartDB\HTML;
 use PartDB\Log;
 use PartDB\User;
 
-$user_name = isset($_POST['username']) ? $_POST['username'] : '';
-$password = isset($_POST['password']) ? $_POST['password']: '';
+$user_name = $_POST['username'] ?? '';
+$password = $_POST['password'] ?? '';
 $logout   = isset($_REQUEST['logout']);
 
-$redirect_url = isset($_REQUEST['redirect']) ? $_REQUEST['redirect'] : '';
+$redirect_url = $_REQUEST['redirect'] ?? '';
 
 $messages = array();
 $fatal_error = false;

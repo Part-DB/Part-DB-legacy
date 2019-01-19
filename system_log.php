@@ -46,7 +46,7 @@ $target_id          = isset($_REQUEST['target_id'])         ? (int)$_REQUEST['ta
 $datetime_min       = isset($_REQUEST['datetime_min'])      ? (string)$_REQUEST['datetime_min']     : '';
 $datetime_max       = isset($_REQUEST['datetime_max'])      ? (string)$_REQUEST['datetime_max']     : '';
 
-$selected_ids        = isset($_POST['selected_ids'])   ? $_POST['selected_ids'] : 0;
+$selected_ids        = $_POST['selected_ids'] ?? 0;
 
 $action = 'default';
 if (isset($_POST['delete_entries']) && $selected_ids != 0) {

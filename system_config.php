@@ -130,7 +130,7 @@ $info_hide_empty_attachements   = isset($_POST['info_hide_empty_attachements']);
 //User settings
 $use_gravatar                   = isset($_POST['gravatar_enable']);
 $login_redirect                 = isset($_POST['login_redirect']);
-$max_sessiontime                = isset($_POST['max_sessiontime']) ? $_POST['max_sessiontime'] : -1;
+$max_sessiontime                = $_POST['max_sessiontime'] ?? -1;
 
 //Logging system settings
 $min_log_level                  = isset($_POST['min_log_level']) ? (int)$_POST['min_log_level'] : 7;
