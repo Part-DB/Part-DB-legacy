@@ -302,12 +302,12 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             }
 
             return '';
-        } else if ($show_escape || $this->db_data['partname_hint'] !== "@@") {
+        } else if ($show_escape || $this->db_data['partname_hint'] !== '@@') {
             if (isset($db_data['partname_hint'])) {
                 return $this->db_data['partname_hint'];
             }
         } else {
-            return "";
+            return '';
         }
 
         return '';

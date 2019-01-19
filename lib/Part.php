@@ -281,8 +281,8 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     {
         //General infos
         $string = str_replace('%ID%', $this->getID(), $string);                        //part id
-        $string = str_replace("%NAME%", $this->getName(), $string);                    //Name of the part
-        $string = str_replace("%DESC%", $this->getDescription(), $string);             //description of the part
+        $string = str_replace('%NAME%', $this->getName(), $string);                    //Name of the part
+        $string = str_replace('%DESC%', $this->getDescription(), $string);             //description of the part
         $string = str_replace('%COMMENT%', $this->getComment(), $string);              //comment of the part
         $string = str_replace('%MININSTOCK%', $this->getMinInstock(), $string);        //minimum in stock
         $string = str_replace('%INSTOCK%', $this->getInstock(), $string);              //current in stock

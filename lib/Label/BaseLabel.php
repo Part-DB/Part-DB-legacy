@@ -327,7 +327,7 @@ abstract class BaseLabel
         $user = User::getLoggedInUser();
         global $config;
 
-        $string = str_replace("%USERNAME%", $user->getName(), $string);
+        $string = str_replace('%USERNAME%', $user->getName(), $string);
         $string = str_replace('%USERNAME_FULL%', $user->getFullName(), $string);
 
         $string = str_replace('%DATETIME%', formatTimestamp(time()), $string);

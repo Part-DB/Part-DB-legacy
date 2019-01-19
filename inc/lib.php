@@ -211,7 +211,7 @@ function sendFile(string $filename, $mimetype = null)
 {
     $mtime = ($mtime = filemtime($filename)) ? $mtime : time();
 
-    if (strpos($_SERVER["HTTP_USER_AGENT"], "MSIE") !== false) {
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
         header('Content-Disposition: attachment; filename=' .urlencode(basename($filename)). '; modification-date=' .date('r', $mtime). ';');
     } else {
         header('Content-Disposition: attachment; filename="' .basename($filename). '"; modification-date="' .date('r', $mtime). '";');

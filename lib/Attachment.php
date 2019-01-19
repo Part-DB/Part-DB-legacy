@@ -130,7 +130,7 @@ class Attachment extends Base\NamedDBElement
         $filename = $this->getFilename();
         $must_file_delete = false;
 
-        if ($delete_from_hdd && (\strlen($filename) !== "")) {
+        if ($delete_from_hdd && (\strlen($filename) !== '')) {
             // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
             $attachements = self::getAttachementsByFilename($this->database, $this->current_user, $this->log, $filename);
 

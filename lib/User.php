@@ -537,7 +537,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
 
         //Check if password needs rehash, because a better algo is available.
-        if (!$ignore_rehash && $this->db_data['password'] !== "" &&
+        if (!$ignore_rehash && $this->db_data['password'] !== '' &&
             password_needs_rehash($this->db_data['password'], PASSWORD_DEFAULT)) {
             return true;
         }

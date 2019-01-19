@@ -127,7 +127,7 @@ if (! $fatal_error) {
         $matches = array();
         if ((preg_match('/^\$L(\d{5,})/', $keyword, $matches) == 1) && count($matches) > 1) {
             $lid = (int) $matches[1];
-            header("Location: show_location_parts.php?lid=" . $lid);
+            header('Location: show_location_parts.php?lid=' . $lid);
         }
 
         //Check if keyword is a pid from a barcode scanner or so
