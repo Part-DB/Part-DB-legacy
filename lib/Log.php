@@ -710,7 +710,7 @@ class Log
         int $target_id = -1,
         string $min_date = '',
         string $max_date = ''
-    ) : array {
+    ) : int {
         $data = array();
 
         $query =    'SELECT COUNT(id) AS count from log ';
@@ -761,7 +761,7 @@ class Log
 
         $query_data = $this->database->query($query, $data);
 
-        return $query_data[0]['count'];
+        return (int) $query_data[0]['count'];
     }
 
     /**
@@ -776,8 +776,8 @@ class Log
 
 
         foreach ($query_data as $row) {
-            $class = static::typeIDToClass($row['type']);
-            $entries[] = new $class($this->database, $this->current_user, $this, $row['id'], $row);
+            $class = static::typeIDToClass((int) $row['type']);
+            $entries[] = new $class($this->database, $this->current_user, $this, (int) $row['id'], $row);
         }
 
         return $entries;
@@ -789,7 +789,7 @@ class Log
 
         foreach ($ids as $id) {
             //We dont now for sure which ids the entries have, but UnknownTypeEntry should work always.
-            $entry = new UnknownTypeEntry($this->database, $this->current_user, $this, $id);
+            $entry = new UnknownTypeEntry($this->database, $this->current_user, $this, (int) $id);
             $entry->delete();
         }
     }

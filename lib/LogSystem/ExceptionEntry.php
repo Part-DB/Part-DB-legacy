@@ -61,7 +61,7 @@ class ExceptionEntry extends BaseEntry
         if ($arr == null) {
             return $this->db_data['extra'] ?? '';
         } else {
-            return $arr['m'] . ' [' . $arr['f'] . ', ' . $arr['l'] . ']';
+            return ($arr['t'] ?? '') . ':' . $arr['m'] . ' [' . $arr['f'] . ', ' . $arr['l'] . ']';
         }
     }
 
@@ -82,7 +82,8 @@ class ExceptionEntry extends BaseEntry
     {
         $arr = array('m' => $exception->getMessage(),
             'f' => $exception->getFile(),
-            'l' => $exception->getLine());
+            'l' => $exception->getLine(),
+            't' => get_class($exception));
 
         return static::addEntry(
             $database,

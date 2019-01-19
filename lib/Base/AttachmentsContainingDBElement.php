@@ -185,7 +185,7 @@ abstract class AttachmentsContainingDBElement extends NamedDBElement
 
             //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
             foreach ($query_data as $row) {
-                $this->attachmentTypes[] = AttachmentType::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $this->attachmentTypes[] = AttachmentType::getInstance($this->database, $this->current_user, $this->log, (int) $row['id'], $row);
             }
         }
 

@@ -2267,7 +2267,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         $query_data = $database->query($query);
 
-        return $query_data[0]['count'];
+        return (int) $query_data[0]['count'];
     }
 
     /**
@@ -2341,7 +2341,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         $query_data = $database->query($query);
 
-        return $query_data[0]['count'];
+        return (int)$query_data[0]['count'];
     }
 
 
@@ -2417,7 +2417,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         $query_data = $database->query($query);
 
-        return $query_data[0]['count'];
+        return (int) $query_data[0]['count'];
     }
 
     /**
@@ -2499,7 +2499,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         $query_data = $database->query($query);
 
-        return $query_data[0]['count'];
+        return (int) $query_data[0]['count'];
     }
 
     /**
@@ -2585,7 +2585,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         $query_data = $database->query($query);
 
-        return $query_data[0]['count'];
+        return (int) $query_data[0]['count'];
     }
 
     /**
@@ -2699,7 +2699,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         $query_data = $database->query($query);
 
-        return $query_data[0]['count'];
+        return (int) $query_data[0]['count'];
     }
 
     /**
