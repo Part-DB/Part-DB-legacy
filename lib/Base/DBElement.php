@@ -337,7 +337,7 @@ abstract class DBElement
      * This function determines if the element class allows virtual elements. By default they are disabled.
      * @return bool Retun true, if virtual elements are allowed, false if not.
      */
-    protected function allowsVirtualElements()
+    protected function allowsVirtualElements() : bool
     {
         return false;
     }

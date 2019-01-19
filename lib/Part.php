@@ -392,7 +392,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
     public function isInstockUnknown() : bool
     {
         return $this->db_data <= static::INSTOCK_UNKNOWN;
-    }
+    }/** @noinspection ReturnTypeCanBeDeclaredInspection */
 
     /**
      *  Get the count of parts which must be in stock at least

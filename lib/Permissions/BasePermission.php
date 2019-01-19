@@ -281,7 +281,7 @@ abstract class BasePermission
      * @param string $description A name describing the function of the operation to user.
      * @return array An Array containing all the data.
      */
-    protected static function buildOperationArray(int $n, string $name, string $description)
+    protected static function buildOperationArray(int $n, string $name, string $description): array
     {
         return array('n' => $n, 'name' => $name, 'description' => $description);
     }

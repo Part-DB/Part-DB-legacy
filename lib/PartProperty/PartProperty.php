@@ -98,7 +98,7 @@ class PartProperty implements IAPIModel
      * @param $description string The description string which should be parsed
      * @return PartProperty[] An array containing PartProperty objects. Empty if no properties could be parsed.
      */
-    public static function parseDescription($description)
+    public static function parseDescription($description) : array
     {
         $pattern = '/([^\,\;\n]+)\s?[\=\:]\s?(\w+(?:[\.\,]\w+)?(?:[^\,\;\n]|\,\w)*)/iu';
 

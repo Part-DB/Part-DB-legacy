@@ -319,7 +319,7 @@ if (! $fatal_error) {
         }*/
 
         if (isset($export_string)) {
-            $html->setVariable('export_result', "$export_string");
+            $html->setVariable('export_result', (string) $export_string);
         }
 
         // global stuff

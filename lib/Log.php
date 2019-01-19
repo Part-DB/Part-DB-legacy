@@ -630,7 +630,7 @@ class Log
         string $max_date = '',
         int $limit = 50,
         int $page = 1
-    ) {
+    ) : array {
         $search_str = '%' . $search_str . '%';
 
         $data = array();
@@ -710,7 +710,7 @@ class Log
         int $target_id = -1,
         string $min_date = '',
         string $max_date = ''
-    ) {
+    ) : array {
         $data = array();
 
         $query =    'SELECT COUNT(id) AS count from log ';

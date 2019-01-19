@@ -122,7 +122,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
      *********************************************************************************/
 
 
-    protected function allowsVirtualElements()
+    protected function allowsVirtualElements() : bool
     {
         return true; //We allow virtual elements. See getVirtualData()
     }
@@ -422,7 +422,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
      *
      * @throws Exception    if there was an error
      */
-    public function getFullPath(string $delimeter = self::PATH_DELIMITER_ARROW)
+    public function getFullPath(string $delimeter = self::PATH_DELIMITER_ARROW) : string
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return '???';
@@ -593,7 +593,8 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         $show_root = false,
         $use_db_root_name = true,
         $root_name = '$$'
-    ) {
+    ): array
+    {
         if ($root_name == '$$') {
             $root_name = _('Oberste Ebene');
         }

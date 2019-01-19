@@ -41,7 +41,7 @@ class PDBDebugBar
         $this->debugbar->addCollector(new ConfigCollector($config));
     }
 
-    public function &getRenderer()
+    public function &getRenderer(): \DebugBar\JavascriptRenderer
     {
         return $this->renderer;
     }

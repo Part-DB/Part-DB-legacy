@@ -219,7 +219,7 @@ class DevicePart extends Base\DBElement
      * @copydoc Part::build_template_table_row_array()
      * @throws Exception
      */
-    public function buildTemplateTableRowArray($table_type, $row_index, $additional_values = array())
+    public function buildTemplateTableRowArray($table_type, $row_index, $additional_values = array()) : array
     {
         //$single_prices = $this->get_part()->get_prices(false, '<br>', $this->get_mount_quantity(), 1);
         //$total_prices = $this->get_part()->get_prices(false, '<br>', $this->get_mount_quantity());
@@ -262,7 +262,7 @@ class DevicePart extends Base\DBElement
      * @copydoc Part::build_template_table_array()
      * @throws Exception
      */
-    public static function buildTemplateTableArray($parts, $table_type)
+    public static function buildTemplateTableArray($parts, $table_type) : array
     {
         return Part::buildTemplateTableArray($parts, $table_type);
     }

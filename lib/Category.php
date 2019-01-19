@@ -626,7 +626,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * Gets the permission name for control access to this StructuralDBElement
      * @return string The name of the permission for this StructuralDBElement.
      */
-    protected static function getPermissionName()
+    protected static function getPermissionName() : string
     {
         return PermissionManager::CATEGORIES;
     }

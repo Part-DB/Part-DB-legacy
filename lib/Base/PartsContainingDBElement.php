@@ -262,7 +262,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @return int The number of parts of this PartContainingDBElement
      */
-    public function getPartsCountForRowName(string $rowname, $recursive)
+    public function getPartsCountForRowName(string $rowname, $recursive) : int
     {
         $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
 

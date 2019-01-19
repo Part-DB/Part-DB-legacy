@@ -86,7 +86,7 @@ class PartNameRegEx
      * Checks if the Name filter is enforced, so it cant be ignored.
      * @return bool True, if the filter is enforced.
      */
-    public function isEnforced()
+    public function isEnforced() : bool
     {
         return strcontains($this->flags_str, 'f');
     }
