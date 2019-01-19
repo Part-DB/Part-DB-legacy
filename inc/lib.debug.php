@@ -239,7 +239,7 @@ function getDebugLogElements($types = null)
         $types = array_map('strtoupper', $types);
         $logs = array();
         foreach ($log_array as $log) {
-            if (in_array($log['type'], $types)) {
+            if (in_array($log['type'], $types, true)) {
                 $logs[] = $log;
             }
         }
@@ -260,7 +260,7 @@ function getAllDebugTypes()
     $logs = getDebugLogElements();
 
     foreach ($logs as $log) {
-        if (! in_array((string)$log['type'], $types)) {
+        if (!in_array((string)$log['type'], $types, true)) {
             $types[] = $log['type'];
         }
     }

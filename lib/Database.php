@@ -831,7 +831,7 @@ class Database
         global $config;
 
         //Only allow check if database, installation is complete... Else this lead to problems, when starting with a fresh database.
-        if (!$forcecheck && $config['installation_complete']['database'] && \in_array($tablename, static::$table_cache)) {
+        if (!$forcecheck && $config['installation_complete']['database'] && \in_array($tablename, static::$table_cache, true)) {
             return true;
         }
 

@@ -222,7 +222,7 @@ class HTML
     public function useJavascript(array $filenames = array(), string $body_onload = '')
     {
         foreach ($filenames as $filename) {
-            if (! \in_array($filename, $this->javascript_files)) {
+            if (!\in_array($filename, $this->javascript_files, true)) {
                 $full_filename = BASE.'/javascript/'.$filename.'.js';
                 if (! is_readable($full_filename)) {
                     throw new TemplateSystemException(sprintf(_('Die JavaScript-Datei "%s" existiert nicht!'), $full_filename));

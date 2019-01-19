@@ -105,14 +105,14 @@ if (! $fatal_error) {
 
         case 'show_others':
             $directories = findAllDirectories(BASE.'/img/footprints/');
-            if (in_array(BASE.'/img/footprints/Aktiv', $directories)) {
-                unset($directories[array_search(BASE.'/img/footprints/Aktiv', $directories)]);
+            if (in_array(BASE . '/img/footprints/Aktiv', $directories, true)) {
+                unset($directories[array_search(BASE . '/img/footprints/Aktiv', $directories, true)]);
             }
-            if (in_array(BASE . '/img/footprints/Passiv', $directories)) {
-                unset($directories[array_search(BASE.'/img/footprints/Passiv', $directories)]);
+            if (in_array(BASE . '/img/footprints/Passiv', $directories, true)) {
+                unset($directories[array_search(BASE . '/img/footprints/Passiv', $directories, true)]);
             }
-            if (in_array(BASE.'/img/footprints/Elektromechanik', $directories)) {
-                unset($directories[array_search(BASE.'/img/footprints/Elektromechanik', $directories)]);
+            if (in_array(BASE . '/img/footprints/Elektromechanik', $directories, true)) {
+                unset($directories[array_search(BASE . '/img/footprints/Elektromechanik', $directories, true)]);
             }
             foreach ($directories as $key => $value) {
                 $directories[$key] = $value.'/';
