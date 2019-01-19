@@ -154,7 +154,7 @@ class Attachment extends Base\NamedDBElement
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $part = Part::getInstance($this->database, $this->current_user, $this->log, $row['id'], $row);
+                $part = Part::getInstance($this->database, $this->current_user, $this->log, (int) $row['id'], $row);
                 $part->setMasterPictureAttachementID(null);
             }
 

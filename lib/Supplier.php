@@ -159,7 +159,7 @@ class Supplier extends Base\Company implements ISearchable
 
         $query_data = $this->database->query($query, array($this->getID()));
 
-        return $query_data[0]['count'];
+        return (int) $query_data[0]['count'];
     }
 
     /********************************************************************************
