@@ -1199,9 +1199,9 @@ function isURL(string $string, bool $path_required = true, bool $only_http = tru
         }
     }
     if ($path_required) {
-        return filter_var($string, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
+        return (bool) filter_var($string, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
     } else {
-        return filter_var($string, FILTER_VALIDATE_URL);
+        return (bool) filter_var($string, FILTER_VALIDATE_URL);
     }
 }
 

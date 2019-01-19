@@ -359,7 +359,7 @@ class Log
         $query .= ' ORDER BY log.datetime DESC';
 
         $results = $database->query($query, $data);
-        return $results[0]['count'];
+        return (int) $results[0]['count'];
     }
 
 
