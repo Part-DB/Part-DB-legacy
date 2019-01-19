@@ -90,7 +90,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             $parent_id = $this->getID();
 
             while ($parent_id > 0) {
-                $category = Category::getInstance($this->database, $this->current_user, $this->log, $parent_id);
+                $category = self::getInstance($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->getParentID();
 
                 if ($category->getDisableFootprints()) {

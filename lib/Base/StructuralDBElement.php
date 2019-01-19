@@ -660,12 +660,12 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         $tmp = array();
 
         if ($element_is_link) {
-            $tmp[] = array('label' => static::getName(), 'href' => $page . '?' . $parameter . '=' .$this->getID(), 'selected' => true);
+            $tmp[] = array('label' => $this->getName(), 'href' => $page . '?' . $parameter . '=' .$this->getID(), 'selected' => true);
         } else {
-            $tmp[] = array('label' => static::getName(), 'selected' => true);
+            $tmp[] = array('label' => $this->getName(), 'selected' => true);
         }
 
-        $parent_id = static::getParentID();
+        $parent_id = $this->getParentID();
         while ($parent_id > 0) {
             /** @var StructuralDBElement $element */
             $element = static::getInstance($this->database, $this->current_user, $this->log, $parent_id);

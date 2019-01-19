@@ -720,14 +720,10 @@ function isPathabsoluteAndUnix(string $path, bool $accept_protocols = true) : bo
         // for UNIX/Linux
 
         return !(mb_strpos($path, '/') !== 0); // we are not sure; maybe $path is absolute, maybe not...
+    } else if (mb_strpos($path, ':/') === 1) { // there is something like C:/ at the begin of $path
+        return true;
     } else {
-        // for Windows
-
-        if (mb_strpos($path, ':/') === 1) { // there is something like C:/ at the begin of $path
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 }
 

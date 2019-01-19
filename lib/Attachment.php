@@ -132,7 +132,7 @@ class Attachment extends Base\NamedDBElement
 
         if ($delete_from_hdd && (\strlen($filename) !== "")) {
             // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
-            $attachements = Attachment::getAttachementsByFilename($this->database, $this->current_user, $this->log, $filename);
+            $attachements = self::getAttachementsByFilename($this->database, $this->current_user, $this->log, $filename);
 
             if ((count($attachements) <= 1) && file_exists($filename)) {
                 // check if there are enought permissions to delete the file

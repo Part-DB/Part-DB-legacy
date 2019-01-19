@@ -271,7 +271,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
             return $tmp;
         }
 
-        $parent = Group::getInstance($this->database, $this->current_user, $this->log, $parent_id);
+        $parent = self::getInstance($this->database, $this->current_user, $this->log, $parent_id);
         //Otherwise return the perm manager of the group.
         return $parent->getPermissionManager();
     }

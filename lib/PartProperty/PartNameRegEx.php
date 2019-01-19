@@ -161,18 +161,18 @@ class PartNameRegEx
      */
     public static function isValid(string $partname_regex) : bool
     {
-        return mb_ereg_match(PartNameRegEx::getPattern(false, true), $partname_regex);
+        return mb_ereg_match(self::getPattern(false, true), $partname_regex);
     }
 
     public static function getPattern(bool $for_html_pattern = false, bool $for_mb = false) : string
     {
         if ($for_html_pattern) {
-            $pattern = regexStripSlashes(regexAllowUmlauts(PartNameRegEx::$pattern));
+            $pattern = regexStripSlashes(regexAllowUmlauts(self::$pattern));
             return "($pattern)|(@@)";
         } elseif ($for_mb) {
-            return regexStripSlashes(PartNameRegEx::$pattern);
+            return regexStripSlashes(self::$pattern);
         } else {
-            return regexAllowUmlauts(PartNameRegEx::$pattern);
+            return regexAllowUmlauts(self::$pattern);
         }
     }
 }

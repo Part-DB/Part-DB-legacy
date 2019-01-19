@@ -92,9 +92,9 @@ class PDBDebugBar
      */
     public static function &getInstance()
     {
-        if (PDBDebugBar::$singleton === null) {
-            PDBDebugBar::$singleton = new PDBDebugBar();
+        if (self::$singleton === null) {
+            self::$singleton = new PDBDebugBar();
         }
-        return PDBDebugBar::$singleton;
+        return self::$singleton;
     }
 }

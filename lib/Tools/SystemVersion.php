@@ -303,20 +303,20 @@ class SystemVersion
      */
     public static function getLatestVersion(string $type) : SystemVersion
     {
-        if ((($type == 'stable') && (! \is_object(SystemVersion::$latest_stable_version)))
-            || (($type == 'unstable') && (! \is_object(SystemVersion::$latest_unstable_version)))) {
+        if ((($type == 'stable') && (! \is_object(self::$latest_stable_version)))
+            || (($type == 'unstable') && (! \is_object(self::$latest_unstable_version)))) {
             $ini = curlGetData('http://kami89.myparts.info/updates/latest.ini');
             $ini_array = parse_ini_string($ini, true);
 
-            SystemVersion::$latest_stable_version    = new SystemVersion($ini_array['stable']['version']);
-            SystemVersion::$latest_unstable_version  = new SystemVersion($ini_array['unstable']['version']);
+            self::$latest_stable_version    = new SystemVersion($ini_array['stable']['version']);
+            self::$latest_unstable_version  = new SystemVersion($ini_array['unstable']['version']);
         }
 
         switch ($type) {
             case 'stable':
-                return SystemVersion::$latest_stable_version;
+                return self::$latest_stable_version;
             case 'unstable':
-                return SystemVersion::$latest_unstable_version;
+                return self::$latest_unstable_version;
             default:
                 debug('error', '$type='.print_r($type, true), __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$type hat einen ungültigen Inhalt!');

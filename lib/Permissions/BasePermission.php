@@ -63,7 +63,7 @@ abstract class BasePermission
     {
         $n = static::opToBitN($operation);
         if ($this->perm_holder == null) {
-            return BasePermission::INHERIT; //Defaultly disallow.
+            return self::INHERIT; //Defaultly disallow.
         }
         return static::readBitPair($this->perm_holder->getPermissionRaw($this->perm_name), $n);
     }

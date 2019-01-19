@@ -337,7 +337,7 @@ class DevicePart extends Base\DBElement
         );
 
         if (count($query_data) > 0) {
-            return DevicePart::getInstance($database, $current_user, $log, (int) $query_data[0]['id']);
+            return self::getInstance($database, $current_user, $log, (int) $query_data[0]['id']);
         } else {
             return null;
         }

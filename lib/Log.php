@@ -255,7 +255,7 @@ class Log
         $query = 'SELECT * FROM `log` WHERE target_id = ?';
         $data[] = $part_id; //Only parts with the given ID
         $query .= ' AND target_type = ?';
-        $data[] = Log::TARGET_TYPE_PART;    //Only parts as a target
+        $data[] = self::TARGET_TYPE_PART;    //Only parts as a target
         $query .= ' AND (type = 5'; //ElementDeleted
         $query .= ' OR type = 6'; //ElementCreated
         $query .= ' OR type = 7';  //ElementEdited
@@ -350,7 +350,7 @@ class Log
         $query = 'SELECT count(id) AS `count` FROM `log` WHERE target_id = ?';
         $data[] = $part_id; //Only parts with the given ID
         $query .= ' AND target_type = ?';
-        $data[] = Log::TARGET_TYPE_PART;    //Only parts as a target
+        $data[] = self::TARGET_TYPE_PART;    //Only parts as a target
         $query .= ' AND (type = 5'; //ElementDeleted
         $query .= ' OR type = 6'; //ElementCreated
         $query .= ' OR type = 7';  //ElementEdited
@@ -363,6 +363,7 @@ class Log
     }
 
 
+    /** @noinspection MultipleReturnStatementsInspection */
     /**
      * Converts an type id (int) to a localized string version.
      * @param $id int The id of the log type you want to have a localized string.

@@ -619,15 +619,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             }
         }
 
-        if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_USERNAME)) {
-            if (isset($new_values['name'])) {
-                $arr['name'] = $new_values['name'];
-            }
+        if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_USERNAME) && isset($new_values['name'])) {
+            $arr['name'] = $new_values['name'];
         }
-        if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_GROUP)) {
-            if (isset($new_values['group_id'])) {
-                $arr['group_id'] = $new_values['group_id'];
-            }
+        if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_GROUP) && isset($new_values['group_id'])) {
+            $arr['group_id'] = $new_values['group_id'];
         }
         if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_INFOS)) {
             if (isset($new_values['first_name'])) {
@@ -822,7 +818,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
         $user_data = $query_data[0];
         $user = null;
-        return User::getInstance($database, $user, $log, (int) $user_data['id'], $user_data);
+        return self::getInstance($database, $user, $log, (int) $user_data['id'], $user_data);
     }
 
     /**
@@ -884,12 +880,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 //When no user table exists, create a fake user, with all needed permission
                 return new User($database, $var, $log, 0, array('perms_system_database' => 21845));
             }
-        } else { //A user is cached...
-            //Check if the the cached user, is the one we want!
-            if (static::$loggedin_user->getID() != $loggedin_ID) {
-                $var = null;
-                static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
-            }
+        } else if (static::$loggedin_user->getID() != $loggedin_ID) {
+            $var = null;
+            static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
         }
 
         return static::$loggedin_user;
@@ -977,7 +970,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         $results = $database->query('SELECT * FROM users');
         $users = array();
         foreach ($results as $result) {
-            $users[] = User::getInstance($database, $current_user, $log, (int) $result['id'], $result);
+            $users[] = self::getInstance($database, $current_user, $log, (int) $result['id'], $result);
         }
 
         return $users;

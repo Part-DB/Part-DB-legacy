@@ -246,7 +246,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      */
     public function calculateInstockChangePrice(int $old_instock, int $new_instock) : float
     {
-        if ($old_instock == Part::INSTOCK_UNKNOWN || $new_instock == Part::INSTOCK_UNKNOWN) {
+        if ($old_instock == self::INSTOCK_UNKNOWN || $new_instock == self::INSTOCK_UNKNOWN) {
             return 0;
         }
 
@@ -1140,7 +1140,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
     public function hasValidName() : bool
     {
-        return Part::isValidName($this->getName(), $this->getCategory());
+        return self::isValidName($this->getName(), $this->getCategory());
     }
 
     public function getCreationUser()
@@ -1893,7 +1893,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $parts = array();
 
         foreach ($query_data as $row) {
-            $part = Part::getInstance($database, $current_user, $log, (int) $row['id']);
+            $part = self::getInstance($database, $current_user, $log, (int) $row['id']);
             $parts[] = $part;
         }
 
@@ -2183,7 +2183,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query, $supplier_ids);
 
         foreach ($query_data as $row) {
-            $part = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
+            $part = self::getInstance($database, $current_user, $log, (int) $row['id'], $row);
             if ($part->getManualOrder() || ($part->getMinOrderQuantity() > 0)) {
                 $parts[] = $part;
             }
@@ -2231,7 +2231,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
+            $parts[] = self::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2308,7 +2308,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
+            $parts[] = self::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2383,7 +2383,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
+            $parts[] = self::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2462,7 +2462,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
+            $parts[] = self::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2545,7 +2545,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
+            $parts[] = self::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2647,7 +2647,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $parts[] = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
+            $parts[] = self::getInstance($database, $current_user, $log, (int) $row['id'], $row);
         }
 
         return $parts;
@@ -2907,7 +2907,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query, $values);
 
         foreach ($query_data as $row) {
-            $part = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
+            $part = self::getInstance($database, $current_user, $log, (int) $row['id'], $row);
 
             switch ($group_by) {
                 case '':
@@ -2985,7 +2985,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $part = Part::getInstance($database, $current_user, $log, (int) $row['id'], $row);
+            $part = self::getInstance($database, $current_user, $log, (int) $row['id'], $row);
 
             switch ($group_by) {
                 case '':
