@@ -60,7 +60,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }
@@ -145,7 +145,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      */
     public function getAutoProductUrl($partnr = null) : string
     {
-        if (is_string($partnr)) {
+        if (\is_string($partnr)) {
             return str_replace('%PARTNUMBER%', $partnr, $this->db_data['auto_product_url']);
         } else {
             return $this->db_data['auto_product_url'];
@@ -240,7 +240,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -267,19 +267,19 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      */
     public function getAPIArray(bool $verbose = false) : array
     {
-        $json =  array( "id" => $this->getID(),
-            "name" => $this->getName(),
-            "fullpath" => $this->getFullPath("/"),
-            "parentid" => $this->getParentID(),
-            "level" => $this->getLevel()
+        $json =  array( 'id' => $this->getID(),
+            'name' => $this->getName(),
+            'fullpath' => $this->getFullPath('/'),
+            'parentid' => $this->getParentID(),
+            'level' => $this->getLevel()
         );
 
         if ($verbose == true) {
-            $ver = array("address" => $this->getAddress(),
-                "phone_number" => $this->getPhoneNumber(),
-                "fax_number" => $this->getFaxNumber(),
-                "website" => $this->getWebsite(),
-                "auto_url" => $this->getAutoProductUrl());
+            $ver = array('address' => $this->getAddress(),
+                'phone_number' => $this->getPhoneNumber(),
+                'fax_number' => $this->getFaxNumber(),
+                'website' => $this->getWebsite(),
+                'auto_url' => $this->getAutoProductUrl());
             return array_merge($json, $ver);
         }
         return $json;

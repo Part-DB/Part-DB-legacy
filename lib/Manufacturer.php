@@ -39,7 +39,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class Manufacturer extends Base\Company implements ISearchable
 {
-    const TABLE_NAME = "manufacturers";
+    const TABLE_NAME = 'manufacturers';
 
     /********************************************************************************
      *
@@ -60,7 +60,7 @@ class Manufacturer extends Base\Company implements ISearchable
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }
@@ -87,7 +87,7 @@ class Manufacturer extends Base\Company implements ISearchable
      */
     public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        return parent::getPartsForRowName('id_manufacturer', $recursive, $hide_obsolete_and_zero, $limit, $page);
+        return $this->getPartsForRowName('id_manufacturer', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
     /**
      * Return the number of all parts in this PartsContainingDBElement
@@ -96,7 +96,7 @@ class Manufacturer extends Base\Company implements ISearchable
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountForRowName('id_manufacturer', $recursive);
+        return $this->getPartsCountForRowName('id_manufacturer', $recursive);
     }
 
 
@@ -129,9 +129,9 @@ class Manufacturer extends Base\Company implements ISearchable
      * @see DBElement::add()
      */
     public static function add(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         string $name,
         int $parent_id,
         string $address = '',
@@ -140,7 +140,7 @@ class Manufacturer extends Base\Company implements ISearchable
         string $email_address = '',
         string $website = '',
         string $auto_product_url = '',
-        string $comment = ""
+        string $comment = ''
     ) : Manufacturer {
         return parent::addByArray(
             $database,
@@ -154,7 +154,7 @@ class Manufacturer extends Base\Company implements ISearchable
                 'email_address'     => $email_address,
                 'website'           => $website,
                 'auto_product_url'  => $auto_product_url,
-                "comment"           => $comment)
+                'comment' => $comment)
         );
     }
 
@@ -166,7 +166,7 @@ class Manufacturer extends Base\Company implements ISearchable
      */
     public function getIDString(): string
     {
-        return "M" . sprintf("%06d", $this->getID());
+        return 'M' . sprintf('%06d', $this->getID());
     }
 
     /**

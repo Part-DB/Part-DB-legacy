@@ -64,7 +64,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
     }
@@ -113,7 +113,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
             $timestamp = strtotime($time_str);
             //strtotime returns false in the case of an error
             if ($timestamp === false) {
-                return "";
+                return '';
             }
             return formatTimestamp($timestamp);
         }
@@ -133,7 +133,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
             $timestamp = strtotime($time_str);
             //strtotime returns false in the case of an error
             if ($timestamp === false) {
-                return "";
+                return '';
             }
             return formatTimestamp($timestamp);
         }
@@ -238,9 +238,9 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
      * @throws Exception if there was an error
      */
     public static function checkValuesValidity(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         array &$values,
         bool $is_new,
         &$element = null
@@ -275,7 +275,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
      *
      * @throws Exception if there was an error
      */
-    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match) : array
+    public static function search(Database $database, User $current_user, Log $log, string $keyword, bool $exact_match) : array
     {
         $tablename = static::getTablename();
 
@@ -289,7 +289,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
         }
 
         $query = 'SELECT * FROM ' . $tablename .
-            ' WHERE name' . (($exact_match) ? '=' : ' LIKE ') . '? ORDER BY name ASC';
+            ' WHERE name' . ($exact_match ? '=' : ' LIKE ') . '? ORDER BY name ASC';
 
         $query_data = $database->query($query, array($keyword));
 
@@ -318,7 +318,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      */
-    public static function addByArray(Database &$database, User &$current_user, Log &$log, array $new_values)
+    public static function addByArray(Database $database, User $current_user, Log $log, array $new_values)
     {
         $element = parent::addByArray($database, $current_user, $log, $new_values);
         //Log this the creation of the element to database.

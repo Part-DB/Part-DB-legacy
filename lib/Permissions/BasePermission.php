@@ -43,12 +43,12 @@ abstract class BasePermission
      * @param $perm_name string The name of the permission (without perms_)
      * @param string $description string A trivial name for this permission.
      */
-    public function __construct(&$perm_holder, string $perm_name, string $description = "")
+    public function __construct(&$perm_holder, string $perm_name, string $description = '')
     {
         $this->perm_holder = $perm_holder;
         $this->perm_name = $perm_name;
         //When no description is set, than use perm_name as description
-        if ($description == "") {
+        if ($description == '') {
             $description = $perm_name;
         }
         $this->description = $description;
@@ -63,7 +63,7 @@ abstract class BasePermission
     {
         $n = static::opToBitN($operation);
         if ($this->perm_holder == null) {
-            return BasePermission::INHERIT; //Defaultly disallow.
+            return self::INHERIT; //Defaultly disallow.
         }
         return static::readBitPair($this->perm_holder->getPermissionRaw($this->perm_name), $n);
     }
@@ -81,7 +81,7 @@ abstract class BasePermission
         $n = static::opToBitN($operation);
         $old_value = $this->perm_holder->getPermissionRaw($this->perm_name);
         $value = static::writeBitPair($old_value, $n, $new_value);
-        $value = static::modifyValueBeforeSetting($operation, $new_value, $value);
+        $value = $this->modifyValueBeforeSetting($operation, $new_value, $value);
         if ($value !== $old_value) { //Only write to DB, if a value was changed.
             $this->perm_holder->setPermissionRaw($this->perm_name, $value);
         }
@@ -140,7 +140,7 @@ abstract class BasePermission
         $ops = array();
 
         foreach ($all_ops as $op) {
-            $val = $this->getValue($op["name"]);
+            $val = $this->getValue($op['name']);
 
             if ($inherit && $val == static::INHERIT) {
                 //Try to inherit permission
@@ -151,15 +151,15 @@ abstract class BasePermission
                 }
             }
 
-            $ops[] = array("name" => $op["name"],
-                "description" => $op["description"],
-                "value" => $val);
+            $ops[] = array('name' => $op['name'],
+                'description' => $op['description'],
+                'value' => $val);
         }
 
-        return array("name" => $this->getName(),
-            "description" => $this->getDescription(),
-            "readonly"    => $read_only,
-            "ops"   => $ops);
+        return array('name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'readonly' => $read_only,
+            'ops' => $ops);
     }
 
     /*******************************************************
@@ -185,11 +185,11 @@ abstract class BasePermission
             }
         } */
 
-        if (!is_int($operations[$op]["n"])) {
+        if (!\is_int($operations[$op]['n'])) {
             throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
         }
 
-        return $operations[$op]["n"];
+        return $operations[$op]['n'];
     }
 
     /**
@@ -211,11 +211,11 @@ abstract class BasePermission
             }
         } */
 
-        if (!isset($operations[$op]["description"])) {
+        if (!isset($operations[$op]['description'])) {
             throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
         }
 
-        return $operations[$op]["description"];
+        return $operations[$op]['description'];
     }
 
     /**
@@ -225,7 +225,7 @@ abstract class BasePermission
      */
     public static function listOperations() : array
     {
-        throw new NotImplementedException(_("listOperations() ist in nicht implementiert"));
+        throw new NotImplementedException(_('listOperations() ist in nicht implementiert'));
         /** @noinspection PhpUnreachableStatementInspection */
         return array();
     }
@@ -236,10 +236,10 @@ abstract class BasePermission
      * @param $n int The number of the lower bit (of the pair) that should be read. Starting from zero.
      * @return int The value of the bit pair.
      */
-    final protected static function readBitPair(int $data, int $n)
+    final protected static function readBitPair(int $data, int $n): int
     {
-        if (!is_int($data) || !is_int($n)) {
-            throw new \InvalidArgumentException(_("Die Parameter müssen alles gültige Integervariablen sein!"));
+        if (!\is_int($data) || !\is_int($n)) {
+            throw new \InvalidArgumentException(_('Die Parameter müssen alles gültige Integervariablen sein!'));
         }
         if ($n > 31) {
             throw new \InvalidArgumentException(_('$n muss kleiner als 32 sein, da nur eine 32bit Variable verwendet wird.'));
@@ -258,8 +258,8 @@ abstract class BasePermission
      */
     final protected static function writeBitPair(int $data, int $n, int $new) : int
     {
-        if (!is_int($data) || !is_int($n) || !is_int($new)) {
-            throw new \InvalidArgumentException(_("Die Parameter müssen alles gültige Integervariablen sein!"));
+        if (!\is_int($data) || !\is_int($n) || !\is_int($new)) {
+            throw new \InvalidArgumentException(_('Die Parameter müssen alles gültige Integervariablen sein!'));
         }
         if ($n > 31) {
             throw new \InvalidArgumentException(_('$n muss kleiner als 32 sein, da nur eine 32bit Variable verwendet wird.'));
@@ -281,9 +281,9 @@ abstract class BasePermission
      * @param string $description A name describing the function of the operation to user.
      * @return array An Array containing all the data.
      */
-    protected static function buildOperationArray(int $n, string $name, string $description)
+    protected static function buildOperationArray(int $n, string $name, string $description): array
     {
-        return array("n" => $n, "name" => $name, "description" => $description);
+        return array('n' => $n, 'name' => $name, 'description' => $description);
     }
 
     /**

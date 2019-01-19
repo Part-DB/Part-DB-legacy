@@ -68,7 +68,7 @@ class HTML
     /** @var array variables (and which was called loops before => arrays) for the HTML template */
     private $variables          = array();
     /** @var string  */
-    private $redirect_url       = "";
+    private $redirect_url       = '';
 
     /**
      * @var Smarty The shared Smarty object.
@@ -99,31 +99,27 @@ class HTML
      */
     public function __construct(string $theme, string $custom_css_file = '', string $page_title = '', int $autorefresh = 0)
     {
-        // specify the variable type
-        settype($this->meta, 'array');
-        settype($this->javascript_files, 'array');
-        settype($this->body_onload, 'string');
-        settype($this->variables, 'array');
+        $this->javascript_files = (array)$this->javascript_files;
 
         // specify the variable type of array $this->meta
-        settype($this->meta['theme'], 'string');
-        settype($this->meta['title'], 'string');
-        settype($this->meta['custom_css'], 'string');
-        settype($this->meta['autorefresh'], 'integer');
+        $this->meta['theme'] = (string)$this->meta['theme'];
+        $this->meta['title'] = (string)$this->meta['title'];
+        $this->meta['custom_css'] = (string)$this->meta['custom_css'];
+        $this->meta['autorefresh'] = (int)$this->meta['autorefresh'];
 
         // check passed parameters
-        if (($theme != 'nextgen') && (! is_readable(BASE.'/templates/'.$theme."/info.json"))) {
+        if (($theme !== 'nextgen') && (! is_readable(BASE.'/templates/'.$theme. '/info.json'))) {
             debug('warning', 'Template "'.$theme.'" could not be found! '.
                 'Use "nextgen" template instead...', __FILE__, __LINE__, __METHOD__);
             $theme = 'nextgen';
         }
-        if ((! is_string($custom_css_file))
+        if ((! \is_string($custom_css_file))
             || (($custom_css_file != '') && (! is_readable(BASE.'/templates/custom_css/'.$custom_css_file)))) {
             debug('warning', 'Custom CSS file "'.$custom_css_file.'" could not be found! '.
                 'Use standard instead...', __FILE__, __LINE__, __METHOD__);
             $custom_css_file = '';
         }
-        if (! is_string($page_title)) {
+        if (! \is_string($page_title)) {
             debug('warning', 'Page title "'.$page_title.'" is no string!', __FILE__, __LINE__, __METHOD__);
             $page_title = '';
         }
@@ -164,7 +160,7 @@ class HTML
      */
     public function setMeta(array $meta = array())
     {
-        if (! is_array($meta)) {
+        if (! \is_array($meta)) {
             debug('error', '$meta='.print_r($meta, true), __FILE__, __LINE__, __METHOD__);
             throw new TemplateSystemException(_('$meta ist kein Array!'));
         }
@@ -194,7 +190,7 @@ class HTML
      */
     public function redirect(string $url, bool $instant = false)
     {
-        if (!is_string($url)) {
+        if (!\is_string($url)) {
             throw new \InvalidArgumentException(_('$url must be a valid a string'));
         }
 
@@ -226,7 +222,7 @@ class HTML
     public function useJavascript(array $filenames = array(), string $body_onload = '')
     {
         foreach ($filenames as $filename) {
-            if (! in_array($filename, $this->javascript_files)) {
+            if (!\in_array($filename, $this->javascript_files, true)) {
                 $full_filename = BASE.'/javascript/'.$filename.'.js';
                 if (! is_readable($full_filename)) {
                     throw new TemplateSystemException(sprintf(_('Die JavaScript-Datei "%s" existiert nicht!'), $full_filename));
@@ -235,8 +231,6 @@ class HTML
                 $this->javascript_files[] = $filename;
             }
         }
-
-        settype($body_onload, 'string');
         $this->body_onload .= $body_onload;
     }
 
@@ -258,7 +252,7 @@ class HTML
         }
 
         if (!empty($type)) {
-            if (! in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', "double", 'string', "array", "object"))) {
+            if (! \in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', 'double', 'string', 'array', 'object'))) {
                 debug('error', '$type='.print_r($type, true), __FILE__, __LINE__, __METHOD__);
                 throw new TemplateSystemException(_('$type hat einen ungültigen Inhalt!'));
             }
@@ -322,7 +316,7 @@ class HTML
 
         global $config;
 
-        if ((! is_array($this->meta)) || (count($this->meta) == 0) || (empty($this->meta['theme']))) {
+        if ((! \is_array($this->meta)) || (count($this->meta) == 0) || empty($this->meta['theme'])) {
             debug('warning', 'Meta not set!', __FILE__, __LINE__, __METHOD__);
         }
         $smarty_head = BASE.'/templates/'.$this->meta['theme'].'/smarty_head.tpl';
@@ -337,7 +331,7 @@ class HTML
 
 
         //Unix locales (de_DE) are other than the HTML lang (de), so edit them
-        $lang = explode("_", $config['language'])[0];
+        $lang = explode('_', $config['language'])[0];
 
         // header stuff
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
@@ -350,12 +344,12 @@ class HTML
         $tmpl->assign('partdb_title', $config['partdb_title']);
 
         //Informations about User
-        $tmpl->assign("loggedin", User::isLoggedIn());
+        $tmpl->assign('loggedin', User::isLoggedIn());
         try {
             $user = User::getLoggedInUser();
-            $tmpl->assign("username", $user->getName());
-            $tmpl->assign("firstname", $user->getFirstName());
-            $tmpl->assign("lastname", $user->getLastName());
+            $tmpl->assign('username', $user->getName());
+            $tmpl->assign('firstname', $user->getFirstName());
+            $tmpl->assign('lastname', $user->getLastName());
             $tmpl->assign('can_search', $user->canDo(PermissionManager::PARTS, PartPermission::SEARCH));
             $tmpl->assign('can_category', $user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)
                 && $user->canDo(PermissionManager::CATEGORIES, PartContainingPermission::LIST_PARTS));
@@ -366,12 +360,12 @@ class HTML
 
 
 
-        if (strlen($this->meta['custom_css']) > 0) {
+        if ($this->meta['custom_css'] != '') {
             $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
         }
 
         if (isset($this->variables['ajax_request'])) {
-            $tmpl->assign("ajax_request", $this->variables['ajax_request']);
+            $tmpl->assign('ajax_request', $this->variables['ajax_request']);
         }
 
         $tmpl->assign('devices_disabled', $config['devices']['disable']);
@@ -395,15 +389,15 @@ class HTML
 
         if (PDBDebugBar::isActivated()) {
             $renderer = PDBDebugBar::getInstance()->getRenderer();
-            $tmpl->assign("debugbar_head", $renderer->renderHead());
+            $tmpl->assign('debugbar_head', $renderer->renderHead());
         }
 
-        $tmpl->assign("debugging_activated", $config['debug']['enable']);
+        $tmpl->assign('debugging_activated', $config['debug']['enable']);
 
         // messages
-        if ((is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable'])) {
+        if ((\is_array($messages) && (count($messages) > 0)) || $config['debug']['request_debugging_enable']) {
             if ($config['debug']['request_debugging_enable']) {
-                if ((is_array($messages) && (count($messages) > 0))) {
+                if (\is_array($messages) && (count($messages) > 0)) {
                     $messages[] = array('text' => '');
                 }
                 $messages[] = array('text' => '$_REQUEST:', 'strong' => true, 'color' => 'darkblue');
@@ -438,9 +432,6 @@ class HTML
     {
         global $config;
 
-        settype($template, 'string');
-        settype($use_scriptname, 'boolean');
-
         if ($use_scriptname) {
             $smarty_template =    BASE.'/templates/'.$this->meta['theme'].'/'.
                 basename($_SERVER['SCRIPT_NAME']).'/smarty_'.$template.'.tpl';
@@ -465,14 +456,14 @@ class HTML
 
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
-        $tmpl->assign("debugging_activated", $config['debug']['enable']);
+        $tmpl->assign('debugging_activated', $config['debug']['enable']);
 
         foreach ($this->variables as $key => $value) {
             //debug('temp', $key.' => '.$value);
             $tmpl->assign($key, $value);
         }
 
-        if ($this->redirect_url == "") { //Dont print template, if the page should be redirected.
+        if ($this->redirect_url == '') { //Dont print template, if the page should be redirected.
             $tmpl->display($smarty_template);
         }
     }
@@ -502,34 +493,34 @@ class HTML
         $tmpl->clearAllAssign();
 
         if (isset($this->variables['ajax_request'])) {
-            $tmpl->assign("ajax_request", $this->variables['ajax_request']);
+            $tmpl->assign('ajax_request', $this->variables['ajax_request']);
         }
 
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
         // messages
-        if ((is_array($messages) && (count($messages) > 0))) {
+        if (\is_array($messages) && (count($messages) > 0)) {
             $tmpl->assign('messages', $messages);
             $tmpl->assign('messages_div_title', $messages_div_title);
         }
 
-        $tmpl->assign("tracking_code", $config['tracking_code']);
+        $tmpl->assign('tracking_code', $config['tracking_code']);
         $tmpl->assign('auto_sort', $config['table']['autosort']);
-        $tmpl->assign("autorefresh", $this->meta['autorefresh']);
+        $tmpl->assign('autorefresh', $this->meta['autorefresh']);
 
         if (PDBDebugBar::isActivated()) {
             $renderer = PDBDebugBar::getInstance()->getRenderer();
-            $tmpl->assign("debugbar_body", $renderer->render(!isset($_REQUEST['ajax_request'])));
+            $tmpl->assign('debugbar_body', $renderer->render(!isset($_REQUEST['ajax_request'])));
         }
 
-        $tmpl->assign("redirect_url", $this->redirect_url);
+        $tmpl->assign('redirect_url', $this->redirect_url);
 
-        $tmpl->assign("cookie_consent_active", $config['cookie_consent']['enable']);
+        $tmpl->assign('cookie_consent_active', $config['cookie_consent']['enable']);
         if ($config['cookie_consent']['enable']) {
-            $tmpl->assign("cookie_consent_config", $config['cookie_consent']);
+            $tmpl->assign('cookie_consent_config', $config['cookie_consent']);
         }
 
-        $tmpl->assign("debugging_activated", $config['debug']['enable']);
+        $tmpl->assign('debugging_activated', $config['debug']['enable']);
 
         $tmpl->display($smarty_foot);
     }

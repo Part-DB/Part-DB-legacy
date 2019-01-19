@@ -39,7 +39,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissions
 {
-    const TABLE_NAME = "groups";
+    const TABLE_NAME = 'groups';
 
     /********************************************************************************
      *
@@ -75,7 +75,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
         $this->perm_manager = new PermissionManager($this);
@@ -105,11 +105,8 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
     {
         $arr = array();
 
-        if ($this->current_user->canDo(static::getPermissionName(), GroupPermission::MOVE)) {
-            //Make an exception for $parent_id
-            if (isset($new_values['parent_id'])) {
-                $arr['parent_id'] = $new_values['parent_id'];
-            }
+        if ($this->current_user->canDo(static::getPermissionName(), GroupPermission::MOVE) && isset($new_values['parent_id'])) {
+            $arr['parent_id'] = $new_values['parent_id'];
         }
         if ($this->current_user->canDo(static::getPermissionName(), GroupPermission::EDIT)) {
             if (isset($new_values['name'])) {
@@ -121,7 +118,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
         }
         if ($this->current_user->canDo(static::getPermissionName(), GroupPermission::EDIT_PERMISSIONS)) {
             foreach ($new_values as $key => $content) {
-                if (strpos($key, "perms_") !== false) {
+                if (strpos($key, 'perms_') !== false) {
                     $arr[$key] = $content;
                 }
             }
@@ -129,7 +126,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
 
         //Perms are only set, if no error happened before, so dont throw an exception!!
         if (!empty($arr)) {
-            parent::setAttributesNoCheck($arr, $edit_message = null);
+            $this->setAttributesNoCheck($arr, $edit_message);
         }
     }
 
@@ -173,7 +170,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function getUsers(bool $recursive = false) : array
     {
-        if (! is_array($this->users)) {
+        if (! \is_array($this->users)) {
             $this->users = array();
 
             $query =    'SELECT * FROM users ' .
@@ -207,7 +204,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
     public function getComment(bool $parse_bbcode = true) : string
     {
         if (!$this->current_user->canDo(PermissionManager::GROUPS, GroupPermission::READ)) {
-            return "???";
+            return '???';
         }
         return $this->db_data['comment'];
     }
@@ -238,7 +235,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function getPermissionRaw(string $permsission_name) : int
     {
-        return (int) ($this->db_data["perms_" . $permsission_name]);
+        return (int)$this->db_data['perms_' . $permsission_name];
     }
 
     /**
@@ -248,7 +245,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function setPermissionRaw(string $permission_name, int $value)
     {
-        $this->setAttributes(array("perms_" . $permission_name => $value));
+        $this->setAttributes(array('perms_' . $permission_name => $value));
     }
 
     /**
@@ -274,7 +271,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
             return $tmp;
         }
 
-        $parent = Group::getInstance($this->database, $this->current_user, $this->log, $parent_id);
+        $parent = self::getInstance($this->database, $this->current_user, $this->log, $parent_id);
         //Otherwise return the perm manager of the group.
         return $parent->getPermissionManager();
     }
@@ -289,7 +286,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -312,7 +309,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @return static
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id) : Group
+    public static function add(Database $database, User $current_user, Log $log, string $name, int $parent_id) : Group
     {
         return parent::addByArray(
             $database,
@@ -330,6 +327,6 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function getIDString(): string
     {
-        return "G" . sprintf("%06d", $this->getID());
+        return 'G' . sprintf('%06d', $this->getID());
     }
 }

@@ -79,7 +79,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }
@@ -135,7 +135,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new DatabaseException(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!"), $this->getName()) . "\n" . _("Grund: ").$e->getMessage());
+            throw new DatabaseException(sprintf(_('Das Element "%s" konnte nicht gelöscht werden!'), $this->getName()) . "\n" . _('Grund: ').$e->getMessage());
         }
     }
 
@@ -201,15 +201,14 @@ abstract class PartsContainingDBElement extends StructuralDBElement
             $vals = array($this->getID());
 
             foreach ($subelements as $element) {
-                $query = $query . " OR " . $parts_rowname . "=?";
+                $query = $query . ' OR ' . $parts_rowname . '=?';
                 $vals[] = $element->getID();
             }
 
-            $query = $query .
-                ' ORDER BY name, description';
+            $query .= ' ORDER BY name, description';
 
             if ($limit > 0 && $page > 0) {
-                $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+                $query .= ' LIMIT ' . (($page - 1) * $limit) . ", $limit";
             }
 
             //$query_data = $this->database->query($query);
@@ -263,7 +262,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @return int The number of parts of this PartContainingDBElement
      */
-    public function getPartsCountForRowName(string $rowname, $recursive)
+    public function getPartsCountForRowName(string $rowname, $recursive) : int
     {
         $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
 
@@ -277,12 +276,11 @@ abstract class PartsContainingDBElement extends StructuralDBElement
         $vals = array($this->getID());
 
         foreach ($subelements as $element) {
-            $query = $query . " OR ".$rowname."=?";
+            $query = $query . ' OR ' .$rowname. '=?';
             $vals[] = $element->getID();
         }
 
-        $query = $query.
-            ' ORDER BY name, description';
+        $query .= ' ORDER BY name, description';
 
         $query_data = $this->database->query($query, $vals);
 

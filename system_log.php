@@ -19,7 +19,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -36,23 +36,23 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 $page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
 $limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : $config['table']['default_limit'];
 
-$mode               = isset($_REQUEST['mode'])              ? (string)$_REQUEST['mode']             : "last_modified";
+$mode               = isset($_REQUEST['mode'])              ? (string)$_REQUEST['mode']             : 'last_modified';
 $min_level          = isset($_REQUEST['min_level'])         ? (int)$_REQUEST['min_level']           : Log::LEVEL_DEBUG;
 $filter_user        = isset($_REQUEST['filter_user'])       ? (int)$_REQUEST['filter_user']         : -1;
-$search             = isset($_REQUEST['search'])            ? (string)$_REQUEST['search']           : "";
+$search             = isset($_REQUEST['search'])            ? (string)$_REQUEST['search']           : '';
 $filter_type        = isset($_REQUEST['filter_type'])       ? (int)$_REQUEST['filter_type']         : -1;
 $target_type        = isset($_REQUEST['target_type'])       ? (int)$_REQUEST['target_type']         : -1;
 $target_id          = isset($_REQUEST['target_id'])         ? (int)$_REQUEST['target_id']           : -1;
-$datetime_min       = isset($_REQUEST['datetime_min'])      ? (string)$_REQUEST['datetime_min']     : "";
-$datetime_max       = isset($_REQUEST['datetime_max'])      ? (string)$_REQUEST['datetime_max']     : "";
+$datetime_min       = isset($_REQUEST['datetime_min'])      ? (string)$_REQUEST['datetime_min']     : '';
+$datetime_max       = isset($_REQUEST['datetime_max'])      ? (string)$_REQUEST['datetime_max']     : '';
 
-$selected_ids        = isset($_POST['selected_ids'])   ? $_POST['selected_ids'] : 0;
+$selected_ids        = $_POST['selected_ids'] ?? 0;
 
 $action = 'default';
-if (isset($_POST["delete_entries"]) && $selected_ids != 0) {
+if (isset($_POST['delete_entries']) && $selected_ids != 0) {
     $action = 'delete_entries';
 }
-if (isset($_POST["delete_entries_confirmed"]) && $selected_ids != 0) {
+if (isset($_POST['delete_entries_confirmed']) && $selected_ids != 0) {
     $action = 'delete_entries_confirmed';
 }
 
@@ -86,8 +86,8 @@ try {
 if (!$fatal_error) {
     try {
         switch ($action) {
-            case "delete_entries":
-                $n = count(explode(",", $_REQUEST['selected_ids']));
+            case 'delete_entries':
+                $n = substr_count($_REQUEST['selected_ids'], ',') + 1;
                 $messages[] = array('text' => sprintf(_('Sollen die %d gewählten Logeinträge wirklich unwiederruflich gelöscht werden?'), $n),
                     'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
@@ -97,7 +97,7 @@ if (!$fatal_error) {
                 $messages[] = array('html' => '<button class="btn btn-danger" type="submit" name="delete_entries_confirmed" value="">' . _('Ja, Einträge löschen') . '</button>');
 
                 break;
-            case "delete_entries_confirmed":
+            case 'delete_entries_confirmed':
                 try {
                     $log->deleteSelected($selected_ids);
                 } catch (Exception $e) {
@@ -158,24 +158,24 @@ if (! $fatal_error) {
         $html->setVariable('log', $table_loop);
         $html->setVariable('log_rowcount', count($entries));
 
-        $extra = array("mode" => $mode,
-            "min_level" => $min_level,
-            "filter_user" => $filter_user,
-            "search" => $search,
-            "filter_type" => $filter_type,
-            "target_type" => $target_type,
-            "target_id" => $target_id,
-            "datetime_min" => $datetime_min,
-            "datetime_max" => $datetime_max);
+        $extra = array('mode' => $mode,
+            'min_level' => $min_level,
+            'filter_user' => $filter_user,
+            'search' => $search,
+            'filter_type' => $filter_type,
+            'target_type' => $target_type,
+            'target_id' => $target_id,
+            'datetime_min' => $datetime_min,
+            'datetime_max' => $datetime_max);
 
-        $html->setVariable("pagination", generatePagination(
-            "system_log.php?",
+        $html->setVariable('pagination', generatePagination(
+            'system_log.php?',
             $page,
             $limit,
             $count,
             $extra
         ));
-        $html->setVariable("page", $page);
+        $html->setVariable('page', $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -191,15 +191,15 @@ if (! $fatal_error) {
 
 
 if (! $fatal_error) {
-    $html->setVariable('min_level', $min_level, "int");
+    $html->setVariable('min_level', $min_level, 'int');
     $user_list = User::buildHTMLList($database, $current_user, $log, $filter_user);
-    $html->setVariable('user_list', $user_list, "string");
-    $html->setVariable('search', $search, "string");
+    $html->setVariable('user_list', $user_list, 'string');
+    $html->setVariable('search', $search, 'string');
 
     $html->setVariable('types_loop', Log::getLogTypesList());
     $html->setVariable('filter_type', $filter_type);
 
-    $html->setVariable("target_type", $target_type);
+    $html->setVariable('target_type', $target_type);
     $html->setVariable('target_id', $target_id);
 
 
@@ -222,8 +222,8 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

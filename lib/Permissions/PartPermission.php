@@ -23,22 +23,22 @@ namespace PartDB\Permissions;
 
 class PartPermission extends BasePermission
 {
-    const CREATE = "create";
-    const READ  = "read";
-    const EDIT  = "edit";
-    const MOVE  = "move";
-    const DELETE = "delete";
-    const SEARCH    = "search";
-    const ALL_PARTS = "all_parts";
-    const ORDER_PARTS = "order_parts";
-    const NO_PRICE_PARTS = "no_price_parts";
-    const OBSOLETE_PARTS = "obsolete_parts";
-    const UNKNONW_INSTOCK_PARTS = "unknown_instock_parts";
-    const CHANGE_FAVORITE = "change_favorite";
-    const SHOW_FAVORITE_PARTS = "show_favorite_parts";
-    const SHOW_LAST_EDIT_PARTS = "show_last_edit_parts";
-    const SHOW_USERS = "show_users";
-    const SHOW_HISTORY = "show_history";
+    const CREATE = 'create';
+    const READ  = 'read';
+    const EDIT  = 'edit';
+    const MOVE  = 'move';
+    const DELETE = 'delete';
+    const SEARCH    = 'search';
+    const ALL_PARTS = 'all_parts';
+    const ORDER_PARTS = 'order_parts';
+    const NO_PRICE_PARTS = 'no_price_parts';
+    const OBSOLETE_PARTS = 'obsolete_parts';
+    const UNKNONW_INSTOCK_PARTS = 'unknown_instock_parts';
+    const CHANGE_FAVORITE = 'change_favorite';
+    const SHOW_FAVORITE_PARTS = 'show_favorite_parts';
+    const SHOW_LAST_EDIT_PARTS = 'show_last_edit_parts';
+    const SHOW_USERS = 'show_users';
+    const SHOW_HISTORY = 'show_history';
 
     protected static $operation_cache = null;
 
@@ -54,22 +54,22 @@ class PartPermission extends BasePermission
              * However you can add other definitions, the return value can get high as 62, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[static::READ] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
-            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
-            $operations[static::CREATE] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
-            $operations[static::MOVE] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
-            $operations[static::DELETE] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
-            $operations[static::SEARCH] = static::buildOperationArray(10, static::SEARCH, _("Suchen"));
-            $operations[static::ALL_PARTS] = static::buildOperationArray(12, static::ALL_PARTS, _("Alle Teile auflisten"));
-            $operations[static::ORDER_PARTS] = static::buildOperationArray(14, static::ORDER_PARTS, _("Zu bestellende Teile auflisten"));
-            $operations[static::NO_PRICE_PARTS] = static::buildOperationArray(16, static::NO_PRICE_PARTS, _("Teile ohne Preis auflisten"));
-            $operations[static::OBSOLETE_PARTS] = static::buildOperationArray(18, static::OBSOLETE_PARTS, _("Obsolete Teile auflisten"));
-            $operations[static::UNKNONW_INSTOCK_PARTS] = static::buildOperationArray(20, static::UNKNONW_INSTOCK_PARTS, _("Teile mit unbekanntem Lagerbestand auflisten"));
-            $operations[static::CHANGE_FAVORITE] = static::buildOperationArray(22, static::CHANGE_FAVORITE, _("Favoritenstatus ändern"));
-            $operations[static::SHOW_FAVORITE_PARTS] = static::buildOperationArray(24, static::SHOW_FAVORITE_PARTS, _("Favorisierte Bauteile auflisten"));
-            $operations[static::SHOW_LAST_EDIT_PARTS] = static::buildOperationArray(26, static::SHOW_LAST_EDIT_PARTS, _("Zuletzt bearbeitete/hinzugefügte Bauteile auflisten"));
-            $operations[static::SHOW_USERS] = static::buildOperationArray(28, static::SHOW_USERS, _("Letzten bearbeitenden Nutzer anzeigen"));
-            $operations[static::SHOW_HISTORY] = static::buildOperationArray(30, static::SHOW_HISTORY, _("Historie anzeigen"));
+            $operations[static::READ] = static::buildOperationArray(0, static::READ, _('Anzeigen'));
+            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _('Bearbeiten'));
+            $operations[static::CREATE] = static::buildOperationArray(4, static::CREATE, _('Anlegen'));
+            $operations[static::MOVE] = static::buildOperationArray(6, static::MOVE, _('Verschieben'));
+            $operations[static::DELETE] = static::buildOperationArray(8, static::DELETE, _('Löschen'));
+            $operations[static::SEARCH] = static::buildOperationArray(10, static::SEARCH, _('Suchen'));
+            $operations[static::ALL_PARTS] = static::buildOperationArray(12, static::ALL_PARTS, _('Alle Teile auflisten'));
+            $operations[static::ORDER_PARTS] = static::buildOperationArray(14, static::ORDER_PARTS, _('Zu bestellende Teile auflisten'));
+            $operations[static::NO_PRICE_PARTS] = static::buildOperationArray(16, static::NO_PRICE_PARTS, _('Teile ohne Preis auflisten'));
+            $operations[static::OBSOLETE_PARTS] = static::buildOperationArray(18, static::OBSOLETE_PARTS, _('Obsolete Teile auflisten'));
+            $operations[static::UNKNONW_INSTOCK_PARTS] = static::buildOperationArray(20, static::UNKNONW_INSTOCK_PARTS, _('Teile mit unbekanntem Lagerbestand auflisten'));
+            $operations[static::CHANGE_FAVORITE] = static::buildOperationArray(22, static::CHANGE_FAVORITE, _('Favoritenstatus ändern'));
+            $operations[static::SHOW_FAVORITE_PARTS] = static::buildOperationArray(24, static::SHOW_FAVORITE_PARTS, _('Favorisierte Bauteile auflisten'));
+            $operations[static::SHOW_LAST_EDIT_PARTS] = static::buildOperationArray(26, static::SHOW_LAST_EDIT_PARTS, _('Zuletzt bearbeitete/hinzugefügte Bauteile auflisten'));
+            $operations[static::SHOW_USERS] = static::buildOperationArray(28, static::SHOW_USERS, _('Letzten bearbeitenden Nutzer anzeigen'));
+            $operations[static::SHOW_HISTORY] = static::buildOperationArray(30, static::SHOW_HISTORY, _('Historie anzeigen'));
 
             static::$operation_cache = $operations;
         }
@@ -87,7 +87,7 @@ class PartPermission extends BasePermission
                 || $operation == static::SEARCH
                 || $operation == static::ALL_PARTS)
             && $new_value == static::ALLOW) {
-            return parent::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

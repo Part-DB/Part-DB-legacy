@@ -39,7 +39,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class Storelocation extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, ISearchable, Interfaces\ILabel
 {
-    const TABLE_NAME = "storelocations";
+    const TABLE_NAME = 'storelocations';
 
     /********************************************************************************
      *
@@ -60,7 +60,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }
@@ -111,7 +111,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        return parent::getPartsForRowName('id_storelocation', $recursive, $hide_obsolete_and_zero, $limit, $page);
+        return $this->getPartsForRowName('id_storelocation', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
     /**
      * Return the number of all parts in this PartsContainingDBElement
@@ -120,7 +120,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function getPartsCount(bool $recursive = false) : int
     {
-        return parent::getPartsCountForRowName('id_storelocation', $recursive);
+        return $this->getPartsCountForRowName('id_storelocation', $recursive);
     }
 
     /********************************************************************************
@@ -155,13 +155,13 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the datetype of the boolean attributes
-        settype($values['is_full'], 'boolean');
+        $values['is_full'] = (bool)$values['is_full'];
     }
 
     /**
@@ -181,7 +181,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @see DBElement::add()
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, bool $is_full = false, $comment = "")
+    public static function add(Database $database, User $current_user, Log $log, string $name, int $parent_id, bool $is_full = false, $comment = '')
     {
         return parent::addByArray(
             $database,
@@ -190,7 +190,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
             array(  'name'          => $name,
                 'parent_id'     => $parent_id,
                 'is_full'       => $is_full,
-                "comment"       => $comment)
+                'comment' => $comment)
         );
     }
 
@@ -203,15 +203,15 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function getAPIArray(bool $verbose = false): array
     {
-        $json =  array( "id" => $this->getID(),
-            "name" => $this->getName(),
-            "fullpath" => $this->getFullPath("/"),
-            "parentid" => $this->getParentID(),
-            "level" => $this->getLevel()
+        $json =  array( 'id' => $this->getID(),
+            'name' => $this->getName(),
+            'fullpath' => $this->getFullPath('/'),
+            'parentid' => $this->getParentID(),
+            'level' => $this->getLevel()
         );
 
         if ($verbose == true) {
-            $ver = array("isFull" => $this->getIsFull() == true);
+            $ver = array('isFull' => $this->getIsFull() == true);
             return array_merge($json, $ver);
         }
         return $json;
@@ -232,21 +232,21 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @return string
      * @throws Exception An Exception is thrown if you selected a unknown barcode type.
      */
-    public function getBarcodeContent(string $barcode_type = "C39") : string
+    public function getBarcodeContent(string $barcode_type = 'C39') : string
     {
         switch ($barcode_type) {
-            case "C39":
+            case 'C39':
                 $code = (string) $this->getID();
-                while (strlen($code) < 5) {
+                while (\strlen($code) < 5) {
                     $code = '0' . $code;
                 }
                 return '$L' . $code;
 
-            case "QR":
-                return "Part-DB; Part: " . $this->getID();
+            case 'QR':
+                return 'Part-DB; Part: ' . $this->getID();
 
             default:
-                throw new Exception(_("Label type unknown: ").$barcode_type);
+                throw new Exception(_('Label type unknown: ').$barcode_type);
         }
     }
 
@@ -273,22 +273,22 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     public function replacePlaceholderWithInfos(string $string) : string
     {
         //General infos
-        $string = str_replace("%ID%", $this->getID(), $string);                        //part id
-        $string = str_replace("%NAME%", $this->getName(), $string);                    //Name of the part
-        $string = str_replace("%COMMENT%", $this->getComment(), $string);              //comment of the storelocation
-        $string = str_replace("%FULL_PATH%", $this->getFullPath(), $string);              //comment of the part
+        $string = str_replace('%ID%', $this->getID(), $string);                        //part id
+        $string = str_replace('%NAME%', $this->getName(), $string);                    //Name of the part
+        $string = str_replace('%COMMENT%', $this->getComment(), $string);              //comment of the storelocation
+        $string = str_replace('%FULL_PATH%', $this->getFullPath(), $string);              //comment of the part
 
         $parent = new Storelocation($this->database, $this->current_user, $this->log, $this->getParentID());
-        $string = str_replace("%PARENT_NAME%", ($this->getParentID() != 0) ? $parent->getName() : "", $string);              //name of the parent storelocation
-        $string = str_replace("%PARENT_FULL_PATH%", ($this->getParentID() != 0) ? $parent->getFullPath() : "", $string);              //fullpath of the parent storelocation
+        $string = str_replace('%PARENT_NAME%', ($this->getParentID() != 0) ? $parent->getName() : '', $string);              //name of the parent storelocation
+        $string = str_replace('%PARENT_FULL_PATH%', ($this->getParentID() != 0) ? $parent->getFullPath() : '', $string);              //fullpath of the parent storelocation
 
-        $string = str_replace("%IS_FULL%", $this->getIsFull() ? _("Ja") : _("Nein"), $string);
-        $string = str_replace("%PARTS_COUNT%", $this->getPartsCount(false), $string);
+        $string = str_replace('%IS_FULL%', $this->getIsFull() ? _('Ja') : _('Nein'), $string);
+        $string = str_replace('%PARTS_COUNT%', $this->getPartsCount(false), $string);
 
 
         //Remove single '-' without other infos
-        if (trim($string) == "-") {
-            $string = "";
+        if (trim($string) == '-') {
+            $string = '';
         }
 
         return $string;
@@ -301,6 +301,6 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function getIDString(): string
     {
-        return "L" . sprintf("%06d", $this->getID());
+        return 'L' . sprintf('%06d', $this->getID());
     }
 }

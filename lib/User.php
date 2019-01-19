@@ -91,9 +91,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, &$current_user, Log $log, int $id, $data = null)
     {
-        if (! is_object($current_user)) {     // this is that you can create an User-instance for first time
+        if (! \is_object($current_user)) {     // this is that you can create an User-instance for first time
             $current_user = $this;
         }           // --> which one was first: the egg or the chicken? :-)
 
@@ -135,7 +135,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             return null;
         }
 
-        if (! is_object($this->group)) {
+        if (! \is_object($this->group)) {
             $this->group = Group::getInstance(
                 $this->database,
                 $this->current_user,
@@ -155,9 +155,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-            return "???";
+            return '???';
         }
-        return $this->db_data['name'] ?? "";
+        return $this->db_data['name'] ?? '';
     }
 
     /**
@@ -168,9 +168,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-            return "???";
+            return '???';
         }
-        return $this->db_data['first_name'] ?? "";
+        return $this->db_data['first_name'] ?? '';
     }
 
     /**
@@ -181,9 +181,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-            return "???";
+            return '???';
         }
-        return $this->db_data['last_name'] ?? "";
+        return $this->db_data['last_name'] ?? '';
     }
 
     /**
@@ -194,9 +194,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-            return "???";
+            return '???';
         }
-        return $this->db_data['email'] ?? "";
+        return $this->db_data['email'] ?? '';
     }
 
     /**
@@ -207,9 +207,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-            return "???";
+            return '???';
         }
-        return $this->db_data['department'] ?? "";
+        return $this->db_data['department'] ?? '';
     }
 
     /**
@@ -223,15 +223,15 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-            return "???";
+            return '???';
         }
 
         global $config;
 
         if ($config['user']['avatars']['use_gravatar']) {
-            return $this->getGravatar($size, "identicon");
+            return $this->getGravatar($size, 'identicon');
         } else {
-            return "img/default_avatar.png";
+            return 'img/default_avatar.png';
         }
     }
 
@@ -273,15 +273,15 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-            return "???";
+            return '???';
         }
         if (empty($this->db_data['config_theme']) && !$no_resolve_for_default) {
             global $config;
             return  $config['html']['custom_css'];
         } else {
             //When set to @@, use no custom_css => default bootstrap theme
-            if ($this->db_data['config_theme'] == "@@") {
-                return "";
+            if ($this->db_data['config_theme'] == '@@') {
+                return '';
             }
             return $this->db_data['config_theme'];
         }
@@ -297,7 +297,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-            return "???";
+            return '???';
         }
         if (empty($this->db_data['config_timezone']) && !$no_resolve_for_default) {
             global $config;
@@ -317,7 +317,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-            return "???";
+            return '???';
         }
         if (empty($this->db_data['config_language']) && !$no_resolve_for_default) {
             global $config;
@@ -331,7 +331,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
-            return "???";
+            return '???';
         }
         if ($withdrawal) {
             return $this->db_data['config_instock_comment_w'];
@@ -348,7 +348,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     public function isPasswordValid(string $password) : bool
     {
         $hash = $this->db_data['password'];
-        if ($hash === "") {
+        if ($hash === '') {
             return false; //When no password was set, the any password is invalid
         }
         return password_verify($password, $hash);
@@ -377,15 +377,15 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
         $loggedin_user = static::getLoggedInUser($this->database, $this->log);
         if ($loggedin_user->getID() == $this->getID()) {
-            throw new Exception(_("Sie versuchen ihren aktuellen Benutzer zu löschen. Dies ist nicht möglich!"));
+            throw new Exception(_('Sie versuchen ihren aktuellen Benutzer zu löschen. Dies ist nicht möglich!'));
         }
 
         if ($this->getID() == static::ID_ANONYMOUS) {
-            throw new Exception(_("Der anonymous Benutzer (ID=0) kann nicht gelöscht werden!"));
+            throw new Exception(_('Der anonymous Benutzer (ID=0) kann nicht gelöscht werden!'));
         }
 
         if ($this->getID() == static::ID_ADMIN) {
-            throw new Exception(_("Der Systemadministrator (ID=1) kann nicht gelöscht werden!"));
+            throw new Exception(_('Der Systemadministrator (ID=1) kann nicht gelöscht werden!'));
         }
         parent::delete();
     }
@@ -417,15 +417,15 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function setPassword(string $new_password, bool $need_to_change_pw = false, bool $check_pw_length = true)
     {
-        if ($check_pw_length && strlen($new_password) < 6) {
-            throw new Exception(sprintf(_("Das neue Password muss mindestens %d Zeichen lang sein"), 6));
+        if ($check_pw_length && \strlen($new_password) < 6) {
+            throw new Exception(sprintf(_('Das neue Password muss mindestens %d Zeichen lang sein'), 6));
         }
         if ($this->getID() == static::ID_ANONYMOUS) {
-            throw new Exception(_("Das Password des anonymous Users kann nicht geändert werden!"));
+            throw new Exception(_('Das Password des anonymous Users kann nicht geändert werden!'));
         }
         $hash = password_hash($new_password, PASSWORD_DEFAULT);
-        $this->setAttributes(array("password" => $hash,
-            "need_pw_change" => $need_to_change_pw));
+        $this->setAttributes(array('password' => $hash,
+            'need_pw_change' => $need_to_change_pw));
     }
 
     /**
@@ -498,11 +498,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function setDefaultInstockChangeComment($withdrawal_message = null, $addition_message = null)
     {
-        if (is_string($withdrawal_message)) {
+        if (\is_string($withdrawal_message)) {
             $this->setAttributes(array('config_instock_comment_w' => $withdrawal_message));
         }
 
-        if (is_string($addition_message)) {
+        if (\is_string($addition_message)) {
             $this->setAttributes(array('config_instock_comment_a' => $addition_message));
         }
     }
@@ -515,9 +515,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getFullName(bool $including_username = false)
     {
-        $str = $this->getFirstName() . " " . $this->getLastName();
+        $str = $this->getFirstName() . ' ' . $this->getLastName();
         if ($including_username) {
-            $str .= " (" . $this->getName() . ")";
+            $str .= ' (' . $this->getName() . ')';
         }
 
         return $str;
@@ -537,11 +537,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
 
         //Check if password needs rehash, because a better algo is available.
-        if (!$ignore_rehash) {
-            if ($this->db_data['password'] !== "" &&
-                password_needs_rehash($this->db_data['password'], PASSWORD_DEFAULT)) {
-                return true;
-            }
+        if (!$ignore_rehash && $this->db_data['password'] !== '' &&
+            password_needs_rehash($this->db_data['password'], PASSWORD_DEFAULT)) {
+            return true;
         }
 
         if ($this->getID() == static::ID_ANONYMOUS) {
@@ -569,8 +567,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
         //User can not change its own User and Group permissions.
         if ($this->isLoggedInUser()) {
-            unset($new_values['perms_users']);
-            unset($new_values['perms_groups']);
+            unset($new_values['perms_users'], $new_values['perms_groups']);
         }
 
         //Override this function, so we can check if user has the needed permissions.
@@ -599,10 +596,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                     $arr['email'] = $new_values['email'];
                 }
             }
-            if ($this->current_user->canDo(PermissionManager::SELF, UserPermission::EDIT_USERNAME)) {
-                if (isset($new_values['name'])) {
-                    $arr['name'] = $new_values['name'];
-                }
+            if ($this->current_user->canDo(PermissionManager::SELF, UserPermission::EDIT_USERNAME) && isset($new_values['name'])) {
+                $arr['name'] = $new_values['name'];
             }
 
             //A user can always change its own configuration.
@@ -623,15 +618,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             }
         }
 
-        if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_USERNAME)) {
-            if (isset($new_values['name'])) {
-                $arr['name'] = $new_values['name'];
-            }
+        if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_USERNAME) && isset($new_values['name'])) {
+            $arr['name'] = $new_values['name'];
         }
-        if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_GROUP)) {
-            if (isset($new_values['group_id'])) {
-                $arr['group_id'] = $new_values['group_id'];
-            }
+        if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_GROUP) && isset($new_values['group_id'])) {
+            $arr['group_id'] = $new_values['group_id'];
         }
         if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_INFOS)) {
             if (isset($new_values['first_name'])) {
@@ -657,7 +648,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
         if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_PERMISSIONS)) {
             foreach ($new_values as $key => $content) {
-                if (strpos($key, "perms_") !== false) {
+                if (strpos($key, 'perms_') !== false) {
                     $arr[$key] = $content;
                 }
             }
@@ -704,7 +695,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getPermissionRaw(string $permsission_name) : int
     {
-        return intval($this->db_data["perms_" . $permsission_name]);
+        return (int)$this->db_data['perms_' . $permsission_name];
     }
 
     /**
@@ -714,7 +705,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function setPermissionRaw(string $permission_name, int $value)
     {
-        $this->setAttributes(array("perms_" . $permission_name => $value));
+        $this->setAttributes(array('perms_' . $permission_name => $value));
     }
 
     /**
@@ -767,15 +758,15 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             $perm = $this->perm_manager->getPermission($perm_name);
             $perm_description = $perm->getDescription();
             $op_description = $perm::opToDescription($perm_operation);
-            $str = _("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!");
-            $str = $str . " ($group_title->$perm_description: $op_description)";
+            $str = _('Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!');
+            $str .= " ($group_title->$perm_description: $op_description)";
 
             //Only show, if the user is not logged in.
             if ($this->getID() == static::ID_ANONYMOUS) {
-                $str .= _('<br><br>Bitte loggen sie sich ein:') . ' <a href="login.php?redirect=' . urlencode($_SERVER["REQUEST_URI"]) . '">' . _('Login'). '</a>';
+                $str .= _('<br><br>Bitte loggen sie sich ein:') . ' <a href="login.php?redirect=' . urlencode($_SERVER['REQUEST_URI']) . '">' . _('Login'). '</a>';
             }
 
-            $this->log->userNotAllowed("$group_title->$perm_description: $op_description (" .  basename($_SERVER['PHP_SELF']) . ")");
+            $this->log->userNotAllowed("$group_title->$perm_description: $op_description (" .  basename($_SERVER['PHP_SELF']) . ')');
 
             throw new UserNotAllowedException($str);
         }
@@ -791,7 +782,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -810,23 +801,23 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return User
      * @throws Exception
      */
-    public static function getUserByName(Database &$database, Log &$log, string $username) : User
+    public static function getUserByName(Database $database, Log $log, string $username) : User
     {
         $username = static::normalizeUsername($username);
         $query = 'SELECT * FROM users WHERE name = ?';
         $query_data = $database->query($query, array($username));
 
         if (count($query_data) > 1) {
-            throw new Exception(_("Die Abfrage des Nutzernamens hat mehrere Nutzer ergeben"));
+            throw new Exception(_('Die Abfrage des Nutzernamens hat mehrere Nutzer ergeben'));
         }
 
         if (count($query_data) == 0) {
-            throw new Exception(_("Kein Benutzer mit folgendem Benutzernamen vorhanden:") . " " . $username);
+            throw new Exception(_('Kein Benutzer mit folgendem Benutzernamen vorhanden:') . ' ' . $username);
         }
 
         $user_data = $query_data[0];
         $user = null;
-        return User::getInstance($database, $user, $log, (int) $user_data['id'], $user_data);
+        return self::getInstance($database, $user, $log, (int) $user_data['id'], $user_data);
     }
 
     /**
@@ -875,25 +866,22 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         $loggedin_ID    = self::getLoggedInID();
 
-        if (is_null($database) || is_null($log)) {
+        if ($database === null || $log === null) {
             $database = new Database();
             $log = new Log($database);
         }
-        if (!is_object(static::$loggedin_user)) {
+        if (!\is_object(static::$loggedin_user)) {
             if ($database->doesTableExist('users')) {
                 $var = null;
                 static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
             } else {
                 $var = null;
                 //When no user table exists, create a fake user, with all needed permission
-                return new User($database, $var, $log, 0, array("perms_system_database" => 21845));
+                return new User($database, $var, $log, 0, array('perms_system_database' => 21845));
             }
-        } else { //A user is cached...
-            //Check if the the cached user, is the one we want!
-            if (static::$loggedin_user->getID() != $loggedin_ID) {
-                $var = null;
-                static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
-            }
+        } else if (static::$loggedin_user->getID() != $loggedin_ID) {
+            $var = null;
+            static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
         }
 
         return static::$loggedin_user;
@@ -906,7 +894,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * will be logged in.
      * @return boolean True, if the user was successfully logged in. False if a error appeared, like a wrong password.
      */
-    public static function login(User &$user, string $password = "") : bool
+    public static function login(User $user, string $password = '') : bool
     {
         if (empty($password) || !$user->isPasswordValid($password)) { //If $password is set, and wrong.
             return false;
@@ -950,16 +938,16 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return string A string with HTML
      * @throws Exception
      */
-    public static function buildHTMLList(Database &$database, User &$current_user, Log &$log, int $selected_id = -1)
+    public static function buildHTMLList(Database $database, User $current_user, Log $log, int $selected_id = -1)
     {
         $users = self::getAllUsers($database, $current_user, $log);
         $html = array();
         foreach ($users as $user) {
             /** @var User $user */
-            $selected = $user->getID() == $selected_id ? " selected" : "";
-            $no_pw    = $user->hasNoPassword() ? _("  [Kein Password]") : "";
-            $is_current =  $user->isLoggedInUser() ? _("  [Aktueller Nutzer]") : "";
-            $html[] = "<option value='" . $user->getID()  . "'" . $selected . ">" . $user->getFullName(true) . $no_pw . $is_current . "</option>";
+            $selected = $user->getID() == $selected_id ? ' selected' : '';
+            $no_pw    = $user->hasNoPassword() ? _('  [Kein Password]') : '';
+            $is_current =  $user->isLoggedInUser() ? _('  [Aktueller Nutzer]') : '';
+            $html[] = "<option value='" . $user->getID()  . "'" . $selected . '>' . $user->getFullName(true) . $no_pw . $is_current . '</option>';
         }
         return implode("\n", $html);
     }
@@ -972,16 +960,16 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return User[] Any array of all users in the database.
      * @throws Exception
      */
-    public static function getAllUsers(Database &$database, User &$current_user, Log &$log) : array
+    public static function getAllUsers(Database $database, User $current_user, Log $log) : array
     {
         if (!$current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
             return array($current_user);
         }
 
-        $results = $database->query("SELECT * FROM users");
+        $results = $database->query('SELECT * FROM users');
         $users = array();
         foreach ($results as $result) {
-            $users[] = User::getInstance($database, $current_user, $log, (int) $result['id'], $result);
+            $users[] = self::getInstance($database, $current_user, $log, (int) $result['id'], $result);
         }
 
         return $users;
@@ -998,7 +986,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return Base\NamedDBElement|User
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $group_id, array $data)
+    public static function add(Database $database, User $current_user, Log $log, string $name, int $group_id, array $data)
     {
         $current_user->tryDo(PermissionManager::USERS, UserPermission::CREATE);
 
@@ -1046,6 +1034,6 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getIDString(): string
     {
-        return "U" . sprintf("%06d", $this->getID());
+        return 'U' . sprintf('%06d', $this->getID());
     }
 }

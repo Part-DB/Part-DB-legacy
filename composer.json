@@ -1,7 +1,7 @@
 {
   "name": "part-db/server",
   "description": "Part-DB is a tool for managment of electronic parts.",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "type": "project",
   "keywords": ["database", "electronic", "application"],
   "homepage": "https://github.com/jbtronics/Part-DB",
@@ -30,7 +30,8 @@
     "kartik-v/bootstrap-fileinput": "4.*",
     "jquery-form/form": "4.*",
     "nnnick/chartjs": "2.7.*",
-    "geertw/ip-anonymizer" : "1.*"
+    "geertw/ip-anonymizer" : "1.*",
+    "ext-iconv": "*"
   },
 
   "require-dev": {

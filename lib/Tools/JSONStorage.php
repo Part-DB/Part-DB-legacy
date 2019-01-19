@@ -57,7 +57,7 @@ class JSONStorage
             throw new \InvalidArgumentException(_("$file_path ist kein gültiger Dateipfad!"));
         }*/
 
-        if (!strcontains($file_path, ".json")) {
+        if (!strcontains($file_path, '.json')) {
             throw new \InvalidArgumentException(_("$file_path muss eine .json Datei sein!"));
         }
 
@@ -79,8 +79,8 @@ class JSONStorage
     public function write()
     {
         //Do some simple checks to $database.
-        if (!is_array($this->database)) {
-            throw new \RuntimeException(_("Interner Datenbankfehler!"));
+        if (!\is_array($this->database)) {
+            throw new \RuntimeException(_('Interner Datenbankfehler!'));
         }
 
         $json = json_encode($this->database, $this->json_encode_options);
@@ -99,8 +99,8 @@ class JSONStorage
             $data = json_decode($text, true);
 
             //Do some simple checks to $data:
-            if (!(is_array($data) || is_object($data))) {
-                throw new \RuntimeException(_("Die JSON-Datei enthält fehlerhafte Daten!"));
+            if (!(\is_array($data) || \is_object($data))) {
+                throw new \RuntimeException(_('Die JSON-Datei enthält fehlerhafte Daten!'));
             }
 
             //Apply to $this->database.
@@ -127,7 +127,7 @@ class JSONStorage
      */
     public function itemExists(string $key) : bool
     {
-        return array_key_exists($key, $this->database);
+        return \array_key_exists($key, $this->database);
     }
 
     /**
@@ -141,7 +141,7 @@ class JSONStorage
     {
         if (!$this->itemExists($key)) {
             if ($throw_exception) {
-                throw new \RuntimeException(sprintf(_("Kein Item mit Schlüssel %s vorhanden!"), $key));
+                throw new \RuntimeException(sprintf(_('Kein Item mit Schlüssel %s vorhanden!'), $key));
             } else {
                 return null;
             }
@@ -159,7 +159,7 @@ class JSONStorage
     public function addItem(string $key, $data, bool $write_data = true)
     {
         if ($this->itemExists($key)) {
-            throw new \RuntimeException(sprintf(_("Es existiert bereits ein Item mit dem Schlüssel %s!"), $key));
+            throw new \RuntimeException(sprintf(_('Es existiert bereits ein Item mit dem Schlüssel %s!'), $key));
         }
 
         $this->database[$key] = $data;
@@ -178,7 +178,7 @@ class JSONStorage
     public function editItem(string $key, bool $data, bool $write_data = true, bool $create_when_not_exist = false)
     {
         if (!$create_when_not_exist && !$this->itemExists($key)) {
-            throw new \RuntimeException(sprintf(_("Es existiert bereits ein Item mit dem Schlüssel %s!"), $key));
+            throw new \RuntimeException(sprintf(_('Es existiert bereits ein Item mit dem Schlüssel %s!'), $key));
         }
 
         $this->database[$key] = $data;
@@ -195,7 +195,7 @@ class JSONStorage
     public function deleteItem(string $key, bool $write_data = true)
     {
         if (!$this->itemExists($key)) {
-            throw new \RuntimeException(sprintf(_("Kein Item mit Schlüssel %s vorhanden!"), $key));
+            throw new \RuntimeException(sprintf(_('Kein Item mit Schlüssel %s vorhanden!'), $key));
         }
 
         unset($this->database[$key]);
@@ -214,7 +214,7 @@ class JSONStorage
     public function renameItem(string $old_key, string $new_key, bool $write_data = true)
     {
         if (!$this->itemExists($old_key)) {
-            throw new \RuntimeException(sprintf(_("Kein Item mit Schlüssel %s vorhanden!"), $old_key));
+            throw new \RuntimeException(sprintf(_('Kein Item mit Schlüssel %s vorhanden!'), $old_key));
         }
         $data = $this->getItem($old_key);
         //Create a new item with new name
@@ -228,10 +228,10 @@ class JSONStorage
      * @param string $filter Every key which gets returned has to contain this string. Set to "" to get all keys unfiltered.
      * @return array An array with all keys.
      */
-    public function getKeyList(string $filter = "") : array
+    public function getKeyList(string $filter = '') : array
     {
         $keys = array_keys($this->database);
-        if ($filter == "") {
+        if ($filter == '') {
             return $keys;
         } else {
             return array_filter($keys, function ($var) use ($filter) {

@@ -23,10 +23,10 @@ namespace PartDB\Permissions;
 
 class DevicePartPermission extends BasePermission
 {
-    const CREATE = "create";
-    const READ  = "read";
-    const EDIT  = "edit";
-    const DELETE = "delete";
+    const CREATE = 'create';
+    const READ  = 'read';
+    const EDIT  = 'edit';
+    const DELETE = 'delete';
 
     protected static $operation_cache = null;
 
@@ -42,10 +42,10 @@ class DevicePartPermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[static::READ] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
-            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
-            $operations[static::CREATE] = static::buildOperationArray(6, static::CREATE, _("Anlegen"));
-            $operations[static::DELETE] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
+            $operations[static::READ] = static::buildOperationArray(0, static::READ, _('Anzeigen'));
+            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _('Bearbeiten'));
+            $operations[static::CREATE] = static::buildOperationArray(6, static::CREATE, _('Anlegen'));
+            $operations[static::DELETE] = static::buildOperationArray(8, static::DELETE, _('Löschen'));
 
             static::$operation_cache = $operations;
         }
@@ -60,7 +60,7 @@ class DevicePartPermission extends BasePermission
                 || $operation == static::DELETE
                 || $operation == static::CREATE)
             && $new_value == static::ALLOW) {
-            return parent::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

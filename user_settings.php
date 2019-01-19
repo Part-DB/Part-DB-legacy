@@ -20,7 +20,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once  __DIR__ . '/start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -37,25 +37,25 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *   Evaluate $_REQUEST
  *
  *********************************************************************************/
-$pw_old             = isset($_POST['pw_old'])            ? $_POST['pw_old']                   : "";
-$pw_1               = isset($_POST['pw_1'])              ? $_POST['pw_1']                   : "";
-$pw_2               = isset($_POST['pw_2'])              ? $_POST['pw_2']                   : "";
+$pw_old             = $_POST['pw_old'] ?? '';
+$pw_1               = $_POST['pw_1'] ?? '';
+$pw_2               = $_POST['pw_2'] ?? '';
 
-$new_username       = isset($_POST['username'])          ? $_POST['username']                 : "";
-$new_firstname      = isset($_POST['firstname'])         ? $_POST['firstname']                : "";
-$new_lastname       = isset($_POST['lastname'])          ? $_POST['lastname']                 : "";
-$new_email          = isset($_POST['email'])             ? $_POST['email']                    : "";
-$new_department     = isset($_POST['department'])        ? $_POST['department']               : "";
+$new_username       = $_POST['username'] ?? '';
+$new_firstname      = $_POST['firstname'] ?? '';
+$new_lastname       = $_POST['lastname'] ?? '';
+$new_email          = $_POST['email'] ?? '';
+$new_department     = $_POST['department'] ?? '';
 
-$new_theme          = isset($_POST['custom_css'])        ? $_POST['custom_css']               : "";
-$new_timezone       = isset($_POST['timezone'])          ? $_POST['timezone']                 : "";
-$new_language       = isset($_POST['language'])          ? $_POST['language']                 : "";
+$new_theme          = $_POST['custom_css'] ?? '';
+$new_timezone       = $_POST['timezone'] ?? '';
+$new_language       = $_POST['language'] ?? '';
 
-$new_comment_withdrawal = isset($_POST['default_comment_withdrawal']) ? $_POST['default_comment_withdrawal'] : null;
-$new_comment_addition = isset($_POST['default_comment_addition']) ? $_POST['default_comment_addition'] : null;
+$new_comment_withdrawal = $_POST['default_comment_withdrawal'] ?? null;
+$new_comment_addition = $_POST['default_comment_addition'] ?? null;
 
 $action = 'default';
-if (isset($_POST["change_pw"])) {
+if (isset($_POST['change_pw'])) {
     $action = 'change_pw';
 }
 
@@ -89,28 +89,28 @@ try {
 
 if (!$fatal_error) {
     switch ($action) {
-        case "change_pw":
+        case 'change_pw':
             try {
                 if ($config['is_online_demo']) {
-                    $messages[] = array('text' => _("Diese Funktion ist in der Onlinedemo deaktiviert!"), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Diese Funktion ist in der Onlinedemo deaktiviert!'), 'strong' => true, 'color' => 'red');
                     break;
                 }
 
-                if ($pw_1 == "" || $pw_2 == "") {
-                    $messages[] = array('text' => _("Das neue Password darf nicht leer sein!"), 'strong' => true, 'color' => 'red');
+                if ($pw_1 == '' || $pw_2 == '') {
+                    $messages[] = array('text' => _('Das neue Password darf nicht leer sein!'), 'strong' => true, 'color' => 'red');
                     break;
                 }
                 if ($pw_1 !== $pw_2) {
-                    $messages[] = array('text' => _("Das neue Password und die Bestätigung müssen übereinstimmen!"), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Das neue Password und die Bestätigung müssen übereinstimmen!'), 'strong' => true, 'color' => 'red');
                     break;
                 }
                 if (!$current_user->isPasswordValid($pw_old)) {
-                    $messages[] = array('text' => _("Das eingegebene alte Password war falsch!"), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Das eingegebene alte Password war falsch!'), 'strong' => true, 'color' => 'red');
                     break;
                 }
                 //If all checks were ok, change the password!
                 $current_user->setPassword($pw_1, false);
-                $messages[] = array('text' => _("Das Passwort wurde erfolgreich geändert!"), 'strong' => true, 'color' => 'green');
+                $messages[] = array('text' => _('Das Passwort wurde erfolgreich geändert!'), 'strong' => true, 'color' => 'green');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -120,7 +120,7 @@ if (!$fatal_error) {
 
         case 'apply':
             if ($config['is_online_demo']) {
-                $messages[] = array('text' => _("Diese Funktion ist in der Onlinedemo deaktiviert!"), 'strong' => true, 'color' => 'red');
+                $messages[] = array('text' => _('Diese Funktion ist in der Onlinedemo deaktiviert!'), 'strong' => true, 'color' => 'red');
                 break;
             }
 
@@ -162,16 +162,16 @@ if (!$fatal_error) {
 
 if (! $fatal_error) {
     try {
-        $html->setVariable("username", $current_user->getName(), "string");
-        $html->setVariable("firstname", $current_user->getFirstName(), "string");
-        $html->setVariable("lastname", $current_user->getLastName(), "string");
-        $html->setVariable("email", $current_user->getEmail(), "string");
-        $html->setVariable("department", $current_user->getDepartment(), "string");
-        $html->setVariable("group", $current_user->getGroup()->getFullPath(), "string");
-        $html->setVariable('avatar_url', $current_user->getAvatar(), "string");
+        $html->setVariable('username', $current_user->getName(), 'string');
+        $html->setVariable('firstname', $current_user->getFirstName(), 'string');
+        $html->setVariable('lastname', $current_user->getLastName(), 'string');
+        $html->setVariable('email', $current_user->getEmail(), 'string');
+        $html->setVariable('department', $current_user->getDepartment(), 'string');
+        $html->setVariable('group', $current_user->getGroup()->getFullPath(), 'string');
+        $html->setVariable('avatar_url', $current_user->getAvatar(), 'string');
 
-        $html->setVariable('default_comment_addition', $current_user->getDefaultInstockChangeComment(false), "string");
-        $html->setVariable('default_comment_withdrawal', $current_user->getDefaultInstockChangeComment(true), "string");
+        $html->setVariable('default_comment_addition', $current_user->getDefaultInstockChangeComment(false), 'string');
+        $html->setVariable('default_comment_withdrawal', $current_user->getDefaultInstockChangeComment(true), 'string');
 
         //Configuration settings
         $html->setVariable('custom_css_loop', build_custom_css_loop($current_user->getTheme(true), true));
@@ -200,12 +200,12 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 
-$reload_link = $fatal_error ? 'user_settings.php' : "";  // an empty string means that the...
+$reload_link = $fatal_error ? 'user_settings.php' : '';  // an empty string means that the...
 $html->printHeader($messages, $reload_link);                           // ...reload-button won't be visible
 
 

@@ -31,7 +31,7 @@
  *  If you make changes in one of them, please check if you should change the other files too.
  */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -59,36 +59,36 @@ $new_name                   = isset($_POST['name'])          ? (string)$_POST['n
 $add_more                   = isset($_POST['add_more']);
 
 //Tab standard
-$new_first_name             = isset($_POST['first_name'])    ? (string)$_POST['first_name']   : "";
-$new_last_name              = isset($_POST['last_name'])     ? (string)$_POST['last_name']    : "";
-$new_email                  = isset($_POST['email'])         ? (string)$_POST['email']        : "";
-$new_department             = isset($_POST['department'])    ? (string)$_POST['department']   : "";
+$new_first_name             = isset($_POST['first_name'])    ? (string)$_POST['first_name']   : '';
+$new_last_name              = isset($_POST['last_name'])     ? (string)$_POST['last_name']    : '';
+$new_email                  = isset($_POST['email'])         ? (string)$_POST['email']        : '';
+$new_department             = isset($_POST['department'])    ? (string)$_POST['department']   : '';
 $new_group_id               = isset($_POST['group_id'])      ? (int)$_POST['group_id']        : 0;
 
 //Tab "set password"
-$new_password               = isset($_POST['password_1'])    ? (string)$_POST['password_1']   : "";
-$new_password_2             = isset($_POST['password_2'])    ? (string)$_POST['password_2']   : "";
+$new_password               = isset($_POST['password_1'])    ? (string)$_POST['password_1']   : '';
+$new_password_2             = isset($_POST['password_2'])    ? (string)$_POST['password_2']   : '';
 $must_change_pw             = isset($_POST['must_change_pw']);
 
 //Tab configuration
-$new_theme          = isset($_POST['custom_css'])        ? $_POST['custom_css']               : "";
-$new_timezone       = isset($_POST['timezone'])          ? $_POST['timezone']                 : "";
-$new_language       = isset($_POST['language'])          ? $_POST['language']                 : "";
+$new_theme          = $_POST['custom_css'] ?? '';
+$new_timezone       = isset($_POST['timezone'])          ? $_POST['timezone']                 : '';
+$new_language       = isset($_POST['language'])          ? $_POST['language']                 : '';
 $new_comment_withdrawal = isset($_POST['default_comment_withdrawal']) ? $_POST['default_comment_withdrawal'] : null;
 $new_comment_addition = isset($_POST['default_comment_addition']) ? $_POST['default_comment_addition'] : null;
 
 
 $action = 'default';
-if (isset($_POST["add"])) {
+if (isset($_POST['add'])) {
     $action = 'add';
 }
-if (isset($_POST["delete"])) {
+if (isset($_POST['delete'])) {
     $action = 'delete';
 }
-if (isset($_POST["delete_confirmed"])) {
+if (isset($_POST['delete_confirmed'])) {
     $action = 'delete_confirmed';
 }
-if (isset($_POST["apply"])) {
+if (isset($_POST['apply'])) {
     $action = 'apply';
 }
 
@@ -129,10 +129,10 @@ if (! $fatal_error) {
     switch ($action) {
         case 'add':
             try {
-                $data = array("first_name" => $new_first_name,
-                    "last_name" => $new_last_name,
-                    "department" => $new_department,
-                    "email" => $new_email
+                $data = array('first_name' => $new_first_name,
+                    'last_name' => $new_last_name,
+                    'department' => $new_department,
+                    'email' => $new_email
                 );
 
                 $new_user = User::add($database, $current_user, $log, $new_name, $new_group_id, $data);
@@ -148,10 +148,10 @@ if (! $fatal_error) {
                 $new_user->getPermissionManager()->parsePermissionsFromRequest($_POST);
 
                 //When user wants to set a new password
-                if ($new_password !== "") {
+                if ($new_password !== '') {
                     try {
                         if ($new_password !== $new_password_2) {
-                            throw new Exception(_("Das neue Password und die Bestätigung müssen übereinstimmen!"));
+                            throw new Exception(_('Das neue Password und die Bestätigung müssen übereinstimmen!'));
                         }
 
                         $new_user->setPassword($new_password, $must_change_pw);
@@ -179,7 +179,7 @@ if (! $fatal_error) {
                 $messages[] = array('text' => sprintf(_('Soll der Benutzer "%s'.
                     '" wirklich unwiederruflich gelöscht werden?'), $selected_user->getFullName(true)), 'strong' => true, 'color' => 'red');
                 $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_user->getID().'">');
-                $messages[] = array('html' => '<input type="submit" class="btn btn-secondary" name="" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
+                $messages[] = array('html' => '<input type="submit" class="btn btn-secondary" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                 $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Nutzer löschen').'">');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
@@ -209,11 +209,11 @@ if (! $fatal_error) {
                 }
 
                 $selected_user->setAttributes(array( 'name'     => $new_name,
-                    "first_name" => $new_first_name,
-                    "last_name" => $new_last_name,
-                    "department" => $new_department,
-                    "email" => $new_email,
-                    "group_id" => $new_group_id
+                    'first_name' => $new_first_name,
+                    'last_name' => $new_last_name,
+                    'department' => $new_department,
+                    'email' => $new_email,
+                    'group_id' => $new_group_id
                 ));
 
                 //Dont check if this value is set, because empty string is a valid value.
@@ -227,14 +227,14 @@ if (! $fatal_error) {
                 $selected_user->getPermissionManager()->parsePermissionsFromRequest($_POST);
 
                 //When user wants to set a new password
-                if ($new_password !== "") {
+                if ($new_password !== '') {
                     try {
                         if ($new_password !== $new_password_2) {
-                            throw new Exception(_("Das neue Password und die Bestätigung müssen übereinstimmen!"));
+                            throw new Exception(_('Das neue Password und die Bestätigung müssen übereinstimmen!'));
                         }
 
                         $selected_user->setPassword($new_password, $must_change_pw, false);
-                        $messages[] = array('text' => _("Das Passwort wurde erfolgreich geändert!"), 'strong' => true, 'color' => 'green');
+                        $messages[] = array('text' => _('Das Passwort wurde erfolgreich geändert!'), 'strong' => true, 'color' => 'green');
                     } catch (Exception $e) {
                         $messages[] = array('text' => _('Das Password des Users konnte nicht geändert werden!'), 'strong' => true, 'color' => 'red');
                         $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -279,12 +279,12 @@ if (! $fatal_error) {
             $last_modified_user = $selected_user->getLastModifiedUser();
             $creation_user = $selected_user->getCreationUser();
             if ($last_modified_user != null) {
-                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
-                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), 'string');
+                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), 'int');
             }
             if ($creation_user != null) {
-                $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
-                $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+                $html->setVariable('creation_user', $creation_user->getFullName(true), 'string');
+                $html->setVariable('creation_user_id', $creation_user->getID(), 'int');
             }
 
 
@@ -322,27 +322,27 @@ if (! $fatal_error) {
             $group_id = $new_group_id;
         } else {
             $name = '';
-            $first_name = "";
-            $last_name = "";
-            $email = "";
-            $department = "";
+            $first_name = '';
+            $last_name = '';
+            $email = '';
+            $department = '';
             $no_password = false;
             $group_id = 0;
             $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop($perm_readonly);
 
-            $comment_addition = "";
-            $comment_withdrawal = "";
+            $comment_addition = '';
+            $comment_withdrawal = '';
 
             //Configuration settings
-            $html->setVariable('custom_css_loop', build_custom_css_loop("", true));
+            $html->setVariable('custom_css_loop', build_custom_css_loop('', true));
             //Convert timezonelist, to a format, we can use
             $timezones_raw = DateTimeZone::listIdentifiers();
             $timezones = array();
             foreach ($timezones_raw as $timezone) {
                 $timezones[$timezone] = $timezone;
             }
-            $html->setVariable('timezone_loop', arrayToTemplateLoop($timezones, ""));
-            $html->setVariable('language_loop', arrayToTemplateLoop($config['languages'], ""));
+            $html->setVariable('timezone_loop', arrayToTemplateLoop($timezones, ''));
+            $html->setVariable('language_loop', arrayToTemplateLoop($config['languages'], ''));
         }
 
         $html->setVariable('name', $name, 'string');
@@ -352,25 +352,25 @@ if (! $fatal_error) {
         $html->setVariable('department', $department, 'string');
         $html->setVariable('no_password', $no_password, 'string');
 
-        $html->setVariable('default_comment_addition', $comment_addition, "string");
-        $html->setVariable('default_comment_withdrawal', $comment_withdrawal, "string");
+        $html->setVariable('default_comment_addition', $comment_addition, 'string');
+        $html->setVariable('default_comment_withdrawal', $comment_withdrawal, 'string');
 
 
         $html->setVariable(
             'group_list',
-            $root_group->buildHtmlTree($group_id, true, true, _("Keine Gruppe")),
+            $root_group->buildHtmlTree($group_id, true, true, _('Keine Gruppe')),
             'string'
         );
 
         $user_list = User::buildHTMLList($database, $current_user, $log, $selected_id);
         $html->setVariable('user_list', $user_list, 'string');
 
-        $html->setVariable("perm_loop", $perm_loop);
+        $html->setVariable('perm_loop', $perm_loop);
 
         //$parent_device_list = $root_device->buildHtmlTree($parent_id, true, true);
         //$html->setVariable('parent_device_list', $parent_device_list, 'string');
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
@@ -394,8 +394,8 @@ $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USE
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $reload_link = $fatal_error ? 'edit_users.php' : '';    // an empty string means that the...

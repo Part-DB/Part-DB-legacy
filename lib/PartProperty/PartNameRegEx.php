@@ -29,9 +29,9 @@ class PartNameRegEx
     private static $pattern = '/^(\/.+\/)(?:@([fn]+))?(?:\$(.+))*$/';
 
     /** @var string  */
-    private $regex = "";
+    private $regex = '';
     /** @var string  */
-    private $flags_str = "";
+    private $flags_str = '';
     /** @var string[] */
     private $capture_names = array();
 
@@ -44,7 +44,7 @@ class PartNameRegEx
     {
         if (!empty($partname_regex)) {
             if (!self::isValid($partname_regex)) {
-                throw new Exception("The PartNameRegex string (" . $partname_regex . ") is not valid!");
+                throw new Exception('The PartNameRegex string (' . $partname_regex . ') is not valid!');
             }
 
             $this->parse($partname_regex);
@@ -59,7 +59,7 @@ class PartNameRegEx
         $this->regex = $matches[1];
         $this->flags_str = $matches[2];
 
-        $this->capture_names = explode("$", $matches[3]);
+        $this->capture_names = explode('$', $matches[3]);
     }
 
 
@@ -86,9 +86,9 @@ class PartNameRegEx
      * Checks if the Name filter is enforced, so it cant be ignored.
      * @return bool True, if the filter is enforced.
      */
-    public function isEnforced()
+    public function isEnforced() : bool
     {
-        return strcontains($this->flags_str, "f");
+        return strcontains($this->flags_str, 'f');
     }
 
     /**
@@ -97,7 +97,7 @@ class PartNameRegEx
      */
     public function isNofilter() : bool
     {
-        return strcontains($this->flags_str, "n");
+        return strcontains($this->flags_str, 'n');
     }
 
     /**
@@ -126,11 +126,11 @@ class PartNameRegEx
 
         $properties = array();
 
-        for ($n=0; $n<count($this->capture_names); $n++) {
+        foreach ($this->capture_names as $n => $nValue) {
             if (empty($tmp[$n + 1])) { //Ignore empty values
                 continue;
             }
-            $properties[] = new PartProperty("", $this->capture_names[$n], $tmp[$n + 1]);
+            $properties[] = new PartProperty('', $this->capture_names[$n], $tmp[$n + 1]);
         }
 
         return $properties;
@@ -147,11 +147,7 @@ class PartNameRegEx
             return true;
         }
 
-        if (mb_eregi($this->getRegex(true), $name) !== false) {
-            return true;
-        } else {
-            return false;
-        }
+        return mb_eregi($this->getRegex(true), $name) !== false;
     }
 
     /**
@@ -165,18 +161,18 @@ class PartNameRegEx
      */
     public static function isValid(string $partname_regex) : bool
     {
-        return mb_ereg_match(PartNameRegEx::getPattern(false, true), $partname_regex);
+        return mb_ereg_match(self::getPattern(false, true), $partname_regex);
     }
 
     public static function getPattern(bool $for_html_pattern = false, bool $for_mb = false) : string
     {
         if ($for_html_pattern) {
-            $pattern = regexStripSlashes(regexAllowUmlauts(PartNameRegEx::$pattern));
+            $pattern = regexStripSlashes(regexAllowUmlauts(self::$pattern));
             return "($pattern)|(@@)";
         } elseif ($for_mb) {
-            return regexStripSlashes(PartNameRegEx::$pattern);
+            return regexStripSlashes(self::$pattern);
         } else {
-            return regexAllowUmlauts(PartNameRegEx::$pattern);
+            return regexAllowUmlauts(self::$pattern);
         }
     }
 }

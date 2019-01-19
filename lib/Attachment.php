@@ -34,6 +34,8 @@ use PartDB\Exceptions\TableNotExistingException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PermissionManager;
+use PartDB\Part;
+use PartDB\Device;
 
 /**
  * @file Attachement.php
@@ -65,7 +67,7 @@ class Attachment extends Base\NamedDBElement
      *
      *********************************************************************************/
 
-    const TABLE_NAME = "attachements";
+    const TABLE_NAME = 'attachements';
 
     /**
      * Constructor
@@ -128,13 +130,13 @@ class Attachment extends Base\NamedDBElement
         $filename = $this->getFilename();
         $must_file_delete = false;
 
-        if (($delete_from_hdd) && (strlen($filename) > 0)) {
+        if ($delete_from_hdd && (\strlen($filename) !== '')) {
             // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
-            $attachements = Attachment::getAttachementsByFilename($this->database, $this->current_user, $this->log, $filename);
+            $attachements = self::getAttachementsByFilename($this->database, $this->current_user, $this->log, $filename);
 
-            if ((count($attachements) <= 1) && (file_exists($filename))) {
+            if ((count($attachements) <= 1) && file_exists($filename)) {
                 // check if there are enought permissions to delete the file
-                if (! is_writable(dirname($filename))) {
+                if (! is_writable(\dirname($filename))) {
                     throw new Exception(sprintf(_('Die Datei "%s" kann nicht gelöscht werden, '.
                         'da im übergeordneten Ordner keine Schreibrechte vorhanden sind!'), $filename));
                 }
@@ -167,11 +169,9 @@ class Attachment extends Base\NamedDBElement
             parent::delete();
 
             // now delete the file (if desired)
-            if ($must_file_delete) {
-                if (! unlink($filename)) {
-                    throw new Exception(sprintf(_('Die Datei "%s" kann nicht von der Festplatte gelöscht '.
-                        "werden! \nÜberprüfen Sie, ob die nötigen Rechte vorhanden sind."), $filename));
-                }
+            if ($must_file_delete && !unlink($filename)) {
+                throw new Exception(sprintf(_('Die Datei "%s" kann nicht von der Festplatte gelöscht '.
+                    "werden! \nÜberprüfen Sie, ob die nötigen Rechte vorhanden sind."), $filename));
             }
 
             $this->database->commit($transaction_id); // commit transaction
@@ -198,7 +198,7 @@ class Attachment extends Base\NamedDBElement
         // list all file extensions which are supported to display them by HTML code
         $picture_extensions = array('gif', 'png', 'jpg', 'jpeg', 'bmp', 'svg', 'tif');
 
-        return in_array(strtolower($extension), $picture_extensions);
+        return in_array(strtolower($extension), $picture_extensions, true);
     }
 
     /********************************************************************************
@@ -340,7 +340,7 @@ class Attachment extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getAttachementsByFilename(Database &$database, User &$current_user, Log &$log, string $filename) : array
+    public static function getAttachementsByFilename(Database $database, User $current_user, Log $log, string $filename) : array
     {
         $attachements = array();
 
@@ -374,7 +374,7 @@ class Attachment extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getInvalidFilenameAttachements(Database &$database, User &$current_user, Log &$log) : array
+    public static function getInvalidFilenameAttachements(Database $database, User $current_user, Log $log) : array
     {
         $attachements = array();
 
@@ -394,7 +394,7 @@ class Attachment extends Base\NamedDBElement
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we set the basename as the name if the name is empty
         $values['name'] = trim($values['name']);
@@ -406,7 +406,7 @@ class Attachment extends Base\NamedDBElement
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set boolean attributes
-        settype($values['show_in_table'], 'boolean');
+        $values['show_in_table'] = (bool)$values['show_in_table'];
 
         // check "type_id"
         try {
@@ -421,13 +421,13 @@ class Attachment extends Base\NamedDBElement
         }
 
         //Namespace migration for old non-Namespace parts
-        if ($values['class_name'] == "Part") {
-            $values['class_name'] = "PartDB\Part";
+        if ($values['class_name'] == 'Part') {
+            $values['class_name'] = Part::class;
         }
 
         // check "class_name"
-        $supported_classes = array("PartDB\Part",
-            "PartDB\Device"); // to be continued (step by step)...
+        $supported_classes = array(Part::class,
+            Device::class); // to be continued (step by step)...
 
         if (! in_array($values['class_name'], $supported_classes)) {
             throw new InvalidElementValueException(sprintf(_('Ungültiger Klassenname: "%s"'), $values['class_name']));
@@ -495,10 +495,10 @@ class Attachment extends Base\NamedDBElement
      * @see DBElement::add()
      */
     public static function add(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
-        DBElement &$element,
+        Database $database,
+        User $current_user,
+        Log $log,
+        DBElement $element,
         int $type_id,
         string $filename,
         string $name = '',
@@ -508,7 +508,7 @@ class Attachment extends Base\NamedDBElement
 
 
         if (! $element instanceof DBElement) {
-            throw new \InvalidArgumentException((_('$element ist kein gültiges DBElement!')));
+            throw new \InvalidArgumentException(_('$element ist kein gültiges DBElement!'));
         }
 
         return parent::addByArray(
@@ -531,6 +531,6 @@ class Attachment extends Base\NamedDBElement
      */
     public function getIDString(): string
     {
-        return "A" . sprintf("%09d", $this->getID());
+        return 'A' . sprintf('%09d', $this->getID());
     }
 }

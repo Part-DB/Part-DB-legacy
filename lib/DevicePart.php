@@ -46,7 +46,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class DevicePart extends Base\DBElement
 {
-    const TABLE_NAME = "device_parts";
+    const TABLE_NAME = 'device_parts';
 
     /********************************************************************************
      *
@@ -113,7 +113,7 @@ class DevicePart extends Base\DBElement
      */
     public function getDevice() : Device
     {
-        if (! is_object($this->device)) {
+        if (! \is_object($this->device)) {
             $this->device = Device::getInstance(
                 $this->database,
                 $this->current_user,
@@ -134,7 +134,7 @@ class DevicePart extends Base\DBElement
      */
     public function getPart() : Part
     {
-        if (! is_object($this->part)) {
+        if (! \is_object($this->part)) {
             $this->part = Part::getInstance(
                 $this->database,
                 $this->current_user,
@@ -170,7 +170,7 @@ class DevicePart extends Base\DBElement
     public function getMountNames() : string
     {
         if (!$this->current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)) {
-            return "???";
+            return '???';
         }
 
         return $this->db_data['mountnames'];
@@ -219,7 +219,7 @@ class DevicePart extends Base\DBElement
      * @copydoc Part::build_template_table_row_array()
      * @throws Exception
      */
-    public function buildTemplateTableRowArray($table_type, $row_index, $additional_values = array())
+    public function buildTemplateTableRowArray($table_type, $row_index, $additional_values = array()) : array
     {
         //$single_prices = $this->get_part()->get_prices(false, '<br>', $this->get_mount_quantity(), 1);
         //$total_prices = $this->get_part()->get_prices(false, '<br>', $this->get_mount_quantity());
@@ -262,7 +262,7 @@ class DevicePart extends Base\DBElement
      * @copydoc Part::build_template_table_array()
      * @throws Exception
      */
-    public static function buildTemplateTableArray($parts, $table_type)
+    public static function buildTemplateTableArray($parts, $table_type) : array
     {
         return Part::buildTemplateTableArray($parts, $table_type);
     }
@@ -277,7 +277,7 @@ class DevicePart extends Base\DBElement
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -306,10 +306,10 @@ class DevicePart extends Base\DBElement
         }
 
         // check "quantity"
-        if (((! is_int($values['quantity'])) && (! ctype_digit($values['quantity'])))
+        if (((! \is_int($values['quantity'])) && (! ctype_digit($values['quantity'])))
             || ($values['quantity'] < 0)) {
             throw new InvalidElementValueException(
-                sprintf(_('Die Bestückungs-Anzahl "%d" ist ungültig!'), (int) $values['quantity'])
+                sprintf(_('Die Bestückungs-Anzahl "%d" ist ungültig!'), $values['quantity'])
             );
         }
     }
@@ -328,7 +328,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getDevicePart(Database &$database, User &$current_user, Log &$log, int $device_id, int $part_id)
+    public static function getDevicePart(Database $database, User $current_user, Log $log, int $device_id, int $part_id)
     {
         $query_data = $database->query(
             'SELECT id FROM device_parts '.
@@ -337,7 +337,7 @@ class DevicePart extends Base\DBElement
         );
 
         if (count($query_data) > 0) {
-            return DevicePart::getInstance($database, $current_user, $log, (int) $query_data[0]['id']);
+            return self::getInstance($database, $current_user, $log, (int) $query_data[0]['id']);
         } else {
             return null;
         }
@@ -355,7 +355,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getOrderDeviceParts(Database &$database, User &$current_user, Log &$log, $part_id = null) : array
+    public static function getOrderDeviceParts(Database $database, User $current_user, Log $log, $part_id = null) : array
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -400,7 +400,7 @@ class DevicePart extends Base\DBElement
      */
     public function getIDString(): string
     {
-        return "DP" . sprintf("%06d", $this->getID());
+        return 'DP' . sprintf('%06d', $this->getID());
     }
 
     /**
@@ -431,9 +431,9 @@ class DevicePart extends Base\DBElement
      * @see DBElement::add()
      */
     public static function add(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         int $device_id,
         int $part_id,
         int $quantity,
@@ -443,17 +443,17 @@ class DevicePart extends Base\DBElement
         $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE);
 
         $existing_devicepart = DevicePart::getDevicePart($database, $current_user, $log, $device_id, $part_id);
-        if (is_object($existing_devicepart)) {
+        if (\is_object($existing_devicepart)) {
             if ($increase_if_exist) {
-                if (((! is_int($quantity)) && (! ctype_digit($quantity))) || ($quantity < 0)) {
+                if (((! \is_int($quantity)) && (! ctype_digit($quantity))) || ($quantity < 0)) {
                     throw new Exception(_('Die Bestückungs-Anzahl ist ungültig!'));
                 }
 
                 $quantity = $existing_devicepart->getMountQuantity() + $quantity;
 
                 $old_mountnames = $existing_devicepart->getMountNames();
-                if (strlen($mountnames) > 0) {
-                    if (strlen($old_mountnames) > 0) {
+                if ($mountnames !== '') {
+                    if (\strlen($old_mountnames) > 0) {
                         $mountnames = $old_mountnames . ', ' . $mountnames;
                     }
                 } else {

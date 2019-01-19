@@ -27,12 +27,12 @@ namespace PartDB\Permissions;
  */
 class StructuralPermission extends BasePermission
 {
-    const CREATE = "create";
-    const READ  = "read";
-    const EDIT  = "edit";
-    const MOVE  = "move";
-    const DELETE = "delete";
-    const SHOW_USERS = "show_users";
+    const CREATE = 'create';
+    const READ  = 'read';
+    const EDIT  = 'edit';
+    const MOVE  = 'move';
+    const DELETE = 'delete';
+    const SHOW_USERS = 'show_users';
 
     protected static $operation_cache = null;
 
@@ -48,12 +48,12 @@ class StructuralPermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[static::READ] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
-            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
-            $operations[static::CREATE] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
-            $operations[static::MOVE] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
-            $operations[static::DELETE] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
-            $operations[static::SHOW_USERS] = static::buildOperationArray(10, static::SHOW_USERS, _("Letzten bearbeitenden Nutzer anzeigen"));
+            $operations[static::READ] = static::buildOperationArray(0, static::READ, _('Anzeigen'));
+            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _('Bearbeiten'));
+            $operations[static::CREATE] = static::buildOperationArray(4, static::CREATE, _('Anlegen'));
+            $operations[static::MOVE] = static::buildOperationArray(6, static::MOVE, _('Verschieben'));
+            $operations[static::DELETE] = static::buildOperationArray(8, static::DELETE, _('Löschen'));
+            $operations[static::SHOW_USERS] = static::buildOperationArray(10, static::SHOW_USERS, _('Letzten bearbeitenden Nutzer anzeigen'));
 
             static::$operation_cache = $operations;
         }
@@ -69,7 +69,7 @@ class StructuralPermission extends BasePermission
                 || $operation == static::MOVE
                 || $operation == static::CREATE)
             && $new_value == static::ALLOW) {
-            return parent::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+            return self::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }
 
         return $data;

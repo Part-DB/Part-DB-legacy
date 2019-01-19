@@ -31,7 +31,7 @@
  *  If you make changes in one of them, please check if you should change the other files too.
  */
 
-include_once('start_session.php');
+include_once  __DIR__ . '/start_session.php';
 
 use PartDB\Database;
 use PartDB\Footprint;
@@ -60,18 +60,18 @@ $new_name                       = isset($_POST['name'])                         
 $new_parent_id                  = isset($_POST['parent_id'])                     ? (int)$_POST['parent_id']                       : 0;
 $new_filename                   = isset($_POST['filename'])                      ? toUnixPath(trim((string)$_POST['filename']))     : '';
 $new_3d_filename                = isset($_POST['filename_3d'])                   ? toUnixPath(trim((string)$_POST['filename_3d']))  : '';
-$new_comment                    = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
+$new_comment                    = isset($_POST['comment'])       ? (string)$_POST['comment']      : '';
 
 if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
-    if (!strcontains($new_filename, "img/footprints/")) {
-        $new_filename = "img/footprints/" . $new_filename;
+    if (!strcontains($new_filename, 'img/footprints/')) {
+        $new_filename = 'img/footprints/' . $new_filename;
     }
     $new_filename = BASE.'/'.$new_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
 if ((strlen($new_3d_filename) > 0) && (! isPathabsoluteAndUnix($new_3d_filename))) {
-    if (!strcontains($new_3d_filename, "models/")) {
-        $new_3d_filename = "models/" . $new_3d_filename;
+    if (!strcontains($new_3d_filename, 'models/')) {
+        $new_3d_filename = 'models/' . $new_3d_filename;
     }
     $new_3d_filename = BASE.'/'.$new_3d_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
@@ -79,34 +79,34 @@ if ((strlen($new_3d_filename) > 0) && (! isPathabsoluteAndUnix($new_3d_filename)
 $add_more                       = isset($_POST['add_more']);
 
 $broken_footprints_count        = isset($_POST['broken_footprints_count'])       ? (int)$_POST['broken_footprints_count']     : 0;
-$save_all_proposed_filenames    = isset($_POST["save_all_proposed_filenames"]);
+$save_all_proposed_filenames    = isset($_POST['save_all_proposed_filenames']);
 
 $broken_3d_footprints_count     = isset($_POST['broken_3d_footprints_count'])       ? (int)$_POST['broken_3d_footprints_count']     : 0;
-$save_all_proposed_3d_filenames = isset($_POST["save_all_proposed_3d_filenames"]);
+$save_all_proposed_3d_filenames = isset($_POST['save_all_proposed_3d_filenames']);
 
 $action = 'default';
-if (isset($_POST["add"])) {
+if (isset($_POST['add'])) {
     $action = 'add';
 }
-if (isset($_POST["delete"])) {
+if (isset($_POST['delete'])) {
     $action = 'delete';
 }
-if (isset($_POST["delete_confirmed"])) {
+if (isset($_POST['delete_confirmed'])) {
     $action = 'delete_confirmed';
 }
-if (isset($_POST["apply"])) {
+if (isset($_POST['apply'])) {
     $action = 'apply';
 }
-if (isset($_POST["save_proposed_filenames"])) {
+if (isset($_POST['save_proposed_filenames'])) {
     $action = 'save_proposed_filenames';
 }
-if (isset($_POST["save_all_proposed_filenames"])) {
+if (isset($_POST['save_all_proposed_filenames'])) {
     $action = 'save_proposed_filenames';
 }
-if (isset($_POST["save_proposed_3d_filenames"])) {
+if (isset($_POST['save_proposed_3d_filenames'])) {
     $action = 'save_proposed_3d_filenames';
 }
-if (isset($_POST["save_all_proposed_3d_filenames"])) {
+if (isset($_POST['save_all_proposed_3d_filenames'])) {
     $action = 'save_proposed_3d_filenames';
 }
 
@@ -147,18 +147,16 @@ if (! $fatal_error) {
     switch ($action) {
         case 'add':
             try {
-                $filepath = BASE . "/data/media/footprints/";
+                $filepath = BASE . '/data/media/footprints/';
 
                 if (isset($_FILES['footprint_file']) && strlen($_FILES['footprint_file']['name']) > 0) {
                     $new_filename = uploadFile($_FILES['footprint_file'], $filepath);
-                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
-                    if (isURL($new_filename)) {
-                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
-                        if ($downloaded_file_name !== "") {
-                            $new_filename = $downloaded_file_name;
-                        } else {
-                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
-                        }
+                } else if (isURL($new_filename)) {
+                    $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                    if ($downloaded_file_name !== '') {
+                        $new_filename = $downloaded_file_name;
+                    } else {
+                        $messages[] = array('text' => _('Die Datei konnte nicht heruntergeladen werden!'), 'strong' => true, 'color' => 'red');
                     }
                 }
 
@@ -231,18 +229,16 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Footprint markiert oder es trat ein Fehler auf!'));
                 }
 
-                $filepath = BASE . "/data/media/footprints/";
+                $filepath = BASE . '/data/media/footprints/';
 
                 if (isset($_FILES['footprint_file']) && strlen($_FILES['footprint_file']['name']) > 0) {
                     $new_filename = uploadFile($_FILES['footprint_file'], $filepath);
-                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
-                    if (isURL($new_filename)) {
-                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
-                        if ($downloaded_file_name !== "") {
-                            $new_filename = $downloaded_file_name;
-                        } else {
-                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
-                        }
+                } else if (isURL($new_filename)) {
+                    $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                    if ($downloaded_file_name !== '') {
+                        $new_filename = $downloaded_file_name;
+                    } else {
+                        $messages[] = array('text' => _('Die Datei konnte nicht heruntergeladen werden!'), 'strong' => true, 'color' => 'red');
                     }
                 }
 
@@ -252,7 +248,7 @@ if (! $fatal_error) {
                     'parent_id'     => $new_parent_id,
                     'filename'      => $new_filename,
                     'filename_3d'   => $new_3d_filename,
-                    "comment"       => $new_comment));
+                    'comment' => $new_comment));
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -262,7 +258,7 @@ if (! $fatal_error) {
         case 'save_proposed_filenames':
             $errors = array();
             for ($i=0; $i < $broken_footprints_count; $i++) {
-                $spf_footprint_id   = isset($_POST['broken_footprint_id_'.$i])  ? $_POST['broken_footprint_id_'.$i] : -1; // -1 will produce an error
+                $spf_footprint_id   = $_POST['broken_footprint_id_' . $i] ?? -1; // -1 will produce an error
                 $spf_new_filename   = isset($_POST['proposed_filename_'.$i])    ? toUnixPath($_POST['proposed_filename_'.$i])   : null;
                 $spf_checked        = isset($_POST['filename_checkbox_'.$i])     || $save_all_proposed_filenames;
 
@@ -333,7 +329,7 @@ if (! $fatal_error) {
             // read the PHP constant "max_input_vars"
             $max_input_vars = ((ini_get('max_input_vars') !== false) ? (int)ini_get('max_input_vars') : 999999);
 
-            for ($i=0; $i < count($broken_filename_footprints); $i++) {
+            foreach ($broken_filename_footprints as $i => $iValue) {
                 // avoid too many post variables
                 if ($i*10 >= $max_input_vars) {
                     break;
@@ -345,7 +341,7 @@ if (! $fatal_error) {
                 }
 
                 /** @var Footprint $footprint */
-                $footprint = $broken_filename_footprints[$i];
+                $footprint = $iValue;
                 $proposed_filenames_loop = array();
                 $proposed_filenames = getProposedFilenames($footprint->getFilename(), $available_proposed_files);
 
@@ -357,7 +353,7 @@ if (! $fatal_error) {
 
                 foreach ($proposed_filenames as $index => $filename) {
                     $filename = str_replace(BASE.'/', '', $filename);
-                    $proposed_filenames_loop[] = array( 'selected' => (($index == 0) && $exact_match),
+                    $proposed_filenames_loop[] = array( 'selected' => ($index == 0) && $exact_match,
                         'proposed_filename' => $filename);
                 }
 
@@ -400,7 +396,7 @@ if (! $fatal_error) {
             // read the PHP constant "max_input_vars"
             $max_input_vars = ((ini_get('max_input_vars') !== false) ? (int)ini_get('max_input_vars') : 999999);
 
-            for ($i=0; $i < count($broken_filename_footprints); $i++) {
+            foreach ($broken_filename_footprints as $i => $iValue) {
                 // avoid too many post variables
                 if ($i*10 >= $max_input_vars) {
                     break;
@@ -411,7 +407,7 @@ if (! $fatal_error) {
                     break;
                 }
 
-                $footprint = $broken_filename_footprints[$i];
+                $footprint = $iValue;
                 $proposed_filenames_loop = array();
                 $proposed_filenames = getProposedFilenames($footprint->get3dFilename(), $available_proposed_files);
 
@@ -423,7 +419,7 @@ if (! $fatal_error) {
 
                 foreach ($proposed_filenames as $index => $filename) {
                     $filename = str_replace(BASE.'/', '', $filename);
-                    $proposed_filenames_loop[] = array( 'selected' => (($index == 0) && $exact_match),
+                    $proposed_filenames_loop[] = array( 'selected' => ($index == 0) && $exact_match,
                         'proposed_filename' => $filename);
                 }
 
@@ -471,12 +467,12 @@ if (! $fatal_error) {
             $last_modified_user = $selected_footprint->getLastModifiedUser();
             $creation_user = $selected_footprint->getCreationUser();
             if ($last_modified_user != null) {
-                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
-                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), 'string');
+                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), 'int');
             }
             if ($creation_user != null) {
-                $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
-                $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+                $html->setVariable('creation_user', $creation_user->getFullName(true), 'string');
+                $html->setVariable('creation_user_id', $creation_user->getID(), 'int');
             }
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
@@ -489,12 +485,12 @@ if (! $fatal_error) {
             $name = '';
             $filename = '';
             $filename_3d = '';
-            $comment = "";
+            $comment = '';
         }
 
         $html->setVariable('name', $name, 'string');
         $html->setVariable('filename', str_replace(BASE.'/', '', $filename), 'string');
-        $html->setVariable('comment', $comment, "string");
+        $html->setVariable('comment', $comment, 'string');
 
         $html->setVariable('filename_3d', str_replace(BASE.'/', '', $filename_3d), 'string');
         $html->setVariable('foot3d_active', $config['foot3d']['active'], 'boolean');
@@ -511,20 +507,20 @@ if (! $fatal_error) {
         $parent_footprint_list = $root_footprint->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_footprint_list', $parent_footprint_list, 'string');
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
 
 try {
-    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::DELETE));
-    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::EDIT));
-    $html->setVariable("can_create", $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::CREATE));
-    $html->setVariable("can_move", $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::MOVE));
-    $html->setVariable("can_read", $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::READ));
+    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::DELETE));
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::EDIT));
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::CREATE));
+    $html->setVariable('can_move', $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::MOVE));
+    $html->setVariable('can_read', $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::READ));
     $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 } catch (Exception $e) {
-    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
 /********************************************************************************
@@ -535,8 +531,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $reload_link = $fatal_error ? 'edit_footprints.php' : '';    // an empty string means that the...

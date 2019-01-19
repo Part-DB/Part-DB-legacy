@@ -38,11 +38,11 @@ abstract class BaseLabel
     const TYPE_C39 = 3; //Code 128 Barcode
     //const TYPE_INFO = 3;
 
-    const SIZE_50X30 = "50x30";
-    const SIZE_62X30 = "62x30";
-    const SIZE_CUSTOM = "custom";
+    const SIZE_50X30 = '50x30';
+    const SIZE_62X30 = '62x30';
+    const SIZE_CUSTOM = 'custom';
 
-    const PRESET_CUSTOM = "custom";
+    const PRESET_CUSTOM = 'custom';
 
     /* @var ILabel */
     protected $element;
@@ -67,11 +67,11 @@ abstract class BaseLabel
      */
     public function __construct(ILabel $element, int $type, string $size, string $preset, $options = null)
     {
-        if (!in_array($type, static::getSupportedTypes())) {
+        if (!\in_array($type, static::getSupportedTypes(), true)) {
             throw new \InvalidArgumentException(_('Der gewählte Labeltyp wird von dem aktuellem Labelgenerator nicht unterstützt!'));
         }
 
-        if ($size != "custom" &&  !in_array($size, static::getSupportedSizes())) {
+        if ($size != 'custom' &&  !\in_array($size, static::getSupportedSizes())) {
             throw new \InvalidArgumentException(_('Die gewählte Labelgröße wird von dem aktuellem Labelgenerator nicht unterstützt!'));
         }
 
@@ -82,20 +82,20 @@ abstract class BaseLabel
 
         $this->options = $options;
 
-        static::createTCPDFConfig();
+        $this->createTCPDFConfig();
     }
 
     protected function generateLines() : array
     {
         $lines = array();
-        if ($this->preset == "custom") {
-            if (isset($this->options["custom_rows"])) {
+        if ($this->preset == 'custom') {
+            if (isset($this->options['custom_rows'])) {
                 $lines = explode("\n", $this->options['custom_rows']);
             }
         } else {
             foreach (static::getLinePresets() as $preset) {
-                if ($preset["name"] == $this->preset) {
-                    $lines = $preset["lines"];
+                if ($preset['name'] == $this->preset) {
+                    $lines = $preset['lines'];
                 }
             }
         }
@@ -112,38 +112,35 @@ abstract class BaseLabel
         // add a page
         $this->pdf->AddPage();
 
-        $text_style = "";
+        $text_style = '';
         if (isset($this->options['text_bold']) && $this->options['text_bold']) {
-            $text_style .= "b";
+            $text_style .= 'b';
         }
         if (isset($this->options['text_italic']) && $this->options['text_italic']) {
-            $text_style .= "i";
+            $text_style .= 'i';
         }
         if (isset($this->options['text_underline']) && $this->options['text_underline']) {
-            $text_style .= "u";
+            $text_style .= 'u';
         }
 
-        $text_size = 8;
-        if (isset($this->options['text_size'])) {
-            $text_size = $this->options['text_size'];
-        }
+        $text_size = $this->options['text_size'] ?? 8;
 
         $this->pdf->SetFont('dejavusansmono', $text_style, $text_size);
 
         $lines = $this->generateLines();
 
         //Parse Option for text alignment
-        $text_position = "L";
+        $text_position = 'L';
         if (isset($this->options['text_alignment'])) {
             switch ($this->options['text_alignment']) {
-                case "left":
-                    $text_position = "L";
+                case 'left':
+                    $text_position = 'L';
                     break;
-                case "center":
-                    $text_position = "C";
+                case 'center':
+                    $text_position = 'C';
                     break;
-                case "right":
-                    $text_position = "R";
+                case 'right':
+                    $text_position = 'R';
                     break;
             }
         }
@@ -152,37 +149,37 @@ abstract class BaseLabel
             if (isset($this->options['force_text_output']) && $this->options['force_text_output']) {
                 $this->pdf->Cell(0, 0, $line, 0, 0, $text_position);
             } else {
-                $this->pdf->writeHTMLCell(0, 0, "", "", $line, 0, 0, false, true, $text_position);
+                $this->pdf->writeHTMLCell(0, 0, '', '', $line, 0, 0, false, true, $text_position);
             }
             $this->pdf->Ln();
         }
 
         //Parse Option for barcode position
-        $barcode_position = "C";
+        $barcode_position = 'C';
         if (isset($this->options['barcode_alignment'])) {
             switch ($this->options['barcode_alignment']) {
-                case "left":
-                    $barcode_position = "L";
+                case 'left':
+                    $barcode_position = 'L';
                     break;
-                case "center":
-                    $barcode_position = "C";
+                case 'center':
+                    $barcode_position = 'C';
                     break;
-                case "right":
-                    $barcode_position = "R";
+                case 'right':
+                    $barcode_position = 'R';
                     break;
             }
         }
 
         $y_pos = $this->pdf->GetY() + 1;
 
-        if ($this->options['logo_path'] != "") {
-            $path = BASE . "/" . $this->options['logo_path'];
+        if ($this->options['logo_path'] != '') {
+            $path = BASE . '/' . $this->options['logo_path'];
 
             if (isPathabsoluteAndUnix($path)) {
                 $this->pdf->setJPEGQuality(100);
 
 
-                $this->pdf->Image($path, "3", $this->pdf->GetY() + 1, "10", "", "", "", "R", true, 300);
+                $this->pdf->Image($path, '3', $this->pdf->GetY() + 1, '10', '', '', '', 'R', true, 300);
             }
         }
 
@@ -206,19 +203,19 @@ abstract class BaseLabel
 
             switch ($this->type) {
                 case static::TYPE_BARCODE:
-                    $type = "EAN8";
-                    $width = "";
+                    $type = 'EAN8';
+                    $width = '';
                     break;
                 case static::TYPE_C39:
-                    $type = "C39";
-                    $width = "36";
+                    $type = 'C39';
+                    $width = '36';
                     break;
                 default:
-                    $width = "";
-                    throw new \InvalidArgumentException(sprintf(_("Der Barcodetyp %s wird nicht unterstützt!"), $this->type));
+                    $width = '';
+                    throw new \InvalidArgumentException(sprintf(_('Der Barcodetyp %s wird nicht unterstützt!'), $this->type));
             }
 
-            $this->pdf->write1DBarcode($this->element->getBarcodeContent($type), $type, "", "", $width, 15, "", $style, 'N');
+            $this->pdf->write1DBarcode($this->element->getBarcodeContent($type), $type, '', '', $width, 15, '', $style, 'N');
         }
 
         //Output the labels
@@ -234,17 +231,17 @@ abstract class BaseLabel
     protected function createTCPDFConfig()
     {
         // create new PDF document
-        if ($this->size == "custom") {
-            $size = array($this->options["custom_width"], $this->options["custom_height"]);
+        if ($this->size == 'custom') {
+            $size = array($this->options['custom_width'], $this->options['custom_height']);
         } else {
-            $size = explode("x", $this->size);
+            $size = explode('x', $this->size);
         }
         $this->pdf = new TCPDF('L', 'mm', $size, true, 'UTF-8', false);
 
         // set document information
         $this->pdf->SetCreator(PDF_CREATOR);
         $this->pdf->SetAuthor('Part-DB');
-        $this->pdf->SetTitle('PartDB Label: ' . $this->element->getName() . " (ID: " . $this->element->getID() . ")");
+        $this->pdf->SetTitle('PartDB Label: ' . $this->element->getName() . ' (ID: ' . $this->element->getID() . ')');
         $this->pdf->SetSubject('Part-DB label with barcode');
 
         // remove default header/footer
@@ -292,7 +289,7 @@ abstract class BaseLabel
      */
     public static function getLinePresets() : array
     {
-        throw new NotImplementedException(_("getLinePresets() ist nicht implementiert"));
+        throw new NotImplementedException(_('getLinePresets() ist nicht implementiert'));
     }
 
     /**
@@ -301,7 +298,7 @@ abstract class BaseLabel
      */
     public static function getSupportedSizes() : array
     {
-        throw new NotImplementedException(_("getSupportedSizes() ist nicht implementiert"));
+        throw new NotImplementedException(_('getSupportedSizes() ist nicht implementiert'));
     }
 
     /**
@@ -310,7 +307,7 @@ abstract class BaseLabel
      */
     public static function getSupportedTypes() : array
     {
-        throw new NotImplementedException(_("getSupportedTypes() ist nicht implementiert"));
+        throw new NotImplementedException(_('getSupportedTypes() ist nicht implementiert'));
     }
 
     /**
@@ -327,11 +324,11 @@ abstract class BaseLabel
         $user = User::getLoggedInUser();
         global $config;
 
-        $string = str_replace("%USERNAME%", $user->getName(), $string);
-        $string = str_replace("%USERNAME_FULL%", $user->getFullName(), $string);
+        $string = str_replace('%USERNAME%', $user->getName(), $string);
+        $string = str_replace('%USERNAME_FULL%', $user->getFullName(), $string);
 
-        $string = str_replace("%DATETIME%", formatTimestamp(time()), $string);
-        $string = str_replace("%INSTALL_NAME%", $config['partdb_title'], $string);
+        $string = str_replace('%DATETIME%', formatTimestamp(time()), $string);
+        $string = str_replace('%INSTALL_NAME%', $config['partdb_title'], $string);
 
         return $string;
     }

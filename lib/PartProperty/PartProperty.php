@@ -64,7 +64,7 @@ class PartProperty implements IAPIModel
     public function getName($with_colon = true)
     {
         if ($with_colon === true) {
-            return $this->name . ":";
+            return $this->name . ':';
         } else {
             return $this->name;
         }
@@ -98,7 +98,7 @@ class PartProperty implements IAPIModel
      * @param $description string The description string which should be parsed
      * @return PartProperty[] An array containing PartProperty objects. Empty if no properties could be parsed.
      */
-    public static function parseDescription($description)
+    public static function parseDescription($description) : array
     {
         $pattern = '/([^\,\;\n]+)\s?[\=\:]\s?(\w+(?:[\.\,]\w+)?(?:[^\,\;\n]|\,\w)*)/iu';
 
@@ -106,12 +106,10 @@ class PartProperty implements IAPIModel
 
         preg_match_all($pattern, $description, $results);
 
-        $raw_strings = $results[0];
-        $names  = $results[1];
-        $values = $results[2];
+        list($raw_strings, $names, $values) = $results;
 
         $arr = array();
-        for ($n = 0; $n<count($names); $n++) {
+        for ($n = 0, $nMax = count($names); $n< $nMax; $n++) {
             if (!empty(trim($names[$n])) && empty(trim($values[$n]))) {
                 $arr[] = new PartProperty($raw_strings[$n], $names[$n], $values[$n]);
             }

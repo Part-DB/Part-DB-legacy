@@ -35,13 +35,13 @@ class PDBDebugBar
     private function __construct()
     {
         $this->debugbar = new StandardDebugBar();
-        $baseURL = BASE_RELATIVE . "/vendor/maximebf/debugbar/src/DebugBar/Resources";
+        $baseURL = BASE_RELATIVE . '/vendor/maximebf/debugbar/src/DebugBar/Resources';
         $this->renderer = $this->debugbar->getJavascriptRenderer($baseURL);
         global $config;
         $this->debugbar->addCollector(new ConfigCollector($config));
     }
 
-    public function &getRenderer()
+    public function &getRenderer(): \DebugBar\JavascriptRenderer
     {
         return $this->renderer;
     }
@@ -57,7 +57,7 @@ class PDBDebugBar
         //Check if database Debugging is active.
         if ($config['debug']['debugbar_db']) {
             try {
-                if (!$this->debugbar->hasCollector("Database")) {
+                if (!$this->debugbar->hasCollector('Database')) {
                     $this->debugbar->addCollector(new PDOCollector($pdo));
                 }
             } catch (DebugBarException $ex) {
@@ -92,9 +92,9 @@ class PDBDebugBar
      */
     public static function &getInstance()
     {
-        if (is_null(PDBDebugBar::$singleton)) {
-            PDBDebugBar::$singleton = new PDBDebugBar();
+        if (self::$singleton === null) {
+            self::$singleton = new PDBDebugBar();
         }
-        return PDBDebugBar::$singleton;
+        return self::$singleton;
     }
 }

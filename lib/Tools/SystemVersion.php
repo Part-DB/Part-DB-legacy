@@ -101,11 +101,11 @@ class SystemVersion
      */
     public function __construct(string $version_string)
     {
-        $version = str_replace(' ', '.', trim(strtolower($version_string)));
+        $version = str_replace(' ', '.', strtolower(trim($version_string)));
 
         $dev_version = false;
-        if (strpos($version, "dev")) {
-            $version =  str_replace("dev", "rc0", $version);
+        if (strpos($version, 'dev')) {
+            $version =  str_replace('dev', 'rc0', $version);
             $dev_version = true;
         }
 
@@ -118,10 +118,10 @@ class SystemVersion
         $array = explode('.', $version);
 
         if ((count($array) != 4)
-            || ((! is_int($array[0])) && (! ctype_digit($array[0])))
-            || ((! is_int($array[1])) && (! ctype_digit($array[1])))
-            || ((! is_int($array[2])) && (! ctype_digit($array[2])))
-            || ((! is_int($array[3])) && (! ctype_digit($array[3])))) {
+            || ((! \is_int($array[0])) && (! ctype_digit($array[0])))
+            || ((! \is_int($array[1])) && (! ctype_digit($array[1])))
+            || ((! \is_int($array[2])) && (! ctype_digit($array[2])))
+            || ((! \is_int($array[3])) && (! ctype_digit($array[3])))) {
             debug('error', sprintf(_('Fehlerhafte Version: "%s"', $version)), __FILE__, __LINE__, __METHOD__);
             throw new Exception(_('Es gab ein Fehler bei der Auswertung des Version-Strings!'));
         }
@@ -138,7 +138,7 @@ class SystemVersion
         }
 
         if ($dev_version) {
-            $this->type = "development";
+            $this->type = 'development';
         }
     }
 
@@ -170,14 +170,14 @@ class SystemVersion
                 $string .= '.RC'.$this->release_candidate;
             }
 
-            if ($this->type == "development") {
+            if ($this->type == 'development') {
                 $string .= '.dev';
             }
 
             return $string;
         } else {
-            if ($this->type == "development") {
-                $string .="-dev";
+            if ($this->type == 'development') {
+                $string .= '-dev';
             }
 
             if (($this->release_candidate > 0) && (! $hide_rc)) {
@@ -218,15 +218,15 @@ class SystemVersion
 
         // both versions have the same major, minor and update version!
 
-        if (($this->type == "development") && ($version_2->type != "development")) {
+        if (($this->type == 'development') && ($version_2->type != 'development')) {
             return false;
         } //Version two is unstable, or stable, this is development
 
-        if (($this->type != "development") && ($version_2->type == "development")) {
+        if (($this->type != 'development') && ($version_2->type == 'development')) {
             return true;
         } //Version two is development, this is stable.
 
-        if (($this->type == "development") && ($version_2->type == "development")) {
+        if (($this->type == 'development') && ($version_2->type == 'development')) {
             return false;
         } //Both versions are dev. We can not really compare this (yet).
 
@@ -284,9 +284,7 @@ class SystemVersion
     {
         global $config;
 
-        $version = new SystemVersion($config['system']['version']);
-
-        return $version;
+        return new SystemVersion($config['system']['version']);
     }
 
     /**
@@ -303,20 +301,20 @@ class SystemVersion
      */
     public static function getLatestVersion(string $type) : SystemVersion
     {
-        if ((($type == 'stable') && (! is_object(SystemVersion::$latest_stable_version)))
-            || (($type == 'unstable') && (! is_object(SystemVersion::$latest_unstable_version)))) {
+        if ((($type == 'stable') && (! \is_object(self::$latest_stable_version)))
+            || (($type == 'unstable') && (! \is_object(self::$latest_unstable_version)))) {
             $ini = curlGetData('http://kami89.myparts.info/updates/latest.ini');
             $ini_array = parse_ini_string($ini, true);
 
-            SystemVersion::$latest_stable_version    = new SystemVersion($ini_array['stable']['version']);
-            SystemVersion::$latest_unstable_version  = new SystemVersion($ini_array['unstable']['version']);
+            self::$latest_stable_version    = new SystemVersion($ini_array['stable']['version']);
+            self::$latest_unstable_version  = new SystemVersion($ini_array['unstable']['version']);
         }
 
         switch ($type) {
             case 'stable':
-                return SystemVersion::$latest_stable_version;
+                return self::$latest_stable_version;
             case 'unstable':
-                return SystemVersion::$latest_unstable_version;
+                return self::$latest_unstable_version;
             default:
                 debug('error', '$type='.print_r($type, true), __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$type hat einen ungültigen Inhalt!');

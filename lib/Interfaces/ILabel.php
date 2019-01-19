@@ -36,7 +36,7 @@ interface ILabel
      * @return string
      * @throws \Exception An Exception is thrown if you selected a unknown barcode type.
      */
-    public function getBarcodeContent(string $barcode_type = "EAN8") : string;
+    public function getBarcodeContent(string $barcode_type = 'EAN8') : string;
 
     public function replacePlaceholderWithInfos(string $string) : string;
 }

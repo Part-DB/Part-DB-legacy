@@ -54,13 +54,13 @@ class ElementCreatedEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    public function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_ELEMENTCREATED) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
 
         try {
@@ -104,7 +104,7 @@ class ElementCreatedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element)
+    public static function add(Database $database, User $current_user, Log $log, NamedDBElement $element)
     {
         $type_id = Log::elementToTargetTypeID($element);
 
@@ -142,9 +142,9 @@ class ElementCreatedEntry extends BaseEntry
     {
         try {
             $part_name = ($this->element != null) ? $this->element->getName() : $this->getTargetID();
-            return Log::targetTypeIDToString($this->getTargetType()) . ": " . $part_name;
+            return Log::targetTypeIDToString($this->getTargetType()) . ': ' . $part_name;
         } catch (Exception $ex) {
-            return "ERROR!";
+            return 'ERROR!';
         }
     }
 
@@ -166,9 +166,9 @@ class ElementCreatedEntry extends BaseEntry
     public function getExtra(bool $html = false) : string
     {
         if ($this->hasCreationInstockValue()) {
-            return _("Anzahl: ") . $this->getCreationInstockValue();
+            return _('Anzahl: ') . $this->getCreationInstockValue();
         }
 
-        return "";
+        return '';
     }
 }

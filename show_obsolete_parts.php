@@ -23,7 +23,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 
 use PartDB\Category;
 use PartDB\Database;
@@ -47,7 +47,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$show_no_orderdetails_parts = (isset($_REQUEST['show_no_orderdetails_parts'])) ? $_REQUEST['show_no_orderdetails_parts'] : false;
+$show_no_orderdetails_parts = $_REQUEST['show_no_orderdetails_parts'] ?? false;
 
 $page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
 $limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : $config['table']['default_limit'];
@@ -55,8 +55,8 @@ $limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['li
 $action = 'default';
 if (isset($_REQUEST['change_show_no_orderdetails'])) {
     $action = 'change_show_no_orderdetails';
-} elseif (isset($_POST["multi_action"])) {
-    $action = "multi_action";
+} elseif (isset($_POST['multi_action'])) {
+    $action = 'multi_action';
 }
 
 /********************************************************************************
@@ -76,7 +76,7 @@ try {
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
-    $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
+    $_SESSION['part_delete_last_link'] = $_SERVER['REQUEST_URI'];
     session_write_close();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -94,10 +94,10 @@ if (! $fatal_error) {
         case 'change_show_no_orderdetails':
             $reload_site = true;
             break;
-        case "multi_action":
+        case 'multi_action':
             try {
-                if (isset($_REQUEST['action']) && $_REQUEST['action'] == "delete") {
-                    $n = count(explode(",", $_REQUEST['selected_ids']));
+                if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete') {
+                    $n = substr_count($_REQUEST['selected_ids'], ',') + 1;
                     $messages[] = array('text' => sprintf(_('Sollen die %d gewählten Bauteile wirklich unwiederruflich gelöscht werden?'), $n),
                         'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
@@ -133,15 +133,15 @@ if (! $fatal_error) {
         $parts = Part::getObsoleteParts($database, $current_user, $log, $show_no_orderdetails_parts, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'obsolete_parts');
         $html->setVariable('table', $table_loop);
-        $html->setVariable("table_rowcount", count($parts), 'int');
+        $html->setVariable('table_rowcount', count($parts), 'int');
 
-        $html->setVariable("pagination", generatePagination(
-            "show_obsolete_parts.php?show_no_orderdetails_parts=" .($show_no_orderdetails_parts ? '1' : '0'),
+        $html->setVariable('pagination', generatePagination(
+            'show_obsolete_parts.php?show_no_orderdetails_parts=' .($show_no_orderdetails_parts ? '1' : '0'),
             $page,
             $limit,
             Part::getObsoletePartsCount($database, $current_user, $log, $show_no_orderdetails_parts)
         ));
-        $html->setVariable("page", $page);
+        $html->setVariable('page', $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -167,26 +167,26 @@ if (! $fatal_error) {
 
         if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
             $root_category = Category::getInstance($database, $current_user, $log, 0);
-            $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
+            $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, '', 'c'));
         }
         if ($current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
             $root_footprint = Footprint::getInstance($database, $current_user, $log, 0);
-            $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
+            $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, '', 'f'));
         }
         if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
             $root_manufacturer = Manufacturer::getInstance($database, $current_user, $log, 0);
-            $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
+            $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, '', 'm'));
         }
         if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
             $root_location = Storelocation::getInstance($database, $current_user, $log, 0);
-            $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
+            $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, '', 's'));
         }
 
         $html->setVariable('can_edit', $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
         $html->setVariable('can_delete', $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
         $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
@@ -199,8 +199,8 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

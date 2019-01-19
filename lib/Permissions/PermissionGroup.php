@@ -28,9 +28,9 @@ namespace PartDB\Permissions;
 class PermissionGroup
 {
     /** @var string */
-    protected $title = "";
+    protected $title = '';
     /*** @var string */
-    protected $description = "";
+    protected $description = '';
     /** @var  BasePermission[] */
     protected $permissions;
 
@@ -40,7 +40,7 @@ class PermissionGroup
      * @param BasePermission[] $permissions All permissions of the Permissiongroup.
      * @param string $description A string describing the new permissiongroup.
      */
-    public function __construct(string $title, array &$permissions, string $description = "")
+    public function __construct(string $title, array &$permissions, string $description = '')
     {
         $this->title = $title;
         $this->permissions = $permissions;
@@ -70,9 +70,9 @@ class PermissionGroup
             $perms[] = $permission->generateLoopRow($read_only, $inherit);
         }
 
-        return array("permissions" => $perms,
-            "title" => $this->title,
-            "description" => $this->description
+        return array('permissions' => $perms,
+            'title' => $this->title,
+            'description' => $this->description
             );
     }
 }

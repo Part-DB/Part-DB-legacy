@@ -61,7 +61,7 @@ class Supplier extends Base\Company implements ISearchable
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }
@@ -88,7 +88,7 @@ class Supplier extends Base\Company implements ISearchable
      */
     public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        if (! is_array($this->parts)) {
+        if (! \is_array($this->parts)) {
             $this->parts = array();
             $query =    'SELECT part_id FROM orderdetails '.
                 'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
@@ -186,7 +186,7 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @todo Check if the SQL query works correctly! It's a quite complicated query...
      */
-    public static function getOrderSuppliers(Database &$database, User &$current_user, Log &$log) : array
+    public static function getOrderSuppliers(Database $database, User $current_user, Log $log) : array
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -209,7 +209,7 @@ class Supplier extends Base\Company implements ISearchable
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
-            $suppliers[] = Supplier::getInstance($database, $current_user, $log, (int) $row['id_supplier']);
+            $suppliers[] = self::getInstance($database, $current_user, $log, (int) $row['id_supplier']);
         }
 
         return $suppliers;
@@ -238,9 +238,9 @@ class Supplier extends Base\Company implements ISearchable
      * @see DBElement::add()
      */
     public static function add(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         string $name,
         int $parent_id,
         string $address = '',
@@ -249,7 +249,7 @@ class Supplier extends Base\Company implements ISearchable
         string $email_address = '',
         string $website = '',
         string $auto_product_url = '',
-        string $comment = ""
+        string $comment = ''
     ) {
         return parent::addByArray(
             $database,
@@ -263,7 +263,7 @@ class Supplier extends Base\Company implements ISearchable
                 'email_address'     => $email_address,
                 'website'           => $website,
                 'auto_product_url'  => $auto_product_url,
-                "comment"           => $comment)
+                'comment' => $comment)
         );
     }
 
@@ -283,6 +283,6 @@ class Supplier extends Base\Company implements ISearchable
      */
     public function getIDString(): string
     {
-        return "L" . sprintf("%06d", $this->getID());
+        return 'L' . sprintf('%06d', $this->getID());
     }
 }

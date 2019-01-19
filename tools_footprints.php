@@ -23,7 +23,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -105,14 +105,14 @@ if (! $fatal_error) {
 
         case 'show_others':
             $directories = findAllDirectories(BASE.'/img/footprints/');
-            if (array_search(BASE.'/img/footprints/Aktiv', $directories) !== false) {
-                unset($directories[array_search(BASE.'/img/footprints/Aktiv', $directories)]);
+            if (in_array(BASE . '/img/footprints/Aktiv', $directories, true)) {
+                unset($directories[array_search(BASE . '/img/footprints/Aktiv', $directories, true)]);
             }
-            if (array_search(BASE.'/img/footprints/Passiv', $directories) !== false) {
-                unset($directories[array_search(BASE.'/img/footprints/Passiv', $directories)]);
+            if (in_array(BASE . '/img/footprints/Passiv', $directories, true)) {
+                unset($directories[array_search(BASE . '/img/footprints/Passiv', $directories, true)]);
             }
-            if (array_search(BASE.'/img/footprints/Elektromechanik', $directories) !== false) {
-                unset($directories[array_search(BASE.'/img/footprints/Elektromechanik', $directories)]);
+            if (in_array(BASE . '/img/footprints/Elektromechanik', $directories, true)) {
+                unset($directories[array_search(BASE . '/img/footprints/Elektromechanik', $directories, true)]);
             }
             foreach ($directories as $key => $value) {
                 $directories[$key] = $value.'/';
@@ -130,7 +130,7 @@ if (! $fatal_error) {
 }
 
 //Give action to Template, so we can mark the active button
-$html->setVariable("action", $action, "string");
+$html->setVariable('action', $action, 'string');
 
 /********************************************************************************
  *
@@ -171,8 +171,8 @@ if (!$fatal_error && count($directories) > 0) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

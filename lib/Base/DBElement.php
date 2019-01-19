@@ -119,7 +119,7 @@ abstract class DBElement
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         $this->database = $database;
         $this->current_user = $current_user;
@@ -127,15 +127,13 @@ abstract class DBElement
 
         $this->tablename = static::getTablename();
 
-        if ($db_data == null) { //Dont check for table exist, if we already have db_data
-            if (! $this->database->doesTableExist($this->tablename)) {
-                throw new TableNotExistingException(
-                    sprintf(
-                        _('Die Tabelle "%s" existiert nicht in der Datenbank!'),
-                        $this->tablename
-                    )
-                );
-            }
+        if (($db_data == null) && !$this->database->doesTableExist($this->tablename)) {
+            throw new TableNotExistingException(
+                sprintf(
+                    _('Die Tabelle "%s" existiert nicht in der Datenbank!'),
+                    $this->tablename
+                )
+            );
         }
 
         //We have to distinguish between real elements (positive ID) and virtual IDs.
@@ -151,7 +149,7 @@ abstract class DBElement
             }
             //Otherwise we eventually can get virtual data from the getVirtualData() function
             $virtual_data = $this->getVirtualData($id);
-            $this->db_data = array("id" => $id);
+            $this->db_data = array('id' => $id);
             $this->db_data = array_replace_recursive($this->db_data, $virtual_data);
             //Mark this object as virtual
             $this->is_virtual_element = true;
@@ -164,7 +162,7 @@ abstract class DBElement
                 //the database!
                 if ($this->allowsVirtualElements()) {
                     $virtual_data = $this->getVirtualData($id);
-                    $this->db_data = array("id" => $id);
+                    $this->db_data = array('id' => $id);
                     $this->db_data = array_replace_recursive($this->db_data, $virtual_data);
                     $this->is_virtual_element = true;
                 } else {
@@ -197,13 +195,8 @@ abstract class DBElement
             $id_tmp = $this->db_data['id']; // backup ID
             $this->db_data = array();
             $this->db_data['id'] = $id_tmp; // restore ID
-        } else {
-            // get all data of the database record with the ID "$id"
-            // But if the ID is zero, it could be a root element of StructuralDBElement,
-            // so there is no data to get from database.
-            if ($this->getID() != 0) {
-                $this->db_data = $this->database->getRecordData($this->tablename, $this->getID());
-            }
+        } else if ($this->getID() != 0) {
+            $this->db_data = $this->database->getRecordData($this->tablename, $this->getID());
         }
     }
 
@@ -337,14 +330,14 @@ abstract class DBElement
      */
     protected function getVirtualData(int $virtual_id) : array
     {
-        throw new ElementNotExistingException(sprintf(_("Es existiert kein Element mit der ID %d"), $virtual_id));
+        throw new ElementNotExistingException(sprintf(_('Es existiert kein Element mit der ID %d'), $virtual_id));
     }
 
     /**
      * This function determines if the element class allows virtual elements. By default they are disabled.
      * @return bool Retun true, if virtual elements are allowed, false if not.
      */
-    protected function allowsVirtualElements()
+    protected function allowsVirtualElements() : bool
     {
         return false;
     }
@@ -393,7 +386,7 @@ abstract class DBElement
      *
      * @throws \PartDB\Exceptions\DatabaseException If there was an error getting the data from DB.
      */
-    final public static function getCount(Database &$database) : int
+    final public static function getCount(Database $database) : int
     {
         return $database->getCountOfRecords(static::getTablename());
     }
@@ -406,7 +399,7 @@ abstract class DBElement
      */
     final public static function getTablename() : string
     {
-        $c = get_called_class();
+        $c = static::class;
         $tablename = $c::TABLE_NAME;
         //Check if the tablename was really set!
         if ($tablename == '') {
@@ -452,16 +445,16 @@ abstract class DBElement
      *
      */
     public static function checkValuesValidity(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         array &$values,
         bool $is_new,
         &$element = null
     ) {
         // YOU HAVE TO IMPLEMENT THIS METHOD IN YOUR SUBCLASSES IF YOU WANT TO CHECK NEW VALUES !!
 
-        if ((! $is_new) && (! is_object($element))) {
+        if ((! $is_new) && (! \is_object($element))) {
             throw new \InvalidArgumentException(_('$element ist kein Objekt!'));
         }
     }
@@ -481,7 +474,7 @@ abstract class DBElement
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      */
-    protected static function addByArray(Database &$database, User &$current_user, Log &$log, array $new_values)
+    protected static function addByArray(Database $database, User $current_user, Log $log, array $new_values)
     {
         // we check if the new data is valid
         // (with "static::" we let check every subclass of DBElement to check the data!)
@@ -522,9 +515,9 @@ abstract class DBElement
      */
     //$current_user must not have a type, because User passes, null!!
     public static function &getInstance(
-        Database &$database,
+        Database $database,
         &$current_user,
-        Log &$log,
+        Log $log,
         int $id,
         array $db_data = null
     ) : DBElement {

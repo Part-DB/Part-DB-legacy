@@ -66,7 +66,7 @@ class Device extends Base\PartsContainingDBElement
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }
@@ -141,7 +141,7 @@ class Device extends Base\PartsContainingDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception(sprintf(_('Die Baugruppe "%s" konnte nicht gelöscht werden!\n'), $this->getName()) . _("Grund: ").$e->getMessage());
+            throw new Exception(sprintf(_('Die Baugruppe "%s" konnte nicht gelöscht werden!\n'), $this->getName()) . _('Grund: ').$e->getMessage());
         }
     }
 
@@ -157,11 +157,11 @@ class Device extends Base\PartsContainingDBElement
     public function copy(string $name, int $parent_id, bool $with_subdevices = false)
     {
         try {
-            if (($with_subdevices) && ($parent_id > 0)) { // the root node (ID 0 or -1) is always allowed as the parent object
+            if ($with_subdevices && ($parent_id > 0)) { // the root node (ID 0 or -1) is always allowed as the parent object
                 // check if $parent_id is NOT a child of this device
-                $parent_device = Device::getInstance($this->database, $this->current_user, $this->log, $parent_id);
+                $parent_device = self::getInstance($this->database, $this->current_user, $this->log, $parent_id);
 
-                if (($parent_device->getID() == $this->getID()) || ($parent_device->isChildOf($this))) {
+                if (($parent_device->getID() == $this->getID()) || $parent_device->isChildOf($this)) {
                     throw new Exception(_('Eine Baugruppe kann nicht in sich selber kopiert werden!'));
                 }
             }
@@ -195,7 +195,7 @@ class Device extends Base\PartsContainingDBElement
         } catch (Exception $e) {
             $this->database->rollback(); // rollback transaction
 
-            throw new Exception(sprintf(_("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
+            throw new Exception(sprintf(_("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _('Grund: ').$e->getMessage());
         }
     }
 
@@ -227,16 +227,16 @@ class Device extends Base\PartsContainingDBElement
                 }
             }
 
-            $comment = sprintf(_("Baugruppe: %s"), $this->getName());
+            $comment = sprintf(_('Baugruppe: %s'), $this->getName());
 
             // OK there are enough parts in stock, we will book them
             foreach ($device_parts as $part) {
                 /** @var DevicePart $part  */
                 //$part->getPart()->setInstock($part->getPart()->getInstock() - ($part->getMountQuantity() * $book_multiplier));
                 if ($book_multiplier > 0) {
-                    $part->getPart()->withdrawalParts(($part->getMountQuantity() * abs($book_multiplier)), $comment);
+                    $part->getPart()->withdrawalParts($part->getMountQuantity() * abs($book_multiplier), $comment);
                 } else {
-                    $part->getPart()->addParts(($part->getMountQuantity() * abs($book_multiplier)), $comment);
+                    $part->getPart()->addParts($part->getMountQuantity() * abs($book_multiplier), $comment);
                 }
             }
 
@@ -247,7 +247,7 @@ class Device extends Base\PartsContainingDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception(_("Die Teile konnten nicht abgefasst werden!\n") . _("Grund: ").$e->getMessage());
+            throw new Exception(_("Die Teile konnten nicht abgefasst werden!\n") . _('Grund: ').$e->getMessage());
         }
     }
 
@@ -312,7 +312,7 @@ class Device extends Base\PartsContainingDBElement
      */
     protected function getPartsWithoutPermCheck(bool $recursive = false, bool $hide_obsolet_and_zero = false, int $limit = 50, int $page = 1) : array
     {
-        if (! is_array($this->parts)) {
+        if (! \is_array($this->parts)) {
             $this->parts = array();
 
             $query =    'SELECT device_parts.* FROM device_parts '.
@@ -458,16 +458,16 @@ class Device extends Base\PartsContainingDBElement
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the datetype of the boolean attributes
-        settype($values['order_only_missing_parts'], 'boolean');
+        $values['order_only_missing_parts'] = (bool)$values['order_only_missing_parts'];
 
         // check "order_quantity"
-        if (((! is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
+        if (((! \is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
             || ($values['order_quantity'] < 0)) {
             debug('error', 'order_quantity = "'.$values['order_quantity'].'"', __FILE__, __LINE__, __METHOD__);
             throw new Exception(_('Die Bestellmenge ist ungültig!'));
@@ -485,7 +485,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getOrderDevices(Database &$database, User &$current_user, Log &$log) : array
+    public static function getOrderDevices(Database $database, User $current_user, Log $log) : array
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -540,7 +540,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getIDString(): string
     {
-        return "D" . sprintf("%09d", $this->getID());
+        return 'D' . sprintf('%09d', $this->getID());
     }
 
     /**
@@ -560,7 +560,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @see DBElement::add()
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $comment = "") : Device
+    public static function add(Database $database, User $current_user, Log $log, string $name, int $parent_id, string $comment = '') : Device
     {
         return parent::addByArray(
             $database,
@@ -570,7 +570,7 @@ class Device extends Base\PartsContainingDBElement
                 'parent_id'                 => $parent_id,
                 'order_quantity'            => 0,
                 'order_only_missing_parts'  => false,
-                "comment"                   => $comment)
+                'comment' => $comment)
         );
     }
 

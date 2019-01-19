@@ -31,7 +31,7 @@
  *  If you make changes in one of them, please check if you should change the other files too.
  */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 
 use PartDB\Category;
 use PartDB\Database;
@@ -70,19 +70,19 @@ $new_default_comment        = isset($_POST['default_comment'])  ? (string)$_POST
 $new_partname_regex         = isset($_POST['partname_regex'])   ? (string)$_POST['partname_regex']    : '';
 $new_partname_hint          = isset($_POST['partname_hint'])   ? (string)$_POST['partname_hint']    : '';
 
-$new_comment                = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
+$new_comment                = isset($_POST['comment'])       ? (string)$_POST['comment']      : '';
 
 $action = 'default';
-if (isset($_POST["add"])) {
+if (isset($_POST['add'])) {
     $action = 'add';
 }
-if (isset($_POST["delete"])) {
+if (isset($_POST['delete'])) {
     $action = 'delete';
 }
-if (isset($_POST["delete_confirmed"])) {
+if (isset($_POST['delete_confirmed'])) {
     $action = 'delete_confirmed';
 }
-if (isset($_POST["apply"])) {
+if (isset($_POST['apply'])) {
     $action = 'apply';
 }
 
@@ -212,7 +212,7 @@ if (! $fatal_error) {
                     'default_comment'          => $new_default_comment,
                     'partname_regex'           => $new_partname_regex,
                     'partname_hint'            => $new_partname_hint,
-                    "comment"                  => $new_comment));
+                    'comment' => $new_comment));
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
@@ -262,12 +262,12 @@ if (! $fatal_error) {
             $last_modified_user = $selected_category->getLastModifiedUser();
             $creation_user = $selected_category->getCreationUser();
             if ($last_modified_user != null) {
-                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
-                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), 'string');
+                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), 'int');
             }
             if ($creation_user != null) {
-                $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
-                $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+                $html->setVariable('creation_user', $creation_user->getFullName(true), 'string');
+                $html->setVariable('creation_user_id', $creation_user->getID(), 'int');
             }
 
             //Disable fields
@@ -276,15 +276,15 @@ if (! $fatal_error) {
             $disable_autodatasheets = $selected_category->getDisableAutodatasheets(true);
             $disable_properties = $selected_category->getDisableProperties(true);
 
-            $html->setVariable('parent_disable_footprints', ($selected_category->getDisableFootprints(true)
-                && (! $selected_category->getDisableFootprints(false))), 'boolean');
-            $html->setVariable('parent_disable_manufacturers', ($selected_category->getDisableManufacturers(true)
-                && (! $selected_category->getDisableManufacturers(false))), 'boolean');
-            $html->setVariable('parent_disable_autodatasheets', ($selected_category->getDisableAutodatasheets(true)
-                && (! $selected_category->getDisableAutodatasheets(false))), 'boolean');
+            $html->setVariable('parent_disable_footprints', $selected_category->getDisableFootprints(true)
+                && (! $selected_category->getDisableFootprints(false)), 'boolean');
+            $html->setVariable('parent_disable_manufacturers', $selected_category->getDisableManufacturers(true)
+                && (! $selected_category->getDisableManufacturers(false)), 'boolean');
+            $html->setVariable('parent_disable_autodatasheets', $selected_category->getDisableAutodatasheets(true)
+                && (! $selected_category->getDisableAutodatasheets(false)), 'boolean');
 
-            $html->setVariable('parent_disable_properties', ($selected_category->getDisableProperties(true)
-                && (! $selected_category->getDisableProperties(false))), 'boolean');
+            $html->setVariable('parent_disable_properties', $selected_category->getDisableProperties(true)
+                && (! $selected_category->getDisableProperties(false)), 'boolean');
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
@@ -304,11 +304,11 @@ if (! $fatal_error) {
             $disable_manufacturers = false;
             $disable_autodatasheets = false;
             $disable_properties = false;
-            $default_description = "";
-            $default_comment = "";
-            $partname_hint = "";
-            $partname_regex = "";
-            $comment = "";
+            $default_description = '';
+            $default_comment = '';
+            $partname_hint = '';
+            $partname_regex = '';
+            $comment = '';
         }
 
         $html->setVariable('name', $name, 'string');
@@ -323,7 +323,7 @@ if (! $fatal_error) {
         $html->setVariable('partname_regex', $partname_regex, 'string');
         $html->setVariable('partname_hint', $partname_hint, 'string');
         $html->setVariable('partname_input_pattern', PartNameRegEx::getPattern(true), 'string');
-        $html->setVariable('comment', $comment, "string");
+        $html->setVariable('comment', $comment, 'string');
 
         $category_list = $root_category->buildHtmlTree($selected_id, true, false);
         $html->setVariable('category_list', $category_list, 'string');
@@ -331,20 +331,20 @@ if (! $fatal_error) {
         $parent_category_list = $root_category->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_category_list', $parent_category_list, 'string');
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
 
 try {
-    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::DELETE));
-    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::EDIT));
-    $html->setVariable("can_create", $current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::CREATE));
-    $html->setVariable("can_move", $current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::MOVE));
-    $html->setVariable("can_read", $current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ));
+    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::DELETE));
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::EDIT));
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::CREATE));
+    $html->setVariable('can_move', $current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::MOVE));
+    $html->setVariable('can_read', $current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ));
     $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 } catch (Exception $e) {
-    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
 
@@ -356,8 +356,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $reload_link = $fatal_error ? 'edit_categories.php' : '';    // an empty string means that the...

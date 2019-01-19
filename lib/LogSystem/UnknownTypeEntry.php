@@ -49,7 +49,7 @@ class UnknownTypeEntry extends BaseEntry
      * @throws Exception    if there is no such attachment type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    public function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
@@ -68,7 +68,7 @@ class UnknownTypeEntry extends BaseEntry
      */
     public function getTargetText() : string
     {
-        return _("Typ: ") . Log::targetTypeIDToString($this->getTargetType()) . _(", ID: ") .  $this->getTargetID();
+        return _('Typ: ') . Log::targetTypeIDToString($this->getTargetType()) . _(', ID: ') .  $this->getTargetID();
     }
 
     /**
@@ -77,7 +77,7 @@ class UnknownTypeEntry extends BaseEntry
      */
     public function getTargetLink() : string
     {
-        return "";
+        return '';
     }
 
     /**
@@ -87,6 +87,6 @@ class UnknownTypeEntry extends BaseEntry
      */
     public function getExtra(bool $html = false) : string
     {
-        return $this->db_data["extra"];
+        return $this->db_data['extra'];
     }
 }

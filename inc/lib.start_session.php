@@ -45,13 +45,13 @@ use PartDB\User;
  * @param string        $messages       the HTML-coded messages
  * @param string        $panel_type     the bootstrap panel, class, that should be used to output the message
  */
-function printMessagesWithoutTemplate(string $page_title, $div_title, string $messages, string $panel_type = "panel-danger")
+function printMessagesWithoutTemplate(string $page_title, $div_title, string $messages, string $panel_type = 'panel-danger')
 {
     //Compatibility with panel-things
-    $bg_type = str_replace("panel-", "bg-", $panel_type);
-    $border_type = str_replace("panel-", "border-", $panel_type);
+    $bg_type = str_replace('panel-', 'bg-', $panel_type);
+    $border_type = str_replace('panel-', 'border-', $panel_type);
 
-    $title = $div_title ?? _("Schwerwiegender Fehler");
+    $title = $div_title ?? _('Schwerwiegender Fehler');
 
     print '<!DOCTYPE html><html lang="en"><title>' . $title .'</title><head>';
     print '<title>'.htmlspecialchars($page_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</title>';
@@ -144,7 +144,7 @@ function ownSetlocale(int $category, string $locale) : bool
     putenv('LC_ALL='.$locale);
 
     $retval = setlocale($category, $locales);
-    $debug =  setlocale($category, "0");
+    $debug =  setlocale($category, '0');
 
     return (($retval !== false) || ($locale == 'POSIX'));
 }
@@ -244,7 +244,7 @@ function checkComposerFolder() : array
 {
     $messages = array();
 
-    $check_filenames = array("/vendor/autoload.php");
+    $check_filenames = array('/vendor/autoload.php');
 
     foreach ($check_filenames as $filename) {
         $whole_filename = BASE.$filename;
@@ -269,7 +269,7 @@ function checkIfConfigIsValid()
 {
     global $config_defaults;
 
-    if (isset($config_defaults['system']) && isset($config_defaults['system']['version'])) {
+    if (isset($config_defaults['system']['version'])) {
         // it seems that the user has copied the config_defaults.php to the config.php, this is not good!
         return  _('Es scheint, als hätten Sie die Datei "config_defaults.php" als Vorlage für Ihre "config.php" verwendet.<br>'.
             'Das ist aber nicht so vorgesehen und darf nicht so gemacht werden, da dies Probleme verursachen wird!<br><br>'.
@@ -300,7 +300,8 @@ function exception_handler(Throwable $e)
     printMessagesWithoutTemplate(
         _('Part-DB: Schwerwiegender Fehler!'),
         null,
-        '<span style="color: red; "><strong>'._('Es ist ein schwerwiegender Fehler aufgetreten:') .
+        '<span style="color: red; "><strong>'._('Es ist ein schwerwiegender Fehler aufgetreten:')
+        . ' (<i>' . get_class($e) . '</i>)' .
         '<br><br>'.nl2br($e->getMessage()).'</strong><br><br>'.
         _('(Exception wurde geworfen in ').$e->getFile()._(', Zeile ').$e->getLine(). ')</span>'
     );

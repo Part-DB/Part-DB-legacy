@@ -35,11 +35,11 @@ class StatisticsHelpers
     protected $current_user;
     protected $log;
 
-    const COLOR_BLUE = "rgba(66, 139, 202, 0.4)";
-    const COLOR_RED = "rgba(217,83,79, 0.4)";
-    const COLOR_LIGHT_BLUE = "rgba(91,192,222, 0.4)";
-    const COLOR_GREEN = "rgba(92,184,92, 0.4)";
-    const COLOR_ORANGE = "rgba(240, 173, 78, 0.4)";
+    const COLOR_BLUE = 'rgba(66, 139, 202, 0.4)';
+    const COLOR_RED = 'rgba(217,83,79, 0.4)';
+    const COLOR_LIGHT_BLUE = 'rgba(91,192,222, 0.4)';
+    const COLOR_GREEN = 'rgba(92,184,92, 0.4)';
+    const COLOR_ORANGE = 'rgba(240, 173, 78, 0.4)';
 
     /**
      * Creates an StatisticsHelper object, using the following objects for Database Access.
@@ -62,11 +62,11 @@ class StatisticsHelpers
      */
     public function getMostUsedCategories(int $limit = 25) : array
     {
-        if (!is_int($limit)) {
+        if (!\is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
-        $query = "SELECT categories.name AS name, COUNT(parts.id_category) AS count FROM categories, parts"
+        $query = 'SELECT categories.name AS name, COUNT(parts.id_category) AS count FROM categories, parts'
          ." WHERE categories.id = parts.id_category GROUP BY parts.id_category ORDER BY count DESC LIMIT $limit";
         $values = array();
 
@@ -75,11 +75,11 @@ class StatisticsHelpers
 
     public function getMostUsedLocations(int $limit = 25) : array
     {
-        if (!is_int($limit)) {
+        if (!\is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
-        $query = "SELECT storelocations.name AS name, COUNT(parts.id_storelocation) AS count FROM storelocations, parts"
+        $query = 'SELECT storelocations.name AS name, COUNT(parts.id_storelocation) AS count FROM storelocations, parts'
             ." WHERE storelocations.id = parts.id_storelocation GROUP BY parts.id_storelocation ORDER BY count DESC LIMIT $limit";
         $values = array();
 
@@ -88,11 +88,11 @@ class StatisticsHelpers
 
     public function getMostUsedFootprints(int $limit = 25) : array
     {
-        if (!is_int($limit)) {
+        if (!\is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
-        $query = "SELECT footprints.name AS name, COUNT(parts.id_footprint) AS count FROM footprints, parts"
+        $query = 'SELECT footprints.name AS name, COUNT(parts.id_footprint) AS count FROM footprints, parts'
             ." WHERE footprints.id = parts.id_footprint GROUP BY parts.id_footprint ORDER BY count DESC LIMIT $limit";
         $values = array();
 
@@ -101,11 +101,11 @@ class StatisticsHelpers
 
     public function getMostUsedManufacturers(int $limit = 25) : array
     {
-        if (!is_int($limit)) {
+        if (!\is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
-        $query = "SELECT manufacturers.name AS name, COUNT(parts.id_manufacturer) AS count FROM manufacturers, parts"
+        $query = 'SELECT manufacturers.name AS name, COUNT(parts.id_manufacturer) AS count FROM manufacturers, parts'
             ." WHERE manufacturers.id = parts.id_manufacturer GROUP BY parts.id_manufacturer ORDER BY count DESC LIMIT $limit";
         $values = array();
 
@@ -133,9 +133,9 @@ class StatisticsHelpers
         $data = array();
         $data['labels'] = $names;
 
-        $dataset = array("label" => $label,
-                       "data" => $counts,
-                        "backgroundColor" => $bg_color);
+        $dataset = array('label' => $label,
+                       'data' => $counts,
+                        'backgroundColor' => $bg_color);
 
         $data['datasets'] = array($dataset);
 

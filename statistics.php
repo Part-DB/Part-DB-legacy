@@ -23,7 +23,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 
 use PartDB\Attachment;
 use PartDB\Category;
@@ -71,30 +71,30 @@ if (! $fatal_error) {
         $helper = new StatisticsHelpers($database, $current_user, $log);
         //Most used categories
         $array = $helper->getMostUsedCategories();
-        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Kategorie"), StatisticsHelpers::COLOR_BLUE);
+        $str = StatisticsHelpers::arrayToChartJSData($array, _('Bauteile mit Kategorie'), StatisticsHelpers::COLOR_BLUE);
         $html->setVariable('graph_categories', $str);
 
         //Most used storelocations
         $array = $helper->getMostUsedLocations();
-        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile im Lagerort"), StatisticsHelpers::COLOR_GREEN);
+        $str = StatisticsHelpers::arrayToChartJSData($array, _('Bauteile im Lagerort'), StatisticsHelpers::COLOR_GREEN);
         $html->setVariable('graph_locations', $str);
 
         //Most used footprints
         $array = $helper->getMostUsedFootprints();
-        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Footprint"), StatisticsHelpers::COLOR_LIGHT_BLUE);
+        $str = StatisticsHelpers::arrayToChartJSData($array, _('Bauteile mit Footprint'), StatisticsHelpers::COLOR_LIGHT_BLUE);
         $html->setVariable('graph_footprints', $str);
 
         //Most used manufacturer
         $array = $helper->getMostUsedManufacturers();
-        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Hersteller"), StatisticsHelpers::COLOR_ORANGE);
+        $str = StatisticsHelpers::arrayToChartJSData($array, _('Bauteile mit Hersteller'), StatisticsHelpers::COLOR_ORANGE);
         $html->setVariable('graph_manufacturer', $str);
 
         //Parts with most instock parts
         $array = $helper->getPartsWithMostInstock();
-        $str = StatisticsHelpers::arrayToChartJSData($array, _("Vorhandene Bauteile"), StatisticsHelpers::COLOR_RED);
+        $str = StatisticsHelpers::arrayToChartJSData($array, _('Vorhandene Bauteile'), StatisticsHelpers::COLOR_RED);
         $html->setVariable('graph_instock_parts', $str);
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
@@ -128,7 +128,7 @@ if (! $fatal_error) {
         $html->setVariable('iclogos_picture_count', count(findAllFiles(BASE.'/img/iclogos/', true)), 'integer');
         $html->setVariable('footprint_models_count', count(findAllFiles(BASE.'/models/', true)));
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
@@ -141,8 +141,8 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

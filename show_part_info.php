@@ -23,7 +23,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 
 use PartDB\Database;
 use PartDB\Device;
@@ -51,12 +51,12 @@ $part_id            = isset($_REQUEST['pid'])               ? (int)$_REQUEST['pi
 $n_less             = isset($_POST['n_less'])            ? (int)$_POST['n_less']          : 0;
 $n_more             = isset($_POST['n_more'])            ? (int)$_POST['n_more']          : 0;
 $order_quantity     = isset($_POST['order_quantity'])    ? (int)$_POST['order_quantity']  : 0;
-$instock_change_comment = isset($_POST['instock_change_comment']) ? (string)$_POST['instock_change_comment'] : "";
+$instock_change_comment = isset($_POST['instock_change_comment']) ? (string)$_POST['instock_change_comment'] : '';
 
 //When adding to a device
 $device_id          = isset($_POST['device_id_new'])     ? (int)$_POST['device_id_new']   : 0;
 $device_qty         = isset($_POST['device_quantity_new']) ? (int)$_POST['device_quantity_new'] : 0;
-$device_name        = isset($_POST['device_name_new'])   ? (string)$_POST['device_name_new'] : "";
+$device_name        = isset($_POST['device_name_new'])   ? (string)$_POST['device_name_new'] : '';
 
 //Pagination for history
 $page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
@@ -73,29 +73,29 @@ if (isset($_REQUEST['barcode'])) {
         }
         $part_id = (int) $barcode;
     } else {
-        $messages[] = $messages[] = array('text' => nl2br(_("Label input is not valid!")), 'strong' => true, 'color' => 'red');
+        $messages[] = array('text' => nl2br(_('Label input is not valid!')), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
 
 $action = 'default';
-if (isset($_POST["dec"])) {
+if (isset($_POST['dec'])) {
     $action = 'dec';
 }
-if (isset($_POST["inc"])) {
+if (isset($_POST['inc'])) {
     $action = 'inc';
 }
-if (isset($_POST["mark_to_order"])) {
+if (isset($_POST['mark_to_order'])) {
     $action = 'mark_to_order';
 }
-if (isset($_POST["remove_mark_to_order"])) {
+if (isset($_POST['remove_mark_to_order'])) {
     $action = 'remove_mark_to_order';
 }
 if (isset($_POST['device_add'])) {
-    $action = "device_add";
+    $action = 'device_add';
 }
 if (isset($_POST['toggle_favorite'])) {
-    $action = "toggle_favorite";
+    $action = 'toggle_favorite';
 }
 
 /********************************************************************************
@@ -134,7 +134,7 @@ try {
 if (! $fatal_error) {
 
     //If no comment was set, than use the default one from the user profile.
-    if ($instock_change_comment == "") {
+    if ($instock_change_comment == '') {
         $instock_change_comment = null;
     }
 
@@ -178,19 +178,19 @@ if (! $fatal_error) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
             break;
-        case "device_add":
+        case 'device_add':
             try {
                 if ($device_id > 0 && $device_qty > 0) {
                     $devicepart = DevicePart::add($database, $current_user, $log, $device_id, $part_id, $device_qty, $device_name);
                     $devicepart->getID();
                 } else {
-                    throw new Exception(_("Ungültige Eingabedaten!"));
+                    throw new Exception(_('Ungültige Eingabedaten!'));
                 }
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
             break;
-        case "toggle_favorite":
+        case 'toggle_favorite':
             try {
                 $part->setFavorite(!$part->getFavorite());
             } catch (Exception $e) {
@@ -209,7 +209,7 @@ if (! $fatal_error) {
 if (! $fatal_error) {
     try {
         $properties = $part->getPropertiesLoop();
-        $html->setVariable("properties_loop", $properties);
+        $html->setVariable('properties_loop', $properties);
 
         //Set title
         $title = _('Detailinfo') . ': ' . $part->getName() . '';
@@ -220,36 +220,36 @@ if (! $fatal_error) {
         $html->setVariable('name', $part->getName(), 'string');
         $html->setVariable('manufacturer_product_url', $part->getManufacturerProductUrl(), 'string');
         $html->setVariable('description', $part->getDescription(), 'string');
-        $html->setVariable('category_path', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", false, null, true));
+        $html->setVariable('category_path', $category->buildBreadcrumbLoop('show_category_parts.php', 'cid', false, null, true));
         $html->setVariable('category_id', $part->getCategory()->getID(), 'string');
         $html->setVariable('instock', $part->getInstock(true), 'string');
         $html->setVariable('instock_unknown', $part->isInstockUnknown(), 'boolean');
         $html->setVariable('mininstock', $part->getMinInstock(), 'integer');
         $html->setVariable('visible', $part->getVisible(), 'boolean');
         $html->setVariable('comment', nl2br($part->getComment()), 'string');
-        $html->setVariable('footprint_path', (is_object($footprint) ? $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", false, null, true) : null));
+        $html->setVariable('footprint_path', (is_object($footprint) ? $footprint->buildBreadcrumbLoop('show_footprint_parts.php', 'fid', false, null, true) : null));
         $html->setVariable('footprint_id', (is_object($footprint) ? $footprint->getID() : 0), 'integer');
         $html->setVariable('footprint_filename', (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->getFilename()) : ''), 'string');
         $html->setVariable('footprint_valid', (is_object($footprint) ? $footprint->isFilenameValid() : false), 'boolean');
-        $html->setVariable('storelocation_path', (is_object($storelocation) ? $storelocation->buildBreadcrumbLoop("show_location_parts.php", "lid", false, null, true) : null));
+        $html->setVariable('storelocation_path', (is_object($storelocation) ? $storelocation->buildBreadcrumbLoop('show_location_parts.php', 'lid', false, null, true) : null));
         $html->setVariable('storelocation_id', (is_object($storelocation) ? $storelocation->getID() : '0'), 'integer');
         $html->setVariable('storelocation_is_full', (is_object($storelocation) ? $storelocation->getIsFull() : false), 'boolean');
-        $html->setVariable('manufacturer_path', (is_object($manufacturer) ? $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", false, null, true) : null));
+        $html->setVariable('manufacturer_path', (is_object($manufacturer) ? $manufacturer->buildBreadcrumbLoop('show_manufacturer_parts.php', 'mid', false, null, true) : null));
         $html->setVariable('manufacturer_id', (is_object($manufacturer) ? $manufacturer->getID() : 0), 'integer');
-        $html->setVariable('auto_order_exists', ($part->getAutoOrder()), 'boolean');
-        $html->setVariable('manual_order_exists', ($part->getManualOrder() && ($part->getInstock() >= $part->getMinInstock())), 'boolean');
+        $html->setVariable('auto_order_exists', $part->getAutoOrder(), 'boolean');
+        $html->setVariable('manual_order_exists', $part->getManualOrder() && ($part->getInstock() >= $part->getMinInstock()), 'boolean');
 
         $html->setVariable('last_modified', $part->getLastModified(), 'string');
         $html->setVariable('datetime_added', $part->getDatetimeAdded(), 'string');
         $last_modified_user = $part->getLastModifiedUser();
         $creation_user = $part->getCreationUser();
         if ($last_modified_user != null) {
-            $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
-            $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+            $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), 'string');
+            $html->setVariable('last_modified_user_id', $last_modified_user->getID(), 'int');
         }
         if ($creation_user != null) {
-            $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
-            $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+            $html->setVariable('creation_user', $creation_user->getFullName(true), 'string');
+            $html->setVariable('creation_user_id', $creation_user->getID(), 'int');
         }
 
         //Default withdrawal/Add comment
@@ -336,43 +336,43 @@ if (! $fatal_error) {
                 }
             }
         }
-        $html->setVariable("datasheet_loop", $datasheet_loop);
+        $html->setVariable('datasheet_loop', $datasheet_loop);
 
         //Devices
         $devices = $part->getDevices();
         $devices_loop = array();
         foreach ($devices as $device) {
             $device_part = \PartDB\DevicePart::getDevicePart($database, $current_user, $log, $device->getID(), $part->getID());
-            $devices_loop[] = array("name" => $device->getName(),
-                "id" => $device->getID(),
-                "fullpath" => $device->getFullPath(),
-                "mount_quantity" => $device_part->getMountQuantity(),
-                "mount_name" => $device_part->getMountNames());
+            $devices_loop[] = array('name' => $device->getName(),
+                'id' => $device->getID(),
+                'fullpath' => $device->getFullPath(),
+                'mount_quantity' => $device_part->getMountQuantity(),
+                'mount_name' => $device_part->getMountNames());
         }
 
         $root_device = Device::getInstance($database, $current_user, $log, 0);
-        $html->setVariable("devices_list", $root_device->buildHtmlTree(Device::getPrimaryDevice(), true, false), "string");
+        $html->setVariable('devices_list', $root_device->buildHtmlTree(Device::getPrimaryDevice(), true, false), 'string');
 
         if (count($devices_loop) > 0) {
             $html->setVariable('devices_loop', $devices_loop);
         }
 
         // global/category stuff
-        $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
-        $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
+        $html->setVariable('disable_footprints', $config['footprints']['disable'] || $category->getDisableFootprints(true), 'boolean');
+        $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'] || $category->getDisableManufacturers(true), 'boolean');
 
         //Barcode stuff
-        $html->setVariable("barcode_profiles", buildLabelProfilesDropdown("part"));
+        $html->setVariable('barcode_profiles', buildLabelProfilesDropdown('part'));
 
         $count = 0;
         if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
             $history = Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page);
-            $html->setVariable("graph_history", Log::historyToGraph($history));
-            $html->setVariable("history", $history);
+            $html->setVariable('graph_history', Log::historyToGraph($history));
+            $html->setVariable('history', $history);
             $count = Log::getHistoryForPartCount($database, $current_user, $log, $part);
         }
-        $html->setVariable("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
-        $html->setVariable("page", $page);
+        $html->setVariable('pagination', generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
+        $html->setVariable('page', $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -380,18 +380,18 @@ if (! $fatal_error) {
     }
 }
 try {
-    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE), "bool");
-    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT), "bool");
-    $html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE), "bool");
-    $html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE), "bool");
-    $html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ), "bool");
-    $html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT), "bool");
-    $html->setVariable("can_favorite", $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
+    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE), 'bool');
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT), 'bool');
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE), 'bool');
+    $html->setVariable('can_move', $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE), 'bool');
+    $html->setVariable('can_read', $current_user->canDo(PermissionManager::PARTS, PartPermission::READ), 'bool');
+    $html->setVariable('can_instock', $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT), 'bool');
+    $html->setVariable('can_favorite', $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
 
-    $html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE), "bool");
-    $html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE), "bool");
-    $html->setVariable('can_order_edit', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT), "bool");
-    $html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
+    $html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE), 'bool');
+    $html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE), 'bool');
+    $html->setVariable('can_order_edit', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT), 'bool');
+    $html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), 'bool');
     $html->setVariable('can_devicepart_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
     $html->setVariable('can_generate_barcode', $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS));
 
@@ -409,8 +409,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $reload_link = $fatal_error ? 'show_part_info.php?pid='.$part_id : '';  // an empty string means that the...

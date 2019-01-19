@@ -23,11 +23,11 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 /** @noinspection PhpIncludeInspection */
-include_once(BASE.'/inc/lib.export.php');
+include_once BASE.'/inc/lib.export.php';
 /** @noinspection PhpIncludeInspection */
-include_once(BASE.'/inc/lib.import.php');
+include_once BASE.'/inc/lib.import.php';
 
 use PartDB\Attachment;
 use PartDB\Database;
@@ -131,16 +131,16 @@ if (isset($_POST['import_data'])) {
     $action = 'import';
 }
 if (isset($_POST['primary_device'])) {
-    $action = "primary_device";
+    $action = 'primary_device';
 }
 
-if (isset($_POST["attachement_add"])) {
+if (isset($_POST['attachement_add'])) {
     $action = 'attachement_add';
 }
-if (isset($_POST["attachement_apply"])) {
+if (isset($_POST['attachement_apply'])) {
     $action = 'attachement_apply';
 }
-if (isset($_POST["attachement_delete"])) {
+if (isset($_POST['attachement_delete'])) {
     $action = 'attachement_delete';
 }
 
@@ -166,7 +166,7 @@ try {
     if ($device_id > 0) {
         $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ);
 
-        $html->setTitle(_("Baugruppe"). ": " . $device->getName());
+        $html->setTitle(_('Baugruppe'). ': ' . $device->getName());
     }
 
     if ($attachement_id > 0) {
@@ -177,7 +177,7 @@ try {
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
-    $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
+    $_SESSION['part_delete_last_link'] = $_SERVER['REQUEST_URI'];
     session_write_close();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -213,8 +213,8 @@ if (! $fatal_error) {
 
                 $searched_parts_loop = Part::buildTemplateTableArray($searched_parts, 'searched_device_parts');
                 $html->setVariable('searched_parts_rowcount', count($searched_parts), 'integer');
-                $html->setVariable('no_searched_parts_found', (count($searched_parts) == 0), 'integer');
-                $html->setVariable("part_name_search", $new_part_name);
+                $html->setVariable('no_searched_parts_found', count($searched_parts) == 0, 'integer');
+                $html->setVariable('part_name_search', $new_part_name);
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -355,8 +355,7 @@ if (! $fatal_error) {
                 if (! $only_check_data) {
                     // clear import variables, so the import table is no longer visible in the HTML output
                     $import_file_content = '';
-                    unset($import_data);
-                    unset($import_loop);
+                    unset($import_data, $import_loop);
                 }
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -374,18 +373,16 @@ if (! $fatal_error) {
                     throw new Exception(_('Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen wählen!'));
                 }
 
-                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/devices/", $device) : BASE.'/data/media/';
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE. '/data/media/devices/', $device) : BASE.'/data/media/';
 
                 if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
                     $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
-                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
-                    if (isURL($new_filename) && $download_file) {
-                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
-                        if ($downloaded_file_name !== "") {
-                            $new_filename = $downloaded_file_name;
-                        } else {
-                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
-                        }
+                } else if (isURL($new_filename) && $download_file) {
+                    $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                    if ($downloaded_file_name !== '') {
+                        $new_filename = $downloaded_file_name;
+                    } else {
+                        $messages[] = array('text' => _('Die Datei konnte nicht heruntergeladen werden!'), 'strong' => true, 'color' => 'red');
                     }
                 }
 
@@ -410,18 +407,16 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Dateianhang ausgewählt!'));
                 }
 
-                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/devices/", $device) : BASE.'/data/media/';
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE. '/data/media/devices/', $device) : BASE.'/data/media/';
 
                 if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
                     $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
-                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
-                    if (isURL($new_filename) && $download_file) {
-                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
-                        if ($downloaded_file_name !== "") {
-                            $new_filename = $downloaded_file_name;
-                        } else {
-                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
-                        }
+                } else if (isURL($new_filename) && $download_file) {
+                    $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                    if ($downloaded_file_name !== '') {
+                        $new_filename = $downloaded_file_name;
+                    } else {
+                        $messages[] = array('text' => _('Die Datei konnte nicht heruntergeladen werden!'), 'strong' => true, 'color' => 'red');
                     }
                 }
 
@@ -556,7 +551,7 @@ if (! $fatal_error) {
                 'is_picture' => $attachement->isPicture(),
                 'filename' => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
                 'filename_base_relative' => str_replace(BASE . '/', '', $attachement->getFilename()),
-                'picture_filename' => ($attachement->isPicture() ? str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()) : ''),
+                'picture_filename' => $attachement->isPicture() ? str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()) : '',
                 'download_file' => $config['attachements']['download_default'] && isURL($attachement->getFilename()));
             $row_odd = !$row_odd;
         }
@@ -577,15 +572,15 @@ if (! $fatal_error) {
 
         $html->setVariable('attachements_loop', $attachements_loop);
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
 
 try {
-    $html->setVariable("can_part_create", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
-    $html->setVariable("can_part_edit", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::EDIT));
-    $html->setVariable("can_part_delete", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::DELETE));
+    $html->setVariable('can_part_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
+    $html->setVariable('can_part_edit', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::EDIT));
+    $html->setVariable('can_part_delete', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::DELETE));
 
     $html->setVariable('can_part_instock', $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT));
     $html->setVariable('can_part_order', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT));
@@ -593,9 +588,9 @@ try {
 
     $html->setVariable('can_attachement_edit', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::EDIT));
     $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
-    $html->setVariable('downloads_enable', $config['allow_server_downloads'], "boolean");
+    $html->setVariable('downloads_enable', $config['allow_server_downloads'], 'boolean');
 } catch (Exception $e) {
-    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
 
@@ -607,8 +602,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $reload_link = $fatal_error ? 'show_device_parts.php?devid='.$device_id : ''; // an empty string means that the...
@@ -620,7 +615,7 @@ if (! $fatal_error) {
     }
 
     if ($device_id > 0) {
-        $html->setVariable('table', (isset($searched_parts_loop) ? $searched_parts_loop : array()));
+        $html->setVariable('table', ($searched_parts_loop ?? array()));
         $html->printTemplate('add_parts');
 
         $html->setVariable('table', $device_parts_loop);

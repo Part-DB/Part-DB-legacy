@@ -51,13 +51,13 @@ class ElementDeletedEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    public function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_ELEMENTDELETED) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
 
         $extra = $this->deserializeExtra();
@@ -71,8 +71,8 @@ class ElementDeletedEntry extends BaseEntry
 
     public function getExtra(bool $html = false) : string
     {
-        $old_name =  $this->deserializeExtra()["n"];
-        return _("Alter Name: ") . $old_name;
+        $old_name =  $this->deserializeExtra()['n'];
+        return _('Alter Name: ') . $old_name;
     }
 
     /**
@@ -86,7 +86,7 @@ class ElementDeletedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element)
+    public static function add(Database $database, User $current_user, Log $log, NamedDBElement $element)
     {
         $name = $element->getName();
         $type_id = Log::elementToTargetTypeID($element);
@@ -98,7 +98,7 @@ class ElementDeletedEntry extends BaseEntry
             $level = Log::LEVEL_INFO;
         }
 
-        $arr = array("n" => $name);
+        $arr = array('n' => $name);
 
         return static::addEntry(
             $database,
@@ -120,9 +120,9 @@ class ElementDeletedEntry extends BaseEntry
     public function getTargetText() : string
     {
         try {
-            return Log::targetTypeIDToString($this->getTargetType()) . ": " . $this->getTargetID();
+            return Log::targetTypeIDToString($this->getTargetType()) . ': ' . $this->getTargetID();
         } catch (Exception $ex) {
-            return "ERROR!";
+            return 'ERROR!';
         }
     }
 
@@ -133,6 +133,6 @@ class ElementDeletedEntry extends BaseEntry
     public function getTargetLink() : string
     {
         //We can not link to a part, that dont exists any more...
-        return "";
+        return '';
     }
 }

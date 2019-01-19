@@ -23,8 +23,8 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
-include_once(BASE.'/inc/lib.export.php');
+include_once __DIR__ . '/start_session.php';
+include_once BASE.'/inc/lib.export.php';
 
 use PartDB\Database;
 use PartDB\Device;
@@ -53,7 +53,7 @@ $selected_supplier_id       = isset($_REQUEST['selected_supplier_id'])  ? (int)$
 $device_id                  = isset($_REQUEST['device_id'])             ? (int)$_REQUEST['device_id']               : 0;
 
 // section "export"
-$export_format_id           = isset($_REQUEST['export_format'])         ? $_REQUEST['export_format']                    : 0;
+$export_format_id           = $_REQUEST['export_format'] ?? 0;
 
 $action = 'default';
 if (isset($_POST['apply_changes'])) {
@@ -89,7 +89,7 @@ try {
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
-    $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
+    $_SESSION['part_delete_last_link'] = $_SERVER['REQUEST_URI'];
     session_write_close();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -109,8 +109,8 @@ function get_suppliers_template_loop($suppliers, $selected_supplier_id)
     foreach ($suppliers as $supplier) {
         /** @var Supplier $supplier */
         $loop[] = array(    'id'                => $supplier->getID(),
-            'full_path'         => ($supplier->getFullPath()),
-            'selected'          => ($supplier->getID() == $selected_supplier_id),
+            'full_path'         => $supplier->getFullPath(),
+            'selected'          => $supplier->getID() == $selected_supplier_id,
             'count_of_parts'    => $supplier->getCountOfPartsToOrder());
     }
 
@@ -137,7 +137,7 @@ if (! $fatal_error) {
                     $part->setOrderOrderdetailsID($order_orderdetails_id);
                     $part->setOrderQuantity($order_quantity);
 
-                    if (isset($_REQUEST['remove_'.$i]) && ($part->getManualOrder())) {
+                    if (isset($_REQUEST['remove_'.$i]) && $part->getManualOrder()) {
                         $part->setManualOrder(false);
                     }
 
@@ -319,7 +319,7 @@ if (! $fatal_error) {
         }*/
 
         if (isset($export_string)) {
-            $html->setVariable('export_result', "$export_string");
+            $html->setVariable('export_result', (string) $export_string);
         }
 
         // global stuff
@@ -327,7 +327,7 @@ if (! $fatal_error) {
         $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
         $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
@@ -340,8 +340,8 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

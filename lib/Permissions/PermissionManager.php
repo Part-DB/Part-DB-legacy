@@ -30,39 +30,39 @@ class PermissionManager
     /** @var  PermissionGroup[] */
     protected $permissions;
 
-    const STORELOCATIONS    = "storelocations";
-    const FOOTRPINTS        = "footprints";
-    const CATEGORIES        = "categories";
-    const SUPPLIERS         = "suppliers";
-    const MANUFACTURERS     = "manufacturers";
-    const DEVICES           = "devices";
-    const ATTACHEMENT_TYPES = "attachement_types";
+    const STORELOCATIONS    = 'storelocations';
+    const FOOTRPINTS        = 'footprints';
+    const CATEGORIES        = 'categories';
+    const SUPPLIERS         = 'suppliers';
+    const MANUFACTURERS     = 'manufacturers';
+    const DEVICES           = 'devices';
+    const ATTACHEMENT_TYPES = 'attachement_types';
 
-    const TOOLS             = "tools";
+    const TOOLS             = 'tools';
 
-    const PARTS             = "parts";
-    const PARTS_NAME        = "parts_name";
-    const PARTS_DESCRIPTION = "parts_description";
-    const PARTS_INSTOCK     = "parts_instock";
-    const PARTS_MININSTOCK  = "parts_mininstock";
-    const PARTS_FOOTPRINT   = "parts_footprint";
-    const PARTS_COMMENT     = "parts_comment";
-    const PARTS_STORELOCATION = "parts_storelocation";
-    const PARTS_MANUFACTURER = "parts_manufacturer";
-    const PARTS_ORDERDETAILS = "parts_orderdetails";
-    const PARTS_PRICES      = "parts_prices";
-    const PARTS_ATTACHEMENTS = "parts_attachements";
-    const PARTS_ORDER        = "parts_order";
+    const PARTS             = 'parts';
+    const PARTS_NAME        = 'parts_name';
+    const PARTS_DESCRIPTION = 'parts_description';
+    const PARTS_INSTOCK     = 'parts_instock';
+    const PARTS_MININSTOCK  = 'parts_mininstock';
+    const PARTS_FOOTPRINT   = 'parts_footprint';
+    const PARTS_COMMENT     = 'parts_comment';
+    const PARTS_STORELOCATION = 'parts_storelocation';
+    const PARTS_MANUFACTURER = 'parts_manufacturer';
+    const PARTS_ORDERDETAILS = 'parts_orderdetails';
+    const PARTS_PRICES      = 'parts_prices';
+    const PARTS_ATTACHEMENTS = 'parts_attachements';
+    const PARTS_ORDER        = 'parts_order';
 
-    const GROUPS            = "groups";
-    const USERS             = "users";
-    const DATABASE          = "system_database";
-    const CONFIG            = "system_config";
-    const SYSTEM            = "system";
+    const GROUPS            = 'groups';
+    const USERS             = 'users';
+    const DATABASE          = 'system_database';
+    const CONFIG            = 'system_config';
+    const SYSTEM            = 'system';
 
-    const DEVICE_PARTS      = "devices_parts";
-    const SELF              = "self";
-    const LABELS            = "labels";
+    const DEVICE_PARTS      = 'devices_parts';
+    const SELF              = 'self';
+    const LABELS            = 'labels';
 
 
 
@@ -89,7 +89,7 @@ class PermissionManager
      */
     public function invalidatePermissionValueCache(string $perm_name, string $perm_op)
     {
-        $key = $perm_name . "/" . $perm_op;
+        $key = $perm_name . '/' . $perm_op;
 
         unset($this->permission_value_cache[$key]);
     }
@@ -126,10 +126,10 @@ class PermissionManager
     {
         foreach ($request_array as $request => $value) {
             //The request variable is a permission when it begins with perm/
-            if (strpos($request, "perm/") !== false) {
+            if (strpos($request, 'perm/') !== false) {
                 try {
                     //Split the $name string into the different parts.
-                    $tmp = explode("/", $request);
+                    $tmp = explode('/', $request);
                     $permission = $tmp[1];
                     $operation  = $tmp[2];
 
@@ -154,7 +154,7 @@ class PermissionManager
      */
     public function getPermissionValue(string $perm_name, string $perm_op, bool $inheritance = true) : int
     {
-        $key = $perm_name . "/" . $perm_op;
+        $key = $perm_name . '/' . $perm_op;
         if (isset($this->permission_value_cache[$key]) && $inheritance) {
             return $this->permission_value_cache[$key];
         }
@@ -192,7 +192,7 @@ class PermissionManager
             }
         }
 
-        throw new \InvalidArgumentException(_("Keine Permission mit dem gegebenen Namen vorhanden!"));
+        throw new \InvalidArgumentException(_('Keine Permission mit dem gegebenen Namen vorhanden!'));
     }
 
     /**
@@ -211,7 +211,7 @@ class PermissionManager
             }
         }
 
-        throw new \InvalidArgumentException(_("Keine Permission mit dem gegebenen Namen vorhanden!"));
+        throw new \InvalidArgumentException(_('Keine Permission mit dem gegebenen Namen vorhanden!'));
     }
 
     /**
@@ -239,46 +239,46 @@ class PermissionManager
     protected function fillPermissionsArray()
     {
         $part_permissions       = array();
-        $part_permissions[static::PARTS]     = new PartPermission($this->perm_holder, static::PARTS, _("Allgemein"));
-        $part_permissions[static::PARTS_NAME]     = new PartAttributePermission($this->perm_holder, static::PARTS_NAME, _("Name"));
-        $part_permissions[static::PARTS_DESCRIPTION]     = new PartAttributePermission($this->perm_holder, static::PARTS_DESCRIPTION, _("Beschreibung"));
-        $part_permissions[static::PARTS_COMMENT]     = new PartAttributePermission($this->perm_holder, static::PARTS_COMMENT, _("Kommentar"));
-        $part_permissions[static::PARTS_INSTOCK]     = new PartAttributePermission($this->perm_holder, static::PARTS_INSTOCK, _("Vorhanden"));
-        $part_permissions[static::PARTS_MININSTOCK]     = new PartAttributePermission($this->perm_holder, static::PARTS_MININSTOCK, _("Min. Bestand"));
-        $part_permissions[static::PARTS_STORELOCATION]     = new PartAttributePermission($this->perm_holder, static::PARTS_STORELOCATION, _("Lagerort"));
-        $part_permissions[static::PARTS_MANUFACTURER]     = new PartAttributePermission($this->perm_holder, static::PARTS_MANUFACTURER, _("Hersteller"));
-        $part_permissions[static::PARTS_FOOTPRINT]     = new PartAttributePermission($this->perm_holder, static::PARTS_FOOTPRINT, _("Footprint"));
-        $part_permissions[static::PARTS_ATTACHEMENTS]     = new CPartAttributePermission($this->perm_holder, static::PARTS_ATTACHEMENTS, _("Dateianhänge"));
-        $part_permissions[static::PARTS_ORDERDETAILS]     = new CPartAttributePermission($this->perm_holder, static::PARTS_ORDERDETAILS, _("Bestellinformationen"));
-        $part_permissions[static::PARTS_PRICES]     = new CPartAttributePermission($this->perm_holder, static::PARTS_PRICES, _("Preise"));
-        $part_permissions[static::PARTS_ORDER]     = new PartAttributePermission($this->perm_holder, static::PARTS_ORDER, _("Bestellungen"));
+        $part_permissions[static::PARTS]     = new PartPermission($this->perm_holder, static::PARTS, _('Allgemein'));
+        $part_permissions[static::PARTS_NAME]     = new PartAttributePermission($this->perm_holder, static::PARTS_NAME, _('Name'));
+        $part_permissions[static::PARTS_DESCRIPTION]     = new PartAttributePermission($this->perm_holder, static::PARTS_DESCRIPTION, _('Beschreibung'));
+        $part_permissions[static::PARTS_COMMENT]     = new PartAttributePermission($this->perm_holder, static::PARTS_COMMENT, _('Kommentar'));
+        $part_permissions[static::PARTS_INSTOCK]     = new PartAttributePermission($this->perm_holder, static::PARTS_INSTOCK, _('Vorhanden'));
+        $part_permissions[static::PARTS_MININSTOCK]     = new PartAttributePermission($this->perm_holder, static::PARTS_MININSTOCK, _('Min. Bestand'));
+        $part_permissions[static::PARTS_STORELOCATION]     = new PartAttributePermission($this->perm_holder, static::PARTS_STORELOCATION, _('Lagerort'));
+        $part_permissions[static::PARTS_MANUFACTURER]     = new PartAttributePermission($this->perm_holder, static::PARTS_MANUFACTURER, _('Hersteller'));
+        $part_permissions[static::PARTS_FOOTPRINT]     = new PartAttributePermission($this->perm_holder, static::PARTS_FOOTPRINT, _('Footprint'));
+        $part_permissions[static::PARTS_ATTACHEMENTS]     = new CPartAttributePermission($this->perm_holder, static::PARTS_ATTACHEMENTS, _('Dateianhänge'));
+        $part_permissions[static::PARTS_ORDERDETAILS]     = new CPartAttributePermission($this->perm_holder, static::PARTS_ORDERDETAILS, _('Bestellinformationen'));
+        $part_permissions[static::PARTS_PRICES]     = new CPartAttributePermission($this->perm_holder, static::PARTS_PRICES, _('Preise'));
+        $part_permissions[static::PARTS_ORDER]     = new PartAttributePermission($this->perm_holder, static::PARTS_ORDER, _('Bestellungen'));
 
-        $this->permissions[] = new PermissionGroup(_("Bauteile"), $part_permissions);
+        $this->permissions[] = new PermissionGroup(_('Bauteile'), $part_permissions);
 
         $structural_permissions = array();
-        $structural_permissions[static::STORELOCATIONS] = new PartContainingPermission($this->perm_holder, static::STORELOCATIONS, _("Lagerorte"));
-        $structural_permissions[static::FOOTRPINTS] = new PartContainingPermission($this->perm_holder, static::FOOTRPINTS, _("Footprints"));
-        $structural_permissions[static::CATEGORIES] = new PartContainingPermission($this->perm_holder, static::CATEGORIES, _("Kategorien"));
-        $structural_permissions[static::SUPPLIERS] = new PartContainingPermission($this->perm_holder, static::SUPPLIERS, _("Lieferanten"));
-        $structural_permissions[static::MANUFACTURERS] = new PartContainingPermission($this->perm_holder, static::MANUFACTURERS, _("Hersteller"));
-        $structural_permissions[static::DEVICES] = new PartContainingPermission($this->perm_holder, static::DEVICES, _("Baugruppen"));
-        $structural_permissions[static::ATTACHEMENT_TYPES] = new StructuralPermission($this->perm_holder, static::ATTACHEMENT_TYPES, _("Dateitypen"));
-        $this->permissions[] = new PermissionGroup(_("Datenstrukturen"), $structural_permissions);
+        $structural_permissions[static::STORELOCATIONS] = new PartContainingPermission($this->perm_holder, static::STORELOCATIONS, _('Lagerorte'));
+        $structural_permissions[static::FOOTRPINTS] = new PartContainingPermission($this->perm_holder, static::FOOTRPINTS, _('Footprints'));
+        $structural_permissions[static::CATEGORIES] = new PartContainingPermission($this->perm_holder, static::CATEGORIES, _('Kategorien'));
+        $structural_permissions[static::SUPPLIERS] = new PartContainingPermission($this->perm_holder, static::SUPPLIERS, _('Lieferanten'));
+        $structural_permissions[static::MANUFACTURERS] = new PartContainingPermission($this->perm_holder, static::MANUFACTURERS, _('Hersteller'));
+        $structural_permissions[static::DEVICES] = new PartContainingPermission($this->perm_holder, static::DEVICES, _('Baugruppen'));
+        $structural_permissions[static::ATTACHEMENT_TYPES] = new StructuralPermission($this->perm_holder, static::ATTACHEMENT_TYPES, _('Dateitypen'));
+        $this->permissions[] = new PermissionGroup(_('Datenstrukturen'), $structural_permissions);
 
         $system_permissions = array();
-        $system_permissions[static::USERS] = new UserPermission($this->perm_holder, static::USERS, _("Benutzer"));
-        $system_permissions[static::GROUPS] = new GroupPermission($this->perm_holder, static::GROUPS, _("Gruppen"));
-        $system_permissions[static::DATABASE] = new DatabasePermission($this->perm_holder, static::DATABASE, _("Datenbank"));
-        $system_permissions[static::CONFIG] = new ConfigPermission($this->perm_holder, static::CONFIG, _("Konfiguration"));
-        $system_permissions[static::SYSTEM] = new SystemPermission($this->perm_holder, static::SYSTEM, _("Verschiedenes"));
-        $this->permissions[] = new PermissionGroup(_("System"), $system_permissions);
+        $system_permissions[static::USERS] = new UserPermission($this->perm_holder, static::USERS, _('Benutzer'));
+        $system_permissions[static::GROUPS] = new GroupPermission($this->perm_holder, static::GROUPS, _('Gruppen'));
+        $system_permissions[static::DATABASE] = new DatabasePermission($this->perm_holder, static::DATABASE, _('Datenbank'));
+        $system_permissions[static::CONFIG] = new ConfigPermission($this->perm_holder, static::CONFIG, _('Konfiguration'));
+        $system_permissions[static::SYSTEM] = new SystemPermission($this->perm_holder, static::SYSTEM, _('Verschiedenes'));
+        $this->permissions[] = new PermissionGroup(_('System'), $system_permissions);
 
         $misc_permissions = array();
-        $misc_permissions[static::SELF] = new SelfPermission($this->perm_holder, static::SELF, _("Eigenen Benutzer bearbeiten"));
-        $misc_permissions[static::TOOLS] = new ToolsPermission($this->perm_holder, static::TOOLS, _("Tools"));
-        $misc_permissions[static::DEVICE_PARTS] = new DevicePartPermission($this->perm_holder, static::DEVICE_PARTS, _("Baugruppenbauteile"));
-        $misc_permissions[static::LABELS] = new LabelPermission($this->perm_holder, static::LABELS, _("Labels"));
-        $this->permissions[] = new PermissionGroup(_("Verschiedenes"), $misc_permissions);
+        $misc_permissions[static::SELF] = new SelfPermission($this->perm_holder, static::SELF, _('Eigenen Benutzer bearbeiten'));
+        $misc_permissions[static::TOOLS] = new ToolsPermission($this->perm_holder, static::TOOLS, _('Tools'));
+        $misc_permissions[static::DEVICE_PARTS] = new DevicePartPermission($this->perm_holder, static::DEVICE_PARTS, _('Baugruppenbauteile'));
+        $misc_permissions[static::LABELS] = new LabelPermission($this->perm_holder, static::LABELS, _('Labels'));
+        $this->permissions[] = new PermissionGroup(_('Verschiedenes'), $misc_permissions);
     }
 
 

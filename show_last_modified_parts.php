@@ -19,7 +19,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -35,7 +35,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 $page               = isset($_REQUEST['page'])              ? (int)$_REQUEST['page']            : 1;
 $limit              = isset($_REQUEST['limit'])             ? (int)$_REQUEST['limit']           : $config['table']['default_limit'];
 
-$mode               = isset($_REQUEST['mode'])              ? (string)$_REQUEST['mode']             : "last_modified";
+$mode               = isset($_REQUEST['mode'])              ? (string)$_REQUEST['mode']             : 'last_modified';
 
 /********************************************************************************
  *
@@ -54,7 +54,7 @@ try {
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
-    $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
+    $_SESSION['part_delete_last_link'] = $_SERVER['REQUEST_URI'];
     session_write_close();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -71,7 +71,7 @@ if (! $fatal_error) {
     try {
         $latest_first = true;
 
-        if ($mode == "last_modified") {
+        if ($mode == 'last_modified') {
             $parts = Part::getLastModifiedParts($database, $current_user, $log, $latest_first, $limit, $page);
             $count = Part::getLastModifiedPartsCount($database, $current_user, $log, $latest_first);
         } else {
@@ -83,13 +83,13 @@ if (! $fatal_error) {
         $html->setVariable('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
 
-        $html->setVariable("pagination", generatePagination(
-            "show_last_modified_parts.php?",
+        $html->setVariable('pagination', generatePagination(
+            'show_last_modified_parts.php?',
             $page,
             $limit,
             $count
         ));
-        $html->setVariable("page", $page);
+        $html->setVariable('page', $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -110,7 +110,7 @@ if (! $fatal_error) {
     $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
     $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-    $html->setVariable('mode', $mode, "string");
+    $html->setVariable('mode', $mode, 'string');
 }
 
 /********************************************************************************
@@ -121,8 +121,8 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);

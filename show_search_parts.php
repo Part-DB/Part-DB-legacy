@@ -23,9 +23,9 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 /** @noinspection PhpIncludeInspection */
-include_once(BASE.'/inc/lib.export.php');
+include_once BASE.'/inc/lib.export.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -55,7 +55,7 @@ $search_footprint       = isset($_REQUEST['search_footprint']);
 $search_manufacturer    = isset($_REQUEST['search_manufacturer']);
 $table_rowcount         = isset($_REQUEST['table_rowcount'])    ? (int)$_REQUEST['table_rowcount']  : 0;
 
-$groupby                = isset($_REQUEST['groupby']) ? (string)$_REQUEST['groupby'] : "categories";
+$groupby                = isset($_REQUEST['groupby']) ? (string)$_REQUEST['groupby'] : 'categories';
 
 $export_format_id       = isset($_REQUEST['export_format'])     ? (int)$_REQUEST['export_format']   : 0;
 
@@ -81,7 +81,7 @@ for ($i=0; $i<$table_rowcount; $i++) {
 }
 
 if (isset($_REQUEST['hint'])) {
-    $action = "hint";
+    $action = 'hint';
 }
 
 /********************************************************************************
@@ -104,12 +104,12 @@ try {
     }
 
     if (!empty($keyword)) {
-        $html->setTitle(_('Suchresultate') . ": " . $keyword);
+        $html->setTitle(_('Suchresultate') . ': ' . $keyword);
     }
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
-    $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
+    $_SESSION['part_delete_last_link'] = $_SERVER['REQUEST_URI'];
     session_write_close();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -125,11 +125,9 @@ try {
 if (! $fatal_error) {
     if (!$disable_pid_input) {
         $matches = array();
-        if (preg_match('/^\$L(\d{5,})/', $keyword, $matches) == 1) {
-            if (count($matches) > 1) {
-                $lid = (int) $matches[1];
-                header("Location: show_location_parts.php?lid=" . $lid);
-            }
+        if ((preg_match('/^\$L(\d{5,})/', $keyword, $matches) == 1) && count($matches) > 1) {
+            $lid = (int) $matches[1];
+            header('Location: show_location_parts.php?lid=' . $lid);
         }
 
         //Check if keyword is a pid from a barcode scanner or so
@@ -140,7 +138,7 @@ if (! $fatal_error) {
                 $keyword = substr($keyword, 0, -1);
             }
             $pid = (int) $keyword;
-            header("Location: show_part_info.php?pid=" . $pid);
+            header('Location: show_part_info.php?pid=' . $pid);
         }
     }
 
@@ -269,8 +267,8 @@ if (! $fatal_error) {
         $parts_table_loops = array();
 
         //When parts should not get grouped by a variable, we only have a one dimensional array
-        if ($groupby == "") {
-            $parts_table_loops["Alle Kategorien"] = Part::buildTemplateTableArray($category_parts, 'search_parts_category');
+        if ($groupby == '') {
+            $parts_table_loops['Alle Kategorien'] = Part::buildTemplateTableArray($category_parts, 'search_parts_category');
         } else {
             /**
              * @var  $category_parts Part[][]
@@ -294,7 +292,7 @@ if (! $fatal_error) {
 if (! $fatal_error) {
     try {
         $html->setVariable('keyword', $keyword, 'string');
-        $html->setVariable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
+        $html->setVariable('hits_count', ($hits_count ?? 0), 'integer');
         $html->setVariable('search_name', $search_name, 'boolean');
         $html->setVariable('search_category', $search_category, 'boolean');
         $html->setVariable('search_description', $search_description, 'boolean');
@@ -316,7 +314,7 @@ if (! $fatal_error) {
 
         $html->setVariable('highlighting', $config['search']['highlighting'], 'boolean');
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
@@ -329,8 +327,8 @@ if (! $fatal_error) {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $html->printHeader($messages);
@@ -346,7 +344,7 @@ if (! $fatal_error) {
     }
 }
 
-if ($action == "hint") {
+if ($action == 'hint') {
     $html->printTemplate('livesearch_hint');
 }
 

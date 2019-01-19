@@ -71,7 +71,7 @@ class System
      *
      * @throws Exception if there was an error
      */
-    public function __construct(Database &$database, Log &$log)
+    public function __construct(Database $database, Log $log)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));

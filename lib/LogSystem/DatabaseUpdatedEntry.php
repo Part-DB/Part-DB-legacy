@@ -80,15 +80,15 @@ class DatabaseUpdatedEntry extends BaseEntry
     public function getSuccessString() : string
     {
         if ($this->isSuccessful()) {
-            return _("Erfolgreich");
+            return _('Erfolgreich');
         } else {
-            return _("Fehlgeschlagen");
+            return _('Fehlgeschlagen');
         }
     }
 
     public function getExtra(bool $html = false) : string
     {
-        return $this->getSuccessString() . _("; Alte Version: ") . $this->getOldVersion() . _("; Neue Version: ") . $this->getNewVersion();
+        return $this->getSuccessString() . _('; Alte Version: ') . $this->getOldVersion() . _('; Neue Version: ') . $this->getNewVersion();
     }
 
     /**
@@ -97,7 +97,7 @@ class DatabaseUpdatedEntry extends BaseEntry
      */
     public function getTargetText() : string
     {
-        return _("Datenbank");
+        return _('Datenbank');
     }
 
     /**
@@ -106,7 +106,7 @@ class DatabaseUpdatedEntry extends BaseEntry
      */
     public function getTargetLink() : string
     {
-        return "";
+        return '';
     }
 
 
@@ -122,15 +122,12 @@ class DatabaseUpdatedEntry extends BaseEntry
      *
      * @throws \Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, int $old_version, int $new_version, bool $successful = true)
+    public static function add(Database $database, User $current_user, Log $log, int $old_version, int $new_version, bool $successful = true)
     {
-        $old_version = (int) $old_version;
-        $new_version = (int) $new_version;
-
         $extra_array = array();
         $extra_array['o'] = $old_version; //Old version
         $extra_array['n'] = $new_version; //New version
-        $extra_array['s'] = (bool) $successful;
+        $extra_array['s'] = $successful;
 
         $level = Log::LEVEL_WARNING;
 

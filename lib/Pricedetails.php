@@ -49,7 +49,7 @@ use PartDB\Permissions\PermissionManager;
  */
 class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
 {
-    const TABLE_NAME = "pricedetails";
+    const TABLE_NAME = 'pricedetails';
 
     /********************************************************************************
      *
@@ -83,7 +83,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }
@@ -158,7 +158,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getOrderdetails() : Orderdetails
     {
-        if (! is_object($this->orderdetails)) {
+        if (! \is_object($this->orderdetails)) {
             $this->orderdetails = Orderdetails::getInstance(
                 $this->database,
                 $this->current_user,
@@ -300,13 +300,13 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param Pricedetails $element
      * @throws Exception
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the type of the boolean attributes
-        settype($values['manual_input'], 'boolean');
+        $values['manual_input'] = (bool)$values['manual_input'];
 
         // check "orderdetails_id"
         try {
@@ -324,13 +324,13 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
         }
 
         // check "price_related_quantity"
-        if (((! is_int($values['price_related_quantity'])) && (! ctype_digit($values['price_related_quantity'])))
+        if (((! \is_int($values['price_related_quantity'])) && (! ctype_digit($values['price_related_quantity'])))
             || ($values['price_related_quantity'] < 1)) {
             throw new InvalidElementValueException(_('Die Preisbezogene Menge ist ungültig!'));
         }
 
         // check "min_discount_quantity"
-        if (((! is_int($values['min_discount_quantity'])) && (! ctype_digit($values['min_discount_quantity'])))
+        if (((! \is_int($values['min_discount_quantity'])) && (! ctype_digit($values['min_discount_quantity'])))
             || ($values['min_discount_quantity'] < 1)) {
             throw new InvalidElementValueException(_('Die Mengenrabatt-Menge ist ungültig!'));
         }
@@ -400,9 +400,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @see DBElement::add()
      */
     public static function add(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         int $orderdetails_id,
         float $price,
         int $price_related_quantity = 1,
@@ -429,10 +429,10 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getAPIArray(bool $verbose = false) : array
     {
-        $json =  array( "id" => $this->getID(),
-            "quantity" => $this->getPriceRelatedQuantity(),
-            "price" => $this->getPrice(),
-            "minDiscountQuantity" => $this->getMinDiscountQuantity()
+        $json =  array( 'id' => $this->getID(),
+            'quantity' => $this->getPriceRelatedQuantity(),
+            'price' => $this->getPrice(),
+            'minDiscountQuantity' => $this->getMinDiscountQuantity()
         );
         return $json;
     }
@@ -444,6 +444,6 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      */
     public function getIDString(): string
     {
-        return "PD" . sprintf("%06d", $this->getID());
+        return 'PD' . sprintf('%06d', $this->getID());
     }
 }

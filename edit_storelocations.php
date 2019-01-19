@@ -31,7 +31,7 @@
  *  If you make changes in one of them, please check if you should change the other files too.
  */
 
-include_once('start_session.php');
+include_once __DIR__ . '/start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;
@@ -60,22 +60,22 @@ $new_name           = isset($_POST['name'])          ? (string)$_POST['name']   
 $new_parent_id      = isset($_POST['parent_id'])     ? (int)$_POST['parent_id']   : 0;
 $new_is_full        = isset($_POST['is_full']);
 $create_series      = isset($_POST['series']);
-$series_from        = isset($_POST['series_from'])   ? $_POST['series_from'] : 1;
+$series_from        = $_POST['series_from'] ?? 1;
 $series_to          = isset($_POST['series_to'])     ? $_POST['series_to']   : 1;
 $add_more           = isset($_POST['add_more']);
-$new_comment        = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
+$new_comment        = isset($_POST['comment'])       ? (string)$_POST['comment']      : '';
 
 $action = 'default';
-if (isset($_POST["add"])) {
+if (isset($_POST['add'])) {
     $action = 'add';
 }
-if (isset($_POST["delete"])) {
+if (isset($_POST['delete'])) {
     $action = 'delete';
 }
-if (isset($_POST["delete_confirmed"])) {
+if (isset($_POST['delete_confirmed'])) {
     $action = 'delete_confirmed';
 }
-if (isset($_POST["apply"])) {
+if (isset($_POST['apply'])) {
     $action = 'apply';
 }
 
@@ -117,7 +117,7 @@ if (! $fatal_error) {
             try {
                 if ($create_series) {
                     $width  = mb_strlen((string) $series_to); // determine the width of second argument
-                    $format = "%0". (int)$width ."s";
+                    $format = '%0' . $width . 's';
 
                     foreach (range($series_from, $series_to) as $index) {
                         $new_storelocation_name = $new_name . sprintf($format, $index);
@@ -203,7 +203,7 @@ if (! $fatal_error) {
                     $selected_storelocation->setAttributes(array(  'name'       => $new_name,
                         'parent_id'  => $new_parent_id,
                         'is_full'    => $new_is_full,
-                        "comment"    => $new_comment));
+                        'comment' => $new_comment));
                 } catch (Exception $e) {
                     $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -237,12 +237,12 @@ if (! $fatal_error) {
             $last_modified_user = $selected_storelocation->getLastModifiedUser();
             $creation_user = $selected_storelocation->getCreationUser();
             if ($last_modified_user != null) {
-                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
-                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), 'string');
+                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), 'int');
             }
             if ($creation_user != null) {
-                $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
-                $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+                $html->setVariable('creation_user', $creation_user->getFullName(true), 'string');
+                $html->setVariable('creation_user_id', $creation_user->getID(), 'int');
             }
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
@@ -253,7 +253,7 @@ if (! $fatal_error) {
             $parent_id = 0;
             $name = '';
             $is_full = false;
-            $comment = "";
+            $comment = '';
         }
 
         $html->setVariable('name', $name, 'string');
@@ -266,17 +266,17 @@ if (! $fatal_error) {
         $parent_storelocation_list = $root_storelocation->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_storelocation_list', $parent_storelocation_list, 'string');
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
 
 try {
-    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::DELETE));
-    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::EDIT));
-    $html->setVariable("can_create", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::CREATE));
-    $html->setVariable("can_move", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::MOVE));
-    $html->setVariable("can_read", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::READ));
+    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::DELETE));
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::EDIT));
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::CREATE));
+    $html->setVariable('can_move', $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::MOVE));
+    $html->setVariable('can_read', $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::READ));
     $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -291,8 +291,8 @@ try {
 
 
 //If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (isset($_REQUEST['ajax'])) {
+    $html->setVariable('ajax_request', true);
 }
 
 $reload_link = $fatal_error ? 'edit_storelocations.php' : '';   // an empty string means that the...

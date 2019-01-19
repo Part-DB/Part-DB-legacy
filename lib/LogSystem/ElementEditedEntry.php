@@ -32,7 +32,7 @@ use PartDB\User;
 
 class ElementEditedEntry extends BaseEntry
 {
-    protected $message = "";
+    protected $message = '';
 
     /**
      * @var $element NamedDBElement
@@ -52,13 +52,13 @@ class ElementEditedEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    public function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_ELEMENTEDITED) {
-            throw new \RuntimeException(_("Falscher Logtyp!"));
+            throw new \RuntimeException(_('Falscher Logtyp!'));
         }
 
         try {
@@ -93,7 +93,7 @@ class ElementEditedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element, $old_values = null, $new_values = null, $edit_message = null)
+    public static function add(Database $database, User $current_user, Log $log, NamedDBElement $element, $old_values = null, $new_values = null, $edit_message = null)
     {
         static $type_id, $element_id, $user_id, $last_log = 0;
 
@@ -111,8 +111,8 @@ class ElementEditedEntry extends BaseEntry
         $user_id = $current_user->getID();
 
         //When a part change only changes the instock value, then dont create a own entry, because an Instock Change entry was already created.
-        if ($element_id = LOG::TARGET_TYPE_PART
-            && count($new_values) == 1
+        if ($element_id === LOG::TARGET_TYPE_PART
+            && count($new_values) === 1
             && isset($new_values['instock'])) {
             return null;
         }
@@ -139,7 +139,7 @@ class ElementEditedEntry extends BaseEntry
             $level = Log::LEVEL_INFO;
         }
 
-        $arr = array("m" => $edit_message);
+        $arr = array('m' => $edit_message);
 
         return static::addEntry(
             $database,
@@ -162,9 +162,9 @@ class ElementEditedEntry extends BaseEntry
     {
         try {
             $part_name = ($this->element != null) ? $this->element->getName() : $this->getTargetID();
-            return Log::targetTypeIDToString($this->getTargetType()) . ": " . $part_name;
+            return Log::targetTypeIDToString($this->getTargetType()) . ': ' . $part_name;
         } catch (Exception $ex) {
-            return "ERROR!";
+            return 'ERROR!';
         }
     }
 

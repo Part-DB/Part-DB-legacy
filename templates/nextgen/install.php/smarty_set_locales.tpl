@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<!--suppress ALL -->
+<!--suppress ALL, Annotator -->
 
 <div class="card">
     <div class="card-header"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;

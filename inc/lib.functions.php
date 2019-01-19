@@ -42,7 +42,7 @@ if (! function_exists('money_format')) {
         //if (setlocale(LC_MONETARY, 0) == 'C') { setlocale(LC_MONETARY, ''); }
         $locale = localeconv();
 
-        if (strpos(strtoupper(setlocale(LC_MONETARY, 0)), 'UTF') === false) { // charset is NOT UTF-8
+        if (stripos(setlocale(LC_MONETARY, 0), 'UTF') === false) { // charset is NOT UTF-8
             // convert $locale to UTF-8
             foreach ($locale as $key => $value) {
                 if (! is_array($value)) {
@@ -53,7 +53,7 @@ if (! function_exists('money_format')) {
 
         preg_match_all($regex, $format, $matches, PREG_SET_ORDER);
         foreach ($matches as $fmatch) {
-            $value = floatval($number);
+            $value = (float)$number;
             $flags = array(
                 'fillchar'  => preg_match('/\=(.)/', $fmatch[1], $match) ? $match[1] : ' ',
                 'nogroup'   => preg_match('/\^/', $fmatch[1]) > 0,
@@ -73,7 +73,11 @@ if (! function_exists('money_format')) {
             }
             $letter = $positive ? 'p' : 'n';
 
-            $prefix = $suffix = $cprefix = $csuffix = $signal = '';
+            $signal = '';
+            $csuffix = $signal;
+            $cprefix = $csuffix;
+            $suffix = $cprefix;
+            $prefix = $suffix;
 
             $signal = $positive ? $locale['positive_sign'] : $locale['negative_sign'];
             switch (true) {
@@ -185,7 +189,7 @@ function getMimetype(string $filename) : string
 
         // open office
         'odt' => 'application/vnd.oasis.opendocument.text',
-        'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+        'ods' => 'application/vnd.oasis.opendocument.spreadsheet'
     );
 
     $ext = strtolower(array_pop(explode('.', $filename)));
@@ -213,13 +217,13 @@ function getMimetype(string $filename) : string
 function rmdirRecursive(string $dir)
 {
     if (is_dir($dir)) {
-        $objects = scandir($dir);
+        $objects = scandir($dir, SCANDIR_SORT_NONE);
         foreach ($objects as $object) {
-            if ($object != "." && $object != "..") {
-                if (filetype($dir."/".$object) == "dir") {
-                    rmdirRecursive($dir."/".$object);
+            if ($object != '.' && $object != '..') {
+                if (filetype($dir. '/' .$object) == 'dir') {
+                    rmdirRecursive($dir. '/' .$object);
                 } else {
-                    unlink($dir."/".$object);
+                    unlink($dir. '/' .$object);
                 }
             }
         }

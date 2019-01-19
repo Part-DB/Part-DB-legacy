@@ -83,7 +83,7 @@ abstract class AttachmentsContainingDBElement extends NamedDBElement
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
     }
@@ -173,7 +173,7 @@ abstract class AttachmentsContainingDBElement extends NamedDBElement
      */
     public function getAttachmentTypes() : array
     {
-        if (! is_array($this->attachmentTypes)) {
+        if (! \is_array($this->attachmentTypes)) {
             $this->attachmentTypes = array();
 
             $query = 'SELECT attachement_types.* FROM attachements '.
@@ -181,7 +181,7 @@ abstract class AttachmentsContainingDBElement extends NamedDBElement
                 'WHERE (class_name=? OR class_name=?) AND element_id=? '.
                 'GROUP BY type_id '.
                 'ORDER BY attachement_types.name ASC';
-            $query_data = $this->database->query($query, array(get_class($this),getClassShort($this), $this->getID()));
+            $query_data = $this->database->query($query, array(\get_class($this),getClassShort($this), $this->getID()));
 
             //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
             foreach ($query_data as $row) {
@@ -206,7 +206,7 @@ abstract class AttachmentsContainingDBElement extends NamedDBElement
      */
     public function getAttachments($type_id = null, bool $only_table_attachements = false) : array
     {
-        if (! is_array($this->attachments)) {
+        if (! \is_array($this->attachments)) {
             $this->attachments = array();
 
             $query = 'SELECT attachements.* FROM attachements '.
