@@ -24,7 +24,6 @@
     "smarty-gettext/smarty-gettext": "~1.5.1",
     "tecnickcom/tcpdf": "dev-master",
     "slim/slim": "3.*",
-    "maximebf/debugbar": "1.*",
     "ircmaxell/password-compat": "1.*",
     "snapappointments/bootstrap-select": "1.*",
     "components/jquery": "3.3.*",
@@ -36,7 +35,8 @@
 
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*",
-    "filp/whoops": "*"
+    "filp/whoops": "*",
+	"maximebf/debugbar": "1.*"
   },
 
   "suggest": {
