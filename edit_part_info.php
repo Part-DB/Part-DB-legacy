@@ -48,7 +48,7 @@ use PartDB\User;
  * because this way we don't have to create another, quite similar site.
  */
 
-include_once 'start_session.php';
+include_once __DIR__ . '/start_session.php';
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content

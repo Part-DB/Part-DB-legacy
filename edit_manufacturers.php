@@ -31,7 +31,7 @@
  *  If you make changes in one of them, please check if you should change the other files too.
  */
 
-include_once 'start_session.php';
+include_once __DIR__ .  'start_session.php';
 
 use PartDB\Database;
 use PartDB\HTML;

@@ -30,7 +30,7 @@
  * Have fun! :-)
  */
 
-include_once('../start_session.php');
+include_once(__DIR__ . '/../start_session.php');
 
 
 use PartDB\Database;

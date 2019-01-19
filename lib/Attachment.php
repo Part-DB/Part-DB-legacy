@@ -198,7 +198,7 @@ class Attachment extends Base\NamedDBElement
         // list all file extensions which are supported to display them by HTML code
         $picture_extensions = array('gif', 'png', 'jpg', 'jpeg', 'bmp', 'svg', 'tif');
 
-        return in_array(strtolower($extension), $picture_extensions);
+        return \in_array(strtolower($extension), $picture_extensions);
     }
 
     /********************************************************************************

@@ -314,7 +314,7 @@ include_once BASE.'/inc/lib.php';
  ********************************************************************************/
 
 //Include Composer autoloader
-require 'vendor/autoload.php';
+require_once BASE . '/vendor/autoload.php';
 
 //Check if Klass exists, and debugging is enabled, then activate Whoops Handler
 if (class_exists("\Whoops\Run") && $config['debug']['enable'] &&

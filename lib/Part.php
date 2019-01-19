@@ -2781,7 +2781,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
         //When searchstring begins and ends with a backslash, treat the input as regex query
         if ($keyword[0] === '\\' &&  substr($keyword, -1) === '\\'
-            || strpos($keyword, '/') === 0 &&  substr($keyword, -1) === '/') {
+            || strncmp($keyword, '/', 1) === 0 &&  substr($keyword, -1) === '/') {
             $regex_search = true;
             $keyword = mb_substr($keyword, 1, -1); //Remove the backslashes
         }

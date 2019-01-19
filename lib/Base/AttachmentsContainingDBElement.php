@@ -206,7 +206,7 @@ abstract class AttachmentsContainingDBElement extends NamedDBElement
      */
     public function getAttachments($type_id = null, bool $only_table_attachements = false) : array
     {
-        if (! is_array($this->attachments)) {
+        if (! \is_array($this->attachments)) {
             $this->attachments = array();
 
             $query = 'SELECT attachements.* FROM attachements '.
