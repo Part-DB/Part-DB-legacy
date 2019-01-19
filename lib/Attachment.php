@@ -340,7 +340,7 @@ class Attachment extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getAttachementsByFilename(Database &$database, User &$current_user, Log &$log, string $filename) : array
+    public static function getAttachementsByFilename(Database $database, User $current_user, Log $log, string $filename) : array
     {
         $attachements = array();
 
@@ -374,7 +374,7 @@ class Attachment extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getInvalidFilenameAttachements(Database &$database, User &$current_user, Log &$log) : array
+    public static function getInvalidFilenameAttachements(Database $database, User $current_user, Log $log) : array
     {
         $attachements = array();
 
@@ -394,7 +394,7 @@ class Attachment extends Base\NamedDBElement
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we set the basename as the name if the name is empty
         $values['name'] = trim($values['name']);
@@ -495,10 +495,10 @@ class Attachment extends Base\NamedDBElement
      * @see DBElement::add()
      */
     public static function add(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
-        DBElement &$element,
+        Database $database,
+        User $current_user,
+        Log $log,
+        DBElement $element,
         int $type_id,
         string $filename,
         string $name = '',

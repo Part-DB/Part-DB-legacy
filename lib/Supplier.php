@@ -61,7 +61,7 @@ class Supplier extends Base\Company implements ISearchable
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }
@@ -186,7 +186,7 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @todo Check if the SQL query works correctly! It's a quite complicated query...
      */
-    public static function getOrderSuppliers(Database &$database, User &$current_user, Log &$log) : array
+    public static function getOrderSuppliers(Database $database, User $current_user, Log $log) : array
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -238,9 +238,9 @@ class Supplier extends Base\Company implements ISearchable
      * @see DBElement::add()
      */
     public static function add(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         string $name,
         int $parent_id,
         string $address = '',

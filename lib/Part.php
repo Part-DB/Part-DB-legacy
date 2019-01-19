@@ -109,7 +109,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
     }
@@ -1871,7 +1871,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      * @return array|bool An array containing parts with similar name and storelocation and category
      * @throws Exception
      */
-    public static function checkForExistingPart(Database &$database, User &$current_user, Log &$log, string $proposed_name, int $proposed_storelocation_id, int $proposed_category_id)
+    public static function checkForExistingPart(Database $database, User $current_user, Log $log, string $proposed_name, int $proposed_storelocation_id, int $proposed_category_id)
     {
         $query = 'SELECT parts.id FROM parts'.
             ' LEFT JOIN storelocations ON parts.id_storelocation=storelocations.id'.
@@ -1936,7 +1936,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      * @throws Exception if the values are not valid / the combination of values is not valid
      * @throws Exception if there was an error
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -2066,7 +2066,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getSumCountInstock(Database &$database) : int
+    public static function getSumCountInstock(Database $database) : int
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -2094,7 +2094,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getSumPriceInstock(Database &$database, User &$current_user, Log &$log, bool $as_money_string = true)
+    public static function getSumPriceInstock(Database $database, User $current_user, Log $log, bool $as_money_string = true)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -2150,7 +2150,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getOrderParts(Database &$database, User &$current_user, Log &$log, array $supplier_ids = array(), bool $with_devices = true) : array
+    public static function getOrderParts(Database $database, User $current_user, Log $log, array $supplier_ids = array(), bool $with_devices = true) : array
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::ORDER_PARTS)) {
             return array();
@@ -2206,7 +2206,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getNoPriceParts(Database &$database, User &$current_user, Log &$log, int $limit = 50, int $page = 1)
+    public static function getNoPriceParts(Database $database, User $current_user, Log $log, int $limit = 50, int $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
             return array();
@@ -2248,7 +2248,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getNoPricePartsCount(Database &$database, User &$current_user, Log &$log) : int
+    public static function getNoPricePartsCount(Database $database, User $current_user, Log $log) : int
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
             return 0;
@@ -2286,7 +2286,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getFavoriteParts(Database &$database, User &$current_user, Log &$log, int $limit = 50, int $page = 1) : array
+    public static function getFavoriteParts(Database $database, User $current_user, Log $log, int $limit = 50, int $page = 1) : array
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
             return array();
@@ -2325,7 +2325,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getFavoritePartsCount(Database &$database, User &$current_user, Log &$log) : int
+    public static function getFavoritePartsCount(Database $database, User $current_user, Log $log) : int
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
             return 0;
@@ -2360,7 +2360,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getInstockUnknownParts(Database &$database, User &$current_user, Log &$log, int $limit = 50, int $page = 1)
+    public static function getInstockUnknownParts(Database $database, User $current_user, Log $log, int $limit = 50, int $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return array();
@@ -2400,7 +2400,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getInstockUnknownPartsCount(Database &$database, User &$current_user, Log &$log) : int
+    public static function getInstockUnknownPartsCount(Database $database, User $current_user, Log $log) : int
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return 0;
@@ -2437,7 +2437,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getLastModifiedParts(Database &$database, User &$current_user, Log &$log, bool $newest_first = true, int $limit = 50, int $page = 1)
+    public static function getLastModifiedParts(Database $database, User $current_user, Log $log, bool $newest_first = true, int $limit = 50, int $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
             return array();
@@ -2480,7 +2480,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getLastModifiedPartsCount(Database &$database, User &$current_user, Log &$log, bool $newest_first = true)
+    public static function getLastModifiedPartsCount(Database $database, User $current_user, Log $log, bool $newest_first = true)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return array();
@@ -2520,7 +2520,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getLastAddedParts(Database &$database, User &$current_user, Log &$log, bool $newest_first = true, int $limit = 50, int $page = 1)
+    public static function getLastAddedParts(Database $database, User $current_user, Log $log, bool $newest_first = true, int $limit = 50, int $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
             return array();
@@ -2566,7 +2566,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getLastAddedPartsCount(Database &$database, User &$current_user, Log &$log, bool $newest_first = true)
+    public static function getLastAddedPartsCount(Database $database, User $current_user, Log $log, bool $newest_first = true)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return array();
@@ -2606,7 +2606,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getObsoleteParts(Database &$database, User &$current_user, Log &$log, bool $no_orderdetails_parts = false, int $limit = 50, int $page = 1)
+    public static function getObsoleteParts(Database $database, User $current_user, Log $log, bool $no_orderdetails_parts = false, int $limit = 50, int $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
             return array();
@@ -2665,7 +2665,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getObsoletePartsCount(Database &$database, User &$current_user, Log &$log, bool $no_orderdetails_parts = false)
+    public static function getObsoletePartsCount(Database $database, User $current_user, Log $log, bool $no_orderdetails_parts = false)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
             return array();
@@ -2739,9 +2739,9 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      * @throws Exception if there was an error
      */
     public static function searchParts(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         string $keyword,
         string $group_by = '',
         bool $part_name = true,
@@ -2972,7 +2972,7 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public static function getAllParts(Database &$database, User &$current_user, Log &$log, string $group_by = '', int $limit = 50, int $page = 1)
+    public static function getAllParts(Database $database, User $current_user, Log $log, string $group_by = '', int $limit = 50, int $page = 1)
     {
         $current_user->tryDo(PermissionManager::PARTS, PartPermission::ALL_PARTS);
 
@@ -3032,9 +3032,9 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
      * @see DBElement::add()
      */
     public static function add(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         string $name,
         int $category_id,
         string $description = '',

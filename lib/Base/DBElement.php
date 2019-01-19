@@ -119,7 +119,7 @@ abstract class DBElement
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         $this->database = $database;
         $this->current_user = $current_user;
@@ -386,7 +386,7 @@ abstract class DBElement
      *
      * @throws \PartDB\Exceptions\DatabaseException If there was an error getting the data from DB.
      */
-    final public static function getCount(Database &$database) : int
+    final public static function getCount(Database $database) : int
     {
         return $database->getCountOfRecords(static::getTablename());
     }
@@ -445,9 +445,9 @@ abstract class DBElement
      *
      */
     public static function checkValuesValidity(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         array &$values,
         bool $is_new,
         &$element = null
@@ -474,7 +474,7 @@ abstract class DBElement
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      */
-    protected static function addByArray(Database &$database, User &$current_user, Log &$log, array $new_values)
+    protected static function addByArray(Database $database, User $current_user, Log $log, array $new_values)
     {
         // we check if the new data is valid
         // (with "static::" we let check every subclass of DBElement to check the data!)
@@ -515,9 +515,9 @@ abstract class DBElement
      */
     //$current_user must not have a type, because User passes, null!!
     public static function &getInstance(
-        Database &$database,
+        Database $database,
         &$current_user,
-        Log &$log,
+        Log $log,
         int $id,
         array $db_data = null
     ) : DBElement {

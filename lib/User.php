@@ -91,7 +91,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, &$current_user, Log $log, int $id, $data = null)
     {
         if (! \is_object($current_user)) {     // this is that you can create an User-instance for first time
             $current_user = $this;
@@ -783,7 +783,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -802,7 +802,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return User
      * @throws Exception
      */
-    public static function getUserByName(Database &$database, Log &$log, string $username) : User
+    public static function getUserByName(Database $database, Log $log, string $username) : User
     {
         $username = static::normalizeUsername($username);
         $query = 'SELECT * FROM users WHERE name = ?';
@@ -895,7 +895,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * will be logged in.
      * @return boolean True, if the user was successfully logged in. False if a error appeared, like a wrong password.
      */
-    public static function login(User &$user, string $password = '') : bool
+    public static function login(User $user, string $password = '') : bool
     {
         if (empty($password) || !$user->isPasswordValid($password)) { //If $password is set, and wrong.
             return false;
@@ -939,7 +939,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return string A string with HTML
      * @throws Exception
      */
-    public static function buildHTMLList(Database &$database, User &$current_user, Log &$log, int $selected_id = -1)
+    public static function buildHTMLList(Database $database, User $current_user, Log $log, int $selected_id = -1)
     {
         $users = self::getAllUsers($database, $current_user, $log);
         $html = array();
@@ -961,7 +961,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return User[] Any array of all users in the database.
      * @throws Exception
      */
-    public static function getAllUsers(Database &$database, User &$current_user, Log &$log) : array
+    public static function getAllUsers(Database $database, User $current_user, Log $log) : array
     {
         if (!$current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
             return array($current_user);
@@ -987,7 +987,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return Base\NamedDBElement|User
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $group_id, array $data)
+    public static function add(Database $database, User $current_user, Log $log, string $name, int $group_id, array $data)
     {
         $current_user->tryDo(PermissionManager::USERS, UserPermission::CREATE);
 

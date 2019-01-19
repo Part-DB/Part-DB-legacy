@@ -59,7 +59,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws \PartDB\Exceptions\ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $data);
     }
@@ -238,7 +238,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -283,7 +283,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception if there was an error
      */
-    public static function getBrokenFilenameFootprints(Database &$database, User &$current_user, Log &$log) : array
+    public static function getBrokenFilenameFootprints(Database $database, User $current_user, Log $log) : array
     {
         $broken_filename_footprints = array();
         $root_footprint = self::getInstance($database, $current_user, $log, 0);
@@ -311,7 +311,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception if there was an error
      */
-    public static function getBroken3dFilenameFootprints(Database &$database, User &$current_user, Log &$log) : array
+    public static function getBroken3dFilenameFootprints(Database $database, User $current_user, Log $log) : array
     {
         $broken_filename_footprints = array();
         $root_footprint = Footprint::getInstance($database, $current_user, $log, 0);
@@ -346,7 +346,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @see DBElement::add()
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $filename = '', string $filename_3d = '', string $comment = '')
+    public static function add(Database $database, User $current_user, Log $log, string $name, int $parent_id, string $filename = '', string $filename_3d = '', string $comment = '')
     {
         return parent::addByArray(
             $database,

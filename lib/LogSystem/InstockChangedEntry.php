@@ -242,7 +242,7 @@ class InstockChangedEntry extends BaseEntry
      *
      * @throws \Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, Part &$part, $old_instock, $new_instock, $comment = null)
+    public static function add(Database $database, User $current_user, Log $log, Part $part, $old_instock, $new_instock, $comment = null)
     {
         if (!\is_int($old_instock) || !\is_int($new_instock)) {
             if (\is_float($old_instock) || \is_float($new_instock)) {

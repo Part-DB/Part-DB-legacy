@@ -246,7 +246,7 @@ function sendString(string $content, string $filename, string $mimetype)
 {
     $mtime = time();
 
-    if (false !== strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
         header('Content-Disposition: attachment; filename=' .urlencode($filename). '; modification-date=' .date('r', $mtime). ';');
     } else {
         header('Content-Disposition: attachment; filename="' .$filename. '"; modification-date="' .date('r', $mtime). '";');

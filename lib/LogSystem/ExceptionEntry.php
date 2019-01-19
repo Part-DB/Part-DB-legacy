@@ -44,7 +44,7 @@ class ExceptionEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    public function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
@@ -78,7 +78,7 @@ class ExceptionEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, \Throwable $exception)
+    public static function add(Database $database, User $current_user, Log $log, \Throwable $exception)
     {
         $arr = array('m' => $exception->getMessage(),
             'f' => $exception->getFile(),

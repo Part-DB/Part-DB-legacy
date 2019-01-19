@@ -277,7 +277,7 @@ class DevicePart extends Base\DBElement
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -328,7 +328,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getDevicePart(Database &$database, User &$current_user, Log &$log, int $device_id, int $part_id)
+    public static function getDevicePart(Database $database, User $current_user, Log $log, int $device_id, int $part_id)
     {
         $query_data = $database->query(
             'SELECT id FROM device_parts '.
@@ -355,7 +355,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getOrderDeviceParts(Database &$database, User &$current_user, Log &$log, $part_id = null) : array
+    public static function getOrderDeviceParts(Database $database, User $current_user, Log $log, $part_id = null) : array
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -431,9 +431,9 @@ class DevicePart extends Base\DBElement
      * @see DBElement::add()
      */
     public static function add(
-        Database &$database,
-        User &$current_user,
-        Log &$log,
+        Database $database,
+        User $current_user,
+        Log $log,
         int $device_id,
         int $part_id,
         int $quantity,

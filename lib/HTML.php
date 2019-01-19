@@ -432,9 +432,6 @@ class HTML
     {
         global $config;
 
-        $template = (string)$template;
-        $use_scriptname = (bool)$use_scriptname;
-
         if ($use_scriptname) {
             $smarty_template =    BASE.'/templates/'.$this->meta['theme'].'/'.
                 basename($_SERVER['SCRIPT_NAME']).'/smarty_'.$template.'.tpl';

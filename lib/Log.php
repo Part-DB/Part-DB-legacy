@@ -115,7 +115,7 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function __construct(Database &$database)
+    public function __construct(Database $database)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt'));
@@ -183,7 +183,7 @@ class Log
      * @return null|User Return the User if an entry was found in the log. Returns null otherwise.
      * @throws Exception
      */
-    public static function getLastModifiedUserForElement(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element)
+    public static function getLastModifiedUserForElement(Database $database, User $current_user, Log $log, NamedDBElement $element)
     {
         $data = array();
 
@@ -214,7 +214,7 @@ class Log
      * @return null|User Return the User if an entry was found in the log. Returns null otherwise.
      * @throws Exception
      */
-    public static function getCreationUserForElement(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element)
+    public static function getCreationUserForElement(Database $database, User $current_user, Log $log, NamedDBElement $element)
     {
         $data = array();
 
@@ -244,7 +244,7 @@ class Log
      * @return array
      * @throws Exception
      */
-    public static function getHistoryForPart(Database &$database, User &$current_user, Log &$log, Part &$part, int $limit = 50, int $page = 1) : array
+    public static function getHistoryForPart(Database $database, User $current_user, Log $log, Part $part, int $limit = 50, int $page = 1) : array
     {
         if (!$part instanceof Part) {
             throw new \RuntimeException(_('getInstockHistoryForPart() funktioniert nur für Bauteile!'));
@@ -339,7 +339,7 @@ class Log
         //return "[{x: 10, y: 20}, {x: 15, y: 10}]";
     }
 
-    public static function getHistoryForPartCount(Database &$database, User &$current_user, Log &$log, Part &$part) : int
+    public static function getHistoryForPartCount(Database $database, User $current_user, Log $log, Part $part) : int
     {
         if (!$part instanceof Part) {
             throw new \RuntimeException(_('getInstockHistoryForPart() funktioniert nur für Bauteile!'));
@@ -403,7 +403,7 @@ class Log
      * @return int The id of the target type
      * @throws \RuntimeException When no Targettype for this class was found.
      */
-    public static function elementToTargetTypeID(NamedDBElement &$element) : int
+    public static function elementToTargetTypeID(NamedDBElement $element) : int
     {
         if ($element instanceof Attachment) {
             return static::TARGET_TYPE_ATTACHEMENT;

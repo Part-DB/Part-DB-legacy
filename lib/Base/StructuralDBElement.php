@@ -101,7 +101,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
      * @throws \PartDB\Exceptions\DatabaseException If an error happening during Database AccessDeniedException
      * @throws ElementNotExistingException If no such element exists in DB.
      */
-    protected function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    protected function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
     }
@@ -718,7 +718,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
      * @throws InvalidElementValueException if the values are not valid / the combination of values is not valid
      * @throws InvalidElementValueException
      */
-    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
+    public static function checkValuesValidity(Database $database, User $current_user, Log $log, array &$values, bool $is_new, &$element = null)
     {
         if ($values['parent_id'] == 0) {
             $values['parent_id'] = null;
@@ -763,7 +763,7 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         }
     }
 
-    public static function addByArray(Database &$database, User &$current_user, Log &$log, array $new_values)
+    public static function addByArray(Database $database, User $current_user, Log $log, array $new_values)
     {
         $current_user->tryDo(static::getPermissionName(), StructuralPermission::CREATE);
         return parent::addByArray($database, $current_user, $log, $new_values);

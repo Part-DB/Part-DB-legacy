@@ -54,7 +54,7 @@ class ElementCreatedEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    public function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
@@ -104,7 +104,7 @@ class ElementCreatedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element)
+    public static function add(Database $database, User $current_user, Log $log, NamedDBElement $element)
     {
         $type_id = Log::elementToTargetTypeID($element);
 

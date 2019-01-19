@@ -52,7 +52,7 @@ abstract class BaseEntry extends DBElement
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    public function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
     }
@@ -216,7 +216,7 @@ abstract class BaseEntry extends DBElement
      * @return BaseEntry|null The newly created BaseEntry, or null if nothing was created (e.g. when logging is disabled)
      * @throws Exception
      */
-    protected static function addEntry(Database &$database, User &$current_user, Log &$log, int $type, int $level, int $user_id, int $target_type, int $target_id, $extra_obj)
+    protected static function addEntry(Database $database, User $current_user, Log $log, int $type, int $level, int $user_id, int $target_type, int $target_id, $extra_obj)
     {
         global $config;
         //Check if the current Entry has an sufficent priority level

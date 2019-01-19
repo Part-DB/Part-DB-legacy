@@ -52,7 +52,7 @@ class ElementEditedEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
+    public function __construct(Database $database, User $current_user, Log $log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
@@ -93,7 +93,7 @@ class ElementEditedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element, $old_values = null, $new_values = null, $edit_message = null)
+    public static function add(Database $database, User $current_user, Log $log, NamedDBElement $element, $old_values = null, $new_values = null, $edit_message = null)
     {
         static $type_id, $element_id, $user_id, $last_log = 0;
 
