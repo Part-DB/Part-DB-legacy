@@ -300,7 +300,8 @@ function exception_handler(Throwable $e)
     printMessagesWithoutTemplate(
         _('Part-DB: Schwerwiegender Fehler!'),
         null,
-        '<span style="color: red; "><strong>'._('Es ist ein schwerwiegender Fehler aufgetreten:') .
+        '<span style="color: red; "><strong>'._('Es ist ein schwerwiegender Fehler aufgetreten:')
+        . ' (<i>' . get_class($e) . '</i>)' .
         '<br><br>'.nl2br($e->getMessage()).'</strong><br><br>'.
         _('(Exception wurde geworfen in ').$e->getFile()._(', Zeile ').$e->getLine(). ')</span>'
     );
