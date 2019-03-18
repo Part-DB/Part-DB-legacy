@@ -283,7 +283,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             if ($this->db_data['config_theme'] == '@@') {
                 return '';
             }
-            return $this->db_data['config_theme'];
+            return $this->db_data['config_theme'] ?? '';
         }
     }
 
@@ -303,7 +303,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             global $config;
             return $config['timezone'];
         } else {
-            return $this->db_data['config_timezone'];
+            return $this->db_data['config_timezone'] ?? '';
         }
     }
 
@@ -323,7 +323,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             global $config;
             return $config['language'];
         } else {
-            return $this->db_data['config_language'];
+            return $this->db_data['config_language'] ?? '';
         }
     }
 
