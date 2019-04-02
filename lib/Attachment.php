@@ -216,11 +216,11 @@ class Attachment extends Base\NamedDBElement
     public function getElement() : DBElement
     {
         if (! is_object($this->element)) {
-            $this->element = new $this->db_data['class_name'](
+            $this->element = $this->db_data['class_name']::getInstance(
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['element_id']
+                (int) $this->db_data['element_id']
             );
         }
 
