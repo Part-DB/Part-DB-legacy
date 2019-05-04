@@ -850,7 +850,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 return static::ID_ANONYMOUS; //If an error happened, we are not logged in.
             } */
 
-            return $_SESSION['user'];
+            return (int) $_SESSION['user'];
         }
     }
 
