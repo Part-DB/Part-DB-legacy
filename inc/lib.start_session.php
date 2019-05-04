@@ -283,11 +283,11 @@ function exception_handler($e)
 {
     //Try to log the exception to the database
     try {
-        $database           = new Database();
-        $log                = new Log($database);
-        $current_user       = User::getLoggedInUser($database, $log);
+        $database           = @new Database();
+        $log                = @new Log($database);
+        $current_user       = @User::getLoggedInUser($database, $log);
 
-        \PartDB\LogSystem\ExceptionEntry::add($database, $current_user, $log, $e);
+        @\PartDB\LogSystem\ExceptionEntry::add($database, $current_user, $log, $e);
     } catch (Exception $ex) {
         //If that not possible, then do nothing...
     }
