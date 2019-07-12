@@ -279,14 +279,14 @@ function uploadFile(array $file_array, string $destination_directory, $destinati
         throw new Exception(_('Ungültiges Array übergeben!'));
     }
 
+    if ($destination_filename == null) {
+        $destination_filename = $file_array['name'];
+    }
+
     //Dont allow to upload a PHP file.
     if (strpos($file_array['name'], '.php') != false
         || strpos($destination_filename, '.php') != false) {
         throw new \Exception(_('Es ist nicht erlaubt PHP Dateien hochzuladen!'));
-    }
-
-    if ($destination_filename == null) {
-        $destination_filename = $file_array['name'];
     }
 
     $destination = $destination_directory.$destination_filename;
