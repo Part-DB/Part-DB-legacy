@@ -883,7 +883,7 @@ class Database
      */
     public function getCountOfRecords($tablename)
     {
-        $query_data = $this->query('SELECT count(*) as count FROM '.$tablename);
+        $query_data = $this->query('SELECT count(*) as count FROM `' . $tablename . '`');
 
         return intval($query_data[0]['count']);
     }
@@ -904,8 +904,8 @@ class Database
      */
     public function getRecordData($tablename, $id, $fetch_style = PDO::FETCH_ASSOC)
     {
-        $query_data = $this->query('SELECT * FROM '. $tablename .
-            ' WHERE id=?', array($id), $fetch_style);
+        $query_data = $this->query('SELECT * FROM `'. $tablename .
+            '` WHERE id=?', array($id), $fetch_style);
 
         if (count($query_data) == 0) {
             throw new Exception(sprintf(_('Es existiert kein Datensatz mit der ID "%d" in der Tabelle "%s"!'), $id, $tablename));
@@ -924,7 +924,39 @@ class Database
      */
     public function deleteRecord($tablename, $id)
     {
-        $this->execute('DELETE FROM '.$tablename.' WHERE id=? LIMIT 1', array($id));
+        $this->execute('DELETE FROM `'.$tablename.'` WHERE id=? LIMIT 1', array($id));
+    }
+
+    /**
+     * Inserts the given data as a new record into the given table.
+     * @param string $tablename The table to which the dataset should be added.
+     * @param array $new_values An associative array, containing the dataset. The keys are the coloum names.
+     * @return int The ID of the newly created row.
+     * @throws DatabaseException If the entry could not be created
+     * @throws TableNotExistingException If the table, in which should be inserted, does not exists.
+     */
+    public function insertRecord(string $tablename, array $new_values) : int
+    {
+        if (empty($new_values)) {
+            throw new \InvalidArgumentException(_('$new_values darf nicht leer sein!'));
+        }
+
+        if (! $this->doesTableExist($tablename)) {
+            throw new TableNotExistingException(sprintf(_('Die Tabelle "%s" existiert nicht!'), $tablename));
+        }
+
+        // create the query string
+        $query = 'INSERT INTO `' . $tablename . '` (' . implode(', ', array_keys($new_values)) . ') '.
+            'VALUES (?' . str_repeat(', ?', count($new_values) -1) . ')';
+
+        // now we can insert the new data into the database
+        $id = $this->execute($query, $new_values);
+
+        if ($id == null) {
+            throw new DatabaseException(_('Der Datenbankeintrag konnte nicht angelegt werden.'));
+        }
+
+        return $id;
     }
 
     /**
@@ -945,7 +977,7 @@ class Database
             throw new Exception(_('$values ist kein gültiges Array!'));
         }
 
-        $query =    'UPDATE '.$tablename.' SET '.
+        $query =    'UPDATE `'.$tablename.'` SET '.
             implode('=?, ', array_keys($values)).'=? '.
             'WHERE id=? LIMIT 1';
 
