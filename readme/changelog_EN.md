@@ -1,5 +1,16 @@
 # Part-DB changelog
 
+## Part-DB 0.5.7
+### New functions
+* Sidebar scrollbars are now hidden in Edge and old Firefox versions
+
+### Bugfixes
+* Errors when using MySQL 8.0 fixed
+
+
+### Miscellaneous
+* Composer Dependencies updated
+
 ## Part-DB 0.5.6
 ### New function
 * A new component can now be created from the component lists for footprints, storage locations and manufacturers.
