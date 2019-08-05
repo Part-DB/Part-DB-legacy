@@ -119,7 +119,7 @@ $config['admin']['tmp_password']                        = null;
 $config['installation_complete']['locales']             = false;
 $config['installation_complete']['admin_password']      = false;
 $config['installation_complete']['database']            = false;
-$config['installation_complete']['db_backup_path']      = false;
+$config['installation_complete']['db_backup_path']      = true;
 
 // miscellaneous settings
 $config['timezone']                                     = 'Europe/Berlin';
