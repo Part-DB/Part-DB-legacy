@@ -826,7 +826,7 @@ class Database
         //A whitelist of tables, we know that exists, so we dont need to check with a DB Request
         //Dont include "internal" here, because otherwise it leads to problems, when starting with a fresh database.
         $whitelist = array('parts', 'categories', 'footprints', 'storelocations', 'suppliers', 'pricedetails',
-            'orderdetails', 'manufacturers', 'attachements', 'attachement_types', 'devices', 'device_parts', 'users', 'groups', 'log');
+            'orderdetails', 'manufacturers', 'attachements', 'attachement_types', 'devices', 'device_parts', 'users', '`groups`', 'log');
 
         global $config;
 
@@ -859,7 +859,7 @@ class Database
      */
     public function getCountOfRecords(string $tablename) : int
     {
-        $query_data = $this->query('SELECT count(*) as count FROM ' . $tablename);
+        $query_data = $this->query('SELECT count(*) as count FROM `' . $tablename . '`');
 
         return (int) $query_data[0]['count'];
     }
@@ -880,8 +880,8 @@ class Database
      */
     public function getRecordData(string $tablename, int $id, int $fetch_style = PDO::FETCH_ASSOC) : array
     {
-        $query_data = $this->query('SELECT * FROM '. $tablename .
-            ' WHERE id=?', array($id), $fetch_style);
+        $query_data = $this->query('SELECT * FROM `'. $tablename .
+            '` WHERE id=?', array($id), $fetch_style);
 
         if (count($query_data) == 0) {
             throw new ElementNotExistingException(sprintf(_('Es existiert kein Datensatz mit der ID "%d" in der Tabelle "%s"!'), $id, $tablename));
@@ -900,7 +900,7 @@ class Database
      */
     public function deleteRecord(string $tablename, int $id)
     {
-        $this->execute('DELETE FROM '.$tablename.' WHERE id=? LIMIT 1', array($id));
+        $this->execute('DELETE FROM `'.$tablename.'` WHERE id=? LIMIT 1', array($id));
     }
 
     /**
@@ -922,7 +922,7 @@ class Database
         }
 
         // create the query string
-        $query = 'INSERT INTO ' . $tablename . ' (' . implode(', ', array_keys($new_values)) . ') '.
+        $query = 'INSERT INTO `' . $tablename . '` (' . implode(', ', array_keys($new_values)) . ') '.
             'VALUES (?' . str_repeat(', ?', count($new_values) -1) . ')';
 
         // now we can insert the new data into the database
@@ -953,7 +953,7 @@ class Database
             throw new \InvalidArgumentException(_('$values ist kein gültiges Array!'));
         }
 
-        $query =    'UPDATE '.$tablename.' SET '.
+        $query =    'UPDATE `'.$tablename.'` SET '.
             implode('=?, ', array_keys($values)).'=? '.
             'WHERE id=? LIMIT 1';
 
