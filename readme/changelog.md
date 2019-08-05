@@ -1,5 +1,16 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.7
+### Neue Funktionen
+* Scrollbars in Seitenleiste werden nun auch unter Edge und alten Firefox Versionen versteckt
+
+### Bugfixes
+* Fehler bei der Verwendung von MySQL 8.0 behoben
+
+### Sonstiges
+* Composer Dependencies aktualisiert
+* Mitgelieferte composer.phar aktualisiert
+
 ## Part-DB 0.5.6
 ### Neue Funktion
 * Es können nun auch aus den Bauteilelisten für Footprints, Lagerorte und Hersteller, ein neues Bauteil angelegt werden
