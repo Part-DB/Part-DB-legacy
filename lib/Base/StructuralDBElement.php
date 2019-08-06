@@ -468,8 +468,8 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
                 $id = $this->db_data['id'];
             }
 
-            $query_data = $this->database->query('SELECT * FROM ' . $this->tablename .
-                ' WHERE parent_id <=> ? ORDER BY name ASC', array($id));
+            $query_data = $this->database->query('SELECT * FROM `' . $this->tablename .
+                '` WHERE parent_id <=> ? ORDER BY name ASC', array($id));
 
             foreach ($query_data as $row) {
                 $this->subelements[] = static::getInstance($this->database, $this->current_user, $this->log, (int) $row['id']);
@@ -754,8 +754,8 @@ abstract class StructuralDBElement extends AttachmentsContainingDBElement
         // we search for an element with the same name and parent ID, there shouldn't be one!
         $id = $is_new ? -1 : $values['id'];
         $query_data = $database->query(
-            'SELECT * FROM ' . $parent_element->getTablename() .
-            ' WHERE name=? AND parent_id <=> ? AND id<>?',
+            'SELECT * FROM `' . $parent_element->getTablename() .
+            '` WHERE name=? AND parent_id <=> ? AND id<>?',
             array($values['name'], $values['parent_id'], $id)
         );
         if (!empty($query_data)) {
