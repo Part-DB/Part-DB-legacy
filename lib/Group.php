@@ -309,7 +309,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @return static
      * @throws Exception
      */
-    public static function add(Database $database, User $current_user, Log $log, string $name, int $parent_id) : Group
+    public static function add(Database $database, User $current_user, Log $log, string $name, int $parent_id = null) : Group
     {
         return parent::addByArray(
             $database,

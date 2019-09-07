@@ -129,7 +129,7 @@ class AttachmentType extends Base\StructuralDBElement implements Interfaces\IAPI
      *
      * @see DBElement::add()
      */
-    public static function add(Database $database, User $current_user, Log $log, string $name, int $parent_id, string $comment = '')
+    public static function add(Database $database, User $current_user, Log $log, string $name, int $parent_id = null, string $comment = '')
     {
         return parent::addByArray(
             $database,

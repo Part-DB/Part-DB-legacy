@@ -558,7 +558,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         User $current_user,
         Log $log,
         string $name,
-        int $parent_id,
+        int $parent_id = null,
         bool $disable_footprints = false,
         bool $disable_manufacturers = false,
         bool $disable_autodatasheets = false,

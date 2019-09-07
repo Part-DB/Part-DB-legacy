@@ -133,7 +133,7 @@ class Manufacturer extends Base\Company implements ISearchable
         User $current_user,
         Log $log,
         string $name,
-        int $parent_id,
+        int $parent_id = null,
         string $address = '',
         string $phone_number = '',
         string $fax_number = '',

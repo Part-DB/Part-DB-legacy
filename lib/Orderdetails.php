@@ -468,7 +468,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         Database $database,
         User $current_user,
         Log $log,
-        int $part_id,
+        int $part_id = null,
         int $supplier_id,
         string $supplierpartnr = '',
         bool $obsolete = false,
