@@ -1,5 +1,10 @@
 # Part-DB changelog
 
+## Part-DB 0.5.8
+### New functions
+* Allow english column names in CSV import files 
+(See `documentation/examples/import_parts/import_parts_en.csv` for an example).
+
 ## Part-DB 0.5.7
 ### New functions
 * Sidebar scrollbars are now hidden in Edge and old Firefox versions
