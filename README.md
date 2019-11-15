@@ -1,5 +1,7 @@
 # Part-DB
 
+**Note:** I am working on a [new Version of Part-DB](https://github.com/Part-DB/Part-DB-symfony) which is a complete rewrite of the version in this repo. Therefore this version most likely will not get new features, so if you would like to participate in development you should do it in the [new Version](https://github.com/Part-DB/Part-DB-symfony). However Part-DB 1.0 is currently under development and has not all features of Part-DB 0.6 so for productive usage you should use the version in this repository.  
+
 **[Hier](README_DE.md) gibt es eine deutsche Version dieser README**
 
 **If you are using Part-DB, then it would be helpful for further development, if you participate in the following anonymous survey:
