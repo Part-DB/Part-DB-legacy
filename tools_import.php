@@ -188,7 +188,7 @@ if (! $fatal_error) {
         $html->setVariable('file_format', $file_format, 'string');
         $html->setVariable('separator', $separator, 'string');
 
-        $csv_file_example = file_get_contents(BASE . '/documentation/examples/import_parts/import_parts.csv');
+        $csv_file_example = file_get_contents(BASE . '/documentation/examples/import_parts/import_parts_en.csv');
         $html->setVariable('csv_file_example', $csv_file_example, 'string');
 
         $xml_file_example = file_get_contents(BASE . '/documentation/examples/import_parts/import_parts.xml');

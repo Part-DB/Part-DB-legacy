@@ -103,23 +103,34 @@ $import_data_default_values = array(    // for import parts
 );
 
 $import_data_translations = array(  // translations for import parts
-    'Name'                  => 'part_name',
-    'Beschreibung'          => 'part_description',
-    'Bestand'               => 'part_instock',
-    'Mindestbestand'        => 'part_mininstock',
-    'Kommentar'             => 'part_comment',
-    'Kategorie'             => 'part_category_name',
-    'Footprint'             => 'part_footprint_name',
-    'Lagerort'              => 'part_storelocation_name',
-    'Hersteller'            => 'part_manufacturer_name',
-    'Lieferant'             => 'part_supplier_name',
-    'Bestellnummer'         => 'part_supplierpartnr',
-    'Preis'                 => 'part_price',
+    'name'                  => 'part_name',
+    'beschreibung'          => 'part_description',
+    'description'           => 'part_description',
+    'bestand'               => 'part_instock',
+    'instock'               => 'part_instock',
+    'mindestbestand'        => 'part_mininstock',
+    'mininstock'            => 'part_mininstock',
+    'kommentar'             => 'part_comment',
+    'comment'               => 'part_comment',
+    'kategorie'             => 'part_category_name',
+    'category'              => 'part_category_name',
+    'footprint'             => 'part_footprint_name',
+    'lagerort'              => 'part_storelocation_name',
+    'storelocation'         => 'part_storelocation_name',
+    'hersteller'            => 'part_manufacturer_name',
+    'manufacturer'          => 'part_manufacturer_name',
+    'lieferant'             => 'part_supplier_name',
+    'supplier'              => 'part_supplier_name',
+    'bestellnummer'         => 'part_supplierpartnr',
+    'ordernr'               => 'ordernr',
+    'preis'                 => 'part_price',
+    'price'                 => 'part_price',
     // translations for import device parts
-    'Bauteile-ID'           => 'devicepart_part_id',
-    'Bauteil-Name'          => 'devicepart_part_name',
-    'Anzahl'                => 'devicepart_mount_quantity',
-    'Bestückungsdaten'      => 'devicepart_mount_names');
+    // No english translations because devicepart does not work anyway...
+    'bauteile-id'           => 'devicepart_part_id',
+    'bauteil-name'          => 'devicepart_part_name',
+    'anzahl'                => 'devicepart_mount_quantity',
+    'bestückungsdaten'      => 'devicepart_mount_names');
 
 /**
  * Get the import data array from the variable $_REQUEST
@@ -262,8 +273,8 @@ function importTextToArray($text, $format, $separator = ';')
             $csv_columns = array_map('trim', explode($separator, $file_array[0]));
 
             foreach ($csv_columns as $key => $value) {
-                if (isset($import_data_translations[$value])) {
-                    $csv_columns[$key] = $import_data_translations[$value];
+                if (isset($import_data_translations[strtolower($value)])) {
+                    $csv_columns[$key] = $import_data_translations[strtolower($value)];
                 } elseif (in_array($value, $import_data_translations)) {
                     $csv_columns[$key] = $value;
                 } else {
