@@ -1,5 +1,10 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.8
+### Neue Funktionen
+* Es sind nun englische Spaltennamen in CSV Bauteileimportdateien erlaubt 
+(Siehe `documentation/examples/import_parts/import_parts_en.csv` für ein Beispiel).
+
 ## Part-DB 0.5.7
 ### Neue Funktionen
 * Scrollbars in Seitenleiste werden nun auch unter Edge und alten Firefox Versionen versteckt
