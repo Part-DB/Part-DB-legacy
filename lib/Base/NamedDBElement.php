@@ -279,7 +279,7 @@ abstract class NamedDBElement extends DBElement implements IHasModifiedCreatedIn
     {
         $tablename = static::getTablename();
 
-        if (empty($keyword) == 0) {
+        if (empty($keyword)) {
             return array();
         }
 

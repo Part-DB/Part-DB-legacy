@@ -49,10 +49,10 @@ $separator      = isset($_POST['separator'])         ? (string)$_POST['separator
 $table_rowcount = isset($_POST['table_rowcount'])    ? (int)$_POST['table_rowcount']  : 0;
 $file_content   = isset($_POST['file_content'])      ? (string)$_POST['file_content']     : '';
 
-$new_part_ids   = isset($_POST['new_part_ids'])      ? (string)$_POST['new_part_ids']     : '';
+$new_part_ids   = isset($_GET['new_part_ids'])      ? (string)$_GET['new_part_ids']     : '';
 
 $action = 'default';
-if (isset($_POST['show_imported_parts'])) {
+if (isset($_GET['show_imported_parts'])) {
     $action = 'show_imported_parts';
 }
 if (isset($_POST['upload_file'])) {
@@ -128,7 +128,6 @@ if (! $fatal_error) {
                 $table_loop = buildPartsImportTemplateLoop($database, $current_user, $log, $import_data);
                 $new_parts = importParts($database, $current_user, $log, $import_data, false);
 
-                $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 $messages[] = array('text' => _('Die Daten wurden erfolgreich importiert!'), 'strong' => true, 'color' => 'darkgreen');
                 unset($import_data, $table_loop);
                 $file_content = '';
@@ -149,8 +148,6 @@ if (! $fatal_error) {
 
         case 'show_imported_parts':
             try {
-                $html->setVariable('refresh_navigation_frame', true, 'boolean');
-
                 $ids = explode(';', $new_part_ids);
                 $new_parts = array();
                 foreach ($ids as $id) {
