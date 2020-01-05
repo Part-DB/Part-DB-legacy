@@ -2363,7 +2363,7 @@ msgstr "An error occurred!"
 
 #: tools_import.php:118
 msgid "Die Daten sind gültig!"
-msgstr "Invalid data!"
+msgstr "The data is valid!"
 
 #: tools_import.php:120
 msgid "Die Daten sind nicht gültig!"
