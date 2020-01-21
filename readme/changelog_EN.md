@@ -1,5 +1,9 @@
 # Part-DB changelog
 
+## Part-DB 0.5.9
+### Bugfixes
+* Import now works fine (thanks to chrisnoisel)
+
 ## Part-DB 0.5.8
 ### New functions
 * Allow english column names in CSV import files 

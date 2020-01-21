@@ -1,5 +1,9 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.9
+### Bugfixes
+* Import funktioniert nun (danke an chrisnoisel)
+
 ## Part-DB 0.5.8
 ### Neue Funktionen
 * Es sind nun englische Spaltennamen in CSV Bauteileimportdateien erlaubt 
