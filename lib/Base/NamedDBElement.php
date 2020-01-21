@@ -255,7 +255,7 @@ abstract class NamedDBElement extends DBElement
      */
     protected static function searchTable(&$database, &$current_user, &$log, $tablename, $keyword, $exact_match)
     {
-        if (strlen($keyword) == 0) {
+        if (empty($keyword)) {
             return array();
         }
 
