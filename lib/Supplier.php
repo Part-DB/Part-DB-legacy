@@ -127,14 +127,14 @@ class Supplier extends Base\Company implements ISearchable
             'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
             'WHERE id_supplier=? ';
         $query_data = $this->database->query($query, array($this->getID()));
-        $count = $query_data[0]['count'];
+        $count = (int) $query_data[0]['count'];
         if ($recursive) {
             $sub_suppliers = $this->getSubelements(true);
             foreach ($sub_suppliers as $sub_supplier) {
                 $count+= $sub_supplier->getPartsCount(true);
             }
         }
-        return $count;
+        return (int) $count;
     }
 
     /**
