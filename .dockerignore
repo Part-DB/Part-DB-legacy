@@ -1,3 +1,6 @@
 Dockerfile
 docker-compose.yml
 .dockerignore
+
+# Ignore .git in docker images
+**/.git
