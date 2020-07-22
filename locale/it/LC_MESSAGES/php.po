@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-14 18:50+0100\n"
-"PO-Revision-Date: 2020-01-05 19:52\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2020-07-22 07:22\n"
+"Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
@@ -12,26 +12,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: part-db\n"
+"X-Crowdin-Project-ID: 300912\n"
 "X-Crowdin-Language: it\n"
 "X-Crowdin-File: /master/locale/php.pot\n"
+"X-Crowdin-File-ID: 18\n"
 
 #: api.php:416
 msgid "Übersicht"
-msgstr ""
+msgstr "#: api.php: 416"
 
 #: api.php:512
 msgid "Verzeichnisse"
-msgstr ""
+msgstr "#: api.php:512"
 
 #: development/sandbox.php:59
 #, php-format
 msgid "Das ist %s!"
-msgstr ""
+msgstr "#: development/sandbox.php:59\n"
+"#, php-format"
 
 #: edit_attachement_types.php:84 inc/lib.php:1056
 #: lib/Permissions/PermissionManager.php:263
 msgid "Dateitypen"
-msgstr ""
+msgstr "#: edit_attachement_types.php:84 inc/lib.php:1056\n"
+"#: lib/Permissions/PermissionManager.php:263"
 
 #: edit_attachement_types.php:121
 msgid "Der neue Dateityp konnte nicht angelegt werden!"
