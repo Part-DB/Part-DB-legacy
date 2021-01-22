@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-14 18:50+0100\n"
-"PO-Revision-Date: 2020-07-22 07:22\n"
+"PO-Revision-Date: 2021-01-22 14:34\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -39,7 +39,7 @@ msgstr "#: edit_attachement_types.php:84 inc/lib.php:1056\n"
 
 #: edit_attachement_types.php:121
 msgid "Der neue Dateityp konnte nicht angelegt werden!"
-msgstr ""
+msgstr "Non è stato possibile creare il nuovo tipo di file!"
 
 #: edit_attachement_types.php:122 edit_attachement_types.php:150
 #: edit_attachement_types.php:164 edit_attachement_types.php:179
@@ -62,12 +62,12 @@ msgstr ""
 #: tools_import.php:107 tools_import.php:121 tools_import.php:147
 #: user_settings.php:116
 msgid "Fehlermeldung: "
-msgstr ""
+msgstr "Messaggio di errore: "
 
 #: edit_attachement_types.php:129 edit_attachement_types.php:157
 #: edit_attachement_types.php:171
 msgid "Es ist kein Dateityp markiert oder es trat ein Fehler auf!"
-msgstr ""
+msgstr "Nessun tipo di file selezionato o si è verificato un errore!"
 
 #: edit_attachement_types.php:136
 #, php-format
