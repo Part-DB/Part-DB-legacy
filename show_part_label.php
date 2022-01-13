@@ -68,7 +68,7 @@ if (!$json_storage->itemExists($generator_type . '@' . $profile_name)) {
             'custom_width' => '',
             'text_alignment' => 'left',
             'logo_path' => '',
-	    'use_footprint_image' => false);
+            'use_footprint_image' => false);
 	$json_storage->addItem($generator_type . '@' . $profile_name, $profile );
     } elseif ($generator_type == 'location') {
         $profile = array('label_size' => BaseLabel::SIZE_50X30,
@@ -85,7 +85,7 @@ if (!$json_storage->itemExists($generator_type . '@' . $profile_name)) {
             'custom_width' => '',
             'text_alignment' => 'left',
             'logo_path' => '',
-	    'use_footprint_image' => false);
+            'use_footprint_image' => false);
 	$json_storage->addItem($generator_type . '@' . $profile_name, $profile );
     }
 
