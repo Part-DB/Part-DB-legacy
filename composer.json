@@ -20,13 +20,13 @@
     "ext-gettext": "*",
     "ext-json": "*",
     "golonka/bbcodeparser": "dev-master",
-    "smarty/smarty": "~3.1",
-    "smarty-gettext/smarty-gettext": "~1.5.1",
+    "smarty/smarty": "^3.1",
+    "smarty-gettext/smarty-gettext": "^1.5.1",
     "tecnickcom/tcpdf": "dev-master",
     "slim/slim": "3.*",
     "ircmaxell/password-compat": "1.*",
     "snapappointments/bootstrap-select": "1.*",
-    "components/jquery": "3.3.*",
+    "components/jquery": "^3.3",
     "kartik-v/bootstrap-fileinput": "4.*",
     "jquery-form/form": "4.*",
     "nnnick/chartjs": "2.7.*",
@@ -49,6 +49,16 @@
     "ext-iconv": "Needed for money string localization",
     "ext-simplexml": "Needed for Update panels"
 
+  },
+
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "platform": {
+      "php": "5.6.10"
+    },
+    "sort-packages": true
   },
 
   "repositories": [
