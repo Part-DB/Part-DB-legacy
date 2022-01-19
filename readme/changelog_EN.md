@@ -1,5 +1,10 @@
 # Part-DB changelog
 
+## Part-DB 0.5.10
+### Bugfixes
+* Fix compatibility with PHP 8.*
+* Fix XSS issue in install assistant
+
 ## Part-DB 0.5.9
 ### Bugfixes
 * Import now works fine (thanks to chrisnoisel)
