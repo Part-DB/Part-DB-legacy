@@ -175,7 +175,7 @@ class JSONStorage
      * @param $data mixed The new data.
      * @param $create_when_not_exist bool Set this to true, if a new item should be created, when the no item with this key exists yet. Otherwise an exception is thrown.
      */
-    public function editItem(string $key, bool $data, bool $write_data = true, bool $create_when_not_exist = false)
+    public function editItem(string $key, $data, bool $write_data = true, bool $create_when_not_exist = false)
     {
         if (!$create_when_not_exist && !$this->itemExists($key)) {
             throw new \RuntimeException(sprintf(_('Es existiert bereits ein Item mit dem Schlüssel %s!'), $key));
