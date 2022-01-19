@@ -155,7 +155,7 @@ if (! $fatal_error) {
                 $config['installation_complete']['database'] = true; // database settings successful set
                 $config['installation_complete']['db_backup_path'] = true; //Workaround, because we removed the dialog for this
             } catch (Exception $e) {
-                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+                $messages[] = array('text' => nl2br(htmlentities($e->getMessage())), 'strong' => true, 'color' => 'red');
             }
             break;
 
@@ -166,7 +166,7 @@ if (! $fatal_error) {
 
                 $config['installation_complete']['db_backup_path'] = true; // database backup path successful set
             } catch (Exception $e) {
-                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+                $messages[] = array('text' => nl2br(htmlentities($e->getMessage())), 'strong' => true, 'color' => 'red');
             }
             break;
 
@@ -179,7 +179,7 @@ if (! $fatal_error) {
 try {
     saveConfig();
 } catch (Exception $e) {
-    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    $messages[] = array('text' => nl2br(htmlentities($e->getMessage())), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
 
@@ -228,7 +228,7 @@ if (! $fatal_error) {
             $tmpl_site_to_show = 'finish';
         }
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+        $messages[] = array('text' => nl2br(htmlspecialchars($e->getMessage())), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
