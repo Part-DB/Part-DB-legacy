@@ -218,8 +218,9 @@ class Database
 
         $query_data = $this->query('SELECT keyValue FROM internal WHERE keyName LIKE ?', array('dbVersion'));
 
-        if (count($query_data) !== 1) {
-            throw new DatabaseException(_('Eintrag "dbVersion" existiert nicht in der Tabelle "internal"!'));
+        if (count($query_data) !== 1) { // Empty table --> return version 0 to create tables with the update mechanism
+            return 0;
+            //throw new Exception(_('Eintrag "dbVersion" existiert nicht in der Tabelle "internal"!'));
         }
 
         $tmp = (int)$query_data[0]['keyValue'];
@@ -405,7 +406,9 @@ class Database
                 try {
                     $this->pdo->beginTransaction();
                     $this->pdo->exec($query);
-                    $this->pdo->commit();
+                    if($this->pdo->inTransaction()) {
+                        $this->pdo->commit();
+                    }
                     $add_log(sprintf(_('Schritt: %s ...OK'), $query));
                 } catch (PDOException $e) {
                     try {
@@ -609,7 +612,9 @@ class Database
         // all OK, we commit the transaction
         try {
             $this->transaction_active = false;
-            $this->pdo->commit();
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->commit();
+            }
         } catch (PDOException $e) {
             try {
                 // try to roll back
