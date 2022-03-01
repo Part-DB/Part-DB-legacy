@@ -177,6 +177,7 @@ development/templates_c/
 #Models
 models/*
 !models/.keep
+!models/.htaccess
 
 #Ignore Node Modules
 node_modules/
