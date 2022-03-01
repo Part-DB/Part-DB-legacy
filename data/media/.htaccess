@@ -5,7 +5,7 @@
     Allow from all
 </IfModule>
 
-<Files *.php>
+<FilesMatch "(?i)\.(php|php3?|phtml|ph3|php4|ph4|php5|ph5|phtm|sh|asp|cgi|py|pl|exe|aspx)$">
     <IfModule mod_authz_core.c> # Apache 2.4
         Require all denied
     </IfModule>
@@ -13,6 +13,6 @@
         Deny from all
         Order Deny,Allow
     </IfModule>
-</Files>
+</FilesMatch>
 
 Options -Indexes
