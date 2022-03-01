@@ -16,6 +16,15 @@
     </IfModule>
 </IfModule>
 
+<IfModule mod_php.c>
+    php_value upload_max_filesize 513M
+    php_value post_max_size 513M
+    php_value memory_limit 512M
+    <IfModule mod_env.c>
+        SetEnv htaccessWorking true
+    </IfModule>
+</IfModule>
+
 <ifModule mod_headers.c>
     Header set Connection keep-alive
 
