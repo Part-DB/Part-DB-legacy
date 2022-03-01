@@ -919,24 +919,33 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         $loggedin_ID    = self::getLoggedInID();
 
+        if(static::$loggedin_user instanceof User) //If we already have an cached user, then return this for perfomance
+        {
+            if (static::$loggedin_user->getID() != $loggedin_ID) {
+                $var = null;
+                if (is_null($database) || is_null($log)) {
+                    $database = new Database();
+                    $log = new Log($database);
+                }
+                static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
+            }
+            return static::$loggedin_user;
+        }
+
         if (is_null($database) || is_null($log)) {
             $database = new Database();
             $log = new Log($database);
         }
+
         if (!is_object(static::$loggedin_user)) {
             if ($database->doesTableExist('users')) {
                 $var = null;
                 static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
+
             } else {
                 $var = null;
                 //When no user table exists, create a fake user, with all needed permission
                 return new User($database, $var, $log, 0, array("perms_system_database" => 21845));
-            }
-        } else { //A user is cached...
-            //Check if the the cached user, is the one we want!
-            if (static::$loggedin_user->getID() != $loggedin_ID) {
-                $var = null;
-                static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
             }
         }
 
