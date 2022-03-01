@@ -1,7 +1,18 @@
-Allow from all
-Options -Indexes
+<IfModule mod_authz_core.c> # Apache 2.4
+    Require all granted
+</IfModule>
+<IfModule ! mod_authz_core.c> # Apache 2.2
+    Allow from all
+</IfModule>
 
 <Files *.php>
-    Order Deny,Allow
-    Deny from all
+    <IfModule mod_authz_core.c> # Apache 2.4
+        Require all denied
+    </IfModule>
+    <IfModule ! mod_authz_core.c> # Apache 2.2
+        Deny from all
+        Order Deny,Allow
+    </IfModule>
 </Files>
+
+Options -Indexes
