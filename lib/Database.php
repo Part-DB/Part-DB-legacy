@@ -78,7 +78,7 @@ class Database
      *********************************************************************************/
 
     /** @var PDO PHP Data Object */
-    private $pdo = null;
+    private static $pdo = null;
 
     /** @var bool  */
     private $transaction_active = false;
@@ -114,79 +114,105 @@ class Database
     {
         global $config;
 
-        // connect with database
-        try {
-            switch ($config['db']['type']) {
-                case 'mysql': // MySQL
-                    //Split hostname in adress and port
-                    $host = parse_url($config['db']['host'], PHP_URL_HOST);
-                    $port = parse_url($config['db']['host'], PHP_URL_PORT);
+        if(self::$pdo === null) {
+            // connect with database
+            try {
+                switch ($config['db']['type']) {
+                    case 'mysql': // MySQL
+                        //Split hostname in adress and port
+                        $host = parse_url($config['db']['host'], PHP_URL_HOST);
+                        $port = parse_url($config['db']['host'], PHP_URL_PORT);
 
-                    if ($host == null || $port == null) {
-                        $host = $config['db']['host'];
-                        $port = '3306';
-                    }
+                        if($host == null || $port == null)
+                        {
+                            $host = $config['db']['host'];
+                            $port = "3306";
+                        }
 
-                    //If a unix socket is given in $dbo
-                    if (isPathabsoluteAndUnix($config['db']['host'], false)) {
-                        $this->pdo = new PDO(
-                            'mysql:unix_socket=' . $config['db']['host'] . ';dbname=' . $config['db']['name'] . ';charset=utf8',
-                            $config['db']['user'],
-                            $config['db']['password'],
-                            array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
-                                PDO::ATTR_PERSISTENT            => false)
-                        );
-                    } else if ($config['db']['space_fix'] == false) {
-                        $this->pdo = new PDO(
-                            'mysql:host='.$host.';port='.$port.';dbname='.$config['db']['name'].';charset=utf8',
-                            $config['db']['user'],
-                            $config['db']['password'],
-                            array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
-                                PDO::ATTR_PERSISTENT            => false)
-                        );
-                    } else { //Include space between mysql and host in dsn string.
-                        $this->pdo = new PDO(
-                            'mysql: host='.$host.';port='.$port.';dbname='.$config['db']['name'].';charset=utf8',
-                            $config['db']['user'],
-                            $config['db']['password'],
-                            array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
-                                PDO::ATTR_PERSISTENT            => false)
-                        );
-                    }
+                        //If a unix socket is given in $dbo
+                        if (isPathabsoluteAndUnix($config['db']['host'], false)) {
+                            self::$pdo = new PDO(
+                                'mysql:unix_socket='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
+                                $config['db']['user'],
+                                $config['db']['password'],
+                                array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
+                                    PDO::ATTR_PERSISTENT            => false)
+                            );
+                        } else {
+                            //Check if a space fix is activated.
+                            if ($config['db']['space_fix'] == false) {
+                                self::$pdo = new PDO(
+                                    'mysql:host='.$host.';port='.$port.';dbname='.$config['db']['name'].';charset=utf8',
+                                    $config['db']['user'],
+                                    $config['db']['password'],
+                                    array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
+                                        PDO::ATTR_PERSISTENT            => false)
+                                );
+                            } else { //Include space between mysql and host in dsn string.
+                                self::$pdo = new PDO(
+                                    'mysql: host='.$host.';port='.$port.';dbname='.$config['db']['name'].';charset=utf8',
+                                    $config['db']['user'],
+                                    $config['db']['password'],
+                                    array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
+                                        PDO::ATTR_PERSISTENT            => false)
+                                );
+                            }
+                        }
 
-                    break;
+                        break;
 
-                    //case 'sqlite': // SQLite 3
-                    //case 'sqlite2': //SQLite 2
-                    //$filename = realpath($config['db']['name']) ? realpath($config['db']['name']) : $config['db']['name'];
-                    //$this->pdo = new PDO($config['db']['type'].':'.$filename, NULL, NULL);
-                    break;
+                        //case 'sqlite': // SQLite 3
+                        //case 'sqlite2': //SQLite 2
+                        //$filename = realpath($config['db']['name']) ? realpath($config['db']['name']) : $config['db']['name'];
+                        //self::$pdo = new PDO($config['db']['type'].':'.$filename, NULL, NULL);
+                        break;
 
-                default:
-                    throw new DatabaseException(_('Unbekannter Datenbanktyp: "').$config['db']['type'].'"');
-                    break;
+                    default:
+                        throw new Exception(_('Unbekannter Datenbanktyp: "').$config['db']['type'].'"');
+                        break;
+                }
+
+                self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$pdo->exec("SET SQL_MODE='".$this->sql_mode."'");
+            } catch (PDOException $e) {
+                debug(
+                    'error',
+                    'Konnte nicht mit Datenbank verbinden: '.$e->getMessage(),
+                    __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
+
+                throw new Exception(_("Es konnte nicht mit der Datenbank verbunden werden! \n".
+                        'Überprüfen Sie, ob die Zugangsdaten korrekt sind.') . "\n\n".
+                    _("Details: ") . $e->getMessage());
             }
 
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->pdo->exec("SET SQL_MODE='" . $this->sql_mode . "'");
-        } catch (PDOException $e) {
-            debug(
-                'error',
-                'Konnte nicht mit Datenbank verbinden: '.$e->getMessage(),
-                __FILE__,
-                __LINE__,
-                __METHOD__
-            );
+            // make some checks
+            if ($this->getCurrentVersion() > 12) {
+                // Check if all tables uses the engine "InnoDB" (this is very important for all database versions greater than 12!)
+                // Without InnoDB, transactions are not supported!
+                $wrong_engine_tables = array();
+                $query_data = $this->query('SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=?', array($config['db']['name']));
+                foreach ($query_data as $row) {
+                    if (strtoupper($row['ENGINE']) != 'INNODB') {
+                        $wrong_engine_tables[] = '"'.$row['TABLE_NAME'].'" ('.$row['ENGINE'].')';
+                    }
+                }
 
-            throw new DatabaseException(_("Es konnte nicht mit der Datenbank verbunden werden! \n".
-                    'Überprüfen Sie, ob die Zugangsdaten korrekt sind.') . "\n\n".
-                _('Details: ') . $e->getMessage());
+                if (count($wrong_engine_tables) > 0) {
+                    throw new Exception(_("Die folgenden MySQL Tabellen haben eine falsche Speicherengine (benötigt wird \"InnoDB\"): \n").
+                        implode(', ', $wrong_engine_tables));
+                }
+            }
+
+            if (PDBDebugBar::isActivated()) {
+                self::$pdo = new TraceablePDO(self::$pdo);
+                PDBDebugBar::getInstance()->registerPDO(self::$pdo);
+            }
         }
 
-        if (PDBDebugBar::isActivated()) {
-            $this->pdo = new TraceablePDO($this->pdo);
-            PDBDebugBar::getInstance()->registerPDO($this->pdo);
-        }
+
     }
 
     /********************************************************************************
@@ -404,15 +430,15 @@ class Database
                 }
 
                 try {
-                    $this->pdo->beginTransaction();
-                    $this->pdo->exec($query);
-                    if($this->pdo->inTransaction()) {
-                        $this->pdo->commit();
+                    self::$pdo->beginTransaction();
+                    self::$pdo->exec($query);
+                    if(self::$pdo->inTransaction()) {
+                        self::$pdo->commit();
                     }
                     $add_log(sprintf(_('Schritt: %s ...OK'), $query));
                 } catch (PDOException $e) {
                     try {
-                        $this->pdo->rollback();
+                        self::$pdo->rollback();
                     } catch (PDOException $e2) {
                     } // rollback last query, ignore exceptions
                     //Ignore "Column already exists:" errors
@@ -431,7 +457,7 @@ class Database
             if (! $error) {
                 try {
                     if ($current != 0) { // The DB Version was set in the first update step, so we mustn't set the version here!!
-                        $pdo_statement = $this->pdo->prepare("UPDATE internal SET keyValue=? WHERE keyName='dbVersion'");
+                        $pdo_statement = self::$pdo->prepare("UPDATE internal SET keyValue=? WHERE keyName='dbVersion'");
                         $pdo_statement->bindValue(1, $current + 1);
                         $pdo_statement->execute();
                     }
@@ -574,7 +600,7 @@ class Database
             // start a new transaction
             try {
                 $this->active_transaction_id++;
-                $this->pdo->beginTransaction();
+                self::$pdo->beginTransaction();
                 $this->transaction_active = true;
                 return $this->active_transaction_id;
             } catch (PDOException $e) {
@@ -612,13 +638,13 @@ class Database
         // all OK, we commit the transaction
         try {
             $this->transaction_active = false;
-            if ($this->pdo->inTransaction()) {
-                $this->pdo->commit();
+            if (self::$pdo->inTransaction()) {
+                self::$pdo->commit();
             }
         } catch (PDOException $e) {
             try {
                 // try to roll back
-                $this->pdo->rollback();
+                self::$pdo->rollback();
             } catch (PDOException $e) {
             }
 
@@ -642,7 +668,7 @@ class Database
 
         try {
             $this->transaction_active = false;
-            $this->pdo->rollback();
+            self::$pdo->rollback();
         } catch (PDOException $e) {
             return false;
         }
@@ -690,7 +716,7 @@ class Database
         }
 
         try {
-            $pdo_statement = $this->pdo->prepare($query);
+            $pdo_statement = self::$pdo->prepare($query);
 
             if (! $pdo_statement) {
                 debug('error', 'PDO Prepare Fehler!', __FILE__, __LINE__, __METHOD__);
@@ -719,7 +745,7 @@ class Database
             }
 
             if ($is_insert_statement == true) {
-                $result = $this->pdo->lastInsertId('id');
+                $result = self::$pdo->lastInsertId('id');
             } else {
                 $result = $pdo_statement->rowCount();
             }
@@ -760,7 +786,7 @@ class Database
     public function  query(string $query, array $values = array(), int $fetch_style = PDO::FETCH_ASSOC) : array
     {
         try {
-            $pdo_statement = $this->pdo->prepare($query);
+            $pdo_statement = self::$pdo->prepare($query);
 
             if (! $pdo_statement) {
                 debug('error', _('PDO Prepare Fehler!'), __FILE__, __LINE__, __METHOD__);
