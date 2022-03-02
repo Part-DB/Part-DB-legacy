@@ -22,7 +22,7 @@
     "golonka/bbcodeparser": "dev-master",
     "smarty/smarty": "^3.1",
     "smarty-gettext/smarty-gettext": "^1.5.1",
-    "tecnickcom/tcpdf": "dev-master",
+    "tecnickcom/tcpdf": "v6.4.4",
     "slim/slim": "3.*",
     "ircmaxell/password-compat": "1.*",
     "snapappointments/bootstrap-select": "1.*",
@@ -63,10 +63,6 @@
   },
 
   "repositories": [
-    {
-      "type": "vcs",
-      "url":  "git@github.com:Part-DB/Part-DB_tcpdf.git"
-    },
     {
       "type": "vcs",
       "url":  "git@github.com:jbtronics/GolonkaBBCodeParser.git"
