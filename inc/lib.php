@@ -259,6 +259,18 @@ function sendString(string $content, string $filename, string $mimetype)
 }
 
 /**
+ * Gets the file extension from a filename
+ *
+ * @param string    $filename The filename
+ * @return string The extension of the file
+ */
+function getExtensionFromFileName($filename)
+{
+    $tmp = explode('.', $filename);
+    return end($tmp);
+}
+
+/**
  * Upload a file (from "<input type="file">) to a directory on the server
  *
  * @param array         $file_array                 The file array, for example $_FILES['my_file']
@@ -275,8 +287,17 @@ function sendString(string $content, string $filename, string $mimetype)
  */
 function uploadFile(array $file_array, string $destination_directory, $destination_filename = null) : string
 {
-    if (!isset($file_array['name'], $file_array['tmp_name']) || !isset($file_array['error'])) {
+    $unsafe_extensions = ['php', 'phtml', 'php3', 'ph3', 'php4', 'ph4', 'php5', 'ph5', 'phtm', 'sh', 'asp', 'cgi', 'py', 'pl', 'exe', 'aspx'];
+
+    if ((! isset($file_array['name'])) || (! isset($file_array['tmp_name'])) || (! isset($file_array['error']))) {
         throw new Exception(_('Ungültiges Array übergeben!'));
+    }
+
+    //Dont allow upload of files with potentially dangerous extension
+    if (in_array(getExtensionFromFileName($file_array['name']), $unsafe_extensions)
+        || in_array(getExtensionFromFileName($destination_filename), $unsafe_extensions))
+    {
+        throw new \Exception(_("Es ist nicht erlaubt PHP Dateien hochzuladen!"));
     }
 
     if ($destination_filename == null) {
