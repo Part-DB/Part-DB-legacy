@@ -1,5 +1,13 @@
 # Part-DB changelog
 
+## Part-DB 0.5.11
+### Bugfixes
+* Improved compatibility with PHP 8.* (label generation, database upgrade)
+* Prevent upload of potentially unsafe (executable) files
+
+### Miscellaneous
+* Performance improvements (page loads are much quicker now)
+
 ## Part-DB 0.5.10
 ### Bugfixes
 * Fix compatibility with PHP 8.*
