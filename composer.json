@@ -1,7 +1,7 @@
 {
   "name": "part-db/server",
   "description": "Part-DB is a tool for managment of electronic parts.",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "type": "project",
   "keywords": ["database", "electronic", "application"],
   "homepage": "https://github.com/Part-DB/Part-DB",
