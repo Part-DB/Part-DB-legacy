@@ -1562,11 +1562,11 @@ class Part extends Base\AttachmentsContainingDBElement implements Interfaces\IAP
 
             switch ($caption) {
                 case 'hover_picture':
-                    if ($this->getMasterPictureFilename(true) == null || $this->getMasterPictureAttachement() != null && !$this->getMasterPictureAttachement()->isFileExisting()) { //When filename is invalid then dont show picture.
+                    if ($this->getMasterPictureFilename(true) === null || ($this->getMasterPictureAttachement() !== null && !$this->getMasterPictureAttachement()->isFileExisting())) { //When filename is invalid then dont show picture.
                         $picture_filename = '';
                     } else {
-			$picture_filename = str_replace(BASE, BASE_RELATIVE, $this->getMasterPictureFilename(true));
-		    }
+			            $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->getMasterPictureFilename(true));
+		            }
                     $row_field['picture_name']  = \strlen($picture_filename) ? basename($picture_filename) : '';
                     $row_field['small_picture'] = \strlen($picture_filename) ? $picture_filename : '';
                     $row_field['hover_picture'] = \strlen($picture_filename) ? $picture_filename : '';
