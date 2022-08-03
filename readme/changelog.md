@@ -1,5 +1,12 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.12
+### Bugfixes
+* Fehlermeldung behoben, wenn masterPicture nicht existiert
+
+### Sonstiges
+* Composer dependencies aktualisiert
+
 ## Part-DB 0.5.11
 ### Bugfixes
 * Kompatibilität mit PHP 8.* verbessert (Labelgeneration, Datenbank-Upgrade)
