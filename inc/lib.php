@@ -286,7 +286,7 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
 
     //Dont allow upload of files with potentially dangerous extension
     if (in_array(getExtensionFromFileName($file_array['name']), $unsafe_extensions)
-        || in_array(getExtensionFromFileName($destination_filename), $unsafe_extensions))
+        || (!empty($destination_filename) && in_array(getExtensionFromFileName($destination_filename), $unsafe_extensions)))
     {
         throw new \Exception(_("Es ist nicht erlaubt PHP Dateien hochzuladen!"));
     }
