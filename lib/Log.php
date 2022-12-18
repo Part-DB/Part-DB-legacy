@@ -670,12 +670,12 @@ class Log
         }
 
         //Filter for dates
-        if ($max_date != '') {
-            $query .= ' AND (datetime <= ?)';
+        if ($max_date != "" && ($max_date != "-1")) {
+            $query .= " AND (datetime <= ?)";
             $data[] = $max_date;
         }
-        if ($min_date != '') {
-            $query .= ' AND (datetime >= ?)';
+        if($min_date != "" && ($min_date != "-1")) {
+            $query .= " AND (datetime >= ?)";
             $data[] = $min_date;
         }
 
