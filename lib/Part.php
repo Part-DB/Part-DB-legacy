@@ -1561,30 +1561,15 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
             switch ($caption) {
                 case 'hover_picture':
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->getMasterPictureFilename(true));
-                    if($this->getMasterPictureAttachement() != null && !$this->getMasterPictureAttachement()->isFileExisting()) { //When filename is invalid then dont show picture.
-                        $picture_filename = "";
-                    }
-                    $row_field['picture_name']  = strlen($picture_filename) ? basename($picture_filename) : '';
-                    $row_field['small_picture'] = strlen($picture_filename) ? $picture_filename : '';
-                    $row_field['hover_picture'] = strlen($picture_filename) ? $picture_filename : '';
-=======
-                    if ($this->getMasterPictureFilename(true) == null || $this->getMasterPictureAttachement() != null && !$this->getMasterPictureAttachement()->isFileExisting()) { //When filename is invalid then dont show picture.
-=======
                     if ($this->getMasterPictureFilename(true) === null || ($this->getMasterPictureAttachement() !== null && !$this->getMasterPictureAttachement()->isFileExisting())) { //When filename is invalid then dont show picture.
->>>>>>> ccae29d... Improved formatting of previous commit.
                         $picture_filename = '';
                     } else {
-			            $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->getMasterPictureFilename(true));
-		            }
+                        $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->getMasterPictureFilename(true));
+                    }
                     $row_field['picture_name']  = \strlen($picture_filename) ? basename($picture_filename) : '';
                     $row_field['small_picture'] = \strlen($picture_filename) ? $picture_filename : '';
                     $row_field['hover_picture'] = \strlen($picture_filename) ? $picture_filename : '';
->>>>>>> d65ac7c... Part.php: fix hover_picture
                     break;
-
                 case 'name':
                 case 'description':
                 case 'comment':
