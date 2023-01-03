@@ -1,5 +1,17 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.14
+### Bugfixes
+* Syntax Error behoben
+
+## Part-DB 0.5.13
+### Bugfixes
+* Probleme mit MySQL 8 behoben
+* Fehlermeldung beim Upload von Anhängen behoben
+
+## Sonstiges
+* Composer dependencies aktualisiert
+
 ## Part-DB 0.5.12
 ### Bugfixes
 * Fehlermeldung behoben, wenn masterPicture nicht existiert
