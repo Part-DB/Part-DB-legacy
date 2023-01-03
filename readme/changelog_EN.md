@@ -1,5 +1,9 @@
 # Part-DB changelog
 
+## Part-DB 0.5.14
+### Bugfixes
+* Fixed syntax error
+
 ## Part-DB 0.5.13
 ### Bugfixes
 * Fixed problem with MySQL 8
