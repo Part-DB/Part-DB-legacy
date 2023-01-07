@@ -117,14 +117,15 @@ abstract class DBElement
 
         $this->tablename = $tablename;
 
-        if (((! is_int($id)) && (! ctype_digit($id)) && (! is_null($id))) || (($id == 0) && (! $allow_virtual_elements))) {
-            throw new Exception(sprintf('$id ist keine gültige ID! $id="%d"', $id));
+        //Check if the ID is valid (0 and new are allowed values)
+        if ((($id !== 'new') && ((! is_int($id)) && (! ctype_digit($id)) && (! is_null($id)))) || (($id == 0) && (! $allow_virtual_elements))) {
+            throw new Exception(sprintf('$id ist keine gültige ID! $id="%s"', (string) $id));
         }
 
         // get all data of the database record with the ID "$id"
         // But if the ID is zero, it could be a root element of StructuralDBElement,
         // so there is no data to get from database.
-        if ($id != 0 && $db_data == null) {
+        if ($id != 0 && $id !== 'new' && $db_data == null) {
             $this->db_data = $this->database->getRecordData($this->tablename, $id);
         }
 
