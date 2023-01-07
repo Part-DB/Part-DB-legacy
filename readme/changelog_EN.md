@@ -1,5 +1,9 @@
 # Part-DB changelog
 
+## Part-DB 0.5.15
+### Bugfixes
+* Fixed adding of orderdetails under PHP8
+
 ## Part-DB 0.5.14
 ### Bugfixes
 * Fixed syntax error

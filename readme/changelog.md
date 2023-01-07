@@ -1,5 +1,9 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.15
+### Bugfixes
+* Fehler beim Hinzufügen von Einkaufsinformationen unter PHP8 behoben
+
 ## Part-DB 0.5.14
 ### Bugfixes
 * Syntax Error behoben
