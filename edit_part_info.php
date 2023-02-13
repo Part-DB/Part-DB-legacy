@@ -228,7 +228,7 @@ try {
     $root_supplier          = Supplier::getInstance($database, $current_user, $log, 0);
     $root_attachement_type  = AttachmentType::getInstance($database, $current_user, $log, 0);
 
-    if (isset($orderdetails_id) && $orderdetails_id > 0) {
+    if (isset($orderdetails_id) && intval($orderdetails_id) > 0) {
         $orderdetails = Orderdetails::getInstance($database, $current_user, $log, $orderdetails_id);
     } else {
         $orderdetails = null;
