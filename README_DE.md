@@ -3,7 +3,7 @@
 **This file is available in English, too: [README](README.md)**
 
 **Achtung: Nach dem Update auf die aktuelle Version, muss im Part-DB Homeverzeichniss der Befehl
-`php composer.phar install` ausgeführt werden, damit Part-DB funktioniert!
+`php composer.phar install -o` ausgeführt werden, damit Part-DB funktioniert!
 Sollte dies nicht möglich sein, dann muss der Ordner `vendor/` aus einem mit composer eingerichtetem
 Part-DB kopiert werden.**
 

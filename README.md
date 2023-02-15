@@ -3,7 +3,7 @@
 **[Hier](README_DE.md) gibt es eine deutsche Version dieser README**
 
 **Attention: After upgrading to the current version, the command
-`php composer.phar install` must be run to make Part-DB work!
+`php composer.phar install -o` must be run to make Part-DB work!
 If this is not possible, the folder `vendor/'
 Part-DB must be copied from a working Part-DB install with composer.**
 
