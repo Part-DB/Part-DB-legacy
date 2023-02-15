@@ -228,19 +228,19 @@ try {
     $root_supplier          = new Supplier($database, $current_user, $log, 0);
     $root_attachement_type  = new AttachementType($database, $current_user, $log, 0);
 
-    if (isset($orderdetails_id) && $orderdetails_id > 0) {
+    if (isset($orderdetails_id) && (int) $orderdetails_id > 0) {
         $orderdetails = new Orderdetails($database, $current_user, $log, $orderdetails_id);
     } else {
         $orderdetails = null;
     }
 
-    if (isset($pricedetails_id) && $pricedetails_id > 0) {
+    if (isset($pricedetails_id) && (int) $pricedetails_id > 0) {
         $pricedetails = new Pricedetails($database, $current_user, $log, $pricedetails_id);
     } else {
         $pricedetails = null;
     }
 
-    if ($attachement_id > 0) {
+    if ((int) $attachement_id > 0) {
         $attachement = new Attachement($database, $current_user, $log, $attachement_id);
     } else {
         $attachement = null;
