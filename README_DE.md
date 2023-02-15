@@ -1,9 +1,15 @@
 # Part-DB
 
-**This file is available in English, too: [README](README.md)**
+### Neue Version von Part-DB
+*Die Version, die Sie in diesem Repository finden, ist veraltet und wird keine neuen Funktionen mehr erhalten.
+Es gibt eine neuere und stark verbesserte Version von Part-DB (1.0.0+), die Sie [in diesem Repository](https://github.com/Part-DB/Part-DB-server) finden können.
+Wenn Sie mit Part-DB beginnen wollen, verwenden Sie bitte die neue Version. Für bestehende Installationen von Part-DB 0.5.\* wird ein Update auf die Version 1.0 empfohlen.
+Weitere Details zu den neuen Funktionen finden Sie [hier](https://github.com/Part-DB/Part-DB-legacy/discussions/118)
+und die Upgrade-Anleitung [hier](https://docs.part-db.de/upgrade_legacy.html).*
 
-**Wenn sie Part-DB verwenden, dann wäre es sehr hilfreich, wenn sie folgende anonyme Umfrage ausfüllen:
-https://docs.google.com/forms/d/e/1FAIpQLSfPn9Fu9Z-h4qftdzzpIhvNUnjH-99SzCrgfraruNNJn_J15Q/viewform?usp=sf_link**
+---
+
+**This file is available in English, too: [README](README.md)**
 
 **Part-DB 0.6 benötigt PHP7 (PHP7.0 oder höher). Benutzen Sie Part-DB 0.5, wenn sie PHP5.6 benutzen wollen!**
 
