@@ -653,34 +653,31 @@
         },
         {
             "name": "smarty-gettext/smarty-gettext",
-            "version": "1.6.2",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-gettext/smarty-gettext.git",
-                "reference": "22e5b91b642cd643f9acdd8d04ab0e05647b98a7"
+                "reference": "64f0e167f5a021358f9e1e4aaa4b5a1283b71e60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-gettext/smarty-gettext/zipball/22e5b91b642cd643f9acdd8d04ab0e05647b98a7",
-                "reference": "22e5b91b642cd643f9acdd8d04ab0e05647b98a7",
+                "url": "https://api.github.com/repos/smarty-gettext/smarty-gettext/zipball/64f0e167f5a021358f9e1e4aaa4b5a1283b71e60",
+                "reference": "64f0e167f5a021358f9e1e4aaa4b5a1283b71e60",
                 "shasum": ""
             },
             "require": {
                 "ext-gettext": "*",
                 "ext-pcre": "*",
-                "php": "~5.3|~7.0|~8.0"
+                "php": ">=5.3"
             },
             "require-dev": {
                 "azatoth/php-pgettext": "~1.0",
-                "phpunit/phpunit": ">=4.8.36",
+                "phpunit/phpunit": "^4.8.36",
                 "smarty/smarty": "3.1.*"
             },
             "suggest": {
                 "azatoth/php-pgettext": "Support msgctxt for {t} via context parameter"
             },
-            "bin": [
-                "tsmarty2c.php"
-            ],
             "type": "library",
             "autoload": {
                 "files": [
@@ -699,16 +696,16 @@
                 },
                 {
                     "name": "Elan Ruusamäe",
-                    "email": "glen@delfi.ee"
+                    "email": "glen@pld-linux.org"
                 }
             ],
             "description": "Gettext plugin enabling internationalization in Smarty Package files",
             "homepage": "https://github.com/smarty-gettext/smarty-gettext",
             "support": {
                 "issues": "https://github.com/smarty-gettext/smarty-gettext/issues",
-                "source": "https://github.com/smarty-gettext/smarty-gettext/tree/1.6.2"
+                "source": "https://github.com/smarty-gettext/smarty-gettext/tree/1.7.0"
             },
-            "time": "2021-02-23T22:00:29+00:00"
+            "time": "2023-01-15T13:14:50+00:00"
         },
         {
             "name": "smarty/smarty",
@@ -909,16 +906,16 @@
     "packages-dev": [
         {
             "name": "filp/whoops",
-            "version": "2.14.5",
+            "version": "2.14.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "a63e5e8f26ebbebf8ed3c5c691637325512eb0dc"
+                "reference": "f7948baaa0330277c729714910336383286305da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/a63e5e8f26ebbebf8ed3c5c691637325512eb0dc",
-                "reference": "a63e5e8f26ebbebf8ed3c5c691637325512eb0dc",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/f7948baaa0330277c729714910336383286305da",
+                "reference": "f7948baaa0330277c729714910336383286305da",
                 "shasum": ""
             },
             "require": {
@@ -968,7 +965,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.14.5"
+                "source": "https://github.com/filp/whoops/tree/2.14.6"
             },
             "funding": [
                 {
@@ -976,7 +973,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-07T12:00:00+00:00"
+            "time": "2022-11-02T16:23:29+00:00"
         },
         {
             "name": "maximebf/debugbar",
