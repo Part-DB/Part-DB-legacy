@@ -1,5 +1,15 @@
 # Part-DB
 
+### There is a new Part-DB version available!
+
+*The version you can find in this repository is deprecated and will not get new features anymore.
+There is a newer and highly improved version of Part-DB (1.0.0+) available, which you can find [in this repository](https://github.com/Part-DB/Part-DB-server).
+If you want to start with Part-DB, please use the new version. For existing installations of Part-DB 0.5.\* it is recommended to update to the 1.0 version.
+You can find some more details on the new features [here](https://github.com/Part-DB/Part-DB-legacy/discussions/118) 
+and the upgrade guide [here](https://docs.part-db.de/upgrade_legacy.html).*
+
+---
+
 **[Hier](README_DE.md) gibt es eine deutsche Version dieser README**
 
 **Attention: After upgrading to the current version, the command
