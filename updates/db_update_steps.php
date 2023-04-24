@@ -56,7 +56,7 @@ function get_db_update_steps($current_version)
     switch ($current_version) {
         case 0:
             // there are no tables (empty database), so we will create them.
-            // Please note: We will directly create the database version 13, not the first version!
+            // Please note: We will directly create the database version 26, not the first version!
 
             $updateSteps[] = "CREATE TABLE IF NOT EXISTS `internal` (
                 `keyName` char(30) CHARACTER SET ascii NOT NULL,
@@ -345,6 +345,7 @@ function get_db_update_steps($current_version)
                           `perms_manufacturers` int(11) NOT NULL,
                           `perms_attachement_types` int(11) NOT NULL,
                           `perms_tools` int(11) NOT NULL,
+                          `perms_labels` smallint(6) NOT NULL,
                           `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                           `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
                         ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
@@ -355,16 +356,16 @@ function get_db_update_steps($current_version)
               `perms_parts_storelocation`, `perms_parts_manufacturer`, `perms_parts_comment`, `perms_parts_order`, 
               `perms_parts_orderdetails`, `perms_parts_prices`, `perms_parts_attachements`, `perms_devices`, 
               `perms_devices_parts`, `perms_storelocations`, `perms_footprints`, `perms_categories`, `perms_suppliers`, 
-              `perms_manufacturers`, `perms_attachement_types`, `perms_tools`, `datetime_added`, `last_modified`) VALUES
+              `perms_manufacturers`, `perms_attachement_types`, `perms_tools`, `perms_labels`, `datetime_added`, `last_modified`) VALUES
                 (1, 'admins', NULL, 'Users of this group can do everything: Read, Write and Administrative actions.', 21, 
                 1365, 87381, 85, 85, 21, 1431655765, 5, 5, 5, 5, 5, 5, 5, 5, 5, 325, 325, 325, 5461, 325, 5461, 5461, 5461, 
-                5461, 5461, 1365, 1365, NOW(), '0000-00-00 00:00:00'),
+                5461, 5461, 1365, 1365, 85, NOW(), '0000-00-00 00:00:00'),
                 (2, 'readonly', NULL, 'Users of this group can only read informations, use tools, and don\'t have access to administrative tools.',
                  42, 2730, 174762, 154, 170, 42, -1516939607, 9, 9, 9, 9, 9, 9, 9, 9, 9, 649, 649, 649, 1705, 649, 1705, 
-                 1705, 1705, 1705, 1705, 681, 1366, NOW(), '0000-00-00 00:00:00'),
+                 1705, 1705, 1705, 1705, 681, 1366, 165, NOW(), '0000-00-00 00:00:00'),
                 (3, 'users', NULL, 'Users of this group, can edit part informations, create new ones, etc. but are not allowed to use administrative tools. (But can read current configuration, and see Server status)'
                 , 42, 2730, 109226, 89, 105, 41, 1431655765, 5, 5, 5, 5, 5, 5, 5, 5, 5, 325, 325, 325, 5461, 325, 5461, 
-                5461, 5461, 5461, 5461, 1365, 1365, NOW(), '0000-00-00 00:00:00');";
+                5461, 5461, 5461, 5461, 1365, 1365, 85, NOW(), '0000-00-00 00:00:00');";
 
 
             $updateSteps[] = "ALTER TABLE `attachements`
@@ -1220,7 +1221,8 @@ EOD;
         case 23:
             //Create tables for logging system.
             $updateSteps[] = "CREATE TABLE `log` ".
-                "( `id` INT NOT NULL AUTO_INCREMENT , `datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ,".
+                "( `id` INT NOT NULL AUTO_INCREMENT ,".
+                " `datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ,".
                 " `id_user` INT NOT NULL ,".
                 " `level` TINYINT NOT NULL ,".
                 " `type` SMALLINT NOT NULL ,".
