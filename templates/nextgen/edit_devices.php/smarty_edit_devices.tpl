@@ -11,7 +11,7 @@
         {t}Baugruppen{/t}
     </div>
     <div class="card-body">
-        <form action="" method="post" class="row no-progbar">
+        <form action="" method="post" class="row no-progbar" enctype="multipart/form-data">
             <div class="col-md-4">
 
                 {if !isset($id) || $id == 0}
@@ -87,6 +87,13 @@
                                     <textarea name="comment" class="form-control" rows="5" {if !$can_edit}disabled{/if}
                                               placeholder="{t}z.B. wichtige Links{/t}">{if isset($comment)}{$comment}{/if}</textarea>
                                     <p class="form-text text-muted">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}XML File:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-plaintext"><input type="file" name="fileToUpload" id="fileToUpload" accept=".xml" {if !$can_edit}disabled{/if}></p>
                                 </div>
                             </div>
                         </div>

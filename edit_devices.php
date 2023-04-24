@@ -35,6 +35,7 @@ include_once __DIR__ . '/start_session.php';
 
 use PartDB\Database;
 use PartDB\Device;
+use PartDB\DevicePart;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\User;
@@ -111,14 +112,76 @@ if (! $fatal_error) {
     switch ($action) {
         case 'add':
             try {
+                $parts = array();
+                if(isset($_FILES["fileToUpload"]))
+                {
+                    //We have a xml file upload here
+                    $xml = simplexml_load_file($_FILES["fileToUpload"]["tmp_name"]);
+                    if($xml === false)
+                    {
+                        throw new Exception("XML Datei hat kein gültiges Format");
+                    }
+                    if(isset($xml->components))
+                    {
+                        foreach($xml->components[0] as $comp)
+                        {
+                            if(isset($comp->fields))
+                            {
+                                $hasID = false;
+                                foreach($comp->fields[0] as $field)
+                                {
+                                    if(strtolower($field["name"]) === "id")
+                                    {
+                                        $id = (string)$field;
+                                        if(isset($parts[$id]))
+                                        {
+                                            array_push($parts[$id], (string)$comp["ref"]);
+                                        }
+                                        else
+                                        {
+                                            $parts[$id] = array((string)$comp["ref"]);
+                                        }
+                                        $hasID = true;
+                                        break;
+                                    }
+                                }
+                                if(!$hasID)
+                                {
+                                    throw new Exception("No ID for part " . $comp["ref"]);
+                                }
+                            }
+                            else
+                            {
+                                throw new Exception("No ID for part " . $comp["ref"]);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("File appears not to be a valid Kicad XML file");
+                    }
+                    //Start reading the xmlfile an parsing the device ids
+                }
                 $new_device = Device::add($database, $current_user, $log, $new_name, $new_parent_id, $new_comment);
-
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
 
                 if (! $add_more) {
                     $selected_device = $new_device;
                     $selected_id = $selected_device->getID();
                 }
+
+                foreach($parts as $id => $refs)
+                {
+                    $qty = 0;
+                    $refstring  = "";
+                    foreach($refs as $ref)
+                    {
+                        $refstring .= $ref . " ";
+                        $qty++;
+                    }
+                    $devicepart = DevicePart::add($database, $current_user, $log, $new_device->getID(), $id, $qty, $refstring, false);
+                }
+
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neue Baugruppe konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
